@@ -1,0 +1,90 @@
+@import "tailwindcss";
+
+/*
+  Estilo visual actualizado (2026-09-30): tarjetas grandes redondeadas,
+  badges pill, bloques de color — pero con nuestra paleta original
+  (violeta, lavanda, lima, naranja), no colores inventados.
+  Mismo copy de siempre, solo cambia el lenguaje visual.
+  Sigue siendo placeholder hasta confirmar definitivo con LemoraVisual.
+
+  Tipografía: Inter para todo. Los títulos (H1/H2) llevan tracking
+  cerrado e interlineado ajustado; el resto, valores por defecto.
+
+  Roles de color:
+  - lima      → solo botones de acción (CTA)
+  - primary   → badges, links e íconos (violeta); dark = hover, tint = fondos suaves
+  - lavender  → superficies grandes (Hero, tarjetas)
+  - accent    → naranja de acento (card 03, borde de Premium)
+  - mist      → fondo de secciones y componentes sutiles
+  - ink       → texto y bloques oscuros
+
+  Neutros de texto (no usar opacidades sueltas de ink):
+  - ink        texto principal; también sobre lavanda, naranja y lima
+  - ink-soft   texto secundario, solo sobre blanco/mist (≥7:1)
+  - ink-muted  texto apagado, solo sobre blanco/mist (≥4,5:1)
+*/
+@theme {
+  --color-primary: #6c4fd4;
+  --color-primary-dark: #5a3fc0;
+  --color-primary-tint: #ece8fb;
+  --color-lavender: #b9abf0;
+  --color-mist: #ebe8f2;
+  --color-lime: #e3f547;
+  --color-accent: #ff9a52;
+  --color-ink: #17141f;
+  --color-ink-soft: #4f4a5e;
+  --color-ink-muted: #6b6679;
+
+  --font-heading: "Inter", system-ui, sans-serif;
+  --font-body: "Inter", system-ui, sans-serif;
+}
+
+/* Anillo de foco único para todo elemento interactivo. */
+@utility focus-ring {
+  &:focus-visible {
+    outline: 2px solid var(--color-ink);
+    outline-offset: 2px;
+  }
+}
+
+/* Misma regla sobre fondos oscuros (footer). */
+@utility focus-ring-light {
+  &:focus-visible {
+    outline: 2px solid #ffffff;
+    outline-offset: 2px;
+  }
+}
+
+body {
+  background-color: #ffffff;
+  color: var(--color-ink);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.55;
+}
+
+@layer base {
+  html {
+    scroll-padding-top: 6rem;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    html {
+      scroll-behavior: smooth;
+    }
+  }
+
+  ::selection {
+    background: var(--color-primary);
+    color: #ffffff;
+  }
+
+  h1 {
+    letter-spacing: -0.035em;
+  }
+
+  h2 {
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+  }
+}
