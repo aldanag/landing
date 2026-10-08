@@ -14,7 +14,7 @@ Fuente de verdad para editar el sitio. Los tokens viven en `src/index.css` (`@th
 | `primary-tint` | #ece8fb | Fondos suaves violeta |
 | `lime` | #e3f547 | Tags (badges) y trazos curvos del Hero |
 | `accent` | #ff9a52 | Ticks de listas y borde del plan Premium |
-| `ink` | #151120 | Texto y bloques oscuros |
+| `ink` | #17122F | Texto y bloques oscuros |
 | `ink-soft` | #4f4a5e | Texto secundario (solo sobre white/mist) |
 | `ink-muted` | #6b6679 | Texto apagado (solo sobre white/mist) |
 
