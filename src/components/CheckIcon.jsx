@@ -6,7 +6,7 @@ export default function CheckIcon({ className = "" }) {
       <svg viewBox="0 0 24 24" fill="none" className="h-[58%] w-[58%]">
         <path
           d="m5 13 4 4 10-10"
-          stroke="#17141f"
+          stroke="#151120"
           strokeWidth="2.5"
           strokeLinecap="round"
           strokeLinejoin="round"
