@@ -348,7 +348,7 @@ export default function Hero() {
             >
               Hecha para emprendedores
             </span>
-            <h1 className="mt-4 text-[clamp(22px,calc((100vw_-_56px)/8.2),34px)] font-extrabold leading-[1.05] text-ink md:text-[52px] xl:text-[64px] 2xl:text-[72px]">
+            <h1 className="mt-4 text-[clamp(22px,calc((100vw_-_56px)/8.2),34px)] font-bold leading-[1.05] text-ink md:text-[52px] xl:text-[64px] 2xl:text-[72px]">
               <span className="-mb-1 block overflow-hidden pb-1">
                 <span data-hero="line" className="block">
                   Tu tienda online.
