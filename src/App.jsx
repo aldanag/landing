@@ -1,6 +1,7 @@
 import Nav from "./components/Nav"
 import Hero from "./components/Hero"
 import HowItWorks from "./components/HowItWorks"
+import ProblemaSolucion from "./components/ProblemaSolucion"
 import TrialBanner from "./components/TrialBanner"
 import Features from "./components/Features"
 import Testimonials from "./components/Testimonials"
@@ -15,6 +16,7 @@ function App() {
       <main>
         <Hero />
         <HowItWorks />
+        <ProblemaSolucion />
         <TrialBanner />
         <Features />
         <Testimonials />
