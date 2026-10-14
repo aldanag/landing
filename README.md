@@ -2,7 +2,7 @@
 
 Versión corta (landing) del sitio de Lemora: tu tienda online, sin comisiones, con los pedidos directo en WhatsApp.
 
-Hecha con React 19, Vite, Tailwind CSS v4 y GSAP. La versión larga, con el resto de las secciones del sitio original, va en un proyecto aparte.
+Hecha con React 19, Vite, Tailwind CSS v4 y GSAP.
 
 ## Secciones
 
