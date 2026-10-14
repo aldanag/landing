@@ -13,6 +13,7 @@ import precios from "../assets/ps-precios.webp"
 const pares = [
   {
     tag: "Venta directa",
+    tagSin: "Intermediarios",
     imgSin: marketplace,
     altSin: "Una emprendedora preocupada con un paquete devuelto y el celular en la mano",
     img: ventaDirecta,
@@ -28,6 +29,7 @@ const pares = [
   },
   {
     tag: "Simplicidad",
+    tagSin: "Confusión",
     imgSin: confusion,
     altSin: "Una emprendedora confundida entre cajas y materiales, sin saber por dónde empezar",
     img: simplicidad,
@@ -42,7 +44,8 @@ const pares = [
     },
   },
   {
-    tag: "Costos",
+    tag: "Costos bajos",
+    tagSin: "Costos altos",
     imgSin: precios,
     altSin: "Un emprendedor preocupado frente a la computadora, mirando presupuestos",
     img: costos,
@@ -182,9 +185,25 @@ export default function ProblemaSolucion() {
                 loading="lazy"
                 className={`absolute inset-0 h-full w-full object-cover object-[50%_20%] transition-opacity duration-700 motion-reduce:transition-none ${"grayscale-[60%]"} ${conLemora ? "opacity-0" : "opacity-100"}`}
               />
-              <span className="absolute left-3 top-3 rounded-full bg-lime px-2.5 py-1 text-[11px] font-semibold uppercase tracking-[0.08em] text-ink">
-                {par.tag}
-              </span>
+              {/* La etiqueta también alterna: oscura para el problema, lima para la solución. */}
+              <div className="absolute left-3 top-3 grid">
+                <span
+                  aria-hidden={conLemora}
+                  className={`col-start-1 row-start-1 rounded-full bg-ink px-2.5 py-1 text-[11px] font-semibold uppercase tracking-[0.08em] text-white ${fade} ${
+                    conLemora ? "-translate-y-1 opacity-0" : ""
+                  }`}
+                >
+                  {par.tagSin}
+                </span>
+                <span
+                  aria-hidden={!conLemora}
+                  className={`col-start-1 row-start-1 rounded-full bg-lime px-2.5 py-1 text-[11px] font-semibold uppercase tracking-[0.08em] text-ink ${fade} ${
+                    conLemora ? "" : "translate-y-1 opacity-0"
+                  }`}
+                >
+                  {par.tag}
+                </span>
+              </div>
             </div>
 
             <div className="mt-5 grid">
