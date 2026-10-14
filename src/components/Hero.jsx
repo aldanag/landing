@@ -5,8 +5,8 @@ import WhatsAppIcon from "./WhatsAppIcon"
 import fondo2000 from "../assets/hero-fondo-2000.webp"
 import fondo1200 from "../assets/hero-fondo-1200.webp"
 import fondoMovil from "../assets/hero-fondo-movil.webp"
-import chica1100 from "../assets/hero-chica-1100.webp"
-import chica700 from "../assets/hero-chica-700.webp"
+import chica1100 from "../assets/hero-mujer-1015.webp"
+import chica700 from "../assets/hero-mujer-660.webp"
 import { gsap, REDUCED_MOTION_OFF, REDUCED_MOTION_ON, useGSAP } from "../lib/motion"
 import Button from "./Button"
 
@@ -14,7 +14,7 @@ const WHATSAPP_TRIAL_LINK =
   "https://wa.me/543515957014?text=Hola,%20quiero%20probar%20Lemora%20gratis"
 
 const fondoSrcSet = `${fondo1200} 1200w, ${fondo2000} 2000w`
-const chicaSrcSet = `${chica700} 542w, ${chica1100} 851w`
+const chicaSrcSet = `${chica700} 509w, ${chica1100} 783w`
 
 // La chica va recortada, en su propia capa: los trazos lima pasan por detrás.
 function Chica({ className }) {
@@ -25,13 +25,19 @@ function Chica({ className }) {
         srcSet={chicaSrcSet}
         sizes="(min-width: 1024px) 28vw, 60vw"
         alt=""
-        width="851"
-        height="1100"
+        width="783"
+        height="1016"
         className="h-full w-auto max-w-none"
       />
     </div>
   )
 }
+
+// Foto del producto de la tarjeta (la taza). Si el archivo todavía no está en src/assets
+// (producto-taza.webp / .png / .jpg), se muestra un recuadro naranja en su lugar.
+const tazaFoto = Object.values(
+  import.meta.glob("../assets/producto-taza.{webp,png,jpg}", { eager: true, import: "default" }),
+)[0]
 
 // Tarjetas decorativas. Se usan dos veces: sobre la foto (escritorio) y debajo
 // del texto (celular); cada layout pasa sus posiciones.
@@ -40,10 +46,10 @@ function Tarjetas({ product, pill, whatsapp, show = "all", compact = false }) {
   const t = compact
     ? {
         card: "rounded-xl p-1.5 sm:rounded-2xl sm:p-2",
-        img: "h-7 sm:h-14",
-        name: "mt-1 truncate text-[8px] sm:mt-1.5 sm:text-[10px]",
-        price: "text-[8px] sm:text-[10px]",
-        btn: "mt-1 py-px text-[8px] sm:mt-1.5 sm:py-1 sm:text-[10px]",
+        img: "aspect-square rounded-lg sm:rounded-xl",
+        name: "mt-1 text-[8px] leading-tight sm:mt-1.5 sm:text-[11px]",
+        price: "text-[9px] font-bold sm:text-xs",
+        btn: "mt-1 py-px text-[8px] sm:mt-2 sm:py-1 sm:text-[10px]",
         pill: "gap-1.5 py-1 pl-1 pr-3 text-xs sm:gap-2 sm:py-2 sm:pl-2 sm:pr-4 sm:text-sm",
         check: "h-4 w-4 sm:h-6 sm:w-6",
         wa: "gap-2 rounded-xl p-2 sm:gap-2.5 sm:rounded-2xl sm:p-3",
@@ -53,10 +59,10 @@ function Tarjetas({ product, pill, whatsapp, show = "all", compact = false }) {
       }
     : {
         card: "rounded-2xl p-2",
-        img: "h-14",
-        name: "mt-1.5 text-[10px]",
-        price: "text-[10px]",
-        btn: "mt-1.5 py-1 text-[10px]",
+        img: "aspect-square rounded-xl",
+        name: "mt-1.5 text-[11px] leading-tight",
+        price: "text-xs font-bold",
+        btn: "mt-2 py-1 text-[10px]",
         pill: "gap-2 py-2 pl-2 pr-4 text-sm",
         check: "h-6 w-6",
         wa: "gap-2.5 rounded-2xl p-3",
@@ -73,11 +79,33 @@ function Tarjetas({ product, pill, whatsapp, show = "all", compact = false }) {
           data-art="float"
           className={`absolute bg-white shadow-xl shadow-ink/10 ${t.card} ${product}`}
         >
-          <ImagePlaceholder className={t.img} />
-          <p className={`font-semibold text-ink-soft ${t.name}`}>Nombre del producto</p>
-          <p className={`text-ink-muted ${t.price}`}>$ Precio</p>
-          <div className={`rounded-full bg-primary text-center font-semibold text-white ${t.btn}`}>
-            Agregar al carrito
+          {tazaFoto ? (
+            <img
+              src={tazaFoto}
+              alt=""
+              width="600"
+              height="600"
+              className={`w-full object-cover ${t.img}`}
+            />
+          ) : (
+            <ImagePlaceholder className={`bg-accent/30 text-accent ${t.img}`} />
+          )}
+          <div className={`flex items-baseline justify-between gap-1.5 ${t.name}`}>
+            <p className="min-w-0 truncate font-semibold text-ink">
+              Taza{compact ? <span className="hidden sm:inline"> Speckle</span> : " Speckle"}
+            </p>
+            <p className={`flex-none text-ink ${t.price}`}>$12.500</p>
+          </div>
+          <div
+            className={`whitespace-nowrap rounded-full bg-primary text-center font-semibold text-white ${t.btn}`}
+          >
+            {compact ? (
+              <>
+                Agregar<span className="hidden sm:inline"> al carrito</span>
+              </>
+            ) : (
+              "Agregar al carrito"
+            )}
           </div>
         </div>
       )}
@@ -319,7 +347,7 @@ export default function Hero() {
         <div aria-hidden="true" className="pointer-events-none absolute inset-0 hidden lg:block">
           <Tarjetas
             show="product"
-            product="left-[45%] top-[4%] w-40 xl:left-[46%] xl:top-[8%] xl:w-44"
+            product="left-[46%] top-[5%] w-32 xl:left-[47%] xl:top-[7%] xl:w-36"
           />
         </div>
 
@@ -403,7 +431,7 @@ export default function Hero() {
             <Tarjetas
               compact
               show="product"
-              product="left-2 top-[4%] w-[5.5rem] sm:left-[12%] sm:top-[10%] sm:w-40"
+              product="left-2 top-[6%] w-[4.75rem] sm:left-[12%] sm:top-[10%] sm:w-36"
             />
             <Chica className="inset-x-0 mx-auto -bottom-7 h-[18rem] w-fit sm:-bottom-24 sm:h-[34rem]" />
             <Tarjetas
