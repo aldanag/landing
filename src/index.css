@@ -7,7 +7,7 @@
   Mismo copy de siempre, solo cambia el lenguaje visual.
   Sigue siendo placeholder hasta confirmar definitivo con LemoraVisual.
 
-  Tipografía: Inter para todo. Los títulos (H1/H2) llevan tracking
+  Tipografía: Manrope para todo. Los títulos (H1/H2) llevan tracking
   cerrado e interlineado ajustado; el resto, valores por defecto.
 
   Roles de color:
@@ -35,8 +35,8 @@
   --color-ink-soft: #4f4a5e;
   --color-ink-muted: #6b6679;
 
-  --font-heading: "Inter", system-ui, sans-serif;
-  --font-body: "Inter", system-ui, sans-serif;
+  --font-heading: "Manrope", system-ui, sans-serif;
+  --font-body: "Manrope", system-ui, sans-serif;
 }
 
 /* Anillo de foco único para todo elemento interactivo. */
