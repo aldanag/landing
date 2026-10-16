@@ -1,11 +1,5 @@
-import { useRef } from "react"
-import {
-  gsap,
-  REDUCED_MOTION_OFF,
-  ScrollTrigger,
-  useGSAP,
-  useReveal,
-} from "../lib/motion"
+import { useRef, useState } from "react"
+import { gsap, REDUCED_MOTION_OFF, ScrollTrigger, useGSAP, useReveal } from "../lib/motion"
 import Button from "./Button"
 
 const WHATSAPP_TRIAL_LINK =
@@ -13,6 +7,14 @@ const WHATSAPP_TRIAL_LINK =
 
 const BASICO_CHECKOUT_LINK =
   "https://www.mercadopago.com.ar/subscriptions/checkout?preapproval_plan_id=d37372dd19924098bcfeb189bbb8fbcf"
+
+// Los planes anuales todavía no tienen link de suscripción propio en MercadoPago:
+// por ahora el botón abre un WhatsApp con el plan elegido.
+// TODO: reemplazar por los links reales de suscripción anual.
+const anualLink = (plan) =>
+  `https://wa.me/543515957014?text=${encodeURIComponent(`Hola, quiero contratar el plan ${plan} anual de Lemora`)}`
+
+const peso = (n) => `$${Math.round(n).toLocaleString("es-AR")}`
 
 // TODO: reemplazar por la URL real de una tienda de ejemplo.
 const EJEMPLO_WEB_LINK = "#"
@@ -24,7 +26,8 @@ const plans = [
   {
     name: "Básico",
     badge: "1 mes gratis",
-    price: "$9.000/mes",
+    mensual: 9000,
+    anual: 96000,
     commitment: "Contratación mínima: 1 mes",
     features: [
       "Web básica",
@@ -53,7 +56,8 @@ const plans = [
   {
     name: "Premium",
     crown: true,
-    price: "$15.000/mes",
+    mensual: 15000,
+    anual: 160000,
     commitment: "Contratación mínima: 3 meses",
     features: [
       { text: "Web premium", strong: "premium" },
@@ -75,6 +79,16 @@ const plans = [
   },
 ]
 
+// Con el plan anual, el botón principal contrata el año; Básico conserva la prueba gratis.
+function anualActions(plan) {
+  const contratar = {
+    label: "Contratar plan anual",
+    href: anualLink(plan.name),
+    external: true,
+  }
+  return plan.name === "Básico" ? [plan.actions[0], contratar] : [contratar]
+}
+
 function CrownIcon({ className }) {
   return (
     <svg
@@ -94,32 +108,36 @@ function CrownIcon({ className }) {
 
 export default function PricingCards() {
   const root = useRef(null)
+  const [anual, setAnual] = useState(false)
   useReveal(root)
 
   // Los checks de cada lista se dibujan uno tras otro al entrar en pantalla.
   useGSAP(
     () => {
       const mm = gsap.matchMedia()
-      mm.add(REDUCED_MOTION_OFF, () => {
-        root.current.querySelectorAll("ul").forEach((list) => {
-          const checks = list.querySelectorAll("path")
-          gsap.set(checks, { strokeDasharray: 20, strokeDashoffset: 20 })
-          ScrollTrigger.create({
-            trigger: list,
-            start: "top 85%",
-            once: true,
-            onEnter: () =>
-              gsap.to(checks, {
-                strokeDashoffset: 0,
-                duration: 0.5,
-                ease: "power2.out",
-                stagger: 0.05,
-                clearProps: "strokeDasharray,strokeDashoffset",
-              }),
+      mm.add(
+        REDUCED_MOTION_OFF,
+        () => {
+          root.current.querySelectorAll("ul").forEach((list) => {
+            const checks = list.querySelectorAll("path")
+            gsap.set(checks, { strokeDasharray: 20, strokeDashoffset: 20 })
+            ScrollTrigger.create({
+              trigger: list,
+              start: "top 85%",
+              once: true,
+              onEnter: () =>
+                gsap.to(checks, {
+                  strokeDashoffset: 0,
+                  duration: 0.5,
+                  ease: "power2.out",
+                  stagger: 0.05,
+                  clearProps: "strokeDasharray,strokeDashoffset",
+                }),
+            })
           })
-        })
-
-      }, root)
+        },
+        root,
+      )
     },
     { scope: root },
   )
@@ -137,11 +155,41 @@ export default function PricingCards() {
           data-reveal
           className="mx-auto mt-3 max-w-2xl text-balance text-center text-base text-white/70"
         >
-          Probá el primer mes del plan Básico sin costo y sin tarjeta. Si te
-          sirve, seguís con un pago mensual por MercadoPago. Sin sorpresas, sin letra chica.
+          Probá el primer mes del plan Básico sin costo y sin tarjeta. Si te sirve, seguís con un
+          pago mensual por MercadoPago. Sin sorpresas, sin letra chica.
         </p>
 
-        <div className="mt-10 grid gap-6 md:grid-cols-2">
+        <div data-reveal className="mt-8 flex justify-center">
+          <div
+            role="group"
+            aria-label="Período de pago"
+            className="inline-flex flex-none rounded-full bg-white p-1 ring-1 ring-ink/10"
+          >
+            {[
+              { id: false, label: "Mensual", on: "bg-ink text-white" },
+              { id: true, label: "Anual", on: "bg-primary text-white", badge: "Ahorrá 11%" },
+            ].map((op) => (
+              <button
+                key={op.label}
+                type="button"
+                aria-pressed={anual === op.id}
+                onClick={() => setAnual(op.id)}
+                className={`flex items-center gap-2 rounded-full px-4 py-2 text-sm font-semibold transition-colors duration-300 focus-ring-light motion-reduce:transition-none ${
+                  anual === op.id ? op.on : "text-ink-soft hover:text-ink"
+                }`}
+              >
+                {op.label}
+                {op.badge && (
+                  <span className="rounded-full bg-lime px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.06em] text-ink">
+                    {op.badge}
+                  </span>
+                )}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <div className="mt-8 grid gap-6 md:grid-cols-2">
           {plans.map((plan) => (
             <div
               key={plan.name}
@@ -182,55 +230,65 @@ export default function PricingCards() {
                   Ver ejemplo
                 </Button>
               </div>
-              <p className="mt-3 text-[32px] font-extrabold leading-none">
-                {plan.price}
-              </p>
+              <div className="mt-3 flex flex-wrap items-baseline gap-x-2 gap-y-1">
+                <p className="text-[32px] font-extrabold leading-none">
+                  {peso(anual ? plan.anual / 12 : plan.mensual)}
+                  <span className="text-base font-bold text-ink-soft">/mes</span>
+                </p>
+                {anual && (
+                  <p className="text-sm font-semibold text-ink-muted line-through decoration-2">
+                    {peso(plan.mensual)}
+                  </p>
+                )}
+              </div>
               <p className="mt-2 text-xs font-semibold text-ink-muted">
-                {plan.commitment}
+                {anual
+                  ? `Pagás ${peso(plan.anual)} una vez al año · ahorrás ${peso(plan.mensual * 12 - plan.anual)}`
+                  : plan.commitment}
               </p>
 
               <div className="mt-5 flex-1 border-t border-ink/10 pt-4">
-              <ul className="space-y-1.5">
-                {plan.features.map((item) => {
-                  const feature = item.text ?? item
-                  return (
-                  <li
-                    key={feature}
-                    className={`flex items-center gap-2.5 text-sm ${
-                      item.isNew ? "font-semibold" : "font-normal"
-                    }`}
-                  >
-                    <svg
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      aria-hidden="true"
-                      className="h-4 w-4 flex-none text-accent"
-                    >
-                      <path
-                        d="m5 13 4 4 10-10"
-                        stroke="currentColor"
-                        strokeWidth="3"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      />
-                    </svg>
-                    {item.strong ? (
-                      <span>
-                        {feature.split(item.strong)[0]}
-                        <strong className="font-bold">{item.strong}</strong>
-                        {feature.split(item.strong)[1]}
-                      </span>
-                    ) : (
-                      feature
-                    )}
-                  </li>
-                  )
-                })}
-              </ul>
+                <ul className="space-y-1.5">
+                  {plan.features.map((item) => {
+                    const feature = item.text ?? item
+                    return (
+                      <li
+                        key={feature}
+                        className={`flex items-center gap-2.5 text-sm ${
+                          item.isNew ? "font-semibold" : "font-normal"
+                        }`}
+                      >
+                        <svg
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          aria-hidden="true"
+                          className="h-4 w-4 flex-none text-accent"
+                        >
+                          <path
+                            d="m5 13 4 4 10-10"
+                            stroke="currentColor"
+                            strokeWidth="3"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          />
+                        </svg>
+                        {item.strong ? (
+                          <span>
+                            {feature.split(item.strong)[0]}
+                            <strong className="font-bold">{item.strong}</strong>
+                            {feature.split(item.strong)[1]}
+                          </span>
+                        ) : (
+                          feature
+                        )}
+                      </li>
+                    )
+                  })}
+                </ul>
               </div>
 
               <div className="mt-6 flex flex-col gap-4">
-                {plan.actions.map((action, i) => (
+                {(anual ? anualActions(plan) : plan.actions).map((action, i) => (
                   <div key={action.label}>
                     {action.note && (
                       <p className="mb-2 flex items-center justify-center gap-1.5 text-xs font-semibold text-ink-soft">
