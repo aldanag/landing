@@ -5,14 +5,14 @@ import Button from "./Button"
 const WHATSAPP_TRIAL_LINK =
   "https://wa.me/543515957014?text=Hola,%20quiero%20probar%20Lemora%20gratis"
 
-const links = [
+const defaultLinks = [
   { label: "Cómo funciona", href: "#como-funciona" },
   { label: "Funciones", href: "#funciones" },
   { label: "Planes", href: "#planes" },
   { label: "Preguntas", href: "#faq" },
 ]
 
-export default function Nav() {
+export default function Nav({ links = defaultLinks, logoHref = "#top" }) {
   const [scrolled, setScrolled] = useState(false)
 
   useEffect(() => {
@@ -31,7 +31,7 @@ export default function Nav() {
             : "max-w-[88rem] py-2 pl-1 pr-1 shadow-none ring-transparent lg:px-8"
         }`}
       >
-        <a href="#top" className="flex-none rounded-lg focus-ring">
+        <a href={logoHref} className="flex-none rounded-lg focus-ring">
           <img
             src={logo}
             alt="Lemora"

@@ -4,7 +4,7 @@ import Button from "./Button"
 const WHATSAPP_TRIAL_LINK =
   "https://wa.me/543515957014?text=Hola,%20quiero%20probar%20Lemora%20gratis"
 
-const explorar = [
+const explorarDefault = [
   { label: "Cómo funciona", href: "#como-funciona" },
   { label: "Funciones", href: "#funciones" },
   { label: "Planes", href: "#planes" },
@@ -33,7 +33,7 @@ function Column({ title, children }) {
   )
 }
 
-export default function Footer() {
+export default function Footer({ explorar = explorarDefault }) {
   return (
     <footer className="bg-ink text-white">
       <div className="mx-auto max-w-[88rem]">
@@ -59,15 +59,10 @@ export default function Footer() {
           <div className="mt-12 grid gap-12 sm:grid-cols-2 md:mt-14 lg:grid-cols-[1.4fr_1fr_1fr_1fr] lg:gap-8">
             <div className="sm:col-span-2 lg:col-span-1">
               <a href="#top" className="inline-block rounded-lg focus-ring-light">
-                <img
-                  src={logo}
-                  alt="Lemora"
-                  className="h-8 w-auto brightness-0 invert"
-                />
+                <img src={logo} alt="Lemora" className="h-8 w-auto brightness-0 invert" />
               </a>
               <p className="mt-5 max-w-xs text-[15px] leading-relaxed text-white/70">
-                Armá tu tienda, subí tus productos y recibí los pedidos por
-                WhatsApp.
+                Armá tu tienda, subí tus productos y recibí los pedidos por WhatsApp.
               </p>
             </div>
 
