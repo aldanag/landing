@@ -9,7 +9,7 @@ const steps = [
     label: "Cargá",
     title: "Sumá tus productos en minutos",
     body: "Fotos, precio, stock y variantes. Todo se edita desde un panel claro y amable.",
-    cardClass: "bg-lavender text-ink",
+    cardClass: "bg-lilac text-ink",
     labelClass: "text-ink",
     iconClass: "bg-ink text-white",
     icon: (
@@ -50,7 +50,7 @@ const steps = [
     label: "Compartí",
     title: "Tu tienda lista para mostrar",
     body: "Personalizá colores, logo y link. Compartilo en Instagram, TikTok o donde vendas.",
-    cardClass: "bg-lavender text-ink",
+    cardClass: "bg-lilac text-ink",
     labelClass: "text-ink",
     iconClass: "bg-ink text-white",
     icon: (
@@ -79,7 +79,7 @@ const steps = [
     label: "Vendé sin comisión",
     title: "El pedido llega a tu WhatsApp",
     body: "Tu cliente arma el carrito y te envía el detalle. Vos coordinás pago y entrega, sin comisión.",
-    cardClass: "bg-lavender text-ink",
+    cardClass: "bg-lilac text-ink",
     labelClass: "text-ink",
     iconClass: "bg-ink text-white",
     icon: (

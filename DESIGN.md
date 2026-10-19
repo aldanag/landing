@@ -8,7 +8,8 @@ Fuente de verdad para editar el sitio. Los tokens viven en `src/index.css` (`@th
 |---|---|---|
 | `white` | #ffffff | Fondo de página y cards |
 | `mist` | #ebe8f2 | Fondos suaves, botón secundario |
-| `lavender` | #b9abf0 | Superficies grandes (Hero, cards de pasos) |
+| `lavender` | #b9abf0 | Superficies grandes sin texto: marcos de imagen y fondos decorativos |
+| `lilac` | #e2d9ff | Bloques violetas con texto: cards de pasos, panel del plan Básico, llamados a la acción |
 | `primary` | #6c4fd4 | Botón primario (texto blanco), íconos, links, corona |
 | `primary-dark` | #5a3fc0 | Hover violeta |
 | `primary-tint` | #ece8fb | Fondos suaves violeta |
@@ -32,12 +33,12 @@ Lemora es una tienda online por membresía para emprendedores de Latinoamérica:
 
 ## Fundamentos visuales
 
-- **Color.** Cada color tiene un rol. `primary` (violeta) en el botón primario con texto blanco, y también en íconos, links y la corona. `lime` (amarillo) en los tags (badges) y en los trazos curvos decorativos del Hero. `accent` (naranja) en los ticks de las listas y en el borde del plan Premium. `lavender` en superficies grandes. `mist` en fondos de sección y botones secundarios. `ink` en texto y bloques oscuros. El fondo de página es `white`.
-- **Texto sobre color.** Sobre `lavender`, `accent` y `lime` el texto va siempre en `ink`. Sobre `primary` va siempre en blanco. `ink-soft` y `ink-muted` solo sobre `white` y `mist`. Nunca uses blanco sobre `accent`.
+- **Color.** Cada color tiene un rol. `primary` (violeta) en el botón primario con texto blanco, y también en íconos, links y la corona. `lime` (amarillo) en los tags (badges) y en los trazos curvos decorativos del Hero. `accent` (naranja) en los ticks de las listas y en el borde del plan Premium. `lavender` en superficies grandes sin texto y `lilac` en los bloques violetas con texto. `mist` en fondos de sección y botones secundarios. `ink` en texto y bloques oscuros. El fondo de página es `white`.
+- **Texto sobre color.** Sobre `lilac`, `lavender`, `accent` y `lime` el texto va siempre en `ink`; sobre `lilac` también sirve `ink-soft` (6,3:1). `primary` y `ink-muted` no alcanzan contraste de texto sobre `lilac`. Sobre `primary` va siempre en blanco. `ink-soft` y `ink-muted` solo sobre `white` y `mist`. Nunca uses blanco sobre `accent`.
 - **Tipografía.** Manrope en todo. Los títulos van apretados: H1 con `-0.035em` y H2 con `-0.03em` y `line-height` 1.1. El texto corrido en peso 400, las listas en 400 con la palabra clave en 700. Los badges van en mayúsculas con `0.09em` de espaciado.
 - **Cajas.** Tres niveles de esquina: panel (`radius-panel`), card (`radius-card`) e interior (`radius-inner`). Botones, badges, menú y avatares en `radius-pill`. No mezcles esquinas dentro de un mismo nivel.
 - **Anchos.** El Hero ocupa hasta 88rem. Las secciones de contenido ocupan 5xl (1024px). La sección de planes ocupa 3xl (768px) para que las cards midan unos 356px: cards angostas, texto a la izquierda y botones al ancho de la card.
-- **Fondos de sección.** Alternalos con criterio: blanco, `mist`, panel `lavender`, bloque `ink`. No cortes la página en más de un banner oscuro seguido de otro color.
+- **Fondos de sección.** Alternalos con criterio: blanco, `mist`, panel `lilac`, bloque `ink`. No cortes la página en más de un banner oscuro seguido de otro color.
 - **Sombras.** Solo `shadow-card` sobre fondos oscuros o de color, y `shadow-nav` en el menú contraído. Sin sombras duras desplazadas ni bordes laterales de color en las cards.
 - **Menú.** Es una píldora blanca. Arriba del todo ocupa el ancho del Hero y sin sombra. Al scrollear se contrae a un ancho de 4xl y suma `shadow-nav`.
 - **Foco.** Todo elemento interactivo usa un contorno sólido de 2px en `ink` con 2px de separación.
@@ -59,3 +60,4 @@ El logo es el wordmark "Lemora" en letra cursiva, en un violeta (`#664FD3`) casi
 ## Imágenes
 
 Las capturas del producto reales se muestran dentro de una card de `radius-card`, alineadas arriba. Hasta tener imágenes finales, los marcos de producto quedan como placeholders grises con un ícono de imagen.
+- **Botón secundario.** Sobre fondos blancos o `mist` usa `secondary` (gris `mist` con borde fino). Sobre fondos de color (`lilac`, `lavender`) usa `light` (blanco con borde fino). No uses `secondary` sobre `lilac`: se apaga.

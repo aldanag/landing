@@ -5,6 +5,8 @@ const base =
 const variants = {
   primary: "bg-primary text-white hover:bg-primary-dark",
   secondary: "bg-mist text-ink ring-1 ring-ink/10 hover:brightness-95",
+  // Para fondos de color (lila, lavanda): el secundario blanco se lee mejor que el gris.
+  light: "bg-white text-ink ring-1 ring-ink/10 hover:bg-primary-tint",
   dark: "bg-ink text-white hover:bg-ink-soft",
   chip: "gap-1.5 bg-mist text-ink hover:bg-primary-tint",
 }

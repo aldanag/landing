@@ -13,7 +13,8 @@
   Roles de color:
   - lima      → solo botones de acción (CTA)
   - primary   → badges, links e íconos (violeta); dark = hover, tint = fondos suaves
-  - lavender  → superficies grandes (Hero, tarjetas)
+  - lavender  → superficies grandes sin texto (marcos de imagen, fondos decorativos)
+  - lilac     → bloques violetas con texto (cards de pasos, panel del plan, llamados)
   - accent    → naranja de acento (card 03, borde de Premium)
   - mist      → fondo de secciones y componentes sutiles
   - ink       → texto y bloques oscuros
@@ -28,6 +29,7 @@
   --color-primary-dark: #5a3fc0;
   --color-primary-tint: #ece8fb;
   --color-lavender: #b9abf0;
+  --color-lilac: #e2d9ff;
   --color-mist: #ebe8f2;
   --color-lime: #e3f547;
   --color-accent: #ff9a52;
