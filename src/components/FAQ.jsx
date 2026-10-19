@@ -1,13 +1,13 @@
 import { useState } from "react"
 
-const faqs = [
+const faqsDefault = [
   {
     q: "¿Necesito saber de programación?",
-    a: "No. Nosotros dejamos tu tienda lista, vos solo cargás tus productos.",
+    a: "No. Configurás tu tienda desde un dashboard simple: sin código y sin depender de nadie.",
   },
   {
-    q: "¿Cuánto tarda en estar publicada mi tienda?",
-    a: "Entre 24 y 48 horas desde que nos pasás la información.",
+    q: "¿Cómo armo mi tienda?",
+    a: "Desde el dashboard: subís tu logo, elegís si tu tienda es de productos o de servicios y cargás lo que vendés. Si ofrecés servicios, definís tus horarios disponibles.",
   },
   {
     q: "¿Lemora cobra comisión por cada venta?",
@@ -31,7 +31,7 @@ const faqs = [
   },
 ]
 
-export default function FAQ() {
+export default function FAQ({ faqs = faqsDefault }) {
   const [openIndex, setOpenIndex] = useState(null)
 
   return (

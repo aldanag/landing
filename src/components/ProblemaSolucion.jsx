@@ -40,7 +40,7 @@ const pares = [
     },
     solucion: {
       title: "No necesitás ser un genio tecnológico",
-      body: "Cargás tus productos en tu dashboard y tu tienda queda publicada en 24/48 horas.",
+      body: "Configurás tu tienda y cargás tus productos o servicios desde un dashboard simple, sin código.",
     },
   },
   {

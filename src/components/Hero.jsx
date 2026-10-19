@@ -33,10 +33,10 @@ function Chica({ className }) {
   )
 }
 
-// Foto del producto de la tarjeta (la taza). Si el archivo todavía no está en src/assets
-// (producto-taza.webp / .png / .jpg), se muestra un recuadro naranja en su lugar.
-const tazaFoto = Object.values(
-  import.meta.glob("../assets/producto-taza.{webp,png,jpg}", { eager: true, import: "default" }),
+// Foto del producto de la tarjeta (la gorra). Si el archivo todavía no está en src/assets
+// (producto-tarjeta.webp / .png / .jpg), se muestra un recuadro naranja en su lugar.
+const productoFoto = Object.values(
+  import.meta.glob("../assets/producto-tarjeta.{webp,png,jpg}", { eager: true, import: "default" }),
 )[0]
 
 // Tarjetas decorativas. Se usan dos veces: sobre la foto (escritorio) y debajo
@@ -79,9 +79,9 @@ function Tarjetas({ product, pill, whatsapp, show = "all", compact = false }) {
           data-art="float"
           className={`absolute bg-white shadow-xl shadow-ink/10 ${t.card} ${product}`}
         >
-          {tazaFoto ? (
+          {productoFoto ? (
             <img
-              src={tazaFoto}
+              src={productoFoto}
               alt=""
               width="600"
               height="600"
@@ -92,9 +92,9 @@ function Tarjetas({ product, pill, whatsapp, show = "all", compact = false }) {
           )}
           <div className={`flex items-baseline justify-between gap-1.5 ${t.name}`}>
             <p className="min-w-0 truncate font-semibold text-ink">
-              Taza{compact ? <span className="hidden sm:inline"> Speckle</span> : " Speckle"}
+              Gorra{compact ? <span className="hidden sm:inline"> Lima</span> : " Lima"}
             </p>
-            <p className={`flex-none text-ink ${t.price}`}>$12.500</p>
+            <p className={`flex-none text-ink ${t.price}`}>$14.500</p>
           </div>
           <div
             className={`whitespace-nowrap rounded-full bg-primary text-center font-semibold text-white ${t.btn}`}

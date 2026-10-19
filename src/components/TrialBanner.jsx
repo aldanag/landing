@@ -77,7 +77,7 @@ export default function TrialBanner() {
               Probá tu tienda gratis durante 30 días
             </h2>
             <p className="mt-4 text-base text-white/70">
-              Creá tu tienda, cargá tus productos y empezá a recibir pedidos.
+              Creá tu tienda, cargá tus productos o servicios y empezá a recibir pedidos o turnos.
             </p>
 
             <ul className="mt-8 flex flex-col gap-3">
@@ -140,8 +140,8 @@ export default function TrialBanner() {
               <span className="pb-1 text-xl font-bold">mes gratis</span>
             </div>
             <p className="mt-3 text-sm text-ink-soft">
-              El plan Básico completo: catálogo, pedidos por WhatsApp y tu tienda lista desde el
-              primer día.
+              El plan Básico completo: tu tienda configurable desde el dashboard, productos
+              ilimitados y pedidos por WhatsApp.
             </p>
 
             <Button
