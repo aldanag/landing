@@ -17,8 +17,9 @@ export const peso = (n) => `$${Math.round(n).toLocaleString("es-AR")}`
 // TODO: reemplazar por la URL real de una tienda de ejemplo.
 export const EJEMPLO_WEB_LINK = "#"
 
-// Las funciones que se repiten entre planes van en el mismo orden para que las
-// filas queden alineadas; las exclusivas de Premium llevan isNew (resaltadas).
+// Las funciones que se comparan entre planes van en el mismo orden en las dos listas
+// (carrusel, banners y barra promocional); las exclusivas de Premium llevan isNew
+// (resaltadas).
 // actions[0] es el botón principal (lima); actions[1], si existe, el secundario.
 export const plans = [
   {
@@ -28,15 +29,17 @@ export const plans = [
     anual: 96000,
     commitment: "Contratación mínima: 1 mes",
     features: [
-      "Web básica",
-      "Productos y servicios ilimitados",
-      "Reserva de turnos para servicios",
-      "Carrusel de hasta 4 imágenes",
-      "Sección de contacto",
-      "4 banners promocionales",
+      "Cargá productos o servicios ilimitados",
+      "Gestión de pedidos",
+      "Carrusel de hasta 8 imágenes",
+      "3 banners promocionales",
+      "Página de contacto con formulario y mapa",
       "Agregar a favoritos",
       "Preguntas frecuentes",
-      "Lemora Ads en el marquee",
+      "Reseñas de clientes",
+      "Cupones y descuentos automáticos",
+      "Ventana emergente al salir",
+      "Incluye ads en barra promocional",
     ],
     actions: [
       {
@@ -58,20 +61,16 @@ export const plans = [
     mensual: 15000,
     anual: 160000,
     commitment: "Contratación mínima: 3 meses",
+    intro: "Todo lo del plan Básico y además:",
     features: [
-      { text: "Web premium", strong: "premium" },
-      "Productos y servicios ilimitados",
-      "Reserva de turnos para servicios",
-      { text: "Carrusel de hasta 6 imágenes", strong: "6 imágenes" },
-      { text: "Contacto con Google Maps", strong: "Google Maps" },
-      { text: "Gestión de ventas", isNew: true },
+      { text: "Carrusel de hasta 12 imágenes", strong: "12 imágenes" },
+      { text: "5 banners promocionales", strong: "5" },
+      { text: "Gestión de inventario por categorías", isNew: true },
+      { text: "Panel para gestión de clientes", isNew: true },
       { text: "Nuevo menú por categorías", isNew: true },
-      { text: "Banner en carrito o contacto", isNew: true },
+      { text: "Página dedicada para cada categoría", isNew: true },
       { text: "Google Search Console", isNew: true },
-      { text: "Reseñas de clientes", isNew: true },
-      { text: "Cupones de descuento", isNew: true },
-      { text: "Descuentos automáticos por compras", isNew: true },
-      { text: "Ventana emergente al salir", isNew: true },
+      { text: "Barra promocional con tus propios mensajes, sin Lemora Ads", isNew: true },
     ],
     // TODO: reemplazar por el link real de suscripción de MercadoPago del plan Premium.
     actions: [{ label: "Suscribirme", href: "#registro", external: false }],

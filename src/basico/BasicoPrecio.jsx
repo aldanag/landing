@@ -6,7 +6,7 @@ import { anualLink, BASICO_CHECKOUT_LINK, peso, plans, WHATSAPP_TRIAL_LINK } fro
 
 const basico = plans.find((p) => p.name === "Básico")
 // Las funciones que más pesan en la decisión van en negrita.
-const destacadas = ["Productos y servicios ilimitados", "Reserva de turnos para servicios"]
+const destacadas = ["Cargá productos o servicios ilimitados"]
 
 const opciones = [
   { id: false, label: "Mensual", on: "bg-ink text-white" },

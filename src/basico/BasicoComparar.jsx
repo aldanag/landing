@@ -9,14 +9,15 @@ const premium = plans.find((p) => p.name === "Premium")
 const nuevas = premium.features.filter((f) => f.isNew).map((f) => f.text)
 
 const conBasico = [
-  "Productos y servicios ilimitados",
-  "Reserva de turnos para servicios",
-  "Carrusel de hasta 4 imágenes",
-  "4 banners promocionales",
+  "Cargá productos o servicios ilimitados",
+  "Carrusel de hasta 8 imágenes",
+  "3 banners promocionales",
+  "Cupones y descuentos automáticos",
+  "Reseñas de clientes y ventana emergente al salir",
   "Pedidos directo a tu WhatsApp",
   "Sin comisiones por venta",
 ]
-const conPremium = ["Carrusel de hasta 6 imágenes", "Contacto con Google Maps", ...nuevas]
+const conPremium = ["Carrusel de hasta 12 imágenes", "5 banners promocionales", ...nuevas]
 
 export default function BasicoComparar() {
   const root = useRef(null)
@@ -67,7 +68,7 @@ export default function BasicoComparar() {
               $15.000<span className="text-base font-bold text-ink-soft">/mes</span>
             </p>
             <p className="mt-1 text-sm text-ink-soft">
-              Contratación mínima: 3 meses. Sin el aviso de Lemora en el marquee.
+              Contratación mínima: 3 meses. Sin ads de Lemora en la barra promocional.
             </p>
             <ul className="mt-4 space-y-2">
               {conPremium.map((t) => (

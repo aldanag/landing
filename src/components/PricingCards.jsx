@@ -80,8 +80,9 @@ export default function PricingCards() {
           data-reveal
           className="mx-auto mt-3 max-w-2xl text-balance text-center text-base text-white/70"
         >
-          Probá el primer mes del plan Básico sin costo y sin tarjeta. Si te sirve, seguís con un
-          pago mensual por MercadoPago. Sin sorpresas, sin letra chica.
+          Probá el primer mes del plan Básico sin costo. Si funciona para vos, te quedás
+          contratando el plan que mejor se adapte a tu negocio. Sin letra chica, te das de baja
+          cuando quieras y sin vueltas.
         </p>
 
         <div data-reveal className="mt-8 flex justify-center">
@@ -150,7 +151,8 @@ export default function PricingCards() {
                   : plan.commitment}
               </p>
 
-              <div className="mt-5 flex-1 border-t border-ink/10 pt-4">
+              <div className="mt-3 flex-1 border-t border-ink/10 pt-3">
+                {plan.intro && <p className="mb-3 text-sm font-bold">{plan.intro}</p>}
                 <ul className="space-y-1.5">
                   {plan.features.map((item) => {
                     const feature = item.text ?? item
