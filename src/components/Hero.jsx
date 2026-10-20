@@ -392,7 +392,7 @@ export default function Hero() {
               data-hero="sub"
               className="mx-auto mt-3 max-w-xl text-base font-semibold max-[359px]:text-[15px] md:mt-4 text-ink md:text-[21px] lg:mx-0 xl:text-[22px] 2xl:text-[24px]"
             >
-              Tu cliente hace el pedido online y vos lo recibís directo en WhatsApp.
+              Una web al alcance de todos, vos elegís cómo cobrar y cómo trabajar.
             </p>
 
             <div

@@ -24,7 +24,7 @@ const pares = [
     },
     solucion: {
       title: "Vendé directo por WhatsApp",
-      body: "Tu cliente arma el pedido y te escribe. Cobrás como quieras, sin comisiones ni intermediarios.",
+      body: "Tu cliente arma el pedido y te llega completo a WhatsApp. Cobrás como quieras, sin comisiones ni intermediarios.",
     },
   },
   {
@@ -40,7 +40,7 @@ const pares = [
     },
     solucion: {
       title: "No necesitás ser un genio tecnológico",
-      body: "Configurás tu tienda y cargás tus productos o servicios desde un dashboard simple, sin código.",
+      body: "Configurás tu tienda y cargás tus productos o servicios desde un panel simple, sin complicaciones.",
     },
   },
   {
@@ -56,7 +56,7 @@ const pares = [
     },
     solucion: {
       title: "Más barato que tu plataforma de streaming",
-      body: "Un precio claro desde $9.000 por mes, y el primer mes es gratis.",
+      body: "Un precio claro desde $9.000 por mes, y el primer mes es gratis. Sin tarjeta ni obligaciones, cancelás cuando quieras.",
     },
   },
 ]

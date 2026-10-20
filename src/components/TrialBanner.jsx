@@ -7,7 +7,7 @@ import Button from "./Button"
 const WHATSAPP_START_LINK =
   "https://wa.me/543515957014?text=Hola,%20quiero%20empezar%20gratis%20con%20Lemora"
 
-const checks = ["Sin tarjeta", "Sin comisiones por venta"]
+const checks = ["Sin tarjeta", "Sin comisiones por venta", "Vos elegís cómo vender"]
 
 export default function TrialBanner() {
   const root = useRef(null)
@@ -77,7 +77,8 @@ export default function TrialBanner() {
               Probá tu tienda gratis durante 30 días
             </h2>
             <p className="mt-4 text-base text-white/70">
-              Creá tu tienda, cargá tus productos o servicios y empezá a recibir pedidos o turnos.
+              Creá tu tienda, cargá tus productos o servicios y recibí pedidos o turnos. Y empezá a
+              vender como nunca, con la libertad de trabajar como quieras.
             </p>
 
             <ul className="mt-8 flex flex-col gap-3">
@@ -140,8 +141,9 @@ export default function TrialBanner() {
               <span className="pb-1 text-xl font-bold">mes gratis</span>
             </div>
             <p className="mt-3 text-sm text-ink-soft">
-              El plan Básico completo: tu tienda configurable desde el dashboard, productos
+              Acceso al plan Básico completo: tu tienda configurable desde el panel, productos
               ilimitados y pedidos por WhatsApp.
+              <span className="block">No necesitás conocimientos técnicos.</span>
             </p>
 
             <Button
@@ -153,7 +155,7 @@ export default function TrialBanner() {
               Probar gratis 1 mes
             </Button>
             <p className="mt-3 text-center text-xs text-ink-muted">
-              No necesitás conocimientos técnicos
+              Sin tarjeta, probalo sin compromiso
             </p>
           </div>
         </div>

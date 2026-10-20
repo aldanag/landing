@@ -7,8 +7,8 @@ const steps = [
   {
     number: "01",
     label: "Cargá",
-    title: "Sumá tus productos en minutos",
-    body: "Fotos, precio, stock y variantes. Todo se edita desde un panel claro y amable.",
+    title: "Cargá tus productos en minutos",
+    body: "Fotos, precio, stock y más. Todo se edita desde un panel claro y amigable.",
     cardClass: "bg-lilac text-ink",
     labelClass: "text-ink",
     iconClass: "bg-ink text-white",
@@ -48,7 +48,7 @@ const steps = [
   {
     number: "02",
     label: "Compartí",
-    title: "Tu tienda lista para mostrar",
+    title: "Tu tienda lista para compartir",
     body: "Personalizá colores, logo y link. Compartilo en Instagram, TikTok o donde vendas.",
     cardClass: "bg-lilac text-ink",
     labelClass: "text-ink",
@@ -69,7 +69,7 @@ const steps = [
         <div className="flex h-16 items-center justify-center rounded-xl bg-ink">
           <span className="text-2xl font-extrabold tracking-tight text-lime">Tu logo</span>
         </div>
-        <p className="mt-2 text-xs font-semibold text-ink-soft">tutienda.lemora.shop</p>
+        <p className="mt-2 text-xs font-semibold text-ink-soft">tutienda.lemora.lat</p>
         <p className="text-xs text-ink-muted">Tienda publicada</p>
       </div>
     ),
@@ -77,7 +77,7 @@ const steps = [
   {
     number: "03",
     label: "Vendé sin comisión",
-    title: "El pedido llega a tu WhatsApp",
+    title: "El pedido llega directo a tu WhatsApp",
     body: "Tu cliente arma el carrito y te envía el detalle. Vos coordinás pago y entrega, sin comisión.",
     cardClass: "bg-lilac text-ink",
     labelClass: "text-ink",
@@ -129,12 +129,12 @@ export default function HowItWorks() {
               data-words
               className="mt-4 text-[clamp(25px,8.2vw,32px)] font-bold text-ink md:text-[34px]"
             >
-              De tu producto al pedido, sin vueltas.
+              De tu tienda al pedido, sin vueltas.
             </h2>
           </div>
-          <p data-reveal className="max-w-xs text-sm text-ink-soft">
-            Lemora ordena el camino para que vendas con una experiencia
-            profesional, incluso si recién empezás.
+          <p data-reveal className="max-w-sm text-sm text-ink-soft">
+            Tu negocio merece una web profesional, sin que tu bolsillo sea un impedimento. Tu
+            tienda online profesional ahora al alcance de todos.
           </p>
         </div>
 
