@@ -5,6 +5,7 @@ import carritoImg from "../assets/features/carrito.webp"
 import pedidosImg from "../assets/features/pedidos.webp"
 import bannersImg from "../assets/features/banners.webp"
 import preguntasImg from "../assets/features/preguntas.webp"
+import descuentosPendiente from "../assets/features/descuentos-pendiente.svg"
 import {
   gsap,
   REDUCED_MOTION_OFF,
@@ -13,11 +14,21 @@ import {
   useReveal,
 } from "../lib/motion"
 
+// Captura de descuentos: guardala en src/assets/features/ como descuentos.webp (o .png/.jpg).
+// Mientras no esté, se ve una imagen provisoria.
+const descuentosImg =
+  Object.values(
+    import.meta.glob("../assets/features/descuentos.{webp,png,jpg}", {
+      eager: true,
+      import: "default",
+    }),
+  )[0] ?? descuentosPendiente
+
 // Capturas reales del producto (no stock). Copiadas del sitio actual.
 const features = [
   {
-    title: "Conecta tus redes",
-    body: "Tus redes siempre presentes e integradas en la cabecera de tu tienda, con botón de WhatsApp para contacto directo.",
+    title: "Conectá tus redes",
+    body: "Tus redes siempre presentes e integradas en la cabecera de tu tienda, y un botón de WhatsApp para contacto directo.",
     image: redesImg,
   },
   {
@@ -31,8 +42,13 @@ const features = [
     image: carritoImg,
   },
   {
+    title: "Automatizá descuentos",
+    body: "Creá cupones de descuento y descuentos automáticos por cantidad, por precio o por compra mínima.",
+    image: descuentosImg,
+  },
+  {
     title: "Pedido directo",
-    body: "Recibís todos los datos del cliente directo en WhatsApp, sin intermediarios ni esperas.",
+    body: "Recibís todos los datos del cliente directo en WhatsApp, sin intermediarios ni esperas. Acá vos tomás el control.",
     image: pedidosImg,
   },
   {
@@ -41,8 +57,8 @@ const features = [
     image: bannersImg,
   },
   {
-    title: "Detalla sin límites",
-    body: "Página de preguntas frecuentes para responder todo sobre pedidos, pagos, envíos, devoluciones y soporte.",
+    title: "En detalle, sin límites",
+    body: "Página de preguntas frecuentes para responder todo sobre pedidos, pagos, envíos, devoluciones y soporte en tu tienda.",
     image: preguntasImg,
   },
 ]
@@ -161,7 +177,7 @@ export default function Features() {
 
           <div
             data-reveal
-            className="flex flex-col divide-y divide-ink/10 rounded-3xl bg-white px-6 py-2 ring-1 ring-ink/10 md:px-8"
+            className="flex flex-col divide-y divide-ink/10 rounded-3xl bg-white px-6 py-1 ring-1 ring-ink/10 md:px-8"
           >
             {features.map((feature, i) => {
               const isOpen = activeIndex === i
@@ -171,7 +187,7 @@ export default function Features() {
                     type="button"
                     onClick={() => select(i)}
                     aria-expanded={isOpen}
-                    className="group flex w-full items-center justify-between gap-4 py-4 text-left focus-ring"
+                    className="group flex w-full items-center justify-between gap-4 py-3 text-left focus-ring"
                   >
                     <span
                       className={`text-base font-bold ${
@@ -204,7 +220,7 @@ export default function Features() {
                     }`}
                   >
                     <div className="overflow-hidden">
-                      <p className="pb-4 text-sm leading-relaxed text-ink-soft">
+                      <p className="pb-3 text-sm leading-relaxed text-ink-soft">
                         {feature.body}
                       </p>
                     </div>

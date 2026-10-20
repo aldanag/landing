@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 900" role="img" aria-label="Captura de descuentos pendiente">
+  <rect width="1200" height="900" fill="#B9ABF0"/>
+  <rect x="300" y="270" width="600" height="360" rx="40" fill="#E2D9FF"/>
+  <text x="600" y="430" text-anchor="middle" font-family="Manrope, Arial, sans-serif" font-size="40" font-weight="700" fill="#17122F">Captura de descuentos</text>
+  <text x="600" y="485" text-anchor="middle" font-family="Manrope, Arial, sans-serif" font-size="26" font-weight="500" fill="#4F4A5E">src/assets/features/descuentos</text>
+</svg>
