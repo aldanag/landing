@@ -33,11 +33,11 @@ const faqs = [
   },
   {
     q: "¿Necesito saber de programación?",
-    a: "No. Configurás todo desde un dashboard simple: sin código y sin depender de nadie.",
+    a: "No. Configurás todo desde un panel simple: sin código y sin depender de nadie.",
   },
   {
     q: "¿Cómo armo mi tienda?",
-    a: "Desde el dashboard: subís tu logo, elegís si tu tienda es de productos o de servicios y cargás lo que vendés. Si ofrecés servicios, definís tus horarios disponibles.",
+    a: "Desde el panel: subís tu logo, elegís si tu tienda es de productos o de servicios y cargás lo que vendés. Si ofrecés servicios, definís tus horarios disponibles.",
   },
   {
     q: "¿Cuántos productos o servicios puedo cargar?",
@@ -45,7 +45,7 @@ const faqs = [
   },
   {
     q: "¿Sirve si vendo servicios y no productos?",
-    a: "Sí. Elegís una tienda de servicios: tus clientes reservan turno desde la tienda, vos definís los horarios disponibles y ves tus turnos en el calendario del dashboard.",
+    a: "Sí. Elegís una tienda de servicios: tus clientes reservan turno desde la tienda, vos definís los horarios disponibles y ves tus turnos en el calendario del panel.",
   },
   {
     q: "¿Lemora cobra comisión por cada venta?",

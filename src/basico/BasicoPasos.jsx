@@ -12,7 +12,7 @@ const pasos = [
   {
     n: "02",
     title: "Configurá tu tienda",
-    body: "Desde tu dashboard: subí tu logo, elegí si tu tienda es de productos o de servicios y cargalos. Si ofrecés servicios, definí tus horarios disponibles.",
+    body: "Desde tu panel: subí tu logo, elegí si tu tienda es de productos o de servicios y cargalos. Si ofrecés servicios, definí tus horarios disponibles.",
   },
   {
     n: "03",

@@ -16,8 +16,8 @@ const tipos = [
     icon: faCalendarCheck,
     etiqueta: "Servicios",
     title: "Ofrecé tus servicios.",
-    body: "Elegí una tienda de servicios: tus clientes reservan su turno desde la tienda, vos definís los horarios disponibles y ves tu calendario en el dashboard.",
-    puntos: ["Servicios ilimitados", "Vos elegís tus horarios", "Tu calendario en el dashboard"],
+    body: "Elegí una tienda de servicios: tus clientes reservan su turno desde la tienda, vos definís los horarios disponibles y ves tu calendario en el panel.",
+    puntos: ["Servicios ilimitados", "Vos elegís tus horarios", "Tu calendario en el panel"],
   },
 ]
 
@@ -43,7 +43,7 @@ export default function BasicoPara() {
           </h2>
           <p data-reveal className="mx-auto mt-3 max-w-xl text-balance text-base text-ink-soft">
             Elegís qué tipo de tienda querés armar, y la configurás y la cargás desde el mismo
-            dashboard, sin límite.
+            panel, sin límite.
           </p>
         </div>
 
