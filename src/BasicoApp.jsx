@@ -1,5 +1,5 @@
 import Nav from "./components/Nav"
-import FAQ from "./components/FAQ"
+import FAQ, { faqsDefault } from "./components/FAQ"
 import TrialBanner from "./components/TrialBanner"
 import Footer from "./components/Footer"
 import BasicoHero from "./basico/BasicoHero"
@@ -26,18 +26,21 @@ const explorar = [
   { label: "Todos los planes", href: "/#planes" },
 ]
 
+// Respuesta de la FAQ de la landing para la misma pregunta.
+const comun = (q) => faqsDefault.find((f) => f.q === q).a
+
 const faqs = [
   {
     q: "¿Tengo que dar la tarjeta para probar?",
-    a: "No. El primer mes es gratis y no te pedimos la tarjeta.",
+    a: "No. El primer mes es gratis y no te pedimos tarjeta ni ningún otro tipo de pago. Solicitá una prueba sin compromiso.",
   },
   {
     q: "¿Necesito saber de programación?",
-    a: "No. Configurás todo desde un panel simple: sin código y sin depender de nadie.",
+    a: comun("¿Necesito saber de programación?"),
   },
   {
     q: "¿Cómo armo mi tienda?",
-    a: "Desde el panel: subís tu logo, elegís si tu tienda es de productos o de servicios y cargás lo que vendés. Si ofrecés servicios, definís tus horarios disponibles.",
+    a: comun("¿Cómo armo mi tienda?"),
   },
   {
     q: "¿Cuántos productos o servicios puedo cargar?",
@@ -49,19 +52,19 @@ const faqs = [
   },
   {
     q: "¿Lemora cobra comisión por cada venta?",
-    a: "No. Vos te quedás con el 100% de cada venta.",
+    a: comun("¿Lemora cobra comisión por cada venta?"),
   },
   {
     q: "¿Cómo recibo los pedidos?",
-    a: "Directo a tu WhatsApp, con todos los datos del cliente.",
+    a: comun("¿Cómo recibo los pedidos?"),
   },
   {
     q: "¿Puedo cancelar cuando quiera?",
-    a: "Sí. El plan Básico no tiene permanencia, cancelás cuando quieras.",
+    a: comun("¿Puedo cancelar cuando quiera?"),
   },
   {
     q: "¿Y si más adelante quiero el plan Premium?",
-    a: "Escribinos por WhatsApp y lo vemos juntos.",
+    a: "Podés hacerlo desde el panel de tu tienda, contactándonos, y actualizamos tu plan en el día.",
   },
 ]
 

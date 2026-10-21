@@ -1,6 +1,7 @@
 import { useState } from "react"
 
-const faqsDefault = [
+// Las respuestas comunes también las usa la página del Básico: se editan acá, en un solo lugar.
+export const faqsDefault = [
   {
     q: "¿Necesito saber de programación?",
     a: "No. Configurás tu tienda desde un panel simple: sin código y sin depender de nadie. Te enseñamos con tutoriales simples, rápidos y súper fáciles cómo gestionar toda tu tienda.",
