@@ -1,5 +1,5 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faInstagram, faTiktok, faYoutube } from "@fortawesome/free-brands-svg-icons"
+import { faInstagram, faTiktok } from "@fortawesome/free-brands-svg-icons"
 import logo from "../assets/lemora-logo.svg"
 import Button from "./Button"
 
@@ -21,11 +21,10 @@ const legal = [
 
 const EMAIL = "web.lemora@gmail.com"
 
-// TODO: reemplazar por los perfiles reales de Lemora (hoy apuntan a "#").
+// TODO: sumar YouTube (faYoutube) cuando exista el canal de Lemora.
 const redes = [
-  { label: "Instagram", icon: faInstagram, href: "#" },
-  { label: "TikTok", icon: faTiktok, href: "#" },
-  { label: "YouTube", icon: faYoutube, href: "#" },
+  { label: "Instagram", icon: faInstagram, href: "https://www.instagram.com/lemora.lat" },
+  { label: "TikTok", icon: faTiktok, href: "https://www.tiktok.com/@lemora.lat" },
 ]
 
 const YEAR = new Date().getFullYear()
@@ -121,6 +120,8 @@ export default function Footer({ explorar = explorarDefault }) {
                     <li key={red.label}>
                       <a
                         href={red.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
                         aria-label={red.label}
                         className="flex h-10 w-10 items-center justify-center rounded-full bg-white/10 text-white/80 transition-colors hover:bg-white hover:text-ink focus-ring-light"
                       >
