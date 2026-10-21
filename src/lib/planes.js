@@ -39,7 +39,7 @@ export const plans = [
       "Reseñas de clientes",
       "Cupones y descuentos automáticos",
       "Ventana emergente al salir",
-      "Incluye ads en barra promocional",
+      "Incluye Lemora Ads en barra promocional",
     ],
     actions: [
       {

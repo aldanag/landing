@@ -2,22 +2,14 @@ import { useRef } from "react"
 import { useReveal } from "../lib/motion"
 import Button from "../components/Button"
 import Tick from "../components/Tick"
-import { plans } from "../lib/planes"
+import { peso, plans } from "../lib/planes"
 
+// Las listas salen de los mismos datos que las tarjetas de la landing, así no se desfasan.
+const nombre = (f) => f.text ?? f
+const basico = plans.find((p) => p.name === "Básico")
+const conBasico = basico.features.map(nombre)
 const premium = plans.find((p) => p.name === "Premium")
-// Lo que el Premium suma: sus funciones nuevas (las marcadas isNew).
-const nuevas = premium.features.filter((f) => f.isNew).map((f) => f.text)
-
-const conBasico = [
-  "Cargá productos o servicios ilimitados",
-  "Carrusel de hasta 8 imágenes",
-  "3 banners promocionales",
-  "Cupones y descuentos automáticos",
-  "Reseñas de clientes y ventana emergente al salir",
-  "Pedidos directo a tu WhatsApp",
-  "Sin comisiones por venta",
-]
-const conPremium = ["Carrusel de hasta 12 imágenes", "5 banners promocionales", ...nuevas]
+const conPremium = premium.features.map(nombre)
 
 export default function BasicoComparar() {
   const root = useRef(null)
@@ -47,7 +39,7 @@ export default function BasicoComparar() {
               Con el Básico
             </p>
             <p className="mt-2 text-[28px] font-extrabold text-ink">
-              $9.000<span className="text-base font-bold text-ink-soft">/mes</span>
+              {peso(basico.mensual)}<span className="text-base font-bold text-ink-soft">/mes</span>
             </p>
             <p className="mt-1 text-sm text-ink-soft">Ideal para empezar a vender online.</p>
             <ul className="mt-4 space-y-2">
@@ -65,10 +57,10 @@ export default function BasicoComparar() {
               Con el Premium, además
             </p>
             <p className="mt-2 text-[28px] font-extrabold text-ink">
-              $15.000<span className="text-base font-bold text-ink-soft">/mes</span>
+              {peso(premium.mensual)}<span className="text-base font-bold text-ink-soft">/mes</span>
             </p>
             <p className="mt-1 text-sm text-ink-soft">
-              Contratación mínima: 3 meses. Sin ads de Lemora en la barra promocional.
+              Contratación mínima: 3 meses.
             </p>
             <ul className="mt-4 space-y-2">
               {conPremium.map((t) => (
