@@ -23,7 +23,7 @@ const bloques = [
     n: 1,
     etiqueta: "Tu tienda",
     title: "Configurá tu tienda desde el panel.",
-    body: "Subí tu logo, elegí cómo se ve y mirá al instante cómo queda tu tienda. Sin código y sin depender de nadie.",
+    body: "Subí tu logo, elegí tus colores y mirá al instante cómo queda tu tienda. Sin código y sin depender de nadie. Todo explicado paso a paso, simple.",
     incluye: [],
     sugerencia: "El panel con el logo cargándose, y cómo se ve la tienda",
     alt: "Panel de Lemora donde se agrega el logo, junto a cómo se ve la tienda",
@@ -32,7 +32,7 @@ const bloques = [
     n: 2,
     etiqueta: "Tus productos y servicios",
     title: "Creá todos los productos y servicios que quieras.",
-    body: "Cargás cada producto o servicio desde el panel, con sus fotos y su precio, y aparece en tu tienda. Sin tope y sin costo extra por cada uno.",
+    body: "Cargás cada producto o servicio desde el panel, con sus fotos, su precio, stock y características, y aparece en tu tienda. Sin tope y sin ningún costo adicional.",
     incluye: ["Cargá productos o servicios ilimitados"],
     sugerencia: "El panel creando un producto o un servicio, y cómo se ve en la tienda",
     alt: "Panel de Lemora donde se crea un producto o un servicio, junto a cómo se ve en la tienda",
@@ -41,7 +41,7 @@ const bloques = [
     n: 3,
     etiqueta: "Tus turnos",
     title: "Tus clientes reservan turno en los horarios que vos elegís.",
-    body: "Si armás una tienda de servicios, tus clientes reservan su turno desde la tienda y vos definís los horarios disponibles. Los turnos reservados los ves en tu calendario, dentro del panel.",
+    body: "Si tu tienda es de servicios, tus clientes reservan su turno desde la tienda. Gestioná todos tus turnos en tu calendario, desde el panel.",
     incluye: [
       "Reserva de turnos para servicios",
       "Horarios disponibles a tu elección",
@@ -54,7 +54,7 @@ const bloques = [
     n: 4,
     etiqueta: "Que te vean",
     title: "Destacá tus ofertas y novedades apenas entran.",
-    body: "Un carrusel y banners grandes arriba de tu tienda, para que lo que querés vender sea lo primero que se ve.",
+    body: "Un carrusel y banners en tu tienda, para que lo que querés vender y promocionar sea lo primero que se vea.",
     incluye: ["Carrusel de hasta 8 imágenes", "3 banners promocionales"],
     sugerencia: "El carrusel con un banner de oferta arriba de los productos",
     alt: "Carrusel y banner promocional arriba de una grilla de productos",
@@ -81,7 +81,7 @@ const bloques = [
     n: 7,
     etiqueta: "Que te escriban",
     title: "Tus datos y tu WhatsApp, siempre a la vista.",
-    body: "Una página de contacto con formulario y mapa, tus redes y un botón de WhatsApp para que te escriban directo desde cualquier página.",
+    body: "Una página de contacto con formulario y mapa de ubicación, además de un botón de WhatsApp presente en toda la tienda para contacto directo.",
     incluye: ["Página de contacto con formulario y mapa"],
     sugerencia: "La página de contacto con formulario, mapa, redes y botón de WhatsApp",
     alt: "Página de contacto de una tienda con formulario, mapa, redes sociales y botón de WhatsApp",
@@ -99,8 +99,8 @@ const bloques = [
     n: 9,
     etiqueta: "Lo que tiene el Básico",
     title: "Una franja de Lemora corre en tu tienda.",
-    body: "El plan Básico incluye ads de Lemora en la barra promocional de tu tienda. El plan Premium no los incluye.",
-    incluye: ["Incluye ads en barra promocional"],
+    body: "El plan Básico incluye un anuncio de Lemora. Podés quitarlo con el plan Premium e incluso personalizarlo con tu propio contenido para tu tienda.",
+    incluye: ["Lemora Ads en la barra promocional"],
     sugerencia: "La barra promocional con el aviso de Lemora",
     alt: "Franja con el aviso de Lemora corriendo arriba de una tienda",
   },
@@ -218,7 +218,7 @@ export default function BasicoIncluye() {
               {i === 2 && (
                 <Cta
                   titulo="Probá todo esto gratis durante 1 mes."
-                  texto="Sin cargar la tarjeta y sin permanencia."
+                  texto="No te pedimos tarjeta y no tenés compromiso de adquirir nuestros planes."
                 />
               )}
               {i === 6 && (

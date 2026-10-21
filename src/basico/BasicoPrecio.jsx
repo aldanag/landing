@@ -29,8 +29,9 @@ export default function BasicoPrecio() {
             Un precio claro. Sin letra chica.
           </h2>
           <p data-reveal className="mx-auto mt-3 max-w-xl text-balance text-base text-white/70">
-            Probá el primer mes sin costo y sin tarjeta. Si te sirve, seguís con un pago por
-            MercadoPago.
+            Probá el primer mes del plan Básico sin costo. Si funciona para vos, te quedás
+            contratando el plan que mejor se adapte a tu negocio. Sin letra chica, te das de baja
+            cuando quieras y sin vueltas.
           </p>
         </div>
 
@@ -82,21 +83,12 @@ export default function BasicoPrecio() {
             <p className="mt-2 text-[15px] font-bold text-primary">
               {anual
                 ? `Pagás ${peso(basico.anual)} una vez al año · ahorrás ${peso(basico.mensual * 12 - basico.anual)}`
-                : "Tu primer mes es gratis"}
+                : "Probá 1 mes gratis"}
             </p>
 
-            <ul className="mt-4 flex flex-wrap gap-x-4 gap-y-1.5 text-sm font-semibold text-ink-soft">
-              <li className="flex items-center gap-1.5">
-                <Tick />
-                Sin tarjeta para probar
-              </li>
-              {!anual && (
-                <li className="flex items-center gap-1.5">
-                  <Tick />
-                  Sin permanencia
-                </li>
-              )}
-            </ul>
+            <p className="mt-4 text-sm font-semibold text-ink-soft">
+              Sin compromiso de adquirir nuestro plan, no te pedimos tarjeta ni ningún tipo de pago.
+            </p>
 
             <div className="mt-6 flex flex-col gap-3 md:mt-auto">
               <Button href={WHATSAPP_TRIAL_LINK} external block>

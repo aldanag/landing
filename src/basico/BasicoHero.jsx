@@ -50,8 +50,8 @@ export default function BasicoHero() {
               data-reveal
               className="mx-auto mt-4 max-w-xl text-base font-semibold text-ink md:mx-0 md:text-[19px] lg:max-w-[25rem]"
             >
-              Productos y servicios ilimitados, reserva de turnos y pedidos directo a tu WhatsApp.
-              Sin comisiones por venta y sin permanencia.
+              Configurá tu tienda para productos o servicios de manera ilimitada, con reserva de
+              turnos y pedidos directo a tu WhatsApp. Sin comisiones por venta y sin permanencia.
             </p>
             <div
               data-reveal

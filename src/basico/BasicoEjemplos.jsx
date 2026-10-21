@@ -37,7 +37,7 @@ export default function BasicoEjemplos() {
             data-reveal
             className="inline-block rounded-full bg-lime px-2.5 py-1 text-[11px] font-semibold uppercase tracking-[0.08em] text-ink sm:px-3 sm:text-[12.5px] sm:tracking-[0.09em]"
           >
-            Ejemplos
+            Ejemplos por casos
           </span>
           <h2
             data-words

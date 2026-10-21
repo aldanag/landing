@@ -12,12 +12,12 @@ const pasos = [
   {
     n: "02",
     title: "Configurá tu tienda",
-    body: "Desde tu panel: subí tu logo, elegí si tu tienda es de productos o de servicios y cargalos. Si ofrecés servicios, definí tus horarios disponibles.",
+    body: "Preparamos tu tienda en menos de 24 horas. Te capacitamos para crear tus productos y servicios y para gestionar toda tu tienda.",
   },
   {
     n: "03",
     title: "Compartila y vendé",
-    body: "Pasale el link a tus clientes. Los pedidos te llegan a tu WhatsApp y los turnos los ves en tu calendario.",
+    body: "Empezá a vender, compartí tu sitio, llegá a más clientes y mostrá tu web profesional al mundo. Todo tu negocio gestionado desde un único lugar.",
   },
 ]
 
