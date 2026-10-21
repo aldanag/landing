@@ -74,7 +74,7 @@ export default function TrialBanner() {
               Tu momento es ahora
             </span>
             <h2 className="mt-4 text-[clamp(25px,8.2vw,32px)] font-bold leading-tight md:text-[34px]">
-              Probá tu tienda gratis durante 30 días
+              Probá tu tienda gratis durante 1 mes
             </h2>
             <p className="mt-4 text-base text-white/70">
               Creá tu tienda, cargá tus productos o servicios y recibí pedidos o turnos. Y empezá a
