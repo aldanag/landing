@@ -1,3 +1,5 @@
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faInstagram, faTiktok, faYoutube } from "@fortawesome/free-brands-svg-icons"
 import logo from "../assets/lemora-logo.svg"
 import Button from "./Button"
 
@@ -15,6 +17,15 @@ const explorarDefault = [
 const legal = [
   { label: "Términos", href: "#" },
   { label: "Privacidad", href: "#" },
+]
+
+const EMAIL = "web.lemora@gmail.com"
+
+// TODO: reemplazar por los perfiles reales de Lemora (hoy apuntan a "#").
+const redes = [
+  { label: "Instagram", icon: faInstagram, href: "#" },
+  { label: "TikTok", icon: faTiktok, href: "#" },
+  { label: "YouTube", icon: faYoutube, href: "#" },
 ]
 
 const YEAR = new Date().getFullYear()
@@ -61,8 +72,10 @@ export default function Footer({ explorar = explorarDefault }) {
               <a href="#top" className="inline-block rounded-lg focus-ring-light">
                 <img src={logo} alt="Lemora" className="h-8 w-auto brightness-0 invert" />
               </a>
-              <p className="mt-5 max-w-xs text-[15px] leading-relaxed text-white/70">
-                Armá tu tienda, subí tus productos y recibí los pedidos por WhatsApp.
+              <p className="mt-5 max-w-sm text-[15px] leading-relaxed text-white/70">
+                Lemora permite a emprendedores, freelancers y comercios contar con una web propia,
+                adaptada a su identidad de marca y diseñada para facilitar la comercialización de
+                sus productos o servicios.
               </p>
             </div>
 
@@ -96,6 +109,26 @@ export default function Footer({ explorar = explorarDefault }) {
                 >
                   Escribinos por WhatsApp
                 </a>
+              </li>
+              <li>
+                <a href={`mailto:${EMAIL}`} className={linkClass}>
+                  {EMAIL}
+                </a>
+              </li>
+              <li>
+                <ul className="flex gap-3 pt-1">
+                  {redes.map((red) => (
+                    <li key={red.label}>
+                      <a
+                        href={red.href}
+                        aria-label={red.label}
+                        className="flex h-10 w-10 items-center justify-center rounded-full bg-white/10 text-white/80 transition-colors hover:bg-white hover:text-ink focus-ring-light"
+                      >
+                        <FontAwesomeIcon icon={red.icon} className="h-[18px] w-[18px]" aria-hidden="true" />
+                      </a>
+                    </li>
+                  ))}
+                </ul>
               </li>
             </Column>
           </div>
