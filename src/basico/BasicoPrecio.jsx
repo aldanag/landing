@@ -64,7 +64,7 @@ export default function BasicoPrecio() {
 
         <div
           data-reveal
-          className="mx-auto mt-8 grid max-w-4xl gap-6 rounded-3xl bg-white p-5 text-ink shadow-xl shadow-ink/10 sm:p-7 md:grid-cols-[1.15fr_1fr]"
+          className="mx-auto mt-8 grid max-w-6xl gap-6 rounded-3xl bg-white p-5 text-ink shadow-xl shadow-ink/10 sm:p-7 md:grid-cols-[1.15fr_1fr]"
         >
           <div className="flex flex-col">
             <h3 className="text-xl font-extrabold">Plan Básico</h3>

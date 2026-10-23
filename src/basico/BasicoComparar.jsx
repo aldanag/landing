@@ -17,7 +17,7 @@ export default function BasicoComparar() {
 
   return (
     <section id="comparar" ref={root} className="bg-white py-16">
-      <div className="mx-auto max-w-4xl px-4">
+      <div className="mx-auto max-w-6xl px-4 md:px-6">
         <div className="text-center">
           <span
             data-reveal
