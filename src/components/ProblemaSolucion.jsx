@@ -49,7 +49,7 @@ const pares = [
     imgSin: precios,
     altSin: "Un emprendedor preocupado frente a la computadora, mirando presupuestos",
     img: costos,
-    alt: "Un emprendedor empaqueta pedidos, con una tele de fondo",
+    alt: "Un emprendedor sonríe frente a su computadora, con una tele de fondo",
     problema: {
       title: "Precios que no tienen sentido",
       body: "Presupuestos que cambian según a quién le preguntes, más comisiones y mantenimiento.",
