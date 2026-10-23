@@ -116,7 +116,7 @@ export default function HowItWorks() {
 
   return (
     <section id="como-funciona" ref={root} className="bg-white py-16">
-      <div className="mx-auto max-w-5xl px-4">
+      <div className="mx-auto max-w-6xl px-4 md:px-6">
         <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
           <div>
             <span

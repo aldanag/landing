@@ -128,7 +128,7 @@ export default function Features() {
 
   return (
     <section id="funciones" ref={root} className="bg-mist py-16">
-      <div className="mx-auto max-w-5xl px-4">
+      <div className="mx-auto max-w-6xl px-4 md:px-6">
         <span
           data-reveal
           className="inline-block rounded-full bg-lime px-2.5 py-1 text-[11px] font-semibold uppercase tracking-[0.08em] sm:px-3 sm:text-[12.5px] sm:tracking-[0.09em] text-ink"

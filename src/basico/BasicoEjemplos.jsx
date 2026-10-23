@@ -31,7 +31,7 @@ export default function BasicoEjemplos() {
       ref={root}
       className="bg-mist bg-[linear-gradient(to_bottom,#ffffff,var(--color-mist)_14rem)] py-16"
     >
-      <div className="mx-auto max-w-5xl px-4">
+      <div className="mx-auto max-w-6xl px-4 md:px-6">
         <div className="text-center">
           <span
             data-reveal

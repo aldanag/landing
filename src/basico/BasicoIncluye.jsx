@@ -191,7 +191,7 @@ export default function BasicoIncluye() {
 
   return (
     <section id="incluye" ref={root} className="bg-mist py-16">
-      <div className="mx-auto max-w-5xl px-4">
+      <div className="mx-auto max-w-6xl px-4 md:px-6">
         <div className="text-center">
           <span
             data-reveal

@@ -20,7 +20,7 @@ export default function BasicoPrecio() {
 
   return (
     <section id="precio" ref={root} className="bg-ink py-16 text-white">
-      <div className="mx-auto max-w-5xl px-4">
+      <div className="mx-auto max-w-6xl px-4 md:px-6">
         <div className="text-center">
           <h2
             data-words

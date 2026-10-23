@@ -129,7 +129,7 @@ export default function ProblemaSolucion() {
 
   return (
     <section id="por-que-lemora" ref={root} className="bg-mist py-16">
-      <div className="mx-auto max-w-5xl px-4">
+      <div className="mx-auto max-w-6xl px-4 md:px-6">
         <div className="flex flex-col items-center gap-6 text-center">
           <div>
             <span
@@ -159,7 +159,7 @@ export default function ProblemaSolucion() {
       {/* Celular: las cards se apilan. Escritorio: tres columnas. */}
       <div
         data-reveal
-        className="mx-auto mt-4 flex max-w-7xl flex-col gap-4 px-4 md:mt-10 md:grid md:grid-cols-3 md:gap-6 md:px-6"
+        className="mx-auto mt-4 flex max-w-6xl flex-col gap-4 px-4 md:mt-10 md:grid md:grid-cols-3 md:gap-6 md:px-6"
       >
         {pares.map((par) => (
           <article

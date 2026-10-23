@@ -27,7 +27,7 @@ export default function BasicoPasos() {
 
   return (
     <section id="como-empezar" ref={root} className="bg-white py-16">
-      <div className="mx-auto max-w-5xl px-4">
+      <div className="mx-auto max-w-6xl px-4 md:px-6">
         <div className="text-center">
           <span
             data-reveal
