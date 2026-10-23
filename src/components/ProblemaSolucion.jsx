@@ -49,6 +49,8 @@ const pares = [
     imgSin: precios,
     altSin: "Un emprendedor preocupado frente a la computadora, mirando presupuestos",
     img: costos,
+    // La foto es más ancha que el cuadro: se corre a la derecha para que se vea "STREAMFLIX" completo.
+    pos: "md:object-[77%_20%]",
     alt: "Un emprendedor sonríe frente a su computadora, con una tele de fondo",
     problema: {
       title: "Precios que no tienen sentido",
@@ -173,7 +175,7 @@ export default function ProblemaSolucion() {
                 width="900"
                 height="560"
                 loading="lazy"
-                className="aspect-[3/2] w-full object-cover object-[50%_20%] md:aspect-[4/3]"
+                className={`aspect-[3/2] w-full object-cover object-[50%_20%] md:aspect-[4/3] ${par.pos ?? ""}`}
               />
               {/* El problema va encima y se desvanece al pasar a "Con Lemora". Si no hay una foto
                   propia del problema, se usa la misma en blanco y negro. */}
