@@ -118,7 +118,7 @@ export default function Features() {
           Todo lo que necesitás, integrado en nuestras webs.
         </h2>
 
-        <div className="mt-8 grid gap-6 md:grid-cols-2 md:items-center">
+        <div className="mt-8 grid gap-6 md:grid-cols-2 md:items-stretch">
           <div
             ref={frame}
             data-reveal
@@ -144,7 +144,7 @@ export default function Features() {
             {features.map((feature, i) => {
               const isOpen = activeIndex === i
               return (
-                <div key={feature.title}>
+                <div key={feature.title} className="md:flex md:flex-1 md:flex-col md:justify-center">
                   <button
                     type="button"
                     onClick={() => select(i)}
