@@ -69,7 +69,6 @@ export const plans = [
       { text: "Panel para gestión de clientes", isNew: true },
       { text: "Nuevo menú por categorías", isNew: true },
       { text: "Página dedicada para cada categoría", isNew: true },
-      { text: "Google Search Console", isNew: true },
       { text: "Barra promocional con tus propios mensajes, sin Lemora Ads", isNew: true },
     ],
     // TODO: reemplazar por el link real de suscripción de MercadoPago del plan Premium.
