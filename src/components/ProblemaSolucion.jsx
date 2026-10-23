@@ -159,7 +159,7 @@ export default function ProblemaSolucion() {
       {/* Celular: las cards se apilan. Escritorio: tres columnas. */}
       <div
         data-reveal
-        className="mx-auto mt-4 flex max-w-5xl flex-col gap-4 px-4 md:mt-10 md:grid md:grid-cols-3 md:gap-6"
+        className="mx-auto mt-4 flex max-w-7xl flex-col gap-4 px-4 md:mt-10 md:grid md:grid-cols-3 md:gap-6 md:px-6"
       >
         {pares.map((par) => (
           <article
@@ -173,7 +173,7 @@ export default function ProblemaSolucion() {
                 width="900"
                 height="560"
                 loading="lazy"
-                className="aspect-[16/9.9] w-full object-cover object-[50%_20%] md:aspect-[16/11]"
+                className="aspect-[3/2] w-full object-cover object-[50%_20%] md:aspect-[4/3]"
               />
               {/* El problema va encima y se desvanece al pasar a "Con Lemora". Si no hay una foto
                   propia del problema, se usa la misma en blanco y negro. */}
