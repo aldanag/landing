@@ -67,30 +67,6 @@ export default function Features() {
     setActiveIndex(i)
   }
 
-  // La imagen se mueve un poco más lento que la página, dentro de su marco.
-  useGSAP(
-    () => {
-      const mm = gsap.matchMedia()
-      mm.add(REDUCED_MOTION_OFF, () => {
-        gsap.fromTo(
-          frame.current.querySelector("[data-layer]"),
-          { yPercent: -4 },
-          {
-            yPercent: 4,
-            ease: "none",
-            scrollTrigger: {
-              trigger: frame.current,
-              start: "top bottom",
-              end: "bottom top",
-              scrub: true,
-            },
-          },
-        )
-      }, frame)
-    },
-    { scope: frame },
-  )
-
   // La imagen nueva entra con un barrido suave sobre la anterior.
   useGSAP(
     () => {
@@ -142,27 +118,23 @@ export default function Features() {
           Todo lo que necesitás, integrado en nuestras webs.
         </h2>
 
-        <div className="mt-8 grid gap-6 md:grid-cols-2 md:items-stretch">
+        <div className="mt-8 grid gap-6 md:grid-cols-2 md:items-center">
           <div
             ref={frame}
             data-reveal
-            className="group relative aspect-[4/3] overflow-hidden rounded-3xl bg-lavender md:aspect-auto md:min-h-[24rem]"
+            className="relative aspect-square overflow-hidden rounded-3xl bg-lavender"
           >
-            <div data-layer className="absolute inset-x-0 -inset-y-[5%]">
-            <div className="absolute inset-0 transition-[scale] duration-700 ease-out group-hover:scale-[1.03] motion-reduce:transition-none motion-reduce:group-hover:scale-100">
             {features.map((feature, i) => (
               <img
                 key={feature.title}
                 src={feature.image}
                 alt={feature.title}
                 loading="lazy"
-                className={`absolute inset-0 h-full w-full object-cover object-top ${
+                className={`absolute inset-0 h-full w-full object-contain ${
                   i === activeIndex || i === prevIndex ? "visible" : "invisible"
                 }`}
               />
             ))}
-            </div>
-            </div>
           </div>
 
           <div
