@@ -5,7 +5,7 @@ import carritoImg from "../assets/features/carrito.webp"
 import pedidosImg from "../assets/features/pedidos.webp"
 import bannersImg from "../assets/features/banners.webp"
 import preguntasImg from "../assets/features/preguntas.webp"
-import descuentosPendiente from "../assets/features/descuentos-pendiente.svg"
+import descuentosImg from "../assets/features/descuentos.webp"
 import {
   gsap,
   REDUCED_MOTION_OFF,
@@ -13,16 +13,6 @@ import {
   useGSAP,
   useReveal,
 } from "../lib/motion"
-
-// Captura de descuentos: guardala en src/assets/features/ como descuentos.webp (o .png/.jpg).
-// Mientras no esté, se ve una imagen provisoria.
-const descuentosImg =
-  Object.values(
-    import.meta.glob("../assets/features/descuentos.{webp,png,jpg}", {
-      eager: true,
-      import: "default",
-    }),
-  )[0] ?? descuentosPendiente
 
 // Capturas reales del producto (no stock). Copiadas del sitio actual.
 const features = [
