@@ -122,7 +122,7 @@ export default function Features() {
           <div
             ref={frame}
             data-reveal
-            className="relative aspect-square overflow-hidden rounded-3xl bg-lavender"
+            className="relative aspect-square overflow-hidden rounded-3xl bg-lavender shadow-xl shadow-primary/15 ring-1 ring-primary/20"
           >
             {features.map((feature, i) => (
               <img
