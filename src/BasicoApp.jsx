@@ -5,6 +5,7 @@ import Footer from "./components/Footer"
 import BasicoHero from "./basico/BasicoHero"
 import BasicoEjemplos from "./basico/BasicoEjemplos"
 import BasicoPara from "./basico/BasicoPara"
+import BasicoAsiSeVe from "./basico/BasicoAsiSeVe"
 import BasicoIncluye from "./basico/BasicoIncluye"
 import BasicoPasos from "./basico/BasicoPasos"
 import BasicoPrecio from "./basico/BasicoPrecio"
@@ -76,6 +77,7 @@ export default function BasicoApp() {
         <BasicoHero />
         <BasicoEjemplos />
         <BasicoPara />
+        <BasicoAsiSeVe />
         <BasicoIncluye />
         <BasicoPrecio />
         <BasicoPasos />
