@@ -32,7 +32,7 @@ export default function BasicoHero() {
   return (
     <section id="top" ref={root} className="px-3 pt-[4.5rem] md:px-5 md:pt-24">
       <div className="relative overflow-hidden rounded-[2rem] bg-lilac md:rounded-[2.5rem]">
-        <div className="mx-auto grid max-w-[88rem] items-center gap-8 px-5 py-10 lg:min-h-[34rem] md:grid-cols-[1.05fr_1fr] md:gap-4 md:px-10 md:py-14 lg:px-14">
+        <div className="mx-auto grid max-w-[88rem] items-center gap-8 px-5 py-10 lg:min-h-[31rem] md:grid-cols-[1.05fr_1fr] md:gap-4 md:px-10 md:py-14 lg:px-14">
           <div className="text-center md:text-left lg:max-w-[29rem]">
             <span
               data-reveal
@@ -90,7 +90,7 @@ export default function BasicoHero() {
           {/* Escena: el hombre cortado por el borde de abajo del panel, con un producto y un pedido. */}
           <div
             aria-hidden="true"
-            className="relative mx-auto -mb-10 h-[19rem] w-full max-w-md self-end md:-mb-14 md:h-[27rem] md:max-w-none lg:absolute lg:inset-y-0 lg:self-stretch lg:right-0 lg:mx-0 lg:mb-0 lg:h-auto lg:w-[min(57%,calc(100%-34rem))] lg:max-w-[800px]"
+            className="relative mx-auto -mb-10 h-[19rem] w-full max-w-md self-end md:-mb-14 md:h-[27rem] md:max-w-none lg:absolute lg:inset-y-0 lg:self-stretch lg:right-0 lg:mx-0 lg:mb-0 lg:h-auto lg:w-[min(50%,calc(100%-34rem))] lg:max-w-[680px]"
           >
             <svg
               viewBox="0 0 400 420"
