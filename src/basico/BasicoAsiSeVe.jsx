@@ -16,11 +16,22 @@ const fotosTienda = import.meta.glob("../assets/basico/tienda-*.{webp,png,jpg}",
 const fotoDe = (fotos, prefijo, n) =>
   Object.entries(fotos).find(([ruta]) => ruta.includes(`${prefijo}-${n}.`))?.[1]
 
+// `y` es la posición vertical (en px sobre una captura de unos 890 px de alto) del ítem del menú
+// lateral de cada pantalla: sobre ese ítem va el botón invisible para pasar a esa pantalla.
+const ALTO_CAPTURA = 892
 const pantallasPanel = [
-  { n: 1, label: "Colores y formatos", alt: "Panel de Lemora: colores de la marca y formato de las imágenes de los productos" },
-  { n: 2, label: "Logo y favicon", alt: "Panel de Lemora: logotipo, tamaño del logotipo y favicon de la tienda" },
-  { n: 3, label: "Productos", alt: "Panel de Lemora: listado de productos" },
-  { n: 4, label: "Nuevo producto", alt: "Panel de Lemora: formulario para crear un producto" },
+  { n: 1, label: "Dashboard", y: 154, alt: "Panel de Lemora: resumen de ingresos, pedidos y productos" },
+  { n: 2, label: "Productos", y: 250, alt: "Panel de Lemora: listado de productos" },
+  { n: 3, label: "Categorías", y: 301, alt: "Panel de Lemora: categorías del catálogo" },
+  { n: 4, label: "Pedidos", y: 351, alt: "Panel de Lemora: pedidos recibidos, por estado" },
+  { n: 5, label: "Descuentos", y: 402, alt: "Panel de Lemora: descuentos automáticos y compra mínima" },
+  { n: 6, label: "Reseñas", y: 452, alt: "Panel de Lemora: reseñas de clientes que se muestran en el inicio" },
+  { n: 7, label: "Diseño", y: 548, alt: "Panel de Lemora: identidad visual, logotipo y favicon" },
+  { n: 8, label: "Carrusel", y: 599, alt: "Panel de Lemora: carrusel de la portada de la tienda" },
+  { n: 9, label: "Banners", y: 649, alt: "Panel de Lemora: banners de la tienda" },
+  { n: 10, label: "Iconos", y: 700, alt: "Panel de Lemora: iconos de la página principal" },
+  { n: 11, label: "Configuración", y: 795, alt: "Panel de Lemora: datos generales de la tienda" },
+  { n: 12, label: "Mi cuenta", y: 846, alt: "Panel de Lemora: datos de la cuenta, contraseña y cambio de plan" },
 ]
 const pantallasTienda = [
   { n: 1, label: "Inicio", alt: "La tienda terminada: página de inicio" },
@@ -57,6 +68,8 @@ export default function BasicoAsiSeVe() {
 
   const pestana = pestanas.find((p) => p.id === activa)
   const indice = indices[activa]
+  const esPanel = activa === "panel"
+  const elegir = (i) => setIndices((prev) => ({ ...prev, [activa]: i }))
 
   return (
     <section id="asi-se-ve" ref={root} className="bg-mist py-16">
@@ -126,25 +139,43 @@ export default function BasicoAsiSeVe() {
 
           {/* Las capturas se apilan en la misma celda y se funden entre sí */}
           {pestana.pantallas.length > 0 ? (
-            <div className="grid bg-white">
-              {pestana.pantallas.map((p, i) => (
-                <img
-                  key={`${pestana.id}-${p.n}`}
-                  src={p.foto}
-                  alt={i === indice ? p.alt : ""}
-                  loading="lazy"
-                  decoding="async"
-                  className={`col-start-1 row-start-1 block aspect-[17/10] w-full object-cover object-left-top transition-opacity duration-500 motion-reduce:transition-none ${
-                    i === indice ? "opacity-100" : "pointer-events-none opacity-0"
-                  }`}
-                />
-              ))}
+            <div className="relative">
+              <div className="grid bg-white">
+                {pestana.pantallas.map((p, i) => (
+                  <img
+                    key={`${pestana.id}-${p.n}`}
+                    src={p.foto}
+                    alt={i === indice ? p.alt : ""}
+                    loading="lazy"
+                    decoding="async"
+                    className={`col-start-1 row-start-1 block aspect-[2.13/1] w-full object-cover object-left-top transition-opacity duration-500 motion-reduce:transition-none ${
+                      i === indice ? "opacity-100" : "pointer-events-none opacity-0"
+                    }`}
+                  />
+                ))}
+              </div>
+              {/* Menú del panel clickeable: botones invisibles sobre cada ítem del menú lateral */}
+              {esPanel &&
+                pestana.pantallas.map((p, i) => (
+                  <button
+                    key={`menu-${p.n}`}
+                    type="button"
+                    aria-label={`Ver ${p.label}`}
+                    aria-current={i === indice ? "true" : undefined}
+                    onClick={() => elegir(i)}
+                    style={{
+                      top: `${((p.y - 25) / ALTO_CAPTURA) * 100}%`,
+                      height: `${(50 / ALTO_CAPTURA) * 100}%`,
+                    }}
+                    className="absolute left-[0.7%] hidden w-[15.6%] cursor-pointer rounded-xl transition-colors duration-200 hover:bg-primary/10 focus-ring motion-reduce:transition-none md:block"
+                  />
+                ))}
             </div>
           ) : (
             <div
               role="img"
               aria-label={`Lugar para: ${pestana.pendiente}`}
-              className="flex aspect-[17/10] w-full flex-col items-center justify-center gap-3 bg-primary-tint p-8 text-center text-primary"
+              className="flex aspect-[2.13/1] w-full flex-col items-center justify-center gap-3 bg-primary-tint p-8 text-center text-primary"
             >
               <FontAwesomeIcon icon={faImage} className="h-12 w-12" aria-hidden="true" />
               <p className="text-sm font-bold uppercase tracking-[0.09em]">{pestana.pendiente}</p>
@@ -155,14 +186,24 @@ export default function BasicoAsiSeVe() {
           )}
         </div>
 
+        {esPanel && pestana.pantallas.length > 1 && (
+          <p data-reveal className="mt-4 hidden text-center text-sm font-semibold text-ink-muted md:block">
+            Hacé clic en el menú para explorar el panel.
+          </p>
+        )}
+
+        {/* En el celular el menú de la captura es muy chico: se navega con estos botones */}
         {pestana.pantallas.length > 1 && (
-          <div data-reveal className="mt-5 flex flex-wrap justify-center gap-2">
+          <div
+            data-reveal
+            className={`mt-5 flex flex-wrap justify-center gap-2 ${esPanel ? "md:hidden" : ""}`}
+          >
             {pestana.pantallas.map((p, i) => (
               <button
                 key={p.n}
                 type="button"
                 aria-pressed={i === indice}
-                onClick={() => setIndices((prev) => ({ ...prev, [activa]: i }))}
+                onClick={() => elegir(i)}
                 className={`rounded-full px-4 py-1.5 text-[13px] font-semibold ring-1 transition-colors duration-300 focus-ring motion-reduce:transition-none ${
                   i === indice
                     ? "bg-primary-tint text-primary ring-primary/40"
