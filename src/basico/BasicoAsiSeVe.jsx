@@ -139,7 +139,7 @@ export default function BasicoAsiSeVe() {
 
           {/* Las capturas se apilan en la misma celda y se funden entre sí */}
           {pestana.pantallas.length > 0 ? (
-            <div className="relative">
+            <div className="relative" style={{ containerType: "inline-size" }}>
               <div className="grid bg-white">
                 {pestana.pantallas.map((p, i) => (
                   <img
@@ -164,10 +164,12 @@ export default function BasicoAsiSeVe() {
                     aria-current={i === indice ? "true" : undefined}
                     onClick={() => elegir(i)}
                     style={{
-                      top: `${((p.y - 25) / ALTO_CAPTURA) * 100}%`,
-                      height: `${(50 / ALTO_CAPTURA) * 100}%`,
+                      top: `${((p.y - 24) / ALTO_CAPTURA) * 100}%`,
+                      height: `${(48 / ALTO_CAPTURA) * 100}%`,
+                      // mismo radio que el ítem activo de la captura (12 px sobre 1917 px de ancho)
+                      borderRadius: "0.63cqw",
                     }}
-                    className="absolute left-[0.7%] hidden w-[15.6%] cursor-pointer rounded-xl transition-colors duration-200 hover:bg-primary/10 focus-ring motion-reduce:transition-none md:block"
+                    className="absolute left-[0.7%] hidden w-[15.6%] cursor-pointer transition-colors duration-200 hover:bg-primary/10 focus-ring motion-reduce:transition-none md:block"
                   />
                 ))}
             </div>
