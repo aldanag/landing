@@ -26,7 +26,7 @@ const bloques = [
     body: "Subí tu logo, elegí tus colores y mirá al instante cómo queda tu tienda. Sin código y sin depender de nadie. Todo explicado paso a paso, simple.",
     incluye: [],
     sugerencia: "El panel con el logo cargándose, y cómo se ve la tienda",
-    alt: "Panel de Lemora donde se agrega el logo, junto a cómo se ve la tienda",
+    alt: "Panel de diseño de Lemora para cargar el logo y elegir el color de la marca, junto a cómo queda en la tienda",
   },
   {
     n: 2,
