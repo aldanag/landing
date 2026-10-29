@@ -7,7 +7,7 @@ Fuente de verdad para editar el sitio. Los tokens viven en `src/index.css` (`@th
 | Token | Valor | Rol |
 |---|---|---|
 | `white` | #ffffff | Fondo de página y cards |
-| `mist` | #ebe8f2 | Fondos suaves, botón secundario |
+| `mist` | #efeafd | Fondos suaves, botón secundario |
 | `lavender` | #b9abf0 | Superficies grandes sin texto: marcos de imagen y fondos decorativos |
 | `lilac` | #e2d9ff | Bloques violetas con texto: cards de pasos, panel del plan Básico, llamados a la acción |
 | `primary` | #6c4fd4 | Botón primario (texto blanco), íconos, links, corona |
