@@ -17,6 +17,10 @@ export const peso = (n) => `$${Math.round(n).toLocaleString("es-AR")}`
 // Tienda de ejemplo del plan Básico. Premium todavía no tiene una: sin `ejemplo`, la tarjeta no muestra el chip.
 export const EJEMPLO_BASICO_LINK = "https://tommytommy.lemora.lat/"
 
+// Lo usa la página /basico/ (todavía con tiendas de relleno).
+// TODO: reemplazar por la URL real de una tienda de ejemplo.
+export const EJEMPLO_WEB_LINK = "#"
+
 // Las funciones que se comparan entre planes van en el mismo orden en las dos listas
 // (carrusel, banners y barra promocional); las exclusivas de Premium llevan isNew
 // (resaltadas).
