@@ -22,3 +22,6 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Temporales del generador de imágenes de Premium
+herramientas/premium-imagenes/_tmp/
