@@ -1,5 +1,6 @@
 import Nav from "./components/Nav"
-import FAQ, { faqsDefault } from "./components/FAQ"
+import FAQ from "./components/FAQ"
+import { faqsDefault } from "./lib/faqs"
 import TrialBanner from "./components/TrialBanner"
 import Footer from "./components/Footer"
 import BasicoHero from "./basico/BasicoHero"

@@ -66,7 +66,7 @@ const fade = "transition-[opacity,translate] duration-500 ease-out motion-reduce
 
 function Interruptor({ conLemora, onChange }) {
   const base =
-    "rounded-full px-4 py-2 text-sm font-semibold transition-colors duration-300 focus-ring motion-reduce:transition-none"
+    "min-h-10 rounded-full px-4 py-2 text-sm font-semibold transition-colors duration-300 focus-ring motion-reduce:transition-none"
   return (
     <div
       role="group"

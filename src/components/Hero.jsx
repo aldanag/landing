@@ -9,9 +9,7 @@ import chica1100 from "../assets/hero-mujer-1015.webp"
 import chica700 from "../assets/hero-mujer-660.webp"
 import { gsap, REDUCED_MOTION_OFF, REDUCED_MOTION_ON, useGSAP } from "../lib/motion"
 import Button from "./Button"
-
-const WHATSAPP_TRIAL_LINK =
-  "https://wa.me/543515957014?text=Hola,%20quiero%20probar%20Lemora%20gratis"
+import { WHATSAPP_TRIAL_LINK } from "../lib/planes"
 
 const fondoSrcSet = `${fondo1200} 1200w, ${fondo2000} 2000w`
 const chicaSrcSet = `${chica700} 509w, ${chica1100} 783w`

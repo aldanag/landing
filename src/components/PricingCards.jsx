@@ -1,6 +1,7 @@
 import { useRef, useState } from "react"
 import { gsap, REDUCED_MOTION_OFF, ScrollTrigger, useGSAP, useReveal } from "../lib/motion"
 import Button from "./Button"
+import CrownIcon from "./CrownIcon"
 import VerEjemplo from "./VerEjemplo"
 import { anualLink, peso, plans } from "../lib/planes"
 
@@ -12,23 +13,6 @@ function anualActions(plan) {
     external: true,
   }
   return plan.name === "Básico" ? [plan.actions[0], contratar] : [contratar]
-}
-
-function CrownIcon({ className }) {
-  return (
-    <svg
-      viewBox="0 0 24 24"
-      fill="currentColor"
-      stroke="currentColor"
-      strokeWidth="1.5"
-      strokeLinejoin="round"
-      aria-hidden="true"
-      className={className}
-    >
-      <path d="M3 7.5 7.5 11 12 4l4.5 7L21 7.5 19 18H5L3 7.5Z" />
-      <path d="M5 21h14" strokeLinecap="round" />
-    </svg>
-  )
 }
 
 export default function PricingCards() {
@@ -100,7 +84,7 @@ export default function PricingCards() {
                 type="button"
                 aria-pressed={anual === op.id}
                 onClick={() => setAnual(op.id)}
-                className={`flex items-center gap-2 rounded-full px-4 py-2 text-sm font-semibold transition-colors duration-300 focus-ring-light motion-reduce:transition-none ${
+                className={`flex min-h-10 items-center gap-2 rounded-full px-4 py-2 text-sm font-semibold transition-colors duration-300 focus-ring-light motion-reduce:transition-none ${
                   anual === op.id ? op.on : "text-ink-soft hover:text-ink"
                 }`}
               >
@@ -124,7 +108,7 @@ export default function PricingCards() {
                 plan.featured ? "ring-[3px] ring-accent" : ""
               }`}
             >
-              <div className="flex flex-wrap items-center gap-2">
+              <div className="flex min-h-10 flex-wrap items-center gap-2">
                 <h3 className="text-xl font-extrabold">{plan.name}</h3>
                 {plan.badge && (
                   <span className="rounded-full bg-lime px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.08em] sm:text-[11px] sm:tracking-[0.09em] text-ink">
@@ -132,7 +116,7 @@ export default function PricingCards() {
                   </span>
                 )}
                 {plan.crown && <CrownIcon className="h-5 w-5 text-primary" />}
-                <VerEjemplo plan={plan.name} />
+                {plan.ejemplo && <VerEjemplo plan={plan.name} href={plan.ejemplo} />}
               </div>
               <div className="mt-3 flex flex-wrap items-baseline gap-x-2 gap-y-1">
                 <p className="text-[32px] font-extrabold leading-none">
@@ -190,6 +174,14 @@ export default function PricingCards() {
                     )
                   })}
                 </ul>
+                {plan.verMas && (
+                  <a
+                    href="#premium"
+                    className="mt-1 inline-flex min-h-11 items-center text-sm font-semibold text-primary underline underline-offset-4 hover:text-primary-dark focus-ring"
+                  >
+                    {plan.verMas}
+                  </a>
+                )}
               </div>
 
               <div className="mt-6 flex flex-col gap-4">

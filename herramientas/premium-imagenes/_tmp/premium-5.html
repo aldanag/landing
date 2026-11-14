@@ -1,0 +1,50 @@
+<!doctype html><html><head><meta charset="utf-8">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&display=swap">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:1200px;height:1200px;overflow:hidden;font-family:'Manrope',system-ui,sans-serif;color:#17122F}
+.stage{position:relative;width:1200px;height:1200px;overflow:hidden;background:#17122F;
+  background-image:radial-gradient(ellipse 80% 70% at 20% 14%,rgba(108,79,212,.56),transparent 72%),
+  radial-gradient(ellipse 60% 55% at 96% 100%,rgba(185,171,240,.22),transparent 72%)}
+.trazo{position:absolute;opacity:.2}
+.card{position:absolute;background:#fff;border-radius:46px;padding:44px 48px;box-shadow:0 70px 110px -40px rgba(6,3,24,.95),0 36px 90px -34px rgba(108,79,212,.6),0 0 0 1px rgba(255,255,255,.1)}
+.h{font-size:40px;font-weight:800;letter-spacing:-.01em}
+.sub{font-size:21px;color:#6b6679;margin-top:8px;line-height:1.35}
+.lbl{font-size:19px;font-weight:600;color:#6b6679}
+.in{height:62px;border-radius:22px;background:#F6F3FF;box-shadow:inset 0 0 0 1.5px #E6E0F7;padding:0 22px;display:flex;align-items:center;font-size:23px;font-weight:600;gap:14px}
+.btn{height:64px;border-radius:22px;background:#6C4FD4;color:#fff;font-size:23px;font-weight:700;display:flex;align-items:center;justify-content:center;padding:0 34px}
+.btn.out{background:#fff;color:#17122F;box-shadow:inset 0 0 0 2px #E7E0FA}
+.chip{height:50px;border-radius:99px;padding:0 24px;display:flex;align-items:center;font-size:20px;font-weight:700;background:#F4F0FF;color:#4B33A8}
+.chip.on{background:#6C4FD4;color:#fff}
+.row{display:flex;align-items:center}.col{display:flex;flex-direction:column}
+.sticker{position:absolute;border-radius:30px;padding:34px 46px;color:#fff;transform:rotate(-6deg);
+  background:linear-gradient(135deg,#8269E0,#5B41C4);box-shadow:0 44px 70px -22px rgba(6,3,24,.8),0 0 70px -12px rgba(130,105,224,.7),inset 0 2px 0 rgba(255,255,255,.28),inset 0 -6px 14px rgba(40,20,110,.35);display:flex;flex-direction:column;align-items:center;gap:8px}
+.sticker b{font-size:58px;font-weight:800;line-height:1}
+.sticker small{font-size:19px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;opacity:.9}
+.pill{position:absolute;display:flex;align-items:center;gap:20px;background:#fff;color:#17122F;border-radius:40px;padding:22px 38px 22px 24px;font-size:31px;font-weight:700;box-shadow:0 40px 64px -26px rgba(6,3,24,.85),0 0 50px -14px rgba(185,171,240,.5),0 0 0 1px rgba(255,255,255,.12);white-space:nowrap}
+.pill i{width:58px;height:58px;border-radius:50%;background:#FF9A52;display:flex;align-items:center;justify-content:center;flex:none}
+.ph{background:linear-gradient(135deg,#E2D9FF,#B9ABF0);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;color:#4B33A8;text-align:center;overflow:hidden;position:relative}
+.ph svg{width:34px;height:34px;opacity:.85}.ph span{font-size:15px;font-weight:700;line-height:1.25;max-width:78%}
+.ph img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.ph{box-shadow:inset 0 0 0 1px rgba(255,255,255,.45),0 10px 22px -12px rgba(23,18,47,.35)}
+.phone{position:absolute;background:#3B3262;border-radius:78px;padding:17px;box-shadow:0 80px 120px -34px rgba(6,3,24,.95),0 40px 100px -30px rgba(108,79,212,.65),inset 0 0 0 2px rgba(255,255,255,.22),inset 0 3px 0 rgba(255,255,255,.3)}
+.screen{background:#fff;border-radius:62px;overflow:hidden;position:relative}
+.status{height:78px;display:flex;align-items:center;justify-content:space-between;padding:6px 40px 0 44px;font-weight:800;font-size:24px;position:relative;background:#fff}
+.island{position:absolute;left:50%;top:18px;width:28%;height:40px;border-radius:30px;background:#0b0818;transform:translateX(-50%)}
+.bat{width:42px;height:21px;border:2px solid #17122F;border-radius:7px;position:relative;margin-left:8px}.bat:after{content:"";position:absolute;inset:2px;background:#17122F;border-radius:3px}
+.bars{display:flex;align-items:flex-end;gap:3px;height:22px}.bars i{display:block;width:5px;background:#17122F;border-radius:2px}
+.tienda-barra{height:50px;display:flex;align-items:center;justify-content:center;gap:34px;font-size:17px;font-weight:700;white-space:nowrap;overflow:hidden}
+.tienda-head{height:84px;display:flex;align-items:center;justify-content:space-between;padding:0 34px;background:#fff}
+.logo{font-size:23px;font-weight:800;letter-spacing:.26em;white-space:nowrap}
+.tienda-iconos{display:flex;gap:26px}.tienda-iconos svg{width:34px;height:34px}
+table{border-collapse:collapse;width:100%}th{font-size:16px;letter-spacing:.07em;text-align:left;color:#6b6679;font-weight:800;padding:14px 12px;background:#FAF8FF}
+td{font-size:21px;font-weight:600;padding:14px 12px;border-top:1px solid #EFEAFB}
+.ok{display:inline-block;background:#DCFCE7;color:#15803D;border-radius:99px;padding:6px 16px;font-size:17px;font-weight:700}
+.thumb{width:58px;height:58px;border-radius:14px}
+.sw{width:50px;height:50px;border-radius:50%;box-shadow:inset 0 0 0 2px rgba(23,18,47,.12)}
+</style></head><body><div class="stage"><svg class="trazo" style="left:-80px;top:700px" width="360" height="540" viewBox="0 0 286 430" fill="none" overflow="visible"><path d="M313.2 425.5C294.6 387 251.8 351.2 215.3 334.7M215.3 334.7C200.8 328.1 187.3 324.5 176.7 325.1C140 324.9 117 350.2 127.2 370.6C139.8 398 167.2 390.1 193.1 363.7C202.3 354.6 209.9 344.8 215.3 334.7ZM215.3 334.7C227.3 312.3 228.9 288.7 215.1 270.6C197.3 246.5 165 244.9 136.4 226.3C69.6 184.2 30 101.1 13.9 3.6" stroke="#CFC3F7" stroke-width="27.9" stroke-linecap="round"/></svg><div class="card" style="left:60px;top:210px;width:1080px;padding:44px 48px 40px">
+      <div class="row" style="justify-content:space-between"><div><div class="h">Clientes</div><div class="sub">Quiénes te compran y sus datos.</div></div>
+      <div class="btn" style="gap:12px"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11m0 0 4-4m-4 4-4-4M5 20h14"/></svg>Exportar clientes</div></div>
+      <table style="margin-top:26px"><tr><th>CLIENTE</th><th>EMAIL</th><th>TELÉFONO</th><th style="text-align:center">PEDIDOS</th></tr><tr><td><b>Camila Ríos</b></td><td>camila@correo.com</td><td>351 555 0123</td><td style="text-align:center">4</td></tr><tr><td><b>Lucas Pereyra</b></td><td>lucas.p@correo.com</td><td>351 555 0187</td><td style="text-align:center">2</td></tr><tr><td><b>Sofía Medina</b></td><td>sofi.medina@correo.com</td><td>351 555 0142</td><td style="text-align:center">7</td></tr><tr><td><b>Mateo Acosta</b></td><td>mateo@correo.com</td><td>351 555 0166</td><td style="text-align:center">1</td></tr></table></div><div class="card" style="left:640px;top:820px;width:520px;padding:30px 36px">
+      <div class="row" style="gap:20px"><span class="ph" style="width:72px;height:72px;border-radius:20px;color:#4B33A8"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11m0 0 4-4m-4 4-4-4M5 20h14"/></svg></span>
+      <div class="col"><b style="font-size:26px">clientes.csv</b><span class="lbl">Listo para tu email marketing</span></div></div></div><div class="sticker" style="left:80px;top:60px"><b>Exportá</b><small>Para email marketing</small></div><div class="pill" style="left:70px;top:900px;font-size:27px"><i><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#17122F" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></i>Tus clientes, en un solo lugar</div></div></body></html>

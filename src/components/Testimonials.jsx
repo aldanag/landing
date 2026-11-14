@@ -1,10 +1,13 @@
 import { useRef } from "react"
-import testimonioCarolina from "../assets/testimonio-carolina.jpg"
+import testimonioCarolina from "../assets/testimonio-carolina.webp"
 import testimonioAldana from "../assets/testimonio-aldana.jpg"
 import { useReveal } from "../lib/motion"
+import { WHATSAPP_TRIAL_LINK } from "../lib/planes"
+import Button from "./Button"
 
-// Testimonios reales solamente. Los pendientes quedan como placeholder:
-// no completar con datos, nombres ni métricas inventadas.
+// Testimonios reales solamente: no completar con datos, nombres ni métricas inventadas.
+// Mientras falta uno, el último lugar es una invitación a ser el próximo; cuando haya otro testimonio
+// real, se suma a la lista de arriba y se saca esa tarjeta.
 const testimonios = [
   {
     quote:
@@ -21,8 +24,6 @@ const testimonios = [
     photo: testimonioAldana,
   },
 ]
-
-const pendientes = [1]
 
 export default function Testimonials() {
   const root = useRef(null)
@@ -86,34 +87,25 @@ export default function Testimonials() {
             </figure>
           ))}
 
-          {pendientes.map((n) => (
-            <div
-              key={n}
-              data-reveal
-              className="flex flex-col justify-between gap-8 rounded-3xl border border-dashed border-primary/30 p-6"
-            >
-              <div>
-                <span
-                  className="font-heading text-4xl leading-none text-ink/20"
-                  aria-hidden="true"
-                >
-                  &ldquo;
-                </span>
-                <p className="mt-2 text-lg font-medium leading-snug text-ink-muted">
-                  [Completar — testimonio real de una clienta/e]
-                </p>
-              </div>
-              <div className="flex items-center gap-3">
-                <span
-                  className="h-12 w-12 flex-none rounded-full bg-mist"
-                  aria-hidden="true"
-                />
-                <p className="text-[12.5px] text-ink-muted">
-                  [Nombre — nombre de tienda]
-                </p>
-              </div>
+          <div
+            data-reveal
+            className="flex flex-col justify-between gap-8 rounded-3xl bg-lilac p-6 transition-transform duration-300 ease-out hover:-translate-y-1 motion-reduce:transition-none motion-reduce:hover:transform-none"
+          >
+            <div>
+              <span className="font-heading text-4xl leading-none text-primary" aria-hidden="true">
+                &ldquo;
+              </span>
+              <p className="mt-2 text-lg font-medium leading-snug text-ink">
+                El próximo testimonio puede ser el tuyo.
+              </p>
+              <p className="mt-2 text-[15px] text-ink-soft">
+                Probá Lemora gratis durante 1 mes. No te pedimos la tarjeta.
+              </p>
             </div>
-          ))}
+            <Button href={WHATSAPP_TRIAL_LINK} external variant="primary" block>
+              Probar gratis 1 mes
+            </Button>
+          </div>
         </div>
       </div>
     </section>

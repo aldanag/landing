@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faArrowUpRightFromSquare, faImage } from "@fortawesome/free-solid-svg-icons"
 import { useReveal } from "../lib/motion"
 import Button from "../components/Button"
-import { EJEMPLO_WEB_LINK } from "../lib/planes"
+import { EJEMPLO_BASICO_LINK } from "../lib/planes"
 
 // Mockups de las tiendas de ejemplo: guardalos en src/assets/basico/ como ejemplo-1, ejemplo-2 y
 // ejemplo-3 (.webp, .png o .jpg, de 1000 px de ancho o más, cualquier proporción). La página los
@@ -16,9 +16,9 @@ const fotoDe = (n) => Object.entries(fotos).find(([ruta]) => ruta.includes(`ejem
 
 // TODO: completar el nombre, el rubro y el link real de cada tienda de ejemplo.
 const tiendas = [
-  { n: 1, nombre: "Nombre de la tienda", rubro: "Rubro", href: EJEMPLO_WEB_LINK },
-  { n: 2, nombre: "Nombre de la tienda", rubro: "Rubro", href: EJEMPLO_WEB_LINK },
-  { n: 3, nombre: "Nombre de la tienda", rubro: "Rubro", href: EJEMPLO_WEB_LINK },
+  { n: 1, nombre: "Tommy Tommy", rubro: "Pizzería", href: EJEMPLO_BASICO_LINK },
+  { n: 2, nombre: "Nombre de la tienda", rubro: "Rubro", href: "#" },
+  { n: 3, nombre: "Nombre de la tienda", rubro: "Rubro", href: "#" },
 ]
 
 export default function BasicoEjemplos() {

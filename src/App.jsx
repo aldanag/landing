@@ -4,6 +4,7 @@ import HowItWorks from "./components/HowItWorks"
 import ProblemaSolucion from "./components/ProblemaSolucion"
 import TrialBanner from "./components/TrialBanner"
 import Features from "./components/Features"
+import FuncionesPremium from "./components/FuncionesPremium"
 import Testimonials from "./components/Testimonials"
 import PricingCards from "./components/PricingCards"
 import FAQ from "./components/FAQ"
@@ -12,13 +13,20 @@ import Footer from "./components/Footer"
 function App() {
   return (
     <>
+      <a
+        href="#contenido"
+        className="fixed left-4 top-4 z-[60] -translate-y-24 rounded-full bg-ink px-5 py-2.5 text-sm font-semibold text-white focus:translate-y-0 focus-ring"
+      >
+        Saltar al contenido
+      </a>
       <Nav />
-      <main>
+      <main id="contenido">
         <Hero />
         <HowItWorks />
         <ProblemaSolucion />
         <TrialBanner />
         <Features />
+        <FuncionesPremium />
         <Testimonials />
         <PricingCards />
         <FAQ />

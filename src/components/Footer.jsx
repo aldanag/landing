@@ -2,13 +2,12 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faInstagram, faTiktok } from "@fortawesome/free-brands-svg-icons"
 import logo from "../assets/lemora-logo.svg"
 import Button from "./Button"
-
-const WHATSAPP_TRIAL_LINK =
-  "https://wa.me/543515957014?text=Hola,%20quiero%20probar%20Lemora%20gratis"
+import { WHATSAPP_TRIAL_LINK } from "../lib/planes"
 
 const explorarDefault = [
   { label: "Cómo funciona", href: "#como-funciona" },
   { label: "Funciones", href: "#funciones" },
+  { label: "Premium", href: "#premium" },
   { label: "Planes", href: "#planes" },
   { label: "Preguntas frecuentes", href: "#faq" },
 ]
@@ -30,7 +29,7 @@ const redes = [
 const YEAR = new Date().getFullYear()
 
 const linkClass =
-  "rounded text-[15px] text-white/70 transition-colors hover:text-white focus-ring-light"
+  "inline-flex min-h-11 items-center rounded text-[15px] text-white/70 transition-colors hover:text-white focus-ring-light"
 
 function Column({ title, children }) {
   return (
@@ -38,7 +37,7 @@ function Column({ title, children }) {
       <h3 className="text-[13px] font-semibold uppercase tracking-[0.09em] text-white/50">
         {title}
       </h3>
-      <ul className="mt-5 space-y-3">{children}</ul>
+      <ul className="mt-3">{children}</ul>
     </div>
   )
 }
@@ -123,7 +122,7 @@ export default function Footer({ explorar = explorarDefault }) {
                         target="_blank"
                         rel="noopener noreferrer"
                         aria-label={red.label}
-                        className="flex h-10 w-10 items-center justify-center rounded-full bg-white/10 text-white/80 transition-colors hover:bg-white hover:text-ink focus-ring-light"
+                        className="flex h-11 w-11 items-center justify-center rounded-full bg-white/10 text-white/80 transition-colors hover:bg-white hover:text-ink focus-ring-light"
                       >
                         <FontAwesomeIcon icon={red.icon} className="h-[18px] w-[18px]" aria-hidden="true" />
                       </a>

@@ -12,10 +12,10 @@ const variants = {
 }
 
 const sizes = {
-  sm: "px-5 py-2 text-sm",
-  md: "px-6 py-2.5 text-[15px]",
-  lg: "px-8 py-3 text-[15px]",
-  chip: "px-3 py-1.5 text-[13px]",
+  sm: "min-h-10 px-5 py-2 text-sm",
+  md: "min-h-11 px-6 py-2.5 text-[15px]",
+  lg: "min-h-11 px-8 py-3 text-[15px]",
+  chip: "min-h-10 px-3 py-1.5 text-[13px]",
 }
 
 export default function Button({

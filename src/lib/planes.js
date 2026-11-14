@@ -14,8 +14,8 @@ export const anualLink = (plan) =>
 
 export const peso = (n) => `$${Math.round(n).toLocaleString("es-AR")}`
 
-// TODO: reemplazar por la URL real de una tienda de ejemplo.
-export const EJEMPLO_WEB_LINK = "#"
+// Tienda de ejemplo del plan Básico. Premium todavía no tiene una: sin `ejemplo`, la tarjeta no muestra el chip.
+export const EJEMPLO_BASICO_LINK = "https://tommytommy.lemora.lat/"
 
 // Las funciones que se comparan entre planes van en el mismo orden en las dos listas
 // (carrusel, banners y barra promocional); las exclusivas de Premium llevan isNew
@@ -28,6 +28,8 @@ export const plans = [
     mensual: 9000,
     anual: 96000,
     commitment: "Contratación mínima: 1 mes",
+    ejemplo: EJEMPLO_BASICO_LINK,
+    verMas: "Mirá lo que suma Premium",
     features: [
       "Cargá productos o servicios ilimitados",
       "Gestión de pedidos",
@@ -65,12 +67,13 @@ export const plans = [
     features: [
       { text: "Carrusel de hasta 12 imágenes", strong: "12 imágenes" },
       { text: "5 banners promocionales", strong: "5" },
-      { text: "Gestión de inventario por categorías", isNew: true },
-      { text: "Panel para gestión de clientes", isNew: true },
-      { text: "Nuevo menú por categorías", isNew: true },
-      { text: "Página dedicada para cada categoría", isNew: true },
-      { text: "Barra promocional con tus propios mensajes, sin Lemora Ads", isNew: true },
+      { text: "Inventario por categorías, con edición rápida de stock", isNew: true },
+      { text: "Panel de clientes, con exportación para email marketing", isNew: true },
+      { text: "Menú por categorías en tu tienda", isNew: true },
+      { text: "Página propia para cada categoría, con imagen", isNew: true },
+      { text: "Barra promocional con tus mensajes y tu color, sin Lemora Ads", isNew: true },
     ],
+    verMas: "Ver todas las funciones Premium",
     // TODO: reemplazar por el link real de suscripción de MercadoPago del plan Premium.
     actions: [{ label: "Suscribirme", href: "#registro", external: false }],
     featured: true,

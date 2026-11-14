@@ -121,6 +121,7 @@ export default function TrialBanner() {
                   alt=""
                   width="560"
                   height="567"
+                  loading="lazy"
                   className="absolute inset-0 w-full opacity-0"
                 />
                 <img
@@ -129,6 +130,7 @@ export default function TrialBanner() {
                   alt=""
                   width="560"
                   height="567"
+                  loading="lazy"
                   className="w-full"
                 />
               </div>

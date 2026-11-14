@@ -13,7 +13,7 @@ const steps = [
     labelClass: "text-ink",
     iconClass: "bg-ink text-white",
     icon: (
-      <svg viewBox="0 0 24 24" fill="none" className="h-4 w-4 transition-transform duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] motion-reduce:transition-none group-hover:rotate-90 motion-reduce:group-hover:rotate-0">
+      <svg viewBox="0 0 24 24" fill="none" className="h-4 w-4 transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] motion-reduce:transition-none group-hover:rotate-90 motion-reduce:group-hover:rotate-0">
         <path
           d="M12 5v14M5 12h14"
           stroke="currentColor"
@@ -54,7 +54,7 @@ const steps = [
     labelClass: "text-ink",
     iconClass: "bg-ink text-white",
     icon: (
-      <svg viewBox="0 0 24 24" fill="none" className="h-4 w-4 transition-transform duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] motion-reduce:transition-none group-hover:translate-x-0.5 motion-reduce:group-hover:translate-x-0">
+      <svg viewBox="0 0 24 24" fill="none" className="h-4 w-4 transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] motion-reduce:transition-none group-hover:translate-x-0.5 motion-reduce:group-hover:translate-x-0">
         <path
           d="M4 12h13m0 0-5-5m5 5-5 5"
           stroke="currentColor"
@@ -83,7 +83,7 @@ const steps = [
     labelClass: "text-ink",
     iconClass: "bg-ink text-white",
     icon: (
-      <svg viewBox="0 0 24 24" fill="none" className="h-4 w-4 transition-transform duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] motion-reduce:transition-none group-hover:-rotate-6 group-hover:scale-110 motion-reduce:group-hover:rotate-0 motion-reduce:group-hover:scale-100">
+      <svg viewBox="0 0 24 24" fill="none" className="h-4 w-4 transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] motion-reduce:transition-none group-hover:-rotate-6 group-hover:scale-110 motion-reduce:group-hover:rotate-0 motion-reduce:group-hover:scale-100">
         <path
           d="M4 4h16v12H8l-4 4V4Z"
           stroke="currentColor"

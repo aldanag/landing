@@ -1,13 +1,12 @@
 import { useEffect, useState } from "react"
 import logo from "../assets/lemora-logo.svg"
 import Button from "./Button"
-
-const WHATSAPP_TRIAL_LINK =
-  "https://wa.me/543515957014?text=Hola,%20quiero%20probar%20Lemora%20gratis"
+import { WHATSAPP_TRIAL_LINK } from "../lib/planes"
 
 const defaultLinks = [
   { label: "Cómo funciona", href: "#como-funciona" },
   { label: "Funciones", href: "#funciones" },
+  { label: "Premium", href: "#premium" },
   { label: "Planes", href: "#planes" },
   { label: "Preguntas", href: "#faq" },
 ]

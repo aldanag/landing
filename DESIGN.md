@@ -29,7 +29,7 @@ Lemora es una tienda online por membresía para emprendedores de Latinoamérica:
 - Solo afirmaciones verdaderas. Los datos que se pueden repetir: sin comisiones por venta, sin tarjeta para el mes de prueba, Básico $9.000/mes con contratación mínima de 1 mes, Premium $15.000/mes con contratación mínima de 3 meses, pedidos por WhatsApp, cobro por MercadoPago. No inventes cifras, calificaciones con estrellas ni cantidades de tiendas.
 - Los testimonios son siempre reales, con nombre, rubro o tienda y foto si existe. Un testimonio pendiente va como lugar marcado con `[Completar]`, nunca con datos inventados.
 - Evitá jerga técnica ("marquee", "popup", "slides") en textos nuevos: el carrusel se cuenta en "imágenes", no en "slides". Si un plan ya usa la jerga, se respeta.
-- Pendiente de decidir: el mes gratis se nombra "1 mes" en botones y planes y "30 días" en el título del banner. Elegí una sola forma y usala en todo el sitio.
+- El mes gratis se nombra siempre "1 mes" (botones, banner y planes). No uses "30 días".
 
 ## Fundamentos visuales
 
@@ -42,7 +42,8 @@ Lemora es una tienda online por membresía para emprendedores de Latinoamérica:
 - **Sombras.** Solo `shadow-card` sobre fondos oscuros o de color, y `shadow-nav` en el menú contraído. Sin sombras duras desplazadas ni bordes laterales de color en las cards.
 - **Menú.** Es una píldora blanca. Arriba del todo ocupa el ancho del Hero y sin sombra. Al scrollear se contrae a un ancho de 4xl y suma `shadow-nav`.
 - **Foco.** Todo elemento interactivo usa un contorno sólido de 2px en `ink` con 2px de separación.
-- **Movimiento.** Una sola entrada en el Hero: el título sube línea por línea y el resto aparece con un pequeño retraso. Las secciones aparecen una vez al entrar en pantalla (28px hacia arriba, 1s, curva `expo.out`). Con "reducir movimiento" activado no se anima nada y todo se ve.
+- **Movimiento.** Una sola entrada en el Hero: el título sube línea por línea y el resto aparece con un pequeño retraso. Las secciones aparecen una vez al entrar en pantalla (28px hacia arriba, 1s, curva `expo.out`). Con "reducir movimiento" activado no hay desplazamientos: el contenido aparece con un fundido suave al entrar en pantalla. Nada de rebotes ni curvas elásticas: solo `expo.out` o similares.
+- **Saltar al contenido.** El primer elemento enfocable de la página es el link "Saltar al contenido" (`#contenido`, el `<main>`).
 - **Botones.** Un solo componente, con cuatro variantes por rol (`primary` violeta, `secondary` mist, `dark` ink, `chip`) y tres tamaños por lugar (`sm` menú, `md` cards, `lg` Hero). Peso 600 en todos, mismo hover y mismo foco. Detalle completo en el componente Button.
 - **Botones apilados.** En una card, el botón principal (`primary`, violeta) va arriba y el secundario (`mist`) abajo, ambos al ancho de la card. El aviso "No te pedimos la tarjeta" va centrado justo sobre el botón de prueba.
 
