@@ -2,6 +2,7 @@
 
 Cada imagen es un HTML de 1200x1200 que se saca a WebP con Playwright y queda en src/assets/premium/
 (premium-1.webp ... premium-7.webp): la landing las toma sola.
+Con --claro se generan las de la variante de prueba con fondo lila, en src/assets/premium-b/.
 
 Las fotos de productos todavía no están: donde van aparecen lugares marcados con lo que iría ahí.
 Cuando haya fotos, se ponen en FOTOS (arriba) con la ruta del archivo y se vuelve a correr:
@@ -17,7 +18,8 @@ from PIL import Image
 from playwright.sync_api import sync_playwright
 
 RAIZ = pathlib.Path(__file__).resolve().parents[2]
-SALIDA = RAIZ / "src" / "assets" / "premium"
+CLARO = "--claro" in sys.argv  # variante de prueba: imágenes con fondo lila (van a src/assets/premium-b)
+SALIDA = RAIZ / "src" / "assets" / ("premium-b" if CLARO else "premium")
 TMP = pathlib.Path(__file__).parent / "_tmp"
 
 # Cuando haya fotos: clave = el nombre del lugar (ver cada escena), valor = ruta del archivo.
@@ -75,8 +77,21 @@ table{border-collapse:collapse;width:100%}th{font-size:16px;letter-spacing:.07em
 td{font-size:21px;font-weight:600;padding:14px 12px;border-top:1px solid #EFEAFB}
 .ok{display:inline-block;background:#DCFCE7;color:#15803D;border-radius:99px;padding:6px 16px;font-size:17px;font-weight:700}
 .thumb{width:58px;height:58px;border-radius:14px}
+.tog{width:84px;height:48px;border-radius:99px;background:#6C4FD4;position:relative;flex:none}.tog:after{content:"";position:absolute;right:6px;top:6px;width:36px;height:36px;border-radius:50%;background:#fff}.tog.off{background:#D9D2EF}.tog.off:after{right:auto;left:6px}
+.barra{height:16px;border-radius:99px;background:#EFEAFB;overflow:hidden}.barra i{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,#8269E0,#6C4FD4)}
 .sw{width:50px;height:50px;border-radius:50%;box-shadow:inset 0 0 0 2px rgba(23,18,47,.12)}
 """
+
+if CLARO:
+    CSS += """
+.stage{background:linear-gradient(180deg,#EFEBFC 0%,#D8CEF5 100%)}
+.trazo{opacity:.55}.trazo path{stroke:#B9ABF0}
+.card{box-shadow:0 40px 70px -34px rgba(76,52,170,.38),0 0 0 1px rgba(108,79,212,.10)}
+.sticker{box-shadow:0 34px 56px -22px rgba(76,52,170,.55),inset 0 2px 0 rgba(255,255,255,.28),inset 0 -6px 14px rgba(40,20,110,.3)}
+.pill{box-shadow:0 30px 52px -26px rgba(76,52,170,.4),0 0 0 1px rgba(108,79,212,.1)}
+.phone{box-shadow:0 60px 90px -34px rgba(76,52,170,.5),inset 0 0 0 2px rgba(255,255,255,.22),inset 0 3px 0 rgba(255,255,255,.3)}
+"""
+
 
 ICONO_FOTO = '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M4 5h16a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2Zm4.5 3a1.8 1.8 0 1 0 0 3.6 1.8 1.8 0 0 0 0-3.6ZM4 17h16l-5.2-6.5-3.6 4.4-2.4-2.9L4 17Z"/></svg>'
 CHECK = '<svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#17122F" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>'
@@ -126,8 +141,73 @@ def pagina(cuerpo):
 
 
 # ------------------------------------------------------------------ las 7 escenas
+CAMPANA = '<svg viewBox="0 0 24 24" fill="#17122F" width="34" height="34"><path d="M12 22a2.4 2.4 0 0 0 2.4-2.4h-4.8A2.4 2.4 0 0 0 12 22Zm7-6.6V11a7 7 0 0 0-5.4-6.8V3.4a1.6 1.6 0 0 0-3.2 0v.8A7 7 0 0 0 5 11v4.4l-1.8 1.8V18h17.6v-.8L19 15.4Z"/></svg>'
+
+
+def producto_fila(clave, i, precio):
+    return (f'<div class="row" style="gap:20px;padding:16px 0;border-top:1px solid #EFEAFB">'
+            f'{foto(clave + str(i), "producto", "width:86px;height:86px;border-radius:20px")}'
+            f'<div class="col" style="flex:1"><b style="font-size:25px">Producto {i}</b><span class="lbl">Cantidad: 1</span></div>'
+            f'<b style="font-size:25px">{precio}</b></div>')
+
+
 def escena_1():
-    """Sin Lemora Ads, con tu propia barra."""
+    """Menú y página para cada categoría, con filtrador."""
+    prods = "".join(
+        f'<div class="col" style="flex:1;gap:8px">{foto("cat-prod" + str(i), "producto " + str(i), "height:190px;border-radius:22px")}'
+        f'<b style="font-size:21px">Producto {i}</b><span style="color:#6C4FD4;font-weight:800;font-size:21px">$0.000</span></div>'
+        for i in (1, 2, 3))
+    chips = '<span class="chip on">Todos</span><span class="chip">Precio</span><span class="chip">Más nuevos</span>'
+    pagina_cat = tarjeta("left:60px;top:290px;width:700px;padding:0;overflow:hidden;border-radius:44px", f"""
+      <div class="row" style="gap:44px;padding:24px 36px;border-bottom:1px solid #EFEAFB"><span class="logo" style="font-size:22px">TU TIENDA</span><span class="row" style="gap:24px;font-size:20px;font-weight:700"><span>Inicio</span><span style="color:#6C4FD4">Cocina</span><span>Living</span></span></div>
+      {foto("cat-banner", "imagen de la categoría (banner)", "height:210px;border-radius:0")}
+      <div style="padding:22px 36px 30px"><div class="h" style="font-size:42px">Cocina</div>
+      <div class="row" style="gap:10px;margin-top:16px"><span class="lbl" style="margin-right:6px">Filtrar</span>{chips}</div>
+      <div class="row" style="gap:18px;margin-top:20px">{prods}</div></div>""")
+    cats = "".join(
+        f'<div class="row" style="justify-content:space-between;padding:15px 0;border-top:1px solid #EFEAFB;font-size:24px;font-weight:{800 if i == 1 else 600};color:{"#6C4FD4" if i == 1 else "#17122F"}"><span>{c}</span>{FLECHA}</div>'
+        for i, c in enumerate(["Living", "Cocina", "Dormitorio", "Baño"]))
+    panel = tarjeta("left:700px;top:80px;width:460px;padding:38px 40px", f"""
+      <div class="h" style="font-size:34px">Categorías</div><div class="col" style="margin-top:12px">{cats}</div>""")
+    return (TRAZO.format(s="left:760px;top:620px") + pagina_cat + panel
+            + sticker("Su página", "Con filtrador", "left:80px;top:90px")
+            + pill("Menú y página propia", "left:520px;top:1010px"))
+
+
+def escena_2():
+    """Panel Clientes: detalle de pedidos confirmados."""
+    clientes = [("Camila Ríos", "camila@correo.com", "351 555 0123", 4, "$84.500"), ("Lucas Pereyra", "lucas.p@correo.com", "351 555 0187", 2, "$31.200"),
+                ("Sofía Medina", "sofi.medina@correo.com", "351 555 0142", 7, "$126.800"), ("Mateo Acosta", "mateo@correo.com", "351 555 0166", 1, "$18.900")]
+    filas = "".join(f'<tr><td><b>{n}</b></td><td>{e}</td><td>{t}</td><td style="text-align:center">{p}</td><td style="text-align:right">{m}</td></tr>' for n, e, t, p, m in clientes)
+    panel = tarjeta("left:60px;top:210px;width:1080px;padding:44px 48px 40px", f"""
+      <div class="row" style="justify-content:space-between"><div><div class="h">Clientes</div><div class="sub">Detalle de tus pedidos confirmados.</div></div>
+      <div class="btn" style="gap:12px">{BAJAR}Exportar clientes</div></div>
+      <table style="margin-top:26px"><tr><th>CLIENTE</th><th>EMAIL</th><th>TELÉFONO</th><th style="text-align:center">PEDIDOS</th><th style="text-align:right">TOTAL</th></tr>{filas}</table>""")
+    archivo = tarjeta("left:640px;top:820px;width:520px;padding:30px 36px", f"""
+      <div class="row" style="gap:20px"><span class="ph" style="width:72px;height:72px;border-radius:20px;color:#4B33A8">{BAJAR}</span>
+      <div class="col"><b style="font-size:26px">clientes.csv</b><span class="lbl">Listo para tu email marketing</span></div></div>""")
+    return (TRAZO.format(s="left:-80px;top:700px") + panel + archivo
+            + sticker("Clientes", "Pedidos confirmados", "left:80px;top:60px")
+            + pill("Tus clientes, en un solo lugar", "left:70px;top:900px;font-size:27px"))
+
+
+def escena_3():
+    """Inventario por categorías."""
+    def grupo(nombre, items):
+        filas = "".join(f'<tr><td style="width:78px">{foto("inv-" + nombre.lower() + str(i), "producto", "width:58px;height:58px;border-radius:14px")}</td><td>{n}</td><td style="width:210px"><div class="row" style="gap:10px"><span class="chip" style="height:46px;padding:0 16px;font-size:24px">−</span><span class="in" style="height:46px;width:78px;justify-content:center;padding:0;font-size:22px;background:#fff">{s}</span><span class="chip" style="height:46px;padding:0 16px;font-size:24px">+</span></div></td></tr>' for i, (n, s) in enumerate(items))
+        return f'<tr><th colspan="3" style="font-size:18px;color:#4B33A8;background:#F1ECFF">{nombre.upper()}</th></tr>{filas}'
+    cuerpo = grupo("Cocina", [("Taza de cerámica", 24), ("Set de cuchillos", 8), ("Tabla de madera", 15)]) + grupo("Living", [("Almohadón lino", 32), ("Florero grande", 6)])
+    panel = tarjeta("left:60px;top:230px;width:1000px;padding:44px 48px 40px", f"""
+      <div class="row" style="justify-content:space-between"><div><div class="h">Inventario</div><div class="sub">Tus productos por categoría. Editá el stock al toque.</div></div></div>
+      <div class="row" style="gap:12px;margin:24px 0 18px"><span class="chip on">Todas</span><span class="chip">Cocina</span><span class="chip">Living</span><span class="chip">Dormitorio</span></div>
+      <table>{cuerpo}</table>""")
+    return (TRAZO.format(s="right:-60px;top:20px") + panel
+            + sticker("Stock", "Edición rápida", "left:760px;top:70px")
+            + pill("Todo en un solo panel", "left:80px;top:1040px"))
+
+
+def escena_barra():
+    """Barra promocional propia: sin Lemora Ads, con tus mensajes y tu color."""
     mensajes = ["Envíos a domicilio", "Pagá 3 llevá 5", "Pedí tus favoritos online"]
     filas = "".join(f'<div class="in" style="margin-top:12px"><span style="color:#B9ABF0;font-size:26px">⠿</span>{m}</div>' for m in mensajes)
     colores = ["#FF9A52", "#6C4FD4", "#17122F", "#E3F547", "#E85D75", "#2DB5A0"]
@@ -143,112 +223,80 @@ def escena_1():
       <div class="tienda-barra" style="background:#FF9A52;color:#17122F"><span>Envíos a domicilio</span><span>•</span><span>Pagá 3 llevá 5</span></div>
       {cabecera_tienda()}{foto("barra-portada", "portada de la tienda con su título", "height:560px")}""")
     return (TRAZO.format(s="left:-70px;top:520px") + panel + tel
-            + sticker("Tu barra", "Varios mensajes", "left:60px;top:150px")
+            + sticker("Tu barra", "Tus mensajes y tu color", "left:60px;top:150px;white-space:nowrap")
             + pill("Sin Lemora Ads", "left:600px;top:1010px"))
 
 
-def escena_2():
-    """Un menú por categorías."""
-    cats = ["Living", "Cocina", "Dormitorio", "Baño", "Ofertas"]
-    menu = "".join(f'<div class="row" style="justify-content:space-between;height:86px;padding:0 36px;border-bottom:1px solid #EFEAFB;font-size:28px;font-weight:{800 if i == 1 else 600};color:{"#6C4FD4" if i == 1 else "#17122F"}"><span>{c}</span>{FLECHA}</div>' for i, c in enumerate(cats))
-    tel = celular("left:70px;top:300px;width:500px", 940, f"""
-      {cabecera_tienda()}<div style="background:#fff;border-top:1px solid #EFEAFB">{menu}</div>
-      {foto("menu-fondo", "portada de la tienda (queda detrás del menú)", "height:360px;margin-top:0")}""")
-    filas = "".join(f'<div class="row" style="gap:20px;padding:16px 0;border-top:1px solid #EFEAFB">{foto("cat-" + c.lower(), c.lower(), "width:76px;height:76px;border-radius:18px")}<div class="col"><b style="font-size:26px">{c}</b><span class="lbl">Se ve en el menú</span></div></div>' for c in cats[:4])
-    panel = tarjeta("left:600px;top:90px;width:540px;padding:40px 44px", f"""
-      <div class="row" style="justify-content:space-between"><div class="h" style="font-size:36px">Categorías</div><div class="btn" style="height:54px;font-size:20px;padding:0 24px">+ Nueva</div></div>
-      <div class="col" style="margin-top:14px">{filas}</div>""")
-    return (TRAZO.format(s="right:-90px;top:560px") + panel + tel
-            + sticker("Menú", "Por categorías", "left:690px;top:830px")
-            + pill("Se despliega con tus categorías", "left:610px;top:1040px;font-size:26px;padding:18px 32px 18px 20px"))
-
-
-def escena_3():
-    """Una página para cada categoría."""
-    prods = "".join(foto("pagina-prod" + str(i), "producto " + str(i), "height:230px;flex:1;border-radius:22px") for i in (1, 2, 3))
-    pagina_cat = tarjeta("left:60px;top:300px;width:700px;padding:0;overflow:hidden;border-radius:44px", f"""
-      <div class="row" style="gap:48px;padding:26px 36px;border-bottom:1px solid #EFEAFB"><span class="logo" style="font-size:22px">TU TIENDA</span><span class="row" style="gap:26px;font-size:20px;font-weight:700"><span>Inicio</span><span style="color:#6C4FD4">Cocina</span><span>Living</span></span></div>
-      {foto("pagina-banner", "imagen de la categoría (banner)", "height:300px;border-radius:0")}
-      <div style="padding:26px 36px 30px"><div class="h" style="font-size:44px">Cocina</div>
-      <div class="row" style="gap:18px;margin-top:22px">{prods}</div></div>""")
-    panel = tarjeta("left:690px;top:80px;width:470px;padding:38px 40px", f"""
-      <div class="h" style="font-size:34px">Categoría</div>
-      <div class="lbl" style="margin-top:22px">Nombre</div><div class="in">Cocina</div>
-      <div class="lbl" style="margin-top:18px">Imagen de la categoría</div>
-      {foto("pagina-subida", "imagen de la categoría", "height:150px;border-radius:18px;margin-top:8px")}
-      <div class="row" style="justify-content:flex-end;margin-top:24px"><div class="btn" style="height:58px">Guardar</div></div>""")
-    return (TRAZO.format(s="left:760px;top:600px") + pagina_cat + panel
-            + sticker("Su página", "Para cada categoría", "left:80px;top:90px")
-            + pill("Con su propia imagen", "left:530px;top:1010px"))
-
-
-def escena_4():
-    """Inventario por categorías."""
-    def grupo(nombre, items):
-        filas = "".join(f'<tr><td style="width:78px">{foto("inv-" + nombre.lower() + str(i), "producto", "width:58px;height:58px;border-radius:14px")}</td><td>{n}</td><td style="width:210px"><div class="row" style="gap:10px"><span class="chip" style="height:46px;padding:0 16px;font-size:24px">−</span><span class="in" style="height:46px;width:78px;justify-content:center;padding:0;font-size:22px;background:#fff">{s}</span><span class="chip" style="height:46px;padding:0 16px;font-size:24px">+</span></div></td></tr>' for i, (n, s) in enumerate(items))
-        return f'<tr><th colspan="3" style="font-size:18px;color:#4B33A8;background:#F1ECFF">{nombre.upper()}</th></tr>{filas}'
-    cuerpo = grupo("Cocina", [("Taza de cerámica", 24), ("Set de cuchillos", 8), ("Tabla de madera", 15)]) + grupo("Living", [("Almohadón lino", 32), ("Florero grande", 6)])
-    panel = tarjeta("left:60px;top:230px;width:1000px;padding:44px 48px 40px", f"""
-      <div class="row" style="justify-content:space-between"><div><div class="h">Inventario</div><div class="sub">Tus productos por categoría. Editá el stock al toque.</div></div></div>
-      <div class="row" style="gap:12px;margin:24px 0 18px"><span class="chip on">Todas</span><span class="chip">Cocina</span><span class="chip">Living</span><span class="chip">Dormitorio</span></div>
-      <table>{cuerpo}</table>""")
-    return (TRAZO.format(s="right:-60px;top:20px") + panel
-            + sticker("Stock", "Edición rápida", "left:760px;top:70px")
-            + pill("Productos por categoría", "left:80px;top:1040px"))
-
-
-def escena_5():
-    """Conocé a tus clientes."""
-    clientes = [("Camila Ríos", "camila@correo.com", "351 555 0123", 4), ("Lucas Pereyra", "lucas.p@correo.com", "351 555 0187", 2),
-                ("Sofía Medina", "sofi.medina@correo.com", "351 555 0142", 7), ("Mateo Acosta", "mateo@correo.com", "351 555 0166", 1)]
-    filas = "".join(f'<tr><td><b>{n}</b></td><td>{e}</td><td>{t}</td><td style="text-align:center">{p}</td></tr>' for n, e, t, p in clientes)
-    panel = tarjeta("left:60px;top:210px;width:1080px;padding:44px 48px 40px", f"""
-      <div class="row" style="justify-content:space-between"><div><div class="h">Clientes</div><div class="sub">Quiénes te compran y sus datos.</div></div>
-      <div class="btn" style="gap:12px">{BAJAR}Exportar clientes</div></div>
-      <table style="margin-top:26px"><tr><th>CLIENTE</th><th>EMAIL</th><th>TELÉFONO</th><th style="text-align:center">PEDIDOS</th></tr>{filas}</table>""")
-    archivo = tarjeta("left:640px;top:820px;width:520px;padding:30px 36px", f"""
-      <div class="row" style="gap:20px"><span class="ph" style="width:72px;height:72px;border-radius:20px;color:#4B33A8">{BAJAR}</span>
-      <div class="col"><b style="font-size:26px">clientes.csv</b><span class="lbl">Listo para tu email marketing</span></div></div>""")
-    return (TRAZO.format(s="left:-80px;top:700px") + panel + archivo
-            + sticker("Exportá", "Para email marketing", "left:80px;top:60px")
-            + pill("Tus clientes, en un solo lugar", "left:70px;top:900px;font-size:27px"))
+def escena_carrito():
+    """Gastos de gestión y envío gratis en el carrito."""
+    items = producto_fila("carrito-prod", 1, "$14.500") + producto_fila("carrito-prod", 2, "$11.000")
+    linea = lambda a, b, extra="": f'<div class="row" style="justify-content:space-between;padding:12px 16px;font-size:23px;font-weight:600;border-radius:16px;{extra}"><span>{a}</span><b>{b}</b></div>'
+    carrito = tarjeta("left:60px;top:90px;width:620px;padding:38px 42px", f"""
+      <div class="h" style="font-size:36px">Tu carrito</div>
+      <div style="margin-top:16px;padding:18px 22px;border-radius:24px;background:#F1ECFF"><div style="font-size:22px;font-weight:700;color:#4B33A8">Te faltan $4.500 para el envío gratis</div><div class="barra" style="margin-top:12px"><i style="width:86%"></i></div></div>
+      <div class="col" style="margin-top:10px">{items}</div>
+      <div class="col" style="margin-top:10px;gap:2px">{linea("Subtotal", "$25.500")}{linea("Gastos de gestión", "$1.200", "background:#F1ECFF;color:#4B33A8")}{linea("Total", "$26.700", "font-size:29px;font-weight:800")}</div>""")
+    panel = tarjeta("left:640px;top:560px;width:520px;padding:36px 40px", f"""
+      <div class="row" style="justify-content:space-between"><div class="h" style="font-size:30px">Gastos de gestión</div><span class="tog"></span></div>
+      <div class="in" style="margin-top:14px">$1.200</div>
+      <div class="h" style="font-size:30px;margin-top:26px">Envío gratis</div>
+      <div class="row" style="gap:12px;margin-top:14px"><span class="chip on">Por monto</span><span class="chip">Por cantidad</span></div>
+      <div class="lbl" style="margin-top:18px">A partir de</div><div class="in" style="margin-top:8px">$30.000</div>""")
+    return (TRAZO.format(s="left:-70px;top:760px") + carrito + panel
+            + sticker("Carrito", "Gestión y envío gratis", "left:740px;top:90px;white-space:nowrap")
+            + pill("Vos elegís las condiciones", "left:70px;top:1030px;font-size:28px"))
 
 
 def escena_6():
-    """Carrusel de hasta 12 imágenes."""
-    filas = "".join(f'<tr><td style="width:100px">{foto("carrusel-fila" + str(i), "imagen", "width:84px;height:46px;border-radius:10px;font-size:0")}</td><td><b>{t}</b></td><td style="width:70px">{i}</td><td style="width:120px"><span class="ok">Activo</span></td></tr>' for i, t in ((1, "Nueva temporada"), (2, "Ofertas de la semana"), (3, "Más vendidos")))
-    panel = tarjeta("left:480px;top:90px;width:690px;padding:42px 44px", f"""
+    """Carrusel de hasta 12 imágenes y 5 banners promocionales."""
+    def tabla(prefijo, ancho_foto, alto_foto, filas):
+        return "".join(
+            f'<tr><td style="width:{ancho_foto + 20}px">{foto(prefijo + str(i), "imagen", f"width:{ancho_foto}px;height:{alto_foto}px;border-radius:10px;font-size:0")}</td>'
+            f'<td><b>{t}</b></td><td style="width:120px"><span class="ok">Activo</span></td></tr>'
+            for i, t in enumerate(filas, 1))
+    carrusel = tarjeta("left:60px;top:100px;width:720px;padding:40px 44px", f"""
       <div class="row" style="justify-content:space-between"><div class="h" style="font-size:36px">Carrusel</div><div class="btn" style="height:56px;font-size:20px;padding:0 24px">+ Nuevo elemento</div></div>
       <div class="sub" style="color:#17122F">Máximo 12 elementos. Te quedan 9.</div>
-      <table style="margin-top:20px"><tr><th>IMAGEN</th><th>TÍTULO</th><th>ORDEN</th><th>ESTADO</th></tr>{filas}</table>""")
-    puntos = "".join(f'<i style="display:block;width:{34 if i == 0 else 12}px;height:12px;border-radius:9px;background:{"#6C4FD4" if i == 0 else "#D9D2EF"}"></i>' for i in range(12))
-    tel = celular("left:70px;top:440px;width:470px", 900, f"""
-      {cabecera_tienda()}{foto("carrusel-portada", "imagen del carrusel (slide 1)", "height:470px")}
-      <div class="row" style="justify-content:center;gap:7px;padding:20px 0">{puntos}</div>""")
-    return (TRAZO.format(s="right:-90px;top:640px") + panel + tel
-            + sticker("12", "Imágenes en el carrusel", "left:80px;top:150px")
-            + pill("En vez de 8", "left:640px;top:1000px"))
+      <table style="margin-top:18px"><tr><th>IMAGEN</th><th>TÍTULO</th><th>ESTADO</th></tr>{tabla("carr", 84, 46, ["Nueva temporada", "Ofertas de la semana", "Más vendidos"])}</table>""")
+    banners = tarjeta("left:380px;top:620px;width:780px;padding:40px 44px", f"""
+      <div class="row" style="justify-content:space-between"><div class="h" style="font-size:36px">Banners</div><div class="btn" style="height:56px;font-size:20px;padding:0 24px">+ Nuevo banner</div></div>
+      <div class="sub" style="color:#17122F">Máximo 5 banners. Te quedan 2.</div>
+      <table style="margin-top:18px"><tr><th>IMAGEN</th><th>CONTENIDO</th><th>ESTADO</th></tr>{tabla("ban", 130, 56, ["Promoción especial", "Envío gratis", "Nueva colección"])}</table>""")
+    return (TRAZO.format(s="left:-60px;top:650px") + carrusel + banners
+            + sticker("12 y 5", "Carrusel y banners", "left:810px;top:60px;white-space:nowrap")
+            + pill("En vez de 8 y 3", "left:70px;top:1010px"))
 
 
 def escena_7():
-    """5 banners promocionales."""
-    filas = "".join(f'<tr><td style="width:150px">{foto("banner-fila" + str(i), "banner", "width:130px;height:56px;border-radius:12px;font-size:0")}</td><td><b>{t}</b></td><td style="width:120px"><span class="ok">Activo</span></td></tr>' for i, t in ((1, "Promoción especial"), (2, "Envío gratis"), (3, "Cuotas sin interés"), (4, "Nueva colección"), (5, "Liquidación")))
-    panel = tarjeta("left:60px;top:90px;width:760px;padding:42px 44px", f"""
-      <div class="row" style="justify-content:space-between"><div class="h" style="font-size:36px">Banners</div><div class="btn" style="height:56px;font-size:20px;padding:0 24px">+ Nuevo banner</div></div>
-      <table style="margin-top:20px"><tr><th>IMAGEN</th><th>CONTENIDO</th><th>ESTADO</th></tr>{filas}</table>""")
-    tienda = tarjeta("left:520px;top:700px;width:640px;padding:0;overflow:hidden;border-radius:44px", f"""
-      <div class="row" style="justify-content:space-between;padding:20px 30px;border-bottom:1px solid #EFEAFB"><span class="logo" style="font-size:19px">TU TIENDA</span><span class="row" style="gap:22px">{LUPA}{CARRITO}</span></div>
-      <div style="padding:22px 26px 26px">{foto("banner-grande", "banner promocional de la tienda", "height:250px;border-radius:24px")}
-      <div class="row" style="gap:16px;margin-top:16px">{foto("banner-prod1", "producto", "height:150px;flex:1;border-radius:20px")}{foto("banner-prod2", "producto", "height:150px;flex:1;border-radius:20px")}{foto("banner-prod3", "producto", "height:150px;flex:1;border-radius:20px")}</div></div>""")
-    return (TRAZO.format(s="left:-60px;top:650px") + panel + tienda
-            + sticker("5", "Banners promocionales", "left:790px;top:80px")
-            + pill("En vez de 3", "left:70px;top:1010px"))
+    """Marketing: notificación de confianza, ofertas por tiempo limitado y modo promociones."""
+    barra = '<div style="height:50px;display:flex;align-items:center;justify-content:center;background:#E3F547;color:#17122F;font-weight:800;font-size:18px;letter-spacing:.06em">BLACK FRIDAY</div>'
+    etiqueta = '<div style="position:absolute;left:14px;top:14px;background:#FF9A52;color:#17122F;font-weight:800;font-size:18px;border-radius:99px;padding:7px 14px;letter-spacing:.06em">OFERTA</div>'
+    reloj = '<div style="margin-top:10px;background:#17122F;color:#fff;border-radius:14px;padding:8px 14px;font-size:20px;font-weight:700;display:inline-block">Termina en 02:14:36</div>'
+    precio = '<span style="text-decoration:line-through;color:#6b6679;font-size:21px;margin-right:10px">$18.000</span><b style="color:#6C4FD4;font-size:27px">$12.600</b>'
+    tel = celular("left:60px;top:200px;width:480px", 960, f"""
+      {barra}{cabecera_tienda()}
+      <div style="padding:14px 24px 0;position:relative">{foto("mkt-prod", "producto en oferta", "height:340px;border-radius:26px")}{etiqueta}
+      <b style="font-size:26px;display:block;margin-top:14px">Producto</b><div style="margin-top:4px">{precio}</div>{reloj}</div>""")
+    aviso = tarjeta("left:420px;top:880px;width:520px;padding:24px 30px;border-radius:34px", f"""
+      <div class="row" style="gap:20px"><span class="ph" style="width:68px;height:68px;border-radius:50%;background:#FF9A52;color:#17122F">{CAMPANA}</span>
+      <div class="col"><b style="font-size:25px">Notificación de confianza</b><span class="lbl" style="font-size:21px">Tu mensaje acá</span></div></div>""")
+    def fila(n, sub, on=True):
+        tog = "tog" if on else "tog off"
+        return (f'<div class="row" style="justify-content:space-between;padding:17px 0;border-top:1px solid #EFEAFB">'
+                f'<div class="col"><b style="font-size:24px">{n}</b><span class="lbl" style="font-size:18px">{sub}</span></div><span class="{tog}"></span></div>')
+    panel = tarjeta("left:620px;top:120px;width:540px;padding:38px 40px", f"""
+      <div class="h" style="font-size:34px">Marketing</div><div class="sub" style="font-size:19px">Todo junto, en tu panel.</div>
+      <div class="col" style="margin-top:16px">{fila("Notificación de confianza", "Se muestra en tu tienda")}{fila("Ofertas por tiempo limitado", "Producto por producto")}{fila("Modo promociones", "Black Friday, Hot Sale, CyberMonday")}</div>
+      <div class="row" style="justify-content:flex-end;margin-top:22px"><div class="btn" style="height:58px">Guardar</div></div>""")
+    return (TRAZO.format(s="right:-90px;top:640px") + tel + panel + aviso
+            + sticker("Marketing", "Promos, ofertas y confianza", "left:660px;top:690px;white-space:nowrap")
+            + pill("Todo junto en tu panel", "left:640px;top:1070px;font-size:27px"))
 
 
-ESCENAS = {1: escena_1, 2: escena_2, 3: escena_3, 4: escena_4, 5: escena_5, 6: escena_6, 7: escena_7}
+ESCENAS = {1: escena_barra, 2: escena_1, 3: escena_2, 4: escena_3, 5: escena_carrito, 6: escena_6, 7: escena_7}
 
 if __name__ == "__main__":
-    pedidas = [int(a) for a in sys.argv[1:]] or list(ESCENAS)
+    pedidas = [int(a) for a in sys.argv[1:] if a.isdigit()] or list(ESCENAS)
     TMP.mkdir(exist_ok=True)
     SALIDA.mkdir(parents=True, exist_ok=True)
     with sync_playwright() as p:

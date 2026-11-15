@@ -18,6 +18,7 @@ import {
 //  - titulo, intro: el título y, opcional, una bajada.
 //  - funciones: [{ titulo, cuerpo, imagen?, etiquetaImagen? }]. Si una función no tiene `imagen`, el
 //    marco muestra un lugar vacío con `etiquetaImagen` hasta que esté la imagen real.
+//  - oscuro: para fondos oscuros (título e intro en blanco).
 //  - invertido: espeja el bloque (lista a la izquierda, imagen a la derecha) para alternar con el de arriba.
 //  - cta: opcional, un botón o link que va centrado debajo.
 
@@ -33,6 +34,7 @@ export default function FuncionesBloque({
   intro,
   funciones,
   invertido = false,
+  oscuro = false,
   cta,
 }) {
   const root = useRef(null)
@@ -94,12 +96,12 @@ export default function FuncionesBloque({
         </span>
         <h2
           data-words
-          className="mt-4 text-[clamp(25px,8.2vw,32px)] font-bold text-ink md:text-[34px]"
+          className={`mt-4 text-[clamp(25px,8.2vw,32px)] font-bold md:text-[34px] ${oscuro ? "text-white" : "text-ink"}`}
         >
           {titulo}
         </h2>
         {intro && (
-          <p data-reveal className="mt-3 max-w-2xl text-base text-ink-soft">
+          <p data-reveal className={`mt-3 max-w-2xl text-base ${oscuro ? "text-white/70" : "text-ink-soft"}`}>
             {intro}
           </p>
         )}
@@ -190,7 +192,22 @@ export default function FuncionesBloque({
                     }`}
                   >
                     <div className="overflow-hidden">
-                      <p className="pb-3 text-sm leading-relaxed text-ink-soft">{funcion.cuerpo}</p>
+                      <p className={`text-sm leading-relaxed text-ink-soft ${funcion.puntos ? "" : "pb-3"}`}>
+                        {funcion.cuerpo}
+                      </p>
+                      {funcion.puntos && (
+                        <ul className="mt-2 space-y-1.5 pb-3 text-sm leading-relaxed text-ink-soft">
+                          {funcion.puntos.map((punto) => (
+                            <li key={punto} className="flex gap-2">
+                              <span
+                                aria-hidden="true"
+                                className="mt-[0.55em] h-1.5 w-1.5 flex-none rounded-full bg-accent"
+                              />
+                              {punto}
+                            </li>
+                          ))}
+                        </ul>
+                      )}
                     </div>
                   </div>
                 </div>
