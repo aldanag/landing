@@ -15,6 +15,8 @@ const FORCE_MOTION =
   typeof window !== "undefined" &&
   new URLSearchParams(window.location.search).get("motion") === "on"
 
+if (FORCE_MOTION) document.documentElement.dataset.motion = "on"
+
 export const REDUCED_MOTION_OFF = FORCE_MOTION ? "all" : "(prefers-reduced-motion: no-preference)"
 export const REDUCED_MOTION_ON = FORCE_MOTION ? "not all" : "(prefers-reduced-motion: reduce)"
 

@@ -176,7 +176,8 @@ export default function PricingCards() {
                 </ul>
                 {plan.verMas && (
                   <a
-                    href="#premium"
+                    href={plan.verMasHref}
+                    {...(plan.verMasExterno ? { target: "_blank", rel: "noopener noreferrer" } : {})}
                     className="mt-1 inline-flex min-h-11 items-center text-sm font-semibold text-primary underline underline-offset-4 hover:text-primary-dark focus-ring"
                   >
                     {plan.verMas}

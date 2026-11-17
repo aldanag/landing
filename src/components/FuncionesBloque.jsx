@@ -1,4 +1,4 @@
-import { useRef, useState } from "react"
+import { cloneElement, useRef, useState } from "react"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faImage } from "@fortawesome/free-solid-svg-icons"
 import {
@@ -16,7 +16,8 @@ import {
 //  - id, fondo: id de la sección y su fondo (clase de Tailwind).
 //  - etiqueta, icono: la etiqueta lima de arriba y, opcional, un ícono a su izquierda.
 //  - titulo, intro: el título y, opcional, una bajada.
-//  - funciones: [{ titulo, cuerpo, imagen?, etiquetaImagen? }]. Si una función no tiene `imagen`, el
+//  - funciones: [{ titulo, cuerpo, imagen?, etiquetaImagen?, superposicion? }]. `superposicion` es un nodo que
+//    va encima de la imagen (por ejemplo la barra con mensajes en movimiento). Si una función no tiene `imagen`, el
 //    marco muestra un lugar vacío con `etiquetaImagen` hasta que esté la imagen real.
 //  - oscuro: para fondos oscuros (título e intro en blanco).
 //  - invertido: espeja el bloque (lista a la izquierda, imagen a la derecha) para alternar con el de arriba.
@@ -110,7 +111,7 @@ export default function FuncionesBloque({
           <div
             ref={frame}
             data-reveal
-            className={`relative aspect-square overflow-hidden rounded-3xl bg-lavender shadow-xl shadow-primary/15 ring-1 ring-primary/20 ${
+            className={`@container relative aspect-square overflow-hidden rounded-3xl bg-lavender shadow-xl shadow-primary/15 ring-1 ring-primary/20 ${
               invertido ? "md:order-2" : ""
             }`}
           >
@@ -141,6 +142,21 @@ export default function FuncionesBloque({
                 </div>
               )
             })}
+            {funciones.map(
+              (funcion, i) =>
+                funcion.superposicion && (
+                  <div
+                    key={`sobre-${funcion.titulo}`}
+                    className={`pointer-events-none absolute inset-0 z-10 transition-opacity duration-500 motion-reduce:transition-none ${
+                      activeIndex === i && prevIndex === null ? "opacity-100" : "opacity-0"
+                    }`}
+                  >
+                    {cloneElement(funcion.superposicion, {
+                      activa: activeIndex === i && prevIndex === null,
+                    })}
+                  </div>
+                ),
+            )}
           </div>
 
           <div

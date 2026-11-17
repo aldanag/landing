@@ -90,3 +90,318 @@ body {
     line-height: 1.1;
   }
 }
+
+/* Mensajes de la barra promocional que pasan de lado (BarraMensajes). Quieto con "reducir movimiento";
+   con ?motion=on en la dirección se fuerza para poder revisarlo igual. */
+@keyframes marquee-izq {
+  to {
+    transform: translateX(-50%);
+  }
+}
+.marquee-pista {
+  animation: marquee-izq 18s linear infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .marquee-pista {
+    animation: none;
+  }
+}
+:root[data-motion="on"] .marquee-pista {
+  animation: marquee-izq 18s linear infinite;
+}
+
+/* Imagen de inventario animada (InventarioAnimado), bucle de 10 s: cursor, clic, ventana que se despliega, clic en
+   la flechita de cada stock (hover y foco violeta, sube de a uno), "Guardar inventario" y cierre. Quieta con
+   "reducir movimiento" (la ventana queda abierta con el primer campo enfocado); con ?motion=on se fuerza. */
+.inv-onda {
+  width: 4.2cqw;
+  height: 4.2cqw;
+  margin: -2.1cqw 0 0 -2.1cqw;
+  border: 2px solid #6c4fd4;
+  opacity: 0;
+}
+.inv-onda-f {
+  width: 2.6cqw;
+  height: 2.6cqw;
+  margin: -1.3cqw 0 0 -1.3cqw;
+}
+.inv-cursor {
+  width: 2.8cqw;
+  height: 2.8cqw;
+  margin: -0.4cqw 0 0 -0.5cqw;
+  opacity: 0;
+  filter: drop-shadow(0 2px 3px rgba(23, 18, 47, 0.4));
+}
+.inv-parche {
+  position: absolute;
+  left: 81%;
+  width: 11.8cqw;
+  height: 6.63cqw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 1.2cqw;
+  background: #fff;
+}
+.inv-campo {
+  position: relative;
+  width: 9cqw;
+  height: 3.83cqw;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.5cqw;
+  padding-right: 1.1cqw;
+  border-radius: 1cqw;
+  background: #fff;
+  box-shadow: inset 0 0 0 0.125cqw #e0dcec;
+  font-size: 1.75cqw;
+  font-weight: 800;
+}
+.inv-anillo {
+  position: absolute;
+  inset: 0;
+  border-radius: 1cqw;
+  box-shadow: inset 0 0 0 0.167cqw #6c4fd4, 0 0 0 0.33cqw rgba(108, 79, 212, 0.25);
+  opacity: 0;
+}
+.inv-anillo-1 {
+  opacity: 1;
+}
+.inv-numeros {
+  display: grid;
+}
+.inv-numeros > span {
+  grid-area: 1 / 1;
+  justify-self: end;
+}
+.inv-nuevo {
+  opacity: 0;
+}
+.inv-flechas {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1cqw;
+  font-size: 0.75cqw;
+  line-height: 1;
+  color: #6b6679;
+}
+.inv-flechas i {
+  font-style: normal;
+}
+.inv-guardar {
+  position: absolute;
+  left: 74.7%;
+  top: 89.7%;
+  width: 18.7%;
+  height: 4.17%;
+  border-radius: 1cqw;
+  background: rgba(40, 20, 110, 0.32);
+  opacity: 0;
+}
+@keyframes inv-ventana {
+  0%, 17.5% { opacity: 0; transform: translateY(-1.6cqw) scale(0.88); }
+  23.5%, 69% { opacity: 1; transform: none; }
+  73%, 100% { opacity: 0; transform: translateY(1cqw) scale(0.96); }
+}
+@keyframes inv-cursor {
+  0% { opacity: 0; transform: translate(9cqw, -8cqw); }
+  5% { opacity: 1; }
+  14% { opacity: 1; transform: translate(0, 0); }
+  16.5% { opacity: 1; transform: scale(0.82); }
+  18.5%, 25% { opacity: 1; transform: translate(0, 0) scale(1); }
+  31% { opacity: 1; transform: translate(5.3cqw, 16.7cqw) scale(1); }
+  32.5% { opacity: 1; transform: translate(5.3cqw, 16.7cqw) scale(0.82); }
+  34%, 36% { opacity: 1; transform: translate(5.3cqw, 16.7cqw) scale(1); }
+  40% { opacity: 1; transform: translate(5.3cqw, 25.6cqw) scale(1); }
+  41.5% { opacity: 1; transform: translate(5.3cqw, 25.6cqw) scale(0.82); }
+  43%, 45% { opacity: 1; transform: translate(5.3cqw, 25.6cqw) scale(1); }
+  49% { opacity: 1; transform: translate(5.3cqw, 34.35cqw) scale(1); }
+  50.5% { opacity: 1; transform: translate(5.3cqw, 34.35cqw) scale(0.82); }
+  52%, 58% { opacity: 1; transform: translate(5.3cqw, 34.35cqw) scale(1); }
+  64% { opacity: 1; transform: translate(-0.8cqw, 42.4cqw) scale(1); }
+  66% { opacity: 1; transform: translate(-0.8cqw, 42.4cqw) scale(0.82); }
+  68% { opacity: 1; transform: translate(-0.8cqw, 42.4cqw) scale(1); }
+  73%, 100% { opacity: 0; transform: translate(-0.8cqw, 42.4cqw); }
+}
+@keyframes inv-onda-1 {
+  0%, 14.9% { opacity: 0; transform: scale(0.3); }
+  15% { opacity: 0.7; transform: scale(0.3); }
+  21%, 100% { opacity: 0; transform: scale(1.6); }
+}
+@keyframes inv-onda-f1 {
+  0%, 31.4% { opacity: 0; transform: scale(0.3); }
+  31.5% { opacity: 0.7; transform: scale(0.3); }
+  36%, 100% { opacity: 0; transform: scale(1.2); }
+}
+@keyframes inv-onda-f2 {
+  0%, 40.4% { opacity: 0; transform: scale(0.3); }
+  40.5% { opacity: 0.7; transform: scale(0.3); }
+  45%, 100% { opacity: 0; transform: scale(1.2); }
+}
+@keyframes inv-onda-f3 {
+  0%, 49.4% { opacity: 0; transform: scale(0.3); }
+  49.5% { opacity: 0.7; transform: scale(0.3); }
+  54%, 100% { opacity: 0; transform: scale(1.2); }
+}
+@keyframes inv-onda-2 {
+  0%, 64.9% { opacity: 0; transform: scale(0.3); }
+  65% { opacity: 0.7; transform: scale(0.3); }
+  70%, 100% { opacity: 0; transform: scale(1.6); }
+}
+/* foco violeta: el campo 1 llega enfocado; cada campo se marca al llegar el cursor (hover) y el foco se queda
+   en el último que se tocó; al hacer clic en "Guardar" se pierde */
+@keyframes inv-anillo-1 {
+  0%, 40.9% { opacity: 1; }
+  41.6%, 100% { opacity: 0; }
+}
+@keyframes inv-anillo-2 {
+  0%, 39.9% { opacity: 0; }
+  40.5%, 50.4% { opacity: 1; }
+  51.1%, 100% { opacity: 0; }
+}
+@keyframes inv-anillo-3 {
+  0%, 48.9% { opacity: 0; }
+  49.5%, 64.9% { opacity: 1; }
+  65.6%, 100% { opacity: 0; }
+}
+/* flechita de arriba en violeta mientras el cursor está encima */
+@keyframes inv-arriba-1 {
+  0%, 30.5% { color: #6b6679; transform: none; }
+  31%, 35% { color: #6c4fd4; transform: scale(1.5); }
+  36%, 100% { color: #6b6679; transform: none; }
+}
+@keyframes inv-arriba-2 {
+  0%, 39.5% { color: #6b6679; transform: none; }
+  40%, 44% { color: #6c4fd4; transform: scale(1.5); }
+  45%, 100% { color: #6b6679; transform: none; }
+}
+@keyframes inv-arriba-3 {
+  0%, 48.5% { color: #6b6679; transform: none; }
+  49%, 53% { color: #6c4fd4; transform: scale(1.5); }
+  54%, 100% { color: #6b6679; transform: none; }
+}
+/* el número cambia en el clic */
+@keyframes inv-ant-1 { 0%, 31.9% { opacity: 1; } 32%, 100% { opacity: 0; } }
+@keyframes inv-ant-2 { 0%, 40.9% { opacity: 1; } 41%, 100% { opacity: 0; } }
+@keyframes inv-ant-3 { 0%, 49.9% { opacity: 1; } 50%, 100% { opacity: 0; } }
+@keyframes inv-nuevo-1 {
+  0%, 31.9% { opacity: 0; transform: scale(1); }
+  32% { opacity: 1; transform: scale(1.25); }
+  34.5%, 99.9% { opacity: 1; transform: scale(1); }
+  100% { opacity: 0; }
+}
+@keyframes inv-nuevo-2 {
+  0%, 40.9% { opacity: 0; transform: scale(1); }
+  41% { opacity: 1; transform: scale(1.25); }
+  43.5%, 99.9% { opacity: 1; transform: scale(1); }
+  100% { opacity: 0; }
+}
+@keyframes inv-nuevo-3 {
+  0%, 49.9% { opacity: 0; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.25); }
+  52.5%, 99.9% { opacity: 1; transform: scale(1); }
+  100% { opacity: 0; }
+}
+/* hover (más oscuro) del botón "Guardar inventario" al llegar el cursor, hasta el clic */
+@keyframes inv-guardar {
+  0%, 63.5% { opacity: 0; }
+  64%, 68.5% { opacity: 1; }
+  70%, 100% { opacity: 0; }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .inv-activa .inv-ventana { animation: inv-ventana 10s cubic-bezier(0.22, 1, 0.36, 1) infinite; }
+  .inv-activa .inv-cursor { animation: inv-cursor 10s ease-in-out infinite; }
+  .inv-activa .inv-onda-1 { animation: inv-onda-1 10s ease-out infinite; }
+  .inv-activa .inv-onda-f1 { animation: inv-onda-f1 10s ease-out infinite; }
+  .inv-activa .inv-onda-f2 { animation: inv-onda-f2 10s ease-out infinite; }
+  .inv-activa .inv-onda-f3 { animation: inv-onda-f3 10s ease-out infinite; }
+  .inv-activa .inv-onda-2 { animation: inv-onda-2 10s ease-out infinite; }
+  .inv-activa .inv-anillo-1 { animation: inv-anillo-1 10s linear infinite; }
+  .inv-activa .inv-anillo-2 { animation: inv-anillo-2 10s linear infinite; }
+  .inv-activa .inv-anillo-3 { animation: inv-anillo-3 10s linear infinite; }
+  .inv-activa .inv-arriba-1 { animation: inv-arriba-1 10s ease-out infinite; }
+  .inv-activa .inv-arriba-2 { animation: inv-arriba-2 10s ease-out infinite; }
+  .inv-activa .inv-arriba-3 { animation: inv-arriba-3 10s ease-out infinite; }
+  .inv-activa .inv-ant-1 { animation: inv-ant-1 10s linear infinite; }
+  .inv-activa .inv-ant-2 { animation: inv-ant-2 10s linear infinite; }
+  .inv-activa .inv-ant-3 { animation: inv-ant-3 10s linear infinite; }
+  .inv-activa .inv-nuevo-1 { animation: inv-nuevo-1 10s ease-out infinite; }
+  .inv-activa .inv-nuevo-2 { animation: inv-nuevo-2 10s ease-out infinite; }
+  .inv-activa .inv-nuevo-3 { animation: inv-nuevo-3 10s ease-out infinite; }
+  .inv-activa .inv-guardar { animation: inv-guardar 10s linear infinite; }
+}
+:root[data-motion="on"] .inv-activa .inv-ventana { animation: inv-ventana 10s cubic-bezier(0.22, 1, 0.36, 1) infinite; }
+:root[data-motion="on"] .inv-activa .inv-cursor { animation: inv-cursor 10s ease-in-out infinite; }
+:root[data-motion="on"] .inv-activa .inv-onda-1 { animation: inv-onda-1 10s ease-out infinite; }
+:root[data-motion="on"] .inv-activa .inv-onda-f1 { animation: inv-onda-f1 10s ease-out infinite; }
+:root[data-motion="on"] .inv-activa .inv-onda-f2 { animation: inv-onda-f2 10s ease-out infinite; }
+:root[data-motion="on"] .inv-activa .inv-onda-f3 { animation: inv-onda-f3 10s ease-out infinite; }
+:root[data-motion="on"] .inv-activa .inv-onda-2 { animation: inv-onda-2 10s ease-out infinite; }
+:root[data-motion="on"] .inv-activa .inv-anillo-1 { animation: inv-anillo-1 10s linear infinite; }
+:root[data-motion="on"] .inv-activa .inv-anillo-2 { animation: inv-anillo-2 10s linear infinite; }
+:root[data-motion="on"] .inv-activa .inv-anillo-3 { animation: inv-anillo-3 10s linear infinite; }
+:root[data-motion="on"] .inv-activa .inv-arriba-1 { animation: inv-arriba-1 10s ease-out infinite; }
+:root[data-motion="on"] .inv-activa .inv-arriba-2 { animation: inv-arriba-2 10s ease-out infinite; }
+:root[data-motion="on"] .inv-activa .inv-arriba-3 { animation: inv-arriba-3 10s ease-out infinite; }
+:root[data-motion="on"] .inv-activa .inv-ant-1 { animation: inv-ant-1 10s linear infinite; }
+:root[data-motion="on"] .inv-activa .inv-ant-2 { animation: inv-ant-2 10s linear infinite; }
+:root[data-motion="on"] .inv-activa .inv-ant-3 { animation: inv-ant-3 10s linear infinite; }
+:root[data-motion="on"] .inv-activa .inv-nuevo-1 { animation: inv-nuevo-1 10s ease-out infinite; }
+:root[data-motion="on"] .inv-activa .inv-nuevo-2 { animation: inv-nuevo-2 10s ease-out infinite; }
+:root[data-motion="on"] .inv-activa .inv-nuevo-3 { animation: inv-nuevo-3 10s ease-out infinite; }
+:root[data-motion="on"] .inv-activa .inv-guardar { animation: inv-guardar 10s linear infinite; }
+
+/* Imagen de clientes animada (ClienteAnimado), bucle de 8 s: cursor, clic en el ojo, detalle que se despliega,
+   clic en "Cerrar" y cierre. Quieta con "reducir movimiento" (el detalle queda abierto); con ?motion=on se fuerza. */
+.cli-onda {
+  width: 4.2cqw;
+  height: 4.2cqw;
+  margin: -2.1cqw 0 0 -2.1cqw;
+  border: 2px solid #6c4fd4;
+  opacity: 0;
+}
+.cli-cursor {
+  width: 2.8cqw;
+  height: 2.8cqw;
+  margin: -0.4cqw 0 0 -0.5cqw;
+  opacity: 0;
+  filter: drop-shadow(0 2px 3px rgba(23, 18, 47, 0.4));
+}
+@keyframes cli-ventana {
+  0%, 21.3% { opacity: 0; transform: translateY(-1.6cqw) scale(0.88); }
+  28.8%, 71.3% { opacity: 1; transform: none; }
+  76.3%, 100% { opacity: 0; transform: translateY(1cqw) scale(0.96); }
+}
+@keyframes cli-cursor {
+  0% { opacity: 0; transform: translate(9cqw, -8cqw); }
+  5% { opacity: 1; }
+  16.3% { opacity: 1; transform: translate(0, 0); }
+  19% { opacity: 1; transform: scale(0.82); }
+  21.3% { opacity: 1; transform: scale(1); }
+  50% { opacity: 1; transform: translate(0, 0); }
+  65% { opacity: 1; transform: translate(3.25cqw, 49.7cqw); }
+  68.5% { opacity: 1; transform: translate(3.25cqw, 49.7cqw) scale(0.82); }
+  71% { opacity: 1; transform: translate(3.25cqw, 49.7cqw) scale(1); }
+  76%, 100% { opacity: 0; transform: translate(3.25cqw, 49.7cqw); }
+}
+@keyframes cli-onda-1 {
+  0%, 18.7% { opacity: 0; transform: scale(0.3); }
+  19% { opacity: 0.7; transform: scale(0.3); }
+  26%, 100% { opacity: 0; transform: scale(1.6); }
+}
+@keyframes cli-onda-2 {
+  0%, 66.2% { opacity: 0; transform: scale(0.3); }
+  66.5% { opacity: 0.7; transform: scale(0.3); }
+  73%, 100% { opacity: 0; transform: scale(1.6); }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .cli-activa .cli-ventana { animation: cli-ventana 8s cubic-bezier(0.22, 1, 0.36, 1) infinite; }
+  .cli-activa .cli-cursor { animation: cli-cursor 8s ease-in-out infinite; }
+  .cli-activa .cli-onda-1 { animation: cli-onda-1 8s ease-out infinite; }
+  .cli-activa .cli-onda-2 { animation: cli-onda-2 8s ease-out infinite; }
+}
+:root[data-motion="on"] .cli-activa .cli-ventana { animation: cli-ventana 8s cubic-bezier(0.22, 1, 0.36, 1) infinite; }
+:root[data-motion="on"] .cli-activa .cli-cursor { animation: cli-cursor 8s ease-in-out infinite; }
+:root[data-motion="on"] .cli-activa .cli-onda-1 { animation: cli-onda-1 8s ease-out infinite; }
+:root[data-motion="on"] .cli-activa .cli-onda-2 { animation: cli-onda-2 8s ease-out infinite; }

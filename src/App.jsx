@@ -5,7 +5,6 @@ import ProblemaSolucion from "./components/ProblemaSolucion"
 import TrialBanner from "./components/TrialBanner"
 import Features from "./components/Features"
 import FuncionesPremium from "./components/FuncionesPremium"
-import FuncionesPremiumOscuro from "./components/FuncionesPremiumOscuro"
 import Testimonials from "./components/Testimonials"
 import PricingCards from "./components/PricingCards"
 import FAQ from "./components/FAQ"
@@ -28,8 +27,6 @@ function App() {
         <TrialBanner />
         <Features />
         <FuncionesPremium />
-        {/* Prueba de estética: borrar una de las dos cuando se elija. */}
-        <FuncionesPremiumOscuro />
         <Testimonials />
         <PricingCards />
         <FAQ />

@@ -3,6 +3,9 @@
 export const WHATSAPP_TRIAL_LINK =
   "https://wa.me/543515957014?text=Hola,%20quiero%20probar%20Lemora%20gratis"
 
+// Landing del plan Básico (el sitio que se publica aparte). TODO: cambiar por el dominio definitivo cuando exista.
+export const BASICO_LANDING_LINK = "https://lemora-basico-six.vercel.app"
+
 export const BASICO_CHECKOUT_LINK =
   "https://www.mercadopago.com.ar/subscriptions/checkout?preapproval_plan_id=d37372dd19924098bcfeb189bbb8fbcf"
 
@@ -33,7 +36,9 @@ export const plans = [
     anual: 96000,
     commitment: "Contratación mínima: 1 mes",
     ejemplo: EJEMPLO_BASICO_LINK,
-    verMas: "Mirá lo que suma Premium",
+    verMas: "Ver todo lo que incluye el plan Básico",
+    verMasHref: BASICO_LANDING_LINK,
+    verMasExterno: true,
     features: [
       "Cargá productos o servicios ilimitados",
       "Gestión de pedidos",
@@ -79,6 +84,7 @@ export const plans = [
       { text: "Barra promocional con tus mensajes y tu color, sin Lemora Ads", isNew: true },
     ],
     verMas: "Ver todas las funciones Premium",
+    verMasHref: "#premium",
     // TODO: reemplazar por el link real de suscripción de MercadoPago del plan Premium.
     actions: [{ label: "Suscribirme", href: "#registro", external: false }],
     featured: true,

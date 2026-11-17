@@ -2,7 +2,6 @@
 
 Cada imagen es un HTML de 1200x1200 que se saca a WebP con Playwright y queda en src/assets/premium/
 (premium-1.webp ... premium-7.webp): la landing las toma sola.
-Con --claro se generan las de la variante de prueba con fondo lila, en src/assets/premium-b/.
 
 Las fotos de productos todavía no están: donde van aparecen lugares marcados con lo que iría ahí.
 Cuando haya fotos, se ponen en FOTOS (arriba) con la ruta del archivo y se vuelve a correr:
@@ -18,12 +17,34 @@ from PIL import Image
 from playwright.sync_api import sync_playwright
 
 RAIZ = pathlib.Path(__file__).resolve().parents[2]
-CLARO = "--claro" in sys.argv  # variante de prueba: imágenes con fondo lila (van a src/assets/premium-b)
-SALIDA = RAIZ / "src" / "assets" / ("premium-b" if CLARO else "premium")
+SALIDA = RAIZ / "src" / "assets" / "premium"
 TMP = pathlib.Path(__file__).parent / "_tmp"
 
 # Cuando haya fotos: clave = el nombre del lugar (ver cada escena), valor = ruta del archivo.
-FOTOS = {}
+CARPETA_FOTOS = pathlib.Path(__file__).parent / "fotos"
+_p = lambda n: CARPETA_FOTOS / n
+# Recortes de la tienda Moura (plan Premium).
+FOTOS = {
+    "barra-portada": _p("ropa.jpg"),
+    "cat-banner": _p("banner-hombre.jpg"),
+    "barra-prod1": _p("remera-mujer.jpg"),
+    "barra-prod2": _p("short-mujer.jpg"),
+        "cat-prod1": _p("remera-gris.jpg"),
+    "cat-prod3": _p("remera-oliva.jpg"),
+    "cat-prod2": _p("remera-crema.jpg"),
+    "carrito-prod1": _p("rainbow.jpg"),
+    "carrito-prod2": _p("witch.jpg"),
+    "mkt-prod": _p("remera-crema.jpg"),
+    "mkt-aviso": _p("remera-oliva.jpg"),
+    "carrito-gris": _p("remera-gris.jpg"),
+    "carrito-crema": _p("remera-crema.jpg"),
+}
+for _i in range(1, 4):
+    FOTOS[f"carr{_i}"] = _p("banner.jpg")
+    FOTOS[f"ban{_i}"] = _p("banner.jpg")
+for _g in ("almohadones", "living"):
+    for _i in range(3):
+        FOTOS[f"inv-{_g}{_i}"] = _p("rainbow.jpg" if _i % 2 == 0 else "witch.jpg")
 
 
 def foto_uri(clave):
@@ -59,6 +80,8 @@ html,body{width:1200px;height:1200px;overflow:hidden;font-family:'Manrope',syste
 .sticker small{font-size:19px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;opacity:.9}
 .pill{position:absolute;display:flex;align-items:center;gap:20px;background:#fff;color:#17122F;border-radius:40px;padding:22px 38px 22px 24px;font-size:31px;font-weight:700;box-shadow:0 40px 64px -26px rgba(6,3,24,.85),0 0 50px -14px rgba(185,171,240,.5),0 0 0 1px rgba(255,255,255,.12);white-space:nowrap}
 .pill i{width:58px;height:58px;border-radius:50%;background:#FF9A52;display:flex;align-items:center;justify-content:center;flex:none}
+.pill.azul{background:#2B2260;color:#fff;border-radius:30px;padding:20px 38px 20px 22px;box-shadow:0 40px 64px -26px rgba(6,3,24,.85),0 0 0 1px rgba(255,255,255,.16)}
+.conexion{position:absolute;left:0;top:0}
 .ph{background:linear-gradient(135deg,#E2D9FF,#B9ABF0);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;color:#4B33A8;text-align:center;overflow:hidden;position:relative}
 .ph svg{width:34px;height:34px;opacity:.85}.ph span{font-size:15px;font-weight:700;line-height:1.25;max-width:78%}
 .ph img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
@@ -82,13 +105,14 @@ td{font-size:21px;font-weight:600;padding:14px 12px;border-top:1px solid #EFEAFB
 .sw{width:50px;height:50px;border-radius:50%;box-shadow:inset 0 0 0 2px rgba(23,18,47,.12)}
 """
 
-if CLARO:
+if True:  # imágenes con fondo lila (como las de Funcionalidades); el CSS de arriba es la base oscura
     CSS += """
 .stage{background:linear-gradient(180deg,#EFEBFC 0%,#D8CEF5 100%)}
 .trazo{opacity:.55}.trazo path{stroke:#B9ABF0}
 .card{box-shadow:0 40px 70px -34px rgba(76,52,170,.38),0 0 0 1px rgba(108,79,212,.10)}
 .sticker{box-shadow:0 34px 56px -22px rgba(76,52,170,.55),inset 0 2px 0 rgba(255,255,255,.28),inset 0 -6px 14px rgba(40,20,110,.3)}
 .pill{box-shadow:0 30px 52px -26px rgba(76,52,170,.4),0 0 0 1px rgba(108,79,212,.1)}
+.pill.azul{background:#17122F;box-shadow:0 30px 52px -22px rgba(23,18,47,.55)}
 .phone{box-shadow:0 60px 90px -34px rgba(76,52,170,.5),inset 0 0 0 2px rgba(255,255,255,.22),inset 0 3px 0 rgba(255,255,255,.3)}
 """
 
@@ -116,7 +140,13 @@ def sticker(titulo, chica, estilo):
 
 
 def pill(texto, estilo):
-    return f'<div class="pill" style="{estilo}"><i>{CHECK}</i>{texto}</div>'
+    """Mensaje superpuesto: siempre píldora azul oscura (criterio de las imágenes)."""
+    return f'<div class="pill azul" style="{estilo}"><i>{CHECK}</i>{texto}</div>'
+
+
+def pill_azul(texto, estilo):
+    """Frase clave de la función, superpuesta: píldora azul oscura con el check naranja (criterio de las imágenes)."""
+    return f'<div class="pill azul" style="{estilo}"><i>{CHECK}</i>{texto}</div>'
 
 
 def tarjeta(estilo, interior):
@@ -134,137 +164,388 @@ def cabecera_tienda(nombre="TU TIENDA"):
     return f'<div class="tienda-head"><span class="logo">{nombre}</span><span class="tienda-iconos">{LUPA}{CORAZON}{CARRITO}{MENU}</span></div>'
 
 
-def pagina(cuerpo):
+def pagina(cuerpo, transparente=False):
+    extra = "<style>.stage{background:none !important}</style>" if transparente else ""
     return f"""<!doctype html><html><head><meta charset="utf-8">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&display=swap">
-<style>{CSS}</style></head><body><div class="stage">{cuerpo}</div></body></html>"""
+<style>{CSS}</style>{extra}</head><body><div class="stage">{cuerpo}</div></body></html>"""
 
 
 # ------------------------------------------------------------------ las 7 escenas
 CAMPANA = '<svg viewBox="0 0 24 24" fill="#17122F" width="34" height="34"><path d="M12 22a2.4 2.4 0 0 0 2.4-2.4h-4.8A2.4 2.4 0 0 0 12 22Zm7-6.6V11a7 7 0 0 0-5.4-6.8V3.4a1.6 1.6 0 0 0-3.2 0v.8A7 7 0 0 0 5 11v4.4l-1.8 1.8V18h17.6v-.8L19 15.4Z"/></svg>'
 
 
-def producto_fila(clave, i, precio):
+def producto_fila(clave, i, precio, nombre=None):
     return (f'<div class="row" style="gap:20px;padding:16px 0;border-top:1px solid #EFEAFB">'
             f'{foto(clave + str(i), "producto", "width:86px;height:86px;border-radius:20px")}'
-            f'<div class="col" style="flex:1"><b style="font-size:25px">Producto {i}</b><span class="lbl">Cantidad: 1</span></div>'
+            f'<div class="col" style="flex:1"><b style="font-size:25px">{nombre or "Producto " + str(i)}</b><span class="lbl">Cantidad: 1</span></div>'
             f'<b style="font-size:25px">{precio}</b></div>')
 
 
 def escena_1():
-    """Menú y página para cada categoría, con filtrador."""
-    prods = "".join(
-        f'<div class="col" style="flex:1;gap:8px">{foto("cat-prod" + str(i), "producto " + str(i), "height:190px;border-radius:22px")}'
-        f'<b style="font-size:21px">Producto {i}</b><span style="color:#6C4FD4;font-weight:800;font-size:21px">$0.000</span></div>'
-        for i in (1, 2, 3))
-    chips = '<span class="chip on">Todos</span><span class="chip">Precio</span><span class="chip">Más nuevos</span>'
-    pagina_cat = tarjeta("left:60px;top:290px;width:700px;padding:0;overflow:hidden;border-radius:44px", f"""
-      <div class="row" style="gap:44px;padding:24px 36px;border-bottom:1px solid #EFEAFB"><span class="logo" style="font-size:22px">TU TIENDA</span><span class="row" style="gap:24px;font-size:20px;font-weight:700"><span>Inicio</span><span style="color:#6C4FD4">Cocina</span><span>Living</span></span></div>
-      {foto("cat-banner", "imagen de la categoría (banner)", "height:210px;border-radius:0")}
-      <div style="padding:22px 36px 30px"><div class="h" style="font-size:42px">Cocina</div>
-      <div class="row" style="gap:10px;margin-top:16px"><span class="lbl" style="margin-right:6px">Filtrar</span>{chips}</div>
-      <div class="row" style="gap:18px;margin-top:20px">{prods}</div></div>""")
-    cats = "".join(
-        f'<div class="row" style="justify-content:space-between;padding:15px 0;border-top:1px solid #EFEAFB;font-size:24px;font-weight:{800 if i == 1 else 600};color:{"#6C4FD4" if i == 1 else "#17122F"}"><span>{c}</span>{FLECHA}</div>'
-        for i, c in enumerate(["Living", "Cocina", "Dormitorio", "Baño"]))
-    panel = tarjeta("left:700px;top:80px;width:460px;padding:38px 40px", f"""
-      <div class="h" style="font-size:34px">Categorías</div><div class="col" style="margin-top:12px">{cats}</div>""")
-    return (TRAZO.format(s="left:760px;top:620px") + pagina_cat + panel
-            + sticker("Su página", "Con filtrador", "left:80px;top:90px")
-            + pill("Menú y página propia", "left:520px;top:1010px"))
+    """Categorías con su propia página: menú que se despliega y página de la categoría (como una tienda real)."""
+    azul = "#1F3A5F"
+    barra = ('<div style="height:46px;background:#17122F;color:#fff;display:flex;align-items:center;justify-content:space-around;'
+             'font-size:17px;font-weight:700;white-space:nowrap;overflow:hidden"><span>Envíos a todo el país 💙🤍💙</span>'
+             '<span>🔥 Nueva colección 🔥</span><span>HECHO CON 💙 EN ARGENTINA 🧉</span></div>')
+    icono = lambda svg: f'<span style="width:26px;height:26px;display:block">{svg}</span>'
+    cabecera = (f'<div style="height:78px;display:flex;align-items:center;gap:26px;padding:0 34px;border-bottom:1px solid #EFEAFB;white-space:nowrap">'
+                f'<span class="logo" style="font-size:22px">TU TIENDA</span>'
+                f'<div style="width:250px;height:48px;border-radius:99px;background:#F3F1F8;display:flex;align-items:center;gap:12px;padding:0 18px;color:#6b6679;font-size:18px;font-weight:600">'
+                f'<span style="width:22px;height:22px;display:block">{LUPA}</span>¿Qué estás buscando?</div>'
+                f'<div style="margin-left:auto;display:flex;align-items:center;gap:22px;font-size:19px;font-weight:600">'
+                f'<span>Inicio</span><span style="color:{azul}">Productos</span><span>Preguntas</span><span>Contacto</span>{icono(CORAZON)}{icono(CARRITO)}</div></div>')
+    pared = "#d3b797"  # color de la pared de las fotos de las remeras (arena)
+    uri_banner = foto_uri("cat-banner")
+    fondo_banner = (f'<img src="{uri_banner}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 35%">' if uri_banner else
+                    '<div style="position:absolute;right:70px;top:50%;transform:translateY(-50%);font-size:16px;font-weight:700;color:#fff;opacity:.9;text-align:center;line-height:1.35">Foto: modelo<br>a un costado</div>')
+    banner = (f'<div style="position:relative;height:250px;background:linear-gradient(90deg,{pared},#DCC39B);overflow:hidden">' + fondo_banner
+              + '<div style="position:absolute;inset:0;background:linear-gradient(0deg,rgba(23,18,47,.34),rgba(23,18,47,.18))"></div>'
+              + '<div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#fff;font-size:56px;font-weight:800;letter-spacing:-.02em;text-shadow:0 2px 18px rgba(23,18,47,.4)">Remeras</div></div>')
+    migas = (f'<div class="row" style="justify-content:space-between;padding:24px 34px 0"><div style="font-size:18px;color:#6b6679;font-weight:600">'
+             f'<span style="color:{azul}">Inicio</span> / <span style="color:{azul}">Productos</span> / Remeras</div>'
+             f'<div class="row" style="gap:12px;font-size:18px;color:#6b6679;font-weight:600">Ordenar por'
+             f'<span style="padding:10px 18px;border-radius:14px;background:#fff;box-shadow:inset 0 0 0 1.5px #D9D2EF;color:#17122F;font-weight:600">Más recientes ⌄</span></div></div>')
+    productos = [("Remera gris", "$14.900"), ("Remera crema", "$14.900"), ("Remera oliva", "$14.900")]
+    cards = "".join(
+        f'<div class="col" style="flex:1;gap:6px">{foto("cat-prod" + str(i), "producto " + str(i), "height:330px;border-radius:18px")}'
+        f'<b style="font-size:20px;margin-top:8px">{n}</b><span style="color:{azul};font-weight:800;font-size:20px">{p}</span></div>'
+        for i, (n, p) in enumerate(productos, 1))
+    ventana = tarjeta("left:50px;top:230px;width:1100px;padding:0;overflow:hidden;border-radius:40px", f"""
+      {barra}{cabecera}{banner}{migas}
+      <div class="row" style="gap:28px;padding:22px 34px 46px;align-items:flex-start">{cards}</div>""")
+    return (TRAZO.format(s="right:-70px;top:-40px") + ventana
+            + sticker("Una página", "Para cada categoría", "left:56px;top:118px;white-space:nowrap")
+            + pill_azul("Con su propia imagen", "left:690px;top:105px;font-size:31px"))
 
 
-def escena_2():
-    """Panel Clientes: detalle de pedidos confirmados."""
-    clientes = [("Camila Ríos", "camila@correo.com", "351 555 0123", 4, "$84.500"), ("Lucas Pereyra", "lucas.p@correo.com", "351 555 0187", 2, "$31.200"),
-                ("Sofía Medina", "sofi.medina@correo.com", "351 555 0142", 7, "$126.800"), ("Mateo Acosta", "mateo@correo.com", "351 555 0166", 1, "$18.900")]
-    filas = "".join(f'<tr><td><b>{n}</b></td><td>{e}</td><td>{t}</td><td style="text-align:center">{p}</td><td style="text-align:right">{m}</td></tr>' for n, e, t, p, m in clientes)
-    panel = tarjeta("left:60px;top:210px;width:1080px;padding:44px 48px 40px", f"""
-      <div class="row" style="justify-content:space-between"><div><div class="h">Clientes</div><div class="sub">Detalle de tus pedidos confirmados.</div></div>
-      <div class="btn" style="gap:12px">{BAJAR}Exportar clientes</div></div>
-      <table style="margin-top:26px"><tr><th>CLIENTE</th><th>EMAIL</th><th>TELÉFONO</th><th style="text-align:center">PEDIDOS</th><th style="text-align:right">TOTAL</th></tr>{filas}</table>""")
-    archivo = tarjeta("left:640px;top:820px;width:520px;padding:30px 36px", f"""
-      <div class="row" style="gap:20px"><span class="ph" style="width:72px;height:72px;border-radius:20px;color:#4B33A8">{BAJAR}</span>
-      <div class="col"><b style="font-size:26px">clientes.csv</b><span class="lbl">Listo para tu email marketing</span></div></div>""")
-    return (TRAZO.format(s="left:-80px;top:700px") + panel + archivo
-            + sticker("Clientes", "Pedidos confirmados", "left:80px;top:60px")
-            + pill("Tus clientes, en un solo lugar", "left:70px;top:900px;font-size:27px"))
+def lateral_admin(activo):
+    """Barra lateral colapsada del panel de administración (íconos sólidos, como el panel real)."""
+    solido = lambda d, extra="": f'<svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor" {extra}>{d}</svg>'
+    iconos = {
+        "Dashboard": solido('<path fill-rule="evenodd" d="M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zm1 4.6a1 1 0 0 0-2 0v1.2a1 1 0 0 0 2 0zM7.6 9.2a1 1 0 0 0-1.4 1.4l.8.9a1 1 0 0 0 1.4-1.4zm9.2 0-.9.9a1 1 0 1 0 1.4 1.4l.9-.9a1 1 0 0 0-1.4-1.4zM12 11l3.5-2.5-2 4.1A2 2 0 1 1 12 11z"/>'),
+        "Productos": solido('<path d="M4 3h16a1 1 0 0 1 .9.6L22 7H2l1.100-3.400A1 1 0 0 1 4 3zM2 9h20v10a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2zm7 2a1 1 0 0 0 0 2h6a1 1 0 0 0 0-2z"/>'),
+        "Categorías": solido('<path fill-rule="evenodd" d="M2 4a1 1 0 0 1 1-1h7.200a2 2 0 0 1 1.400.600l8.800 8.800a2 2 0 0 1 0 2.800l-5.400 5.400a2 2 0 0 1-2.800 0L3.400 12.800A2 2 0 0 1 2.800 11.400zm5.500 1.500a1.500 1.500 0 1 0 0 3 1.500 1.500 0 0 0 0-3z"/><path d="M12.500 3H14a2 2 0 0 1 1.400.600l7 7a2 2 0 0 1 0 2.800L19 16.800l2.700-2.700a1 1 0 0 0 0-1.400L13.900 4.900z" opacity=".6"/>'),
+        "Pedidos": solido('<path d="M2 3h2.600l.6 2H22l-2.200 8.500H8l.4 1.500H19v2H6.900L3.500 5H2z"/><circle cx="9" cy="20" r="1.700"/><circle cx="17" cy="20" r="1.700"/>'),
+        "Clientes": solido('<circle cx="12" cy="8" r="3.400"/><path d="M5.500 20c0-3.600 2.900-6 6.500-6s6.500 2.400 6.500 6z"/><circle cx="5.500" cy="9" r="2.400"/><circle cx="18.500" cy="9" r="2.400"/><path d="M1.500 18c0-2.400 1.600-4 4-4 .7 0 1.300.1 1.900.4-1 1-1.600 2.200-1.800 3.600zM22.500 18c0-2.400-1.600-4-4-4-.7 0-1.300.1-1.900.4 1 1 1.600 2.200 1.800 3.600z"/>'),
+        "Descuentos": solido('<path fill-rule="evenodd" d="M3 6h18v3.200a2.800 2.800 0 0 0 0 5.600V18H3v-3.200a2.800 2.800 0 0 0 0-5.600zm6 3.500a1 1 0 0 0 0 2h6a1 1 0 0 0 0-2zm0 3.500a1 1 0 0 0 0 2h6a1 1 0 0 0 0-2z"/>'),
+        "Reseñas": solido('<path d="M12 2.500l2.900 6 6.600.9-4.800 4.600 1.200 6.500L12 17.400 6.100 20.500l1.200-6.500L2.500 9.400l6.600-.9z"/>'),
+        "Diseño": solido('<path fill-rule="evenodd" d="M12 2a10 10 0 1 0 0 20c1.700 0 2.500-1.300 2-2.700-.5-1.400.3-2.800 1.800-2.800H19a3 3 0 0 0 3-3C22 6.500 17.500 2 12 2zM7 11a1.500 1.500 0 1 1 0-3 1.500 1.500 0 0 1 0 3zm3-3.500a1.500 1.500 0 1 1 0-3 1.500 1.500 0 0 1 0 3zm5 0a1.500 1.500 0 1 1 0-3 1.500 1.500 0 0 1 0 3zm3.500 4a1.500 1.500 0 1 1 0-3 1.500 1.500 0 0 1 0 3z"/>'),
+        "Carrusel": solido('<path d="M6 3h14a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2zm1 11h12l-3.500-4.500-2.500 3-1.500-1.800zm1.500-7a1.500 1.500 0 1 0 0 3 1.500 1.500 0 0 0 0-3z" fill-rule="evenodd"/><path d="M2 7v12a2 2 0 0 0 2 2h14v-2H4V7z"/>'),
+        "Banners": solido('<path d="M4 2.500a1 1 0 0 1 2 0V4h12.500a1 1 0 0 1 .8 1.600L17.400 9l1.900 3.400a1 1 0 0 1-.8 1.600H6v7.500a1 1 0 0 1-2 0z"/>'),
+        "Complementos": solido('<path d="M9 3a2 2 0 0 1 4 0v1.500h3.500A1.500 1.500 0 0 1 18 6v3.500h1.500a2 2 0 0 1 0 4H18V17a2 2 0 0 1-2 2h-3.500v-1.500a2 2 0 0 0-4 0V19H5a2 2 0 0 1-2-2v-3.500h1.500a2 2 0 0 0 0-4H3V6a1.500 1.500 0 0 1 1.500-1.500H9z"/>'),
+        "Comercial": solido('<path d="M3.500 3h17l1.500 5.500a3 3 0 0 1-5.500 1.700 3 3 0 0 1-5 0 3 3 0 0 1-5 0A3 3 0 0 1 2 8.500zM4 12.500a4 4 0 0 0 1.500-.400V20h13v-7.900a4 4 0 0 0 1.500.4V21a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1z"/>'),
+        "Configuración": solido('<path fill-rule="evenodd" d="M10.300 2h3.400l.6 2.600c.6.200 1.100.5 1.600.900l2.500-.8 1.700 3-1.900 1.800c.1.500.1 1 0 1.500l1.900 1.800-1.700 3-2.500-.8c-.5.400-1 .7-1.600.9L13.700 22h-3.400l-.6-2.600c-.6-.2-1.100-.5-1.600-.9l-2.500.8-1.700-3 1.900-1.800a5 5 0 0 1 0-1.500L4 9.200l1.700-3 2.500.8c.5-.4 1-.7 1.600-.9zM12 9a3 3 0 1 0 0 6 3 3 0 0 0 0-6z"/>'),
+        "Ayuda": solido('<path fill-rule="evenodd" d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm.1 4.500c-2 0-3.300 1.200-3.400 2.900h1.900c.1-.7.600-1.100 1.400-1.100.800 0 1.300.5 1.300 1.100 0 .6-.3.900-1 1.400-.9.600-1.300 1.200-1.300 2.200v.3h1.800v-.2c0-.6.200-.8.900-1.300.9-.6 1.500-1.300 1.500-2.400 0-1.700-1.400-2.900-3.100-2.900zM11 16.500v2h2v-2z"/>'),
+        "Mi cuenta": solido('<circle cx="12" cy="7.500" r="4.500"/><path d="M3.500 21c0-4.400 3.800-7 8.500-7s8.500 2.600 8.500 7z"/>'),
+    }
+    menu = "".join(
+        f'<div style="display:flex;align-items:center;justify-content:center;height:41px;margin:0 12px 2px;border-radius:13px;'
+        f'{"background:#E2D9FF;color:#6C4FD4" if n == activo else "color:#64748B"}">{svg}</div>'
+        for n, svg in iconos.items())
+    lateral = (f'<div style="position:absolute;left:0;top:0;bottom:0;width:84px;border-right:1px solid #ECE8F5;background:#fff">'
+               f'<div style="display:flex;align-items:center;justify-content:center;height:84px;border-bottom:1px solid #ECE8F5">'
+               f'<span style="width:46px;height:46px;border-radius:13px;background:#6C4FD4;display:flex;align-items:center;justify-content:center">'
+               f'<svg viewBox="0 0 24 24" width="28" height="28" fill="#fff"><path d="M12 20.5S3.5 15.4 3.5 9.3A4.8 4.8 0 0 1 12 6.6a4.8 4.8 0 0 1 8.5 2.7c0 6.1-8.5 11.2-8.5 11.2z"/></svg></span></div>'
+               f'<div style="padding-top:10px">{menu}</div></div>')
+    return lateral
 
 
-def escena_3():
-    """Inventario por categorías."""
-    def grupo(nombre, items):
-        filas = "".join(f'<tr><td style="width:78px">{foto("inv-" + nombre.lower() + str(i), "producto", "width:58px;height:58px;border-radius:14px")}</td><td>{n}</td><td style="width:210px"><div class="row" style="gap:10px"><span class="chip" style="height:46px;padding:0 16px;font-size:24px">−</span><span class="in" style="height:46px;width:78px;justify-content:center;padding:0;font-size:22px;background:#fff">{s}</span><span class="chip" style="height:46px;padding:0 16px;font-size:24px">+</span></div></td></tr>' for i, (n, s) in enumerate(items))
-        return f'<tr><th colspan="3" style="font-size:18px;color:#4B33A8;background:#F1ECFF">{nombre.upper()}</th></tr>{filas}'
-    cuerpo = grupo("Cocina", [("Taza de cerámica", 24), ("Set de cuchillos", 8), ("Tabla de madera", 15)]) + grupo("Living", [("Almohadón lino", 32), ("Florero grande", 6)])
-    panel = tarjeta("left:60px;top:230px;width:1000px;padding:44px 48px 40px", f"""
-      <div class="row" style="justify-content:space-between"><div><div class="h">Inventario</div><div class="sub">Tus productos por categoría. Editá el stock al toque.</div></div></div>
-      <div class="row" style="gap:12px;margin:24px 0 18px"><span class="chip on">Todas</span><span class="chip">Cocina</span><span class="chip">Living</span><span class="chip">Dormitorio</span></div>
-      <table>{cuerpo}</table>""")
-    return (TRAZO.format(s="right:-60px;top:20px") + panel
-            + sticker("Stock", "Edición rápida", "left:760px;top:70px")
-            + pill("Todo en un solo panel", "left:80px;top:1040px"))
+def escena_2(parte="completa"):
+    """Panel Clientes (como el dashboard real). Tesis espacial: la tabla es lo principal; la barra lateral se colapsa a íconos
+    (el panel real tiene ese botón «) para dar ancho a las columnas; el detalle del cliente se superpone abajo a la derecha y deja
+    ver las primeras filas completas."""
+    def ico(trazo, relleno=False, tam=20):
+        return (f'<svg viewBox="0 0 24 24" width="{tam}" height="{tam}" fill="{"currentColor" if relleno else "none"}" stroke="currentColor" '
+                f'stroke-width="2" stroke-linecap="round" stroke-linejoin="round">{trazo}</svg>')
+    lateral = lateral_admin("Clientes")
+    calendario = ico('<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/>', tam=18)
+    filtro = lambda ancho: (f'<div style="width:{ancho}px;height:46px;border-radius:12px;background:#fff;box-shadow:inset 0 0 0 1.5px #E6E2F0;display:flex;'
+                            f'align-items:center;justify-content:space-between;padding:0 14px;font-size:17px;color:#6b6679;font-weight:500">dd/mm/aaaa<span style="color:#17122F">{calendario}</span></div>')
+    cabecera = ('<div style="display:flex;align-items:center;justify-content:space-between;height:84px;padding:0 30px;background:#fff;border-bottom:1px solid #ECE8F5">'
+                '<div style="display:flex;align-items:center;gap:18px"><span style="width:44px;height:40px;border-radius:12px;box-shadow:inset 0 0 0 1.5px #E6E2F0;display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:800">«</span>'
+                '<span style="font-size:28px;font-weight:800">Clientes</span></div>'
+                '<div style="display:flex;align-items:center;gap:12px"><span style="padding:11px 18px;border-radius:12px;box-shadow:inset 0 0 0 1.5px #E6E2F0;font-size:17px;font-weight:600">Ver tienda ↗</span>'
+                '<span style="padding:9px 18px;border-radius:99px;background:#E2D9FF;color:#5B41C4;font-size:16px;font-weight:700">Admin</span></div></div>')
+    pesta = ('<div style="display:flex;gap:12px"><span style="padding:12px 22px;border-radius:99px;background:#6C4FD4;color:#fff;font-size:18px;font-weight:700">Clientes</span>'
+             '<span style="padding:12px 22px;border-radius:99px;background:#fff;box-shadow:inset 0 0 0 1.5px #E6E2F0;font-size:18px;font-weight:700;color:#4A4560">Eliminados (0)</span></div>')
+    filtros = (f'<div style="display:flex;align-items:center;gap:12px;margin-top:20px;white-space:nowrap"><span style="font-size:17px;font-weight:600;color:#6b6679">Desde</span>{filtro(160)}'
+               f'<span style="font-size:17px;font-weight:600;color:#6b6679">Hasta</span>{filtro(160)}'
+               f'<div style="flex:1;height:46px;border-radius:12px;background:#fff;box-shadow:inset 0 0 0 1.5px #E6E2F0;display:flex;align-items:center;padding:0 16px;font-size:17px;color:#8c87a0">Buscar por nombre, email o teléfono…</div>'
+               f'<span style="font-size:17px;color:#6b6679">4 cliente(s)</span></div>')
+    info = ('<div style="display:flex;gap:10px;align-items:center;margin-top:18px;font-size:20px;color:#4A4560;white-space:nowrap">'
+            '<span style="flex:none;width:20px;height:20px;border-radius:50%;background:#6C4FD4;color:#fff;font-size:13px;font-weight:800;display:flex;align-items:center;justify-content:center">i</span>'
+            '<span>Clientes con <b>al menos un pedido entregado</b>.</span></div>')
+    cols = "grid-template-columns:34px 1.8fr 1.1fr .7fr .9fr 1.1fr 100px"
+    chk = '<span style="width:22px;height:22px;border-radius:6px;box-shadow:inset 0 0 0 2px #6b6679;display:block"></span>'
+    clientes = [("Valentina Gómez", "vale.gomez@correo.com", "351 612 7547", 3, "$ 58.400", "16/11/2026"),
+                ("Camila Ríos", "camila.rios@correo.com", "351 555 0123", 4, "$ 84.500", "14/11/2026"),
+                ("Lucas Pereyra", "lucas.p@correo.com", "261 440 0187", 2, "$ 31.200", "12/11/2026"),
+                ("Sofía Medina", "sofi.medina@correo.com", "11 5550 0142", 7, "$ 126.800", "09/11/2026")]
+    acciones = ('<div style="display:flex;gap:8px"><span style="width:44px;height:38px;border-radius:10px;box-shadow:inset 0 0 0 1.5px #D9D5E6;display:flex;align-items:center;justify-content:center">'
+                + ico('<path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/>') +
+                '</span><span style="width:44px;height:38px;border-radius:10px;box-shadow:inset 0 0 0 1.5px #D9D5E6;display:flex;align-items:center;justify-content:center">'
+                + ico('<path d="M3 3l18 18M10.6 5.2A9.6 9.6 0 0 1 12 5c6.5 0 10 7 10 7a17 17 0 0 1-3 3.8M6.3 6.4C3.7 8.1 2 12 2 12s3.5 7 10 7c1.7 0 3.2-.4 4.5-1"/>') + '</span></div>')
+    filas = "".join(
+        f'<div style="display:grid;{cols};align-items:center;padding:15px 22px;border-top:1px solid #ECE8F5;font-size:18px">{chk}'
+        f'<div><b style="font-size:19px">{n}</b><div style="color:#6b6679;font-size:16px;margin-top:2px">{e}</div></div><span>{t}</span>'
+        f'<span style="width:32px;height:32px;border-radius:50%;background:#E2D9FF;color:#5B41C4;font-size:15px;font-weight:700;display:flex;align-items:center;justify-content:center">{p}</span>'
+        f'<b>{m}</b><span>{u}</span>{acciones}</div>' for n, e, t, p, m, u in clientes)
+    tabla = (f'<div style="margin-top:20px;border-radius:14px;background:#fff;box-shadow:inset 0 0 0 1px #ECE8F5;overflow:hidden">'
+             f'<div style="display:grid;{cols};align-items:center;padding:15px 22px;background:#FAF9FC;font-size:15px;font-weight:800;letter-spacing:.06em;color:#4A4560">'
+             f'{chk}<span>CLIENTE</span><span>TELÉFONO</span><span>PEDIDOS</span><span>TOTAL</span><span>ÚLTIMA COMPRA</span><span></span></div>{filas}</div>')
+    principal = (f'<div style="position:absolute;left:84px;right:0;top:0;bottom:0;background:#F4F3F7">{cabecera}'
+                 f'<div style="padding:24px 30px 0">{pesta}{filtros}{info}{tabla}</div></div>')
+    ventana = tarjeta("left:50px;top:196px;width:1100px;height:770px;padding:0;overflow:hidden;border-radius:40px", f"{lateral}{principal}")
+    fila_dato = lambda svg, txt, color="#17122F": (f'<div style="display:flex;align-items:center;gap:14px;height:36px;font-size:19px;color:{color}">'
+                                                   f'<span style="color:#6b6679;flex:none">{svg}</span>{txt}</div>')
+    dato = lambda tit, val: (f'<div style="border-radius:14px;background:#FAFAFC;box-shadow:inset 0 0 0 1.5px #E6E2F0;padding:12px 18px">'
+                             f'<div style="font-size:14px;letter-spacing:.04em;color:#6b6679;font-weight:500">{tit}</div><div style="font-size:22px;font-weight:800;margin-top:2px">{val}</div></div>')
+    modal = tarjeta("left:580px;top:700px;width:570px;padding:28px 34px 24px;border-radius:26px;box-shadow:0 -26px 56px -6px rgba(76,52,170,.42),0 -6px 18px -4px rgba(23,18,47,.16),0 40px 70px -34px rgba(23,18,47,.4),0 0 0 1px rgba(108,79,212,.14)", f"""
+      <div style="display:flex;justify-content:space-between;align-items:flex-start"><div><div style="font-size:27px;font-weight:800">Valentina Gómez</div>
+      <div style="font-size:18px;color:#6b6679;margin-top:4px">Datos de contacto del cliente</div></div>
+      <span style="width:44px;height:44px;border-radius:12px;box-shadow:inset 0 0 0 1.5px #E6E2F0;display:flex;align-items:center;justify-content:center;font-size:21px;font-weight:800;color:#4A4560">✕</span></div>
+      <div style="margin-top:12px">{fila_dato(ico('<rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/>'), "vale.gomez@correo.com", "#6C4FD4")}
+      {fila_dato(ico('<path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A15 15 0 0 1 3 6a2 2 0 0 1 2-2z"/>'), "351 612 7547", "#6C4FD4")}
+      {fila_dato(ico('<path d="M12 21s7-6.2 7-11.5A7 7 0 0 0 5 9.5C5 14.800 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/>'), "Av. Siempreviva 742, Córdoba")}</div>
+      <div style="font-size:22px;font-weight:800;margin-top:14px">Resumen de compras</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px">{dato("PEDIDOS ENTREGADOS", "3")}{dato("TOTAL", "$ 58.400")}{dato("PRIMERA COMPRA", "02/10/2026")}{dato("ÚLTIMA COMPRA", "16/11/2026")}</div>
+      <div style="display:flex;justify-content:flex-end;margin-top:14px"><div class="btn" style="height:50px;font-size:19px;padding:0 28px">Cerrar</div></div>""")
+    if parte == "ventana":  # capa animada: solo el detalle del cliente, sobre fondo transparente
+        return modal
+    resto = (sticker("Tus clientes", "Pedidos entregados", "left:676px;top:104px;white-space:nowrap")
+             + pill("Todos en un solo lugar", "left:70px;top:1050px;font-size:31px"))
+    if parte == "base":  # imagen de la página: el panel de clientes, sin el detalle
+        return TRAZO.format(s="left:-100px;top:-120px") + ventana + resto
+    return TRAZO.format(s="left:-100px;top:-120px") + ventana + modal + resto
+
+
+def escena_3(parte="completa"):
+    """Inventario por categorías: la lista de categorías del panel y la ventana de stock que abre el botón de cajas."""
+    sol = lambda d, tam=20: f'<svg viewBox="0 0 24 24" width="{tam}" height="{tam}" fill="currentColor">{d}</svg>'
+    lapiz = sol('<path d="M3 17.500V21h3.500L18 9.500 14.500 6zM20.700 7a1 1 0 0 0 0-1.400l-2.300-2.300a1 1 0 0 0-1.400 0l-1.800 1.800L18.900 8.800z"/>')
+    cajas = sol('<path d="M12 2l5 3v6l-5 3-5-3V5zM7 14l5 3v5l-5-3zm10 0v5l-5 3v-5z" opacity=".95"/><path d="M2 12l5-3v6l-5 3zM22 12l-5-3v6l5 3z" opacity=".55"/>')
+    papelera = sol('<path d="M9 3h6l1 2h5v2H3V5h5zM5 9h14l-1 12H6z"/>')
+    cabecera = ('<div style="display:flex;align-items:center;justify-content:space-between;height:84px;padding:0 30px;background:#fff;border-bottom:1px solid #ECE8F5">'
+                '<div style="display:flex;align-items:center;gap:18px"><span style="width:44px;height:40px;border-radius:12px;box-shadow:inset 0 0 0 1.5px #E6E2F0;display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:800">«</span>'
+                '<span style="font-size:28px;font-weight:800">Categorías</span></div>'
+                '<div style="display:flex;align-items:center;gap:12px"><span style="padding:11px 18px;border-radius:12px;box-shadow:inset 0 0 0 1.5px #E6E2F0;font-size:17px;font-weight:600">Ver tienda ↗</span>'
+                '<span style="padding:9px 18px;border-radius:99px;background:#E2D9FF;color:#5B41C4;font-size:16px;font-weight:700">Admin</span></div></div>')
+    sub = ('<div style="display:flex;align-items:center;justify-content:space-between"><span style="font-size:19px;color:#6b6679">Organizá el catálogo por categorías</span>'
+           '<span style="padding:13px 24px;border-radius:14px;background:#6C4FD4;color:#fff;font-size:18px;font-weight:700">+ Nueva categoría</span></div>')
+    cols = "grid-template-columns:1.9fr 2fr .6fr .8fr 170px"
+    cats = [("Bermudas", "bermudas"), ("Pantalones", "pantalones"), ("Remeras", "remeras"), ("Camperas", "camperas"), ("Buzos", "buzos"), ("Calzado", "calzado"), ("Accesorios", "accesorios")]
+    caja = lambda svg, extra="": (f'<span style="width:48px;height:40px;border-radius:10px;background:#fff;box-shadow:inset 0 0 0 1.5px #D9D5E6;display:flex;align-items:center;justify-content:center;color:#17122F;{extra}">{svg}</span>')
+    filas = ""
+    for k, (n, sl) in enumerate(cats, 1):
+        resaltado = "color:#5B41C4;box-shadow:inset 0 0 0 2px #6C4FD4,0 0 0 5px rgba(108,79,212,.22)" if k == 3 else ""
+        filas += (f'<div style="display:grid;{cols};align-items:center;padding:0 24px;height:66px;border-top:1px solid #ECE8F5;font-size:19px">'
+                  f'<b>{n}</b><span style="font-family:Consolas,monospace;color:#2A2540;font-size:18px">{sl}</span><span>{k}</span>'
+                  f'<span style="justify-self:start;padding:6px 14px;border-radius:99px;background:#DCFCE7;color:#15803D;font-size:16px;font-weight:700">Activa</span>'
+                  f'<div style="display:flex;gap:8px;justify-content:flex-end">{caja(lapiz)}{caja(cajas, resaltado)}{caja(papelera, "color:#DC2626;box-shadow:inset 0 0 0 1.5px #F3B4B4")}</div></div>')
+    tabla = (f'<div style="margin-top:20px;border-radius:14px;background:#fff;box-shadow:inset 0 0 0 1px #ECE8F5;overflow:hidden">'
+             f'<div style="display:grid;{cols};align-items:center;padding:0 24px;height:52px;background:#FAF9FC;font-size:15px;font-weight:800;letter-spacing:.06em;color:#4A4560">'
+             f'<span>NOMBRE</span><span>SLUG</span><span>ORDEN</span><span>ESTADO</span><span></span></div>{filas}</div>')
+    principal = (f'<div style="position:absolute;left:84px;right:0;top:0;bottom:0;background:#F4F3F7">{cabecera}<div style="padding:26px 30px 0">{sub}{tabla}</div></div>')
+    ventana = tarjeta("left:50px;top:196px;width:1100px;height:770px;padding:0;overflow:hidden;border-radius:40px", f"{lateral_admin('Categorías')}{principal}")
+
+    def producto(nombre, num, stock, color, foco=False, oculto=False):
+        etiqueta = lambda t: f'<span style="padding:5px 14px;border-radius:99px;background:#F1F5F9;color:#475569;font-size:15px;font-weight:600;white-space:nowrap">{t}</span>'
+        extra = ('<span style="padding:5px 14px;border-radius:99px;background:#F1F5F9;color:#475569;font-size:15px;font-weight:600;display:inline-flex;align-items:center;gap:6px;white-space:nowrap">'
+                 '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M3 3l18 18M10.600 5.200A9.600 9.600 0 0 1 12 5c6.500 0 10 7 10 7a17 17 0 0 1-3 3.800M6.300 6.400C3.700 8.100 2 12 2 12s3.500 7 10 7c1.700 0 3.200-.4 4.500-1"/></svg>No visible</span>') if oculto else ""
+        borde = "box-shadow:inset 0 0 0 2px #6C4FD4,0 0 0 4px rgba(108,79,212,.25)" if foco else "box-shadow:inset 0 0 0 1.5px #E0DCEC"
+        flechas = ('<span style="display:flex;flex-direction:column;gap:2px;margin-left:6px;font-size:9px;color:#6b6679;line-height:1"><span>▲</span><span>▼</span></span>') if foco else ""
+        return (f'<div style="display:flex;align-items:center;justify-content:space-between;padding:14px 20px;border-radius:14px;box-shadow:inset 0 0 0 1.5px #E6E2F0;margin-bottom:12px;background:#fff">'
+                f'<div><div style="font-size:20px;font-weight:800">{nombre}</div><div style="display:flex;gap:8px;margin-top:8px">{etiqueta("#" + str(num))}{etiqueta("Producto simple")}{extra}</div></div>'
+                f'<div style="display:flex;align-items:center;gap:14px;font-size:19px;color:#6b6679">Stock<span style="width:108px;height:46px;border-radius:12px;background:#fff;{borde};display:flex;align-items:center;justify-content:flex-end;padding:0 16px;font-size:21px;font-weight:800;color:{color}">{stock}{flechas}</span></div></div>')
+    naranja, verde = "#B45309", "#16A34A"
+    lista = (producto("Remera gris", 3, 2, naranja, foco=True) + producto("Remera crema", 4, 3, naranja)
+             + producto("Remera oliva", 5, 9, verde))
+    modal = tarjeta("left:540px;top:642px;width:610px;padding:28px 30px 24px 34px;border-radius:26px;box-shadow:0 -26px 56px -6px rgba(76,52,170,.42),0 -6px 18px -4px rgba(23,18,47,.16),0 40px 70px -34px rgba(23,18,47,.4),0 0 0 1px rgba(108,79,212,.14)", f"""
+      <div style="display:flex;justify-content:space-between;align-items:flex-start"><div><div style="font-size:27px;font-weight:800">Inventario</div>
+      <div style="font-size:18px;color:#6b6679;margin-top:4px">Stock de los productos de «Remeras»</div></div>
+      <span style="width:44px;height:44px;border-radius:12px;box-shadow:inset 0 0 0 1.5px #E6E2F0;display:flex;align-items:center;justify-content:center;font-size:21px;font-weight:800;color:#4A4560">✕</span></div>
+      <div style="display:flex;gap:10px;margin-top:16px"><div style="flex:1">{lista}</div>
+      <div style="width:9px;border-radius:9px;background:#EEEAF6;position:relative"><span style="position:absolute;left:0;right:0;top:0;height:46%;border-radius:9px;background:#9A97A8"></span></div></div>
+      <div style="display:flex;justify-content:flex-end;gap:12px;margin-top:6px">
+      <span style="height:52px;padding:0 26px;border-radius:12px;box-shadow:inset 0 0 0 1.5px #D9D5E6;display:flex;align-items:center;font-size:19px;font-weight:700">Cancelar</span>
+      <span class="btn" style="height:52px;font-size:19px;padding:0 26px;border-radius:12px">Guardar inventario</span></div>""")
+    # línea punteada: del botón de cajas de "Remeras" a la ventana de inventario que abre
+    linea = ('<svg class="conexion" width="1200" height="1200" viewBox="0 0 1200 1200" fill="none">'
+             '<path d="M1016 618 V642" stroke="#7C6AE0" stroke-width="6" stroke-linecap="round" stroke-dasharray="1 11"/>'
+             '<circle cx="1016" cy="642" r="7" fill="#7C6AE0"/></svg>')
+    if parte == "ventana":  # capa animada: solo la ventana de inventario y su línea, sobre fondo transparente
+        return modal
+    resto = (sticker("Inventario", "Por categoría", "left:676px;top:104px;white-space:nowrap")
+             + pill("Stock al toque", "left:70px;top:1050px;font-size:31px"))
+    if parte == "base":  # imagen de la página: la lista de categorías, sin la ventana
+        return TRAZO.format(s="left:-100px;top:-120px") + ventana + resto
+    return TRAZO.format(s="left:-100px;top:-120px") + ventana + modal + resto
 
 
 def escena_barra():
-    """Barra promocional propia: sin Lemora Ads, con tus mensajes y tu color."""
-    mensajes = ["Envíos a domicilio", "Pagá 3 llevá 5", "Pedí tus favoritos online"]
+    """Olvidate de anuncios: la barra de la tienda (con sus mensajes en movimiento en la página), conectada con línea punteada al panel."""
+    mensajes = ["🔥 Compra mínima $70.000", "Envíos a todo el país 💙🤍💙", "Solo transferencia"]
     filas = "".join(f'<div class="in" style="margin-top:12px"><span style="color:#B9ABF0;font-size:26px">⠿</span>{m}</div>' for m in mensajes)
-    colores = ["#FF9A52", "#6C4FD4", "#17122F", "#E3F547", "#E85D75", "#2DB5A0"]
-    sw = "".join(f'<span class="sw" style="background:{c};{"box-shadow:0 0 0 4px #fff,0 0 0 7px #6C4FD4" if i == 0 else ""}"></span>' for i, c in enumerate(colores))
-    panel = tarjeta("left:548px;top:92px;width:612px", f"""
+    colores = ["#FD5CCE", "#6C4FD4", "#17122F", "#E3F547", "#FF9A52", "#2DB5A0"]
+    sw = "".join(f'<span class="sw" style="background:{c};{"box-shadow:0 0 0 4px #fff,0 0 0 7px #6C4FD4" if i == 2 else ""}"></span>' for i, c in enumerate(colores))
+    panel = tarjeta("left:620px;top:92px;width:540px", f"""
       <div class="h">Barra promocional</div><div class="sub">Los mensajes se ven arriba de tu tienda.</div>
       <div class="lbl" style="margin-top:26px">Mensajes</div>{filas}
       <div class="in" style="margin-top:12px;background:#fff;color:#6C4FD4;justify-content:center;box-shadow:inset 0 0 0 2px #CFC3F7;border-style:dashed">+ Agregar mensaje</div>
       <div class="lbl" style="margin-top:26px">Color de la barra</div>
       <div class="row" style="gap:16px;margin-top:12px">{sw}</div>
       <div class="row" style="justify-content:flex-end;margin-top:30px"><div class="btn">Guardar</div></div>""")
-    tel = celular("left:50px;top:400px;width:500px", 900, f"""
-      <div class="tienda-barra" style="background:#FF9A52;color:#17122F"><span>Envíos a domicilio</span><span>•</span><span>Pagá 3 llevá 5</span></div>
-      {cabecera_tienda()}{foto("barra-portada", "portada de la tienda con su título", "height:560px")}""")
-    return (TRAZO.format(s="left:-70px;top:520px") + panel + tel
+    productos = [("Remera básica", "$14.900"), ("Short de jean", "$19.900")]
+    cards = "".join(
+        f'<div class="col" style="flex:1;gap:6px">{foto("barra-prod" + str(k), "producto " + str(k), "height:160px;border-radius:20px")}'
+        f'<b style="font-size:19px;margin-top:6px">{n}</b><span style="color:#6C4FD4;font-weight:800;font-size:19px">{p}</span></div>'
+        for k, (n, p) in enumerate(productos, 1))
+    tel = celular("left:50px;top:445px;width:500px", 900, f"""
+      <div class="tienda-barra" style="background:#17122F;color:#fff"><span>🔥 Compra mínima $70.000</span><span>Envíos a todo el país 💙🤍💙</span></div>
+      {cabecera_tienda()}{foto("barra-portada", "portada de la tienda", "height:300px;border-radius:0")}
+      <div class="row" style="gap:16px;padding:22px 22px 0;align-items:flex-start">{cards}</div>""")
+    # línea punteada: sale del final de la barra del celular y entra al primer mensaje del panel
+    linea = ('<svg class="conexion" width="1200" height="1200" viewBox="0 0 1200 1200" fill="none">'
+             '<path d="M546 565 H584 V300 H626" stroke="#9F8FEF" stroke-width="6" stroke-linecap="round" stroke-dasharray="1 13"/>'
+             '<circle cx="546" cy="565" r="10" fill="#fff" stroke="#9F8FEF" stroke-width="4"/>'
+             '<circle cx="626" cy="300" r="7" fill="#9F8FEF"/></svg>')
+    azul = pill_azul("Sin Lemora Ads", "left:640px;top:900px;font-size:33px")
+    return (TRAZO.format(s="right:-80px;top:700px") + tel + linea + panel
             + sticker("Tu barra", "Tus mensajes y tu color", "left:60px;top:150px;white-space:nowrap")
-            + pill("Sin Lemora Ads", "left:600px;top:1010px"))
+            + azul)
 
 
 def escena_carrito():
-    """Gastos de gestión y envío gratis en el carrito."""
-    items = producto_fila("carrito-prod", 1, "$14.500") + producto_fila("carrito-prod", 2, "$11.000")
-    linea = lambda a, b, extra="": f'<div class="row" style="justify-content:space-between;padding:12px 16px;font-size:23px;font-weight:600;border-radius:16px;{extra}"><span>{a}</span><b>{b}</b></div>'
-    carrito = tarjeta("left:60px;top:90px;width:620px;padding:38px 42px", f"""
-      <div class="h" style="font-size:36px">Tu carrito</div>
-      <div style="margin-top:16px;padding:18px 22px;border-radius:24px;background:#F1ECFF"><div style="font-size:22px;font-weight:700;color:#4B33A8">Te faltan $4.500 para el envío gratis</div><div class="barra" style="margin-top:12px"><i style="width:86%"></i></div></div>
-      <div class="col" style="margin-top:10px">{items}</div>
-      <div class="col" style="margin-top:10px;gap:2px">{linea("Subtotal", "$25.500")}{linea("Gastos de gestión", "$1.200", "background:#F1ECFF;color:#4B33A8")}{linea("Total", "$26.700", "font-size:29px;font-weight:800")}</div>""")
-    panel = tarjeta("left:640px;top:560px;width:520px;padding:36px 40px", f"""
-      <div class="row" style="justify-content:space-between"><div class="h" style="font-size:30px">Gastos de gestión</div><span class="tog"></span></div>
-      <div class="in" style="margin-top:14px">$1.200</div>
-      <div class="h" style="font-size:30px;margin-top:26px">Envío gratis</div>
-      <div class="row" style="gap:12px;margin-top:14px"><span class="chip on">Por monto</span><span class="chip">Por cantidad</span></div>
-      <div class="lbl" style="margin-top:18px">A partir de</div><div class="in" style="margin-top:8px">$30.000</div>""")
-    return (TRAZO.format(s="left:-70px;top:760px") + carrito + panel
-            + sticker("Carrito", "Gestión y envío gratis", "left:740px;top:90px;white-space:nowrap")
-            + pill("Vos elegís las condiciones", "left:70px;top:1030px;font-size:28px"))
+    """Gastos de gestión y envío gratis. Tesis espacial: lo principal es el resumen del pedido (lo que ve el cliente);
+    las dos tarjetas de configuración son una misma familia que lo causa: pareja simétrica de igual alto arriba, resumen
+    centrado abajo y una línea punteada de cada tarjeta a la parte del resumen que cambia."""
+    azul = "#17122F"  # nuestro azul oscuro
+    campo = lambda label, valor, ayuda: (
+        f'<div style="flex:1"><div style="min-height:50px;display:flex;align-items:flex-end;font-size:21px;font-weight:700;line-height:1.2">{label}</div>'
+        f'<div style="margin-top:8px;height:58px;border-radius:12px;background:#fff;box-shadow:inset 0 0 0 1.5px #E6E2F0;display:flex;align-items:center;padding:0 18px;font-size:24px;font-weight:600;color:#17122F">{valor}</div>'
+        f'<div style="margin-top:8px;font-size:17px;color:#6b6679;line-height:1.3">{ayuda}</div></div>')
+    guardar = '<div class="row" style="justify-content:flex-end;margin-top:auto"><div class="btn" style="height:56px;font-size:21px;padding:0 32px;border-radius:14px">Guardar</div></div>'
+    base = "top:172px;width:540px;height:420px;padding:28px 30px 24px;border-radius:26px;display:flex;flex-direction:column"
+    envio = tarjeta(f"left:40px;{base}", f"""
+      <div style="font-size:34px;font-weight:800">Envío gratuito</div>
+      <div style="font-size:21px;color:#6b6679;margin-top:8px;line-height:1.35">Si el carrito cumple una regla, el envío es gratis.</div>
+      <div style="display:flex;gap:22px;margin-top:18px">{campo("Cantidad mínima", "3", "0 = sin regla por cantidad.")}{campo("Monto mínimo ($)", "50.000", "0 = sin regla por monto.")}</div>
+      {guardar}""")
+    chk = ('<span style="width:26px;height:26px;border-radius:7px;background:#6C4FD4;display:flex;align-items:center;justify-content:center;flex:none">'
+           '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#fff" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.500l4.500 4.500L19 7.500"/></svg></span>')
+    gestion = tarjeta(f"left:620px;{base}", f"""
+      <div style="font-size:34px;font-weight:800">Gastos de gestión</div>
+      <div style="font-size:21px;color:#6b6679;margin-top:8px;line-height:1.35">Sumá un costo adicional al carrito, fijo o en porcentaje.</div>
+      <div style="display:flex;align-items:center;gap:14px;margin-top:16px;font-size:22px;font-weight:700">{chk}Habilitar gastos de gestión</div>
+      <div style="display:flex;gap:22px;margin-top:14px">
+        <div style="flex:1"><div style="min-height:26px;display:flex;align-items:flex-end;font-size:21px;font-weight:700">Tipo de costo</div>
+        <div style="margin-top:8px;height:58px;border-radius:12px;background:#fff;box-shadow:inset 0 0 0 1.5px #E6E2F0;display:flex;align-items:center;justify-content:space-between;padding:0 18px;font-size:24px;font-weight:600;color:#17122F">Costo fijo<span style="color:#6b6679;font-size:16px">⌄</span></div></div>
+        <div style="flex:1"><div style="min-height:26px;display:flex;align-items:flex-end;font-size:21px;font-weight:700">Monto fijo</div>
+        <div style="margin-top:8px;height:58px;border-radius:12px;background:#fff;box-shadow:inset 0 0 0 1.5px #E6E2F0;display:flex;align-items:center;padding:0 18px;font-size:24px;font-weight:600;color:#17122F">1.200</div></div></div>
+      {guardar}""")
+    linea = lambda a, b, extra="": f'<div style="display:flex;justify-content:space-between;align-items:center;padding:11px 0;border-bottom:1px solid #ECE8F5;font-size:21px;{extra}"><span>{a}</span><span>{b}</span></div>'
+    rayo = '<svg viewBox="0 0 24 24" width="19" height="19" fill="#17122F" style="margin-right:6px"><path d="M13 2L4 14h6l-1 8 9-12h-6z"/></svg>'
+    sombra = "box-shadow:0 -22px 50px -8px rgba(76,52,170,.4),0 -6px 18px -4px rgba(23,18,47,.14),0 40px 70px -34px rgba(23,18,47,.4),0 0 0 1px rgba(108,79,212,.14)"
+
+    # el carrito de la tienda (el panel lateral "Tu Carrito")
+    carrito_ico = '<svg viewBox="0 0 24 24" width="30" height="30" fill="#6C4FD4"><path d="M2 3h2.600l.6 2H22l-2.200 8.500H8l.4 1.500H19v2H6.900L3.500 5H2z"/><circle cx="9" cy="20" r="1.700"/><circle cx="17" cy="20" r="1.700"/></svg>'
+    def item(clave, nombre, cant):
+        uri = foto_uri(clave)
+        miniatura = (f'<div style="flex:none;width:84px;height:84px;border-radius:14px;background:#E2D9FF url({uri}) center/cover no-repeat"></div>' if uri
+                     else '<div style="flex:none;width:84px;height:84px;border-radius:14px;background:#E2D9FF"></div>')
+        paso = lambda t: f'<span style="width:38px;height:38px;border-radius:10px;box-shadow:inset 0 0 0 1.5px #E0DCEC;display:flex;align-items:center;justify-content:center;font-size:21px;color:#17122F">{t}</span>'
+        return (f'<div style="display:flex;gap:18px;align-items:center;padding:14px 0;border-top:1px solid #ECE8F5">{miniatura}'
+                f'<div style="flex:1"><div style="font-size:23px;color:#17122F">{nombre}</div><div style="font-size:21px;color:#6C4FD4;margin-top:2px">$ 14.900</div>'
+                f'<div style="display:flex;gap:8px;align-items:center;margin-top:8px">{paso("−")}<span style="width:46px;height:38px;border-radius:10px;box-shadow:inset 0 0 0 1.5px #E0DCEC;display:flex;align-items:center;justify-content:center;font-size:21px">{cant}</span>{paso("+")}</div></div></div>')
+    carrito = tarjeta(f"left:40px;top:650px;width:470px;padding:22px 28px 24px;border-radius:26px;{sombra}", f"""
+      <div style="display:flex;align-items:center;gap:12px;font-size:32px;font-weight:600;margin-bottom:10px">{carrito_ico}Tu Carrito</div>
+      {item("carrito-gris", "Remera gris", 3)}{item("carrito-crema", "Remera crema", 2)}
+      <div style="border-top:1px solid #ECE8F5;margin-top:2px">{linea("Subtotal", "$ 74.500", "border-bottom:none")}</div>
+      <div style="margin-top:6px;height:56px;border-radius:14px;background:#17122F;color:#fff;font-size:21px;font-weight:600;display:flex;align-items:center;justify-content:center">Ir al carrito →</div>""")
+
+    resumen = tarjeta(f"left:540px;top:650px;width:620px;padding:24px 34px 24px;border-radius:26px;{sombra}", f"""
+      <div style="font-size:34px;font-weight:600">Resumen del Pedido</div>
+      <div style="margin-top:6px">{linea("Subtotal:", "$ 74.500")}
+      <div style="margin:6px -14px;padding:0 14px;border-radius:14px;background:#F1ECFF;color:#4B33A8;font-weight:700">{linea("Gastos de gestión:", "$ 1.200", "border-bottom:none")}</div>
+      {linea("Envío:", '<b style="display:inline-flex;align-items:center">' + rayo + 'Tienes envío gratis</b>')}{linea("Total:", "$ 75.700", "border-bottom:none;font-weight:700;font-size:22px")}</div>
+      <div style="margin-top:2px;height:12px;border-radius:99px;background:#16A34A"></div>
+      <div style="font-size:21px;margin-top:12px">¡Ya alcanzaste el envío gratuito!</div>
+      <div style="margin-top:14px;height:56px;border-radius:14px;background:{azul};color:#fff;font-size:20px;font-weight:600;display:flex;align-items:center;justify-content:center">Finalizar Compra</div>""")
+    # líneas punteadas: cada tarjeta de configuración baja a la parte del resumen que cambia
+    lineas = ('<svg class="conexion" width="1200" height="1200" viewBox="0 0 1200 1200" fill="none">'
+              '<path d="M310 598 V622 H760 V650" stroke="#7C6AE0" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="1 13"/>'
+              '<path d="M890 598 V650" stroke="#7C6AE0" stroke-width="6" stroke-linecap="round" stroke-dasharray="1 13"/>'
+              '<circle cx="310" cy="598" r="8" fill="#fff" stroke="#7C6AE0" stroke-width="4"/><circle cx="890" cy="598" r="8" fill="#fff" stroke="#7C6AE0" stroke-width="4"/>'
+              '<circle cx="760" cy="650" r="6" fill="#7C6AE0"/><circle cx="890" cy="650" r="6" fill="#7C6AE0"/></svg>')
+    return (TRAZO.format(s="right:-100px;top:700px") + envio + gestion + lineas + carrito + resumen
+            + sticker("Tu carrito", "Gestión y envío gratis", "left:60px;top:8px;white-space:nowrap")
+            + pill("Vos elegís las condiciones", "left:640px;top:36px;font-size:29px"))
 
 
 def escena_6():
-    """Carrusel de hasta 12 imágenes y 5 banners promocionales."""
-    def tabla(prefijo, ancho_foto, alto_foto, filas):
-        return "".join(
-            f'<tr><td style="width:{ancho_foto + 20}px">{foto(prefijo + str(i), "imagen", f"width:{ancho_foto}px;height:{alto_foto}px;border-radius:10px;font-size:0")}</td>'
-            f'<td><b>{t}</b></td><td style="width:120px"><span class="ok">Activo</span></td></tr>'
-            for i, t in enumerate(filas, 1))
-    carrusel = tarjeta("left:60px;top:100px;width:720px;padding:40px 44px", f"""
-      <div class="row" style="justify-content:space-between"><div class="h" style="font-size:36px">Carrusel</div><div class="btn" style="height:56px;font-size:20px;padding:0 24px">+ Nuevo elemento</div></div>
-      <div class="sub" style="color:#17122F">Máximo 12 elementos. Te quedan 9.</div>
-      <table style="margin-top:18px"><tr><th>IMAGEN</th><th>TÍTULO</th><th>ESTADO</th></tr>{tabla("carr", 84, 46, ["Nueva temporada", "Ofertas de la semana", "Más vendidos"])}</table>""")
-    banners = tarjeta("left:380px;top:620px;width:780px;padding:40px 44px", f"""
-      <div class="row" style="justify-content:space-between"><div class="h" style="font-size:36px">Banners</div><div class="btn" style="height:56px;font-size:20px;padding:0 24px">+ Nuevo banner</div></div>
-      <div class="sub" style="color:#17122F">Máximo 5 banners. Te quedan 2.</div>
-      <table style="margin-top:18px"><tr><th>IMAGEN</th><th>CONTENIDO</th><th>ESTADO</th></tr>{tabla("ban", 130, 56, ["Promoción especial", "Envío gratis", "Nueva colección"])}</table>""")
-    return (TRAZO.format(s="left:-60px;top:650px") + carrusel + banners
-            + sticker("12 y 5", "Carrusel y banners", "left:810px;top:60px;white-space:nowrap")
-            + pill("En vez de 8 y 3", "left:70px;top:1010px"))
+    """Más carrusel y más banners: el panel del carrusel (límites reales), la tienda con el carrusel y un banner, y dos stickers."""
+    # miniaturas y fotos de la tienda
+    uri_hero = foto_uri("cat-banner")
+    uri_prenda = foto_uri("cat-prod1")
+    sol = lambda d, tam=20: f'<svg viewBox="0 0 24 24" width="{tam}" height="{tam}" fill="currentColor">{d}</svg>'
+    lapiz = sol('<path d="M3 17.500V21h3.500L18 9.500 14.500 6zM20.700 7a1 1 0 0 0 0-1.400l-2.300-2.300a1 1 0 0 0-1.400 0l-1.800 1.800L18.900 8.800z"/>')
+    copiar = sol('<path d="M8 3h9a2 2 0 0 1 2 2v11h-2V5H8zM5 7h9a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2z"/>')
+    papelera = sol('<path d="M9 3h6l1 2h5v2H3V5h5zM5 9h14l-1 12H6z"/>')
+    caja = lambda svg, extra="": (f'<span style="width:46px;height:38px;border-radius:10px;background:#fff;box-shadow:inset 0 0 0 1.5px #D9D5E6;display:flex;align-items:center;justify-content:center;color:#17122F;{extra}">{svg}</span>')
+    cabecera = ('<div style="display:flex;align-items:center;justify-content:space-between;height:84px;padding:0 30px;background:#fff;border-bottom:1px solid #ECE8F5">'
+                '<div style="display:flex;align-items:center;gap:18px"><span style="width:44px;height:40px;border-radius:12px;box-shadow:inset 0 0 0 1.5px #E6E2F0;display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:800">«</span>'
+                '<span style="font-size:28px;font-weight:800">Carrusel</span></div>'
+                '<div style="display:flex;align-items:center;gap:12px"><span style="padding:11px 18px;border-radius:12px;box-shadow:inset 0 0 0 1.5px #E6E2F0;font-size:17px;font-weight:600">Ver tienda ↗</span>'
+                '<span style="padding:9px 18px;border-radius:99px;background:#E2D9FF;color:#5B41C4;font-size:16px;font-weight:700">Admin</span></div></div>')
+    sub = ('<div style="display:flex;align-items:center;justify-content:space-between"><span style="font-size:18px;color:#6b6679;max-width:600px;line-height:1.35">Portada del inicio. Sin elementos activos, la sección desaparece de la tienda.</span>'
+           '<span style="padding:13px 24px;border-radius:14px;background:#6C4FD4;color:#fff;font-size:18px;font-weight:700;white-space:nowrap">+ Nuevo elemento</span></div>')
+    limites = ('<div style="font-size:17px;line-height:1.4;color:#17122F">Límites: hasta 6 en móvil y 6 en escritorio ("Ambos" ocupa lugar en los dos). '
+               'Disponibles ahora: 4 en móvil y 4 en escritorio.</div>')
+    cols = "grid-template-columns:130px 2.1fr .6fr 1.15fr .8fr 150px"
+    miniatura = lambda pos: (f'<div style="width:104px;height:62px;border-radius:10px;background:#E2D9FF url({uri_hero}) {pos}/cover no-repeat;box-shadow:inset 0 0 0 1px rgba(23,18,47,.1)"></div>' if uri_hero else '<div style="width:112px;height:64px;border-radius:10px;background:#E2D9FF"></div>')
+    filas_def = [("Nueva colección", "Hasta 30% off · Remeras", 1, "Solo móvil", "right center"), ("Nueva colección", "Hasta 30% off · Remeras", 2, "Solo escritorio", "center center"),
+                 ("Envíos a todo el país", "Comprá en nuestra tienda", 3, "Ambos", "left center")]
+    filas = "".join(
+        f'<div style="display:grid;{cols};align-items:center;padding:12px 22px;border-top:1px solid #ECE8F5;font-size:18px">{miniatura(pos)}'
+        f'<div style="padding-right:14px"><b style="font-size:19px;white-space:nowrap">{t}</b><div style="color:#6b6679;font-size:15px;margin-top:2px">{st}</div></div><span>{o}</span><span style="white-space:nowrap;font-size:17px">{v}</span>'
+        f'<span style="justify-self:start;padding:6px 14px;border-radius:99px;background:#DCFCE7;color:#15803D;font-size:16px;font-weight:700">Activo</span>'
+        f'<div style="display:flex;gap:8px;justify-content:flex-end">{caja(lapiz)}{caja(copiar)}{caja(papelera, "color:#DC2626;box-shadow:inset 0 0 0 1.5px #F3B4B4")}</div></div>'
+        for t, st, o, v, pos in filas_def)
+    tabla = (f'<div style="margin-top:18px;border-radius:14px;background:#fff;box-shadow:inset 0 0 0 1px #ECE8F5;overflow:hidden">'
+             f'<div style="display:grid;{cols};align-items:center;padding:0 22px;height:50px;background:#FAF9FC;font-size:14px;font-weight:800;letter-spacing:.06em;color:#4A4560">'
+             f'<span>IMAGEN</span><span>TÍTULO</span><span>ORDEN</span><span>VISIBLE EN</span><span>ESTADO</span><span></span></div>{filas}</div>')
+    principal = (f'<div style="position:absolute;left:84px;right:0;top:0;bottom:0;background:#F4F3F7">{cabecera}<div style="padding:26px 30px 0"><div style="font-size:18px;color:#6b6679;max-width:540px;line-height:1.35">Portada del inicio. Sin elementos activos, la sección desaparece de la tienda.</div><div style="margin-top:14px;font-size:18px;font-weight:500">Máximo 12 elementos. Te quedan 9.</div>{tabla}</div></div>')
+    ventana = tarjeta("left:40px;top:70px;width:960px;height:600px;padding:0;overflow:hidden;border-radius:40px", f"{lateral_admin('Carrusel')}{principal}")
+
+    # tienda: el carrusel de la portada y un banner promocional
+    hero = ((f'<div style="position:relative;height:228px;border-radius:20px;overflow:hidden;background:#E2D9FF url({uri_hero}) center 35%/cover no-repeat">' if uri_hero
+             else '<div style="position:relative;height:228px;border-radius:20px;overflow:hidden;background:#E2D9FF">')
+            + '<div style="position:absolute;inset:0;background:linear-gradient(90deg,rgba(23,18,47,.55),rgba(23,18,47,.05) 65%)"></div>'
+            + '<div style="position:absolute;left:34px;top:0;bottom:0;display:flex;flex-direction:column;justify-content:center;color:#fff">'
+            + '<b style="font-size:46px;line-height:1.05;letter-spacing:-.01em">Hasta 30% off</b><span style="font-size:19px;letter-spacing:.14em;font-weight:600;margin-top:10px;opacity:.92">NUEVA COLECCIÓN</span></div>'
+            + '<span style="position:absolute;right:22px;top:50%;margin-top:-18px;width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,.3)"></span></div>')
+    foto_prenda = (f'<div style="width:300px;background:#C9B79A url({uri_prenda}) center/cover no-repeat"></div>' if uri_prenda else '<div style="width:300px;background:#E2D9FF"></div>')
+    promo = (f'<div style="display:flex;height:172px;border-radius:20px;overflow:hidden;background:#0B0B0B;margin-top:14px">{foto_prenda}'
+             '<div style="flex:1;display:flex;flex-direction:column;justify-content:center;padding-left:40px;color:#fff"><span style="font-size:15px;letter-spacing:.06em;opacity:.85">PROMOCIÓN ESPECIAL</span>'
+             '<b style="font-size:34px;margin-top:8px;letter-spacing:-.01em">2X1 EN REMERAS</b></div></div>')
+    tienda = tarjeta("left:300px;top:604px;width:860px;padding:20px 24px 22px;border-radius:34px", f"""
+      <div style="display:flex;justify-content:space-between;align-items:center;height:50px;margin-bottom:12px"><span class="logo" style="font-size:22px">TU LOGO</span>
+      <span style="font-size:19px;color:#6b6679;font-weight:600;display:flex;gap:32px"><span>Inicio</span><span>Productos</span></span></div>{hero}{promo}""")
+    # líneas punteadas: de la fila del carrusel al carrusel de la tienda, del sticker "Carrusel" al carrusel y del
+    # sticker "Banners" al banner promocional
+    linea = ('<svg class="conexion" width="1200" height="1200" viewBox="0 0 1200 1200" fill="none">'
+             '<path d="M962 375 H1086 V612" stroke="#7C6AE0" stroke-width="6" stroke-linecap="round" stroke-dasharray="1 13"/>'
+             '<circle cx="962" cy="375" r="9" fill="#fff" stroke="#7C6AE0" stroke-width="4"/></svg>')
+    senales = ('<svg class="conexion" width="1200" height="1200" viewBox="0 0 1200 1200" fill="none">'
+               '<path d="M1030 140 H1150 V800 H1096" stroke="#7C6AE0" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="1 13"/>'
+               '<circle cx="1096" cy="800" r="9" fill="#fff" stroke="#7C6AE0" stroke-width="4"/>'
+               '<path d="M290 1008 H470" stroke="#7C6AE0" stroke-width="6" stroke-linecap="round" stroke-dasharray="1 13"/>'
+               '<circle cx="470" cy="1008" r="9" fill="#fff" stroke="#7C6AE0" stroke-width="4"/></svg>')
+    return (TRAZO.format(s="left:-110px;top:-90px") + ventana + linea + tienda + senales
+            + sticker("Carrusel", "Hasta 12 imágenes", "left:700px;top:44px;white-space:nowrap")
+            + sticker("Banners", "Hasta 5 banners", "left:30px;top:880px;white-space:nowrap")
+            + pill("En vez de 8 y 3", "left:60px;top:1078px;font-size:29px"))
 
 
 def escena_7():
@@ -272,28 +553,40 @@ def escena_7():
     barra = '<div style="height:50px;display:flex;align-items:center;justify-content:center;background:#E3F547;color:#17122F;font-weight:800;font-size:18px;letter-spacing:.06em">BLACK FRIDAY</div>'
     etiqueta = '<div style="position:absolute;left:14px;top:14px;background:#FF9A52;color:#17122F;font-weight:800;font-size:18px;border-radius:99px;padding:7px 14px;letter-spacing:.06em">OFERTA</div>'
     reloj = '<div style="margin-top:10px;background:#17122F;color:#fff;border-radius:14px;padding:8px 14px;font-size:20px;font-weight:700;display:inline-block">Termina en 02:14:36</div>'
-    precio = '<span style="text-decoration:line-through;color:#6b6679;font-size:21px;margin-right:10px">$18.000</span><b style="color:#6C4FD4;font-size:27px">$12.600</b>'
+    precio = '<span style="text-decoration:line-through;color:#6b6679;font-size:21px;margin-right:10px">$14.900</span><b style="color:#6C4FD4;font-size:27px">$11.900</b>'
     tel = celular("left:60px;top:200px;width:480px", 960, f"""
       {barra}{cabecera_tienda()}
       <div style="padding:14px 24px 0;position:relative">{foto("mkt-prod", "producto en oferta", "height:340px;border-radius:26px")}{etiqueta}
-      <b style="font-size:26px;display:block;margin-top:14px">Producto</b><div style="margin-top:4px">{precio}</div>{reloj}</div>""")
-    aviso = tarjeta("left:420px;top:880px;width:520px;padding:24px 30px;border-radius:34px", f"""
-      <div class="row" style="gap:20px"><span class="ph" style="width:68px;height:68px;border-radius:50%;background:#FF9A52;color:#17122F">{CAMPANA}</span>
-      <div class="col"><b style="font-size:25px">Notificación de confianza</b><span class="lbl" style="font-size:21px">Tu mensaje acá</span></div></div>""")
+      <b style="font-size:26px;display:block;margin-top:14px">Remera crema</b><div style="margin-top:4px">{precio}</div>{reloj}</div>""")
+    foto_aviso = foto_uri("mkt-aviso")
+    miniatura = (f'<div style="flex:none;width:84px;height:84px;border-radius:14px;background:#E2D9FF url({foto_aviso}) center/cover no-repeat"></div>' if foto_aviso
+                 else '<div style="flex:none;width:84px;height:84px;border-radius:14px;background:#E2D9FF"></div>')
+    aviso = tarjeta("left:90px;top:968px;width:520px;padding:18px 24px 18px 18px;border-radius:20px", f"""
+      <div style="display:flex;align-items:center;gap:20px">{miniatura}
+      <div style="flex:1;line-height:1.3"><div style="font-size:23px;color:#17122F">Alguien en <b>tu zona</b> ya compró este artículo</div>
+      <div style="font-size:17px;color:#6b6679;margin-top:6px">Remera oliva</div></div>
+      <span style="align-self:flex-start;font-size:22px;font-weight:800;color:#6b6679;line-height:1">✕</span></div>""")
     def fila(n, sub, on=True):
         tog = "tog" if on else "tog off"
         return (f'<div class="row" style="justify-content:space-between;padding:17px 0;border-top:1px solid #EFEAFB">'
                 f'<div class="col"><b style="font-size:24px">{n}</b><span class="lbl" style="font-size:18px">{sub}</span></div><span class="{tog}"></span></div>')
     panel = tarjeta("left:620px;top:120px;width:540px;padding:38px 40px", f"""
       <div class="h" style="font-size:34px">Marketing</div><div class="sub" style="font-size:19px">Todo junto, en tu panel.</div>
-      <div class="col" style="margin-top:16px">{fila("Notificación de confianza", "Se muestra en tu tienda")}{fila("Ofertas por tiempo limitado", "Producto por producto")}{fila("Modo promociones", "Black Friday, Hot Sale, CyberMonday")}</div>
+      <div class="col" style="margin-top:16px">{fila("Notificación de confianza", "Compras recientes de tu zona")}{fila("Ofertas por tiempo limitado", "Producto por producto")}{fila("Modo promociones", "Black Friday, Hot Sale, CyberMonday")}</div>
       <div class="row" style="justify-content:flex-end;margin-top:22px"><div class="btn" style="height:58px">Guardar</div></div>""")
-    return (TRAZO.format(s="right:-90px;top:640px") + tel + panel + aviso
+    nota = '<div style="position:absolute;left:44px;top:26px;font-size:22px;font-weight:700;color:#DC2626;letter-spacing:.01em">Esta imagen no está terminada</div>'
+    return (TRAZO.format(s="right:-90px;top:640px") + tel + panel + aviso + nota
             + sticker("Marketing", "Promos, ofertas y confianza", "left:660px;top:690px;white-space:nowrap")
             + pill("Todo junto en tu panel", "left:640px;top:1070px;font-size:27px"))
 
 
-ESCENAS = {1: escena_barra, 2: escena_1, 3: escena_2, 4: escena_3, 5: escena_carrito, 6: escena_6, 7: escena_7}
+ESCENAS = {1: escena_barra, 2: escena_1, 3: lambda: escena_2("base"), 4: lambda: escena_3("base"), 5: escena_carrito, 6: escena_6, 7: escena_7}
+
+# imágenes con ventana animada: número de imagen -> (archivo de la capa, escena de la capa)
+CAPAS = {
+    3: ("cliente-ventana", lambda: escena_2("ventana")),
+    4: ("inventario-ventana", lambda: escena_3("ventana")),
+}
 
 if __name__ == "__main__":
     pedidas = [int(a) for a in sys.argv[1:] if a.isdigit()] or list(ESCENAS)
@@ -312,4 +605,16 @@ if __name__ == "__main__":
             destino = SALIDA / f"premium-{n}.webp"
             Image.open(png).convert("RGB").save(destino, "WEBP", quality=88, method=6)
             print(f"premium-{n}.webp  {destino.stat().st_size // 1024} KB", flush=True)
+            if n in CAPAS:  # capa animada (la ventana), con fondo transparente
+                nombre, hacer = CAPAS[n]
+                html = TMP / f"{nombre}.html"
+                html.write_text(pagina(hacer(), transparente=True), encoding="utf-8")
+                pg.goto(html.as_uri(), wait_until="networkidle")
+                pg.wait_for_timeout(500)
+                png = TMP / f"{nombre}.png"
+                pg.screenshot(path=str(png), omit_background=True)
+                capas = RAIZ / "src" / "assets" / "premium-overlays"
+                capas.mkdir(parents=True, exist_ok=True)
+                Image.open(png).convert("RGBA").save(capas / f"{nombre}.webp", "WEBP", quality=90, method=6)
+                print(f"{nombre}.webp (capa animada)", flush=True)
         b.close()
