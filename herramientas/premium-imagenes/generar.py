@@ -36,6 +36,10 @@ FOTOS = {
     "carrito-prod2": _p("witch.jpg"),
     "mkt-prod": _p("remera-crema.jpg"),
     "mkt-aviso": _p("remera-oliva.jpg"),
+    "logo-l": _p("logo-l.png"),
+    "badge-bf": _p("badge-bf.svg"),
+    "badge-hs": _p("badge-hs.svg"),
+    "badge-cm": _p("badge-cm.svg"),
     "carrito-gris": _p("remera-gris.jpg"),
     "carrito-crema": _p("remera-crema.jpg"),
 }
@@ -52,7 +56,7 @@ def foto_uri(clave):
     if not ruta:
         return None
     ruta = pathlib.Path(ruta)
-    tipo = {"png": "png", "jpg": "jpeg", "jpeg": "jpeg", "webp": "webp"}[ruta.suffix.lstrip(".").lower()]
+    tipo = {"png": "png", "jpg": "jpeg", "jpeg": "jpeg", "webp": "webp", "svg": "svg+xml"}[ruta.suffix.lstrip(".").lower()]
     return f"data:image/{tipo};base64," + base64.b64encode(ruta.read_bytes()).decode()
 
 
@@ -216,7 +220,7 @@ def escena_1():
       <div class="row" style="gap:28px;padding:22px 34px 46px;align-items:flex-start">{cards}</div>""")
     return (TRAZO.format(s="right:-70px;top:-40px") + ventana
             + sticker("Una página", "Para cada categoría", "left:56px;top:118px;white-space:nowrap")
-            + pill_azul("Con su propia imagen", "left:690px;top:105px;font-size:31px"))
+            + pill_azul("Con su propio filtro", "left:700px;top:105px;font-size:31px"))
 
 
 def lateral_admin(activo):
@@ -245,8 +249,7 @@ def lateral_admin(activo):
         for n, svg in iconos.items())
     lateral = (f'<div style="position:absolute;left:0;top:0;bottom:0;width:84px;border-right:1px solid #ECE8F5;background:#fff">'
                f'<div style="display:flex;align-items:center;justify-content:center;height:84px;border-bottom:1px solid #ECE8F5">'
-               f'<span style="width:46px;height:46px;border-radius:13px;background:#6C4FD4;display:flex;align-items:center;justify-content:center">'
-               f'<svg viewBox="0 0 24 24" width="28" height="28" fill="#fff"><path d="M12 20.5S3.5 15.4 3.5 9.3A4.8 4.8 0 0 1 12 6.6a4.8 4.8 0 0 1 8.5 2.7c0 6.1-8.5 11.2-8.5 11.2z"/></svg></span></div>'
+               f'<img src="{foto_uri("logo-l")}" style="width:46px;height:46px;border-radius:13px;display:block"></div>'
                f'<div style="padding-top:10px">{menu}</div></div>')
     return lateral
 
@@ -272,7 +275,7 @@ def escena_2(parte="completa"):
     filtros = (f'<div style="display:flex;align-items:center;gap:12px;margin-top:20px;white-space:nowrap"><span style="font-size:17px;font-weight:600;color:#6b6679">Desde</span>{filtro(160)}'
                f'<span style="font-size:17px;font-weight:600;color:#6b6679">Hasta</span>{filtro(160)}'
                f'<div style="flex:1;height:46px;border-radius:12px;background:#fff;box-shadow:inset 0 0 0 1.5px #E6E2F0;display:flex;align-items:center;padding:0 16px;font-size:17px;color:#8c87a0">Buscar por nombre, email o teléfono…</div>'
-               f'<span style="font-size:17px;color:#6b6679">4 cliente(s)</span></div>')
+               f'</div>')
     info = ('<div style="display:flex;gap:10px;align-items:center;margin-top:18px;font-size:20px;color:#4A4560;white-space:nowrap">'
             '<span style="flex:none;width:20px;height:20px;border-radius:50%;background:#6C4FD4;color:#fff;font-size:13px;font-weight:800;display:flex;align-items:center;justify-content:center">i</span>'
             '<span>Clientes con <b>al menos un pedido entregado</b>.</span></div>')
@@ -295,26 +298,24 @@ def escena_2(parte="completa"):
              f'<div style="display:grid;{cols};align-items:center;padding:15px 22px;background:#FAF9FC;font-size:15px;font-weight:800;letter-spacing:.06em;color:#4A4560">'
              f'{chk}<span>CLIENTE</span><span>TELÉFONO</span><span>PEDIDOS</span><span>TOTAL</span><span>ÚLTIMA COMPRA</span><span></span></div>{filas}</div>')
     principal = (f'<div style="position:absolute;left:84px;right:0;top:0;bottom:0;background:#F4F3F7">{cabecera}'
-                 f'<div style="padding:24px 30px 0">{pesta}{filtros}{info}{tabla}</div></div>')
+                 f'<div style="padding:24px 30px 0">{pesta}{filtros}{tabla}</div></div>')
     ventana = tarjeta("left:50px;top:196px;width:1100px;height:770px;padding:0;overflow:hidden;border-radius:40px", f"{lateral}{principal}")
-    fila_dato = lambda svg, txt, color="#17122F": (f'<div style="display:flex;align-items:center;gap:14px;height:36px;font-size:19px;color:{color}">'
-                                                   f'<span style="color:#6b6679;flex:none">{svg}</span>{txt}</div>')
+    fila_dato = lambda svg, txt, color="#17122F": (f'<div style="display:flex;align-items:center;gap:14px;height:38px;font-size:20px;color:{color}">'
+                                                   f'<span style="color:#6C4FD4;flex:none">{svg}</span>{txt}</div>')
     dato = lambda tit, val: (f'<div style="border-radius:14px;background:#FAFAFC;box-shadow:inset 0 0 0 1.5px #E6E2F0;padding:12px 18px">'
-                             f'<div style="font-size:14px;letter-spacing:.04em;color:#6b6679;font-weight:500">{tit}</div><div style="font-size:22px;font-weight:800;margin-top:2px">{val}</div></div>')
-    modal = tarjeta("left:580px;top:700px;width:570px;padding:28px 34px 24px;border-radius:26px;box-shadow:0 -26px 56px -6px rgba(76,52,170,.42),0 -6px 18px -4px rgba(23,18,47,.16),0 40px 70px -34px rgba(23,18,47,.4),0 0 0 1px rgba(108,79,212,.14)", f"""
-      <div style="display:flex;justify-content:space-between;align-items:flex-start"><div><div style="font-size:27px;font-weight:800">Valentina Gómez</div>
-      <div style="font-size:18px;color:#6b6679;margin-top:4px">Datos de contacto del cliente</div></div>
+                             f'<div style="font-size:17px;color:#17122F;font-weight:700">{tit}</div><div style="font-size:26px;font-weight:800;margin-top:2px">{val}</div></div>')
+    modal = tarjeta("left:630px;top:626px;width:520px;padding:28px 32px 26px;border-radius:26px;box-shadow:0 -26px 56px -6px rgba(76,52,170,.42),0 -6px 18px -4px rgba(23,18,47,.16),0 40px 70px -34px rgba(23,18,47,.4),0 0 0 1px rgba(108,79,212,.14)", f"""
+      <div style="display:flex;justify-content:space-between;align-items:center"><div style="font-size:30px;font-weight:800">Valentina Gómez</div>
       <span style="width:44px;height:44px;border-radius:12px;box-shadow:inset 0 0 0 1.5px #E6E2F0;display:flex;align-items:center;justify-content:center;font-size:21px;font-weight:800;color:#4A4560">✕</span></div>
-      <div style="margin-top:12px">{fila_dato(ico('<rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/>'), "vale.gomez@correo.com", "#6C4FD4")}
-      {fila_dato(ico('<path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A15 15 0 0 1 3 6a2 2 0 0 1 2-2z"/>'), "351 612 7547", "#6C4FD4")}
+      <div style="margin-top:14px">{fila_dato(ico('<rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/>'), "vale.gomez@correo.com")}
+      {fila_dato(ico('<path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A15 15 0 0 1 3 6a2 2 0 0 1 2-2z"/>'), "351 612 7547")}
       {fila_dato(ico('<path d="M12 21s7-6.2 7-11.5A7 7 0 0 0 5 9.5C5 14.800 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/>'), "Av. Siempreviva 742, Córdoba")}</div>
-      <div style="font-size:22px;font-weight:800;margin-top:14px">Resumen de compras</div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px">{dato("PEDIDOS ENTREGADOS", "3")}{dato("TOTAL", "$ 58.400")}{dato("PRIMERA COMPRA", "02/10/2026")}{dato("ÚLTIMA COMPRA", "16/11/2026")}</div>
-      <div style="display:flex;justify-content:flex-end;margin-top:14px"><div class="btn" style="height:50px;font-size:19px;padding:0 28px">Cerrar</div></div>""")
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:18px">{dato("Pedidos", "3")}{dato("Total", "$ 58.400")}</div>
+      <div style="display:flex;justify-content:flex-end;margin-top:18px"><div id="cerrar" class="btn" style="height:50px;font-size:19px;padding:0 28px">Cerrar</div></div>""")
     if parte == "ventana":  # capa animada: solo el detalle del cliente, sobre fondo transparente
         return modal
     resto = (sticker("Tus clientes", "Pedidos entregados", "left:676px;top:104px;white-space:nowrap")
-             + pill("Todos en un solo lugar", "left:70px;top:1050px;font-size:31px"))
+             + pill("Exportalos para tus campañas", "left:70px;top:1050px;font-size:31px"))
     if parte == "base":  # imagen de la página: el panel de clientes, sin el detalle
         return TRAZO.format(s="left:-100px;top:-120px") + ventana + resto
     return TRAZO.format(s="left:-100px;top:-120px") + ventana + modal + resto
@@ -349,25 +350,19 @@ def escena_3(parte="completa"):
     principal = (f'<div style="position:absolute;left:84px;right:0;top:0;bottom:0;background:#F4F3F7">{cabecera}<div style="padding:26px 30px 0">{sub}{tabla}</div></div>')
     ventana = tarjeta("left:50px;top:196px;width:1100px;height:770px;padding:0;overflow:hidden;border-radius:40px", f"{lateral_admin('Categorías')}{principal}")
 
-    def producto(nombre, num, stock, color, foco=False, oculto=False):
-        etiqueta = lambda t: f'<span style="padding:5px 14px;border-radius:99px;background:#F1F5F9;color:#475569;font-size:15px;font-weight:600;white-space:nowrap">{t}</span>'
-        extra = ('<span style="padding:5px 14px;border-radius:99px;background:#F1F5F9;color:#475569;font-size:15px;font-weight:600;display:inline-flex;align-items:center;gap:6px;white-space:nowrap">'
-                 '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M3 3l18 18M10.600 5.200A9.600 9.600 0 0 1 12 5c6.500 0 10 7 10 7a17 17 0 0 1-3 3.800M6.300 6.400C3.700 8.100 2 12 2 12s3.500 7 10 7c1.700 0 3.200-.4 4.500-1"/></svg>No visible</span>') if oculto else ""
-        borde = "box-shadow:inset 0 0 0 2px #6C4FD4,0 0 0 4px rgba(108,79,212,.25)" if foco else "box-shadow:inset 0 0 0 1.5px #E0DCEC"
-        flechas = ('<span style="display:flex;flex-direction:column;gap:2px;margin-left:6px;font-size:9px;color:#6b6679;line-height:1"><span>▲</span><span>▼</span></span>') if foco else ""
+    def producto(nombre, k):
+        # los campos de precio y stock se dibujan en vivo (InventarioAnimado): acá quedan solo sus lugares, invisibles
         return (f'<div style="display:flex;align-items:center;justify-content:space-between;padding:14px 20px;border-radius:14px;box-shadow:inset 0 0 0 1.5px #E6E2F0;margin-bottom:12px;background:#fff">'
-                f'<div><div style="font-size:20px;font-weight:800">{nombre}</div><div style="display:flex;gap:8px;margin-top:8px">{etiqueta("#" + str(num))}{etiqueta("Producto simple")}{extra}</div></div>'
-                f'<div style="display:flex;align-items:center;gap:14px;font-size:19px;color:#6b6679">Stock<span style="width:108px;height:46px;border-radius:12px;background:#fff;{borde};display:flex;align-items:center;justify-content:flex-end;padding:0 16px;font-size:21px;font-weight:800;color:{color}">{stock}{flechas}</span></div></div>')
-    naranja, verde = "#B45309", "#16A34A"
-    lista = (producto("Remera gris", 3, 2, naranja, foco=True) + producto("Remera crema", 4, 3, naranja)
-             + producto("Remera oliva", 5, 9, verde))
-    modal = tarjeta("left:540px;top:642px;width:610px;padding:28px 30px 24px 34px;border-radius:26px;box-shadow:0 -26px 56px -6px rgba(76,52,170,.42),0 -6px 18px -4px rgba(23,18,47,.16),0 40px 70px -34px rgba(23,18,47,.4),0 0 0 1px rgba(108,79,212,.14)", f"""
-      <div style="display:flex;justify-content:space-between;align-items:flex-start"><div><div style="font-size:27px;font-weight:800">Inventario</div>
-      <div style="font-size:18px;color:#6b6679;margin-top:4px">Stock de los productos de «Remeras»</div></div>
+                f'<div style="font-size:21px;font-weight:800">{nombre}</div>'
+                f'<div style="display:flex;gap:12px"><span id="fp-{k}" style="display:block;width:130px;height:46px;visibility:hidden"></span>'
+                f'<span id="fs-{k}" style="display:block;width:96px;height:46px;visibility:hidden"></span></div></div>')
+    lista = producto("Remera gris", 1) + producto("Remera crema", 2) + producto("Remera oliva", 3)
+    modal = tarjeta("left:630px;top:640px;width:520px;padding:28px 30px 26px;border-radius:26px;box-shadow:0 -26px 56px -6px rgba(76,52,170,.42),0 -6px 18px -4px rgba(23,18,47,.16),0 40px 70px -34px rgba(23,18,47,.4),0 0 0 1px rgba(108,79,212,.14)", f"""
+      <div style="display:flex;justify-content:space-between;align-items:center"><div style="font-size:30px;font-weight:800">Inventario</div>
       <span style="width:44px;height:44px;border-radius:12px;box-shadow:inset 0 0 0 1.5px #E6E2F0;display:flex;align-items:center;justify-content:center;font-size:21px;font-weight:800;color:#4A4560">✕</span></div>
-      <div style="display:flex;gap:10px;margin-top:16px"><div style="flex:1">{lista}</div>
-      <div style="width:9px;border-radius:9px;background:#EEEAF6;position:relative"><span style="position:absolute;left:0;right:0;top:0;height:46%;border-radius:9px;background:#9A97A8"></span></div></div>
-      <div style="display:flex;justify-content:flex-end;gap:12px;margin-top:6px">
+      <div style="display:flex;justify-content:flex-end;gap:12px;padding:0 20px;margin:18px 0 8px;font-size:17px;font-weight:700;color:#17122F"><span style="width:130px">Precio</span><span style="width:96px">Stock</span></div>
+      {lista}
+      <div style="display:flex;justify-content:flex-end;gap:12px;margin-top:10px">
       <span style="height:52px;padding:0 26px;border-radius:12px;box-shadow:inset 0 0 0 1.5px #D9D5E6;display:flex;align-items:center;font-size:19px;font-weight:700">Cancelar</span>
       <span class="btn" style="height:52px;font-size:19px;padding:0 26px;border-radius:12px">Guardar inventario</span></div>""")
     # línea punteada: del botón de cajas de "Remeras" a la ventana de inventario que abre
@@ -377,7 +372,7 @@ def escena_3(parte="completa"):
     if parte == "ventana":  # capa animada: solo la ventana de inventario y su línea, sobre fondo transparente
         return modal
     resto = (sticker("Inventario", "Por categoría", "left:676px;top:104px;white-space:nowrap")
-             + pill("Stock al toque", "left:70px;top:1050px;font-size:31px"))
+             + pill("Gestión rápida", "left:70px;top:1050px;font-size:31px"))
     if parte == "base":  # imagen de la página: la lista de categorías, sin la ventana
         return TRAZO.format(s="left:-100px;top:-120px") + ventana + resto
     return TRAZO.format(s="left:-100px;top:-120px") + ventana + modal + resto
@@ -417,70 +412,66 @@ def escena_barra():
 
 
 def escena_carrito():
-    """Gastos de gestión y envío gratis. Tesis espacial: lo principal es el resumen del pedido (lo que ve el cliente);
-    las dos tarjetas de configuración son una misma familia que lo causa: pareja simétrica de igual alto arriba, resumen
-    centrado abajo y una línea punteada de cada tarjeta a la parte del resumen que cambia."""
-    azul = "#17122F"  # nuestro azul oscuro
-    campo = lambda label, valor, ayuda: (
-        f'<div style="flex:1"><div style="min-height:50px;display:flex;align-items:flex-end;font-size:21px;font-weight:700;line-height:1.2">{label}</div>'
-        f'<div style="margin-top:8px;height:58px;border-radius:12px;background:#fff;box-shadow:inset 0 0 0 1.5px #E6E2F0;display:flex;align-items:center;padding:0 18px;font-size:24px;font-weight:600;color:#17122F">{valor}</div>'
-        f'<div style="margin-top:8px;font-size:17px;color:#6b6679;line-height:1.3">{ayuda}</div></div>')
-    guardar = '<div class="row" style="justify-content:flex-end;margin-top:auto"><div class="btn" style="height:56px;font-size:21px;padding:0 32px;border-radius:14px">Guardar</div></div>'
-    base = "top:172px;width:540px;height:420px;padding:28px 30px 24px;border-radius:26px;display:flex;flex-direction:column"
-    envio = tarjeta(f"left:40px;{base}", f"""
-      <div style="font-size:34px;font-weight:800">Envío gratuito</div>
-      <div style="font-size:21px;color:#6b6679;margin-top:8px;line-height:1.35">Si el carrito cumple una regla, el envío es gratis.</div>
-      <div style="display:flex;gap:22px;margin-top:18px">{campo("Cantidad mínima", "3", "0 = sin regla por cantidad.")}{campo("Monto mínimo ($)", "50.000", "0 = sin regla por monto.")}</div>
+    """Gastos de gestión y envío gratis. Tesis espacial: a la izquierda las dos tarjetas de configuración apiladas (envío gratis
+    arriba, gastos de gestión abajo) y a la derecha UN carrito con toda la información (productos, subtotal, envío gratis,
+    gastos de gestión y total); una línea punteada une cada tarjeta con la línea del carrito que cambia."""
+    azul = "#17122F"
+    caja = "margin-top:10px;height:62px;border-radius:12px;background:#fff;box-shadow:inset 0 0 0 1.5px #E6E2F0;display:flex;align-items:center;font-size:25px;font-weight:600;color:#17122F"
+    campo = lambda label, valor, flecha="": (
+        f'<div style="flex:1"><div style="font-size:22px;font-weight:700;line-height:1.2">{label}</div>'
+        f'<div style="{caja};padding:0 18px;justify-content:space-between">{valor}{flecha}</div></div>')
+    guardar = '<div class="row" style="justify-content:flex-end;margin-top:28px"><div class="btn" style="height:58px;font-size:22px;padding:0 34px;border-radius:14px">Guardar</div></div>'
+    base = "width:520px;padding:30px 32px 28px;border-radius:26px"
+    envio = tarjeta(f"left:40px;top:678px;{base}", f"""
+      <div style="font-size:36px;font-weight:800">Envío gratuito</div>
+      <div style="display:flex;gap:24px;margin-top:24px">{campo("Cantidad mínima", "3")}{campo("Monto mínimo ($)", "50.000")}</div>
       {guardar}""")
-    chk = ('<span style="width:26px;height:26px;border-radius:7px;background:#6C4FD4;display:flex;align-items:center;justify-content:center;flex:none">'
-           '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#fff" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.500l4.500 4.500L19 7.500"/></svg></span>')
-    gestion = tarjeta(f"left:620px;{base}", f"""
-      <div style="font-size:34px;font-weight:800">Gastos de gestión</div>
-      <div style="font-size:21px;color:#6b6679;margin-top:8px;line-height:1.35">Sumá un costo adicional al carrito, fijo o en porcentaje.</div>
-      <div style="display:flex;align-items:center;gap:14px;margin-top:16px;font-size:22px;font-weight:700">{chk}Habilitar gastos de gestión</div>
-      <div style="display:flex;gap:22px;margin-top:14px">
-        <div style="flex:1"><div style="min-height:26px;display:flex;align-items:flex-end;font-size:21px;font-weight:700">Tipo de costo</div>
-        <div style="margin-top:8px;height:58px;border-radius:12px;background:#fff;box-shadow:inset 0 0 0 1.5px #E6E2F0;display:flex;align-items:center;justify-content:space-between;padding:0 18px;font-size:24px;font-weight:600;color:#17122F">Costo fijo<span style="color:#6b6679;font-size:16px">⌄</span></div></div>
-        <div style="flex:1"><div style="min-height:26px;display:flex;align-items:flex-end;font-size:21px;font-weight:700">Monto fijo</div>
-        <div style="margin-top:8px;height:58px;border-radius:12px;background:#fff;box-shadow:inset 0 0 0 1.5px #E6E2F0;display:flex;align-items:center;padding:0 18px;font-size:24px;font-weight:600;color:#17122F">1.200</div></div></div>
+    chk = ('<span style="width:28px;height:28px;border-radius:8px;background:#6C4FD4;display:flex;align-items:center;justify-content:center;flex:none">'
+           '<svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="#fff" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.500l4.500 4.500L19 7.500"/></svg></span>')
+    flecha = '<span style="color:#6b6679;font-size:17px">⌄</span>'
+    gestion = tarjeta(f"left:40px;top:266px;{base}", f"""
+      <div style="font-size:36px;font-weight:800">Gastos de gestión</div>
+      <div style="display:flex;align-items:center;gap:14px;font-size:23px;font-weight:700;margin-top:22px">{chk}Habilitar gastos de gestión</div>
+      <div style="display:flex;gap:24px;margin-top:24px">{campo("Tipo de costo", "Costo fijo", flecha)}{campo("Monto fijo", "1.200")}</div>
       {guardar}""")
-    linea = lambda a, b, extra="": f'<div style="display:flex;justify-content:space-between;align-items:center;padding:11px 0;border-bottom:1px solid #ECE8F5;font-size:21px;{extra}"><span>{a}</span><span>{b}</span></div>'
-    rayo = '<svg viewBox="0 0 24 24" width="19" height="19" fill="#17122F" style="margin-right:6px"><path d="M13 2L4 14h6l-1 8 9-12h-6z"/></svg>'
-    sombra = "box-shadow:0 -22px 50px -8px rgba(76,52,170,.4),0 -6px 18px -4px rgba(23,18,47,.14),0 40px 70px -34px rgba(23,18,47,.4),0 0 0 1px rgba(108,79,212,.14)"
 
-    # el carrito de la tienda (el panel lateral "Tu Carrito")
-    carrito_ico = '<svg viewBox="0 0 24 24" width="30" height="30" fill="#6C4FD4"><path d="M2 3h2.600l.6 2H22l-2.200 8.500H8l.4 1.500H19v2H6.900L3.500 5H2z"/><circle cx="9" cy="20" r="1.700"/><circle cx="17" cy="20" r="1.700"/></svg>'
-    def item(clave, nombre, cant):
+    # ---- el carrito con toda la información
+    carrito_ico = '<svg viewBox="0 0 24 24" width="34" height="34" fill="#6C4FD4"><path d="M2 3h2.600l.6 2H22l-2.200 8.500H8l.4 1.500H19v2H6.900L3.500 5H2z"/><circle cx="9" cy="20" r="1.700"/><circle cx="17" cy="20" r="1.700"/></svg>'
+    rayo = '<svg viewBox="0 0 24 24" width="21" height="21" fill="#17122F" style="margin-right:6px"><path d="M13 2L4 14h6l-1 8 9-12h-6z"/></svg>'
+
+    def item(clave, nombre, cant, k, vivo=False):
         uri = foto_uri(clave)
-        miniatura = (f'<div style="flex:none;width:84px;height:84px;border-radius:14px;background:#E2D9FF url({uri}) center/cover no-repeat"></div>' if uri
-                     else '<div style="flex:none;width:84px;height:84px;border-radius:14px;background:#E2D9FF"></div>')
-        paso = lambda t: f'<span style="width:38px;height:38px;border-radius:10px;box-shadow:inset 0 0 0 1.5px #E0DCEC;display:flex;align-items:center;justify-content:center;font-size:21px;color:#17122F">{t}</span>'
-        return (f'<div style="display:flex;gap:18px;align-items:center;padding:14px 0;border-top:1px solid #ECE8F5">{miniatura}'
-                f'<div style="flex:1"><div style="font-size:23px;color:#17122F">{nombre}</div><div style="font-size:21px;color:#6C4FD4;margin-top:2px">$ 14.900</div>'
-                f'<div style="display:flex;gap:8px;align-items:center;margin-top:8px">{paso("−")}<span style="width:46px;height:38px;border-radius:10px;box-shadow:inset 0 0 0 1.5px #E0DCEC;display:flex;align-items:center;justify-content:center;font-size:21px">{cant}</span>{paso("+")}</div></div></div>')
-    carrito = tarjeta(f"left:40px;top:650px;width:470px;padding:22px 28px 24px;border-radius:26px;{sombra}", f"""
-      <div style="display:flex;align-items:center;gap:12px;font-size:32px;font-weight:600;margin-bottom:10px">{carrito_ico}Tu Carrito</div>
-      {item("carrito-gris", "Remera gris", 3)}{item("carrito-crema", "Remera crema", 2)}
-      <div style="border-top:1px solid #ECE8F5;margin-top:2px">{linea("Subtotal", "$ 74.500", "border-bottom:none")}</div>
-      <div style="margin-top:6px;height:56px;border-radius:14px;background:#17122F;color:#fff;font-size:21px;font-weight:600;display:flex;align-items:center;justify-content:center">Ir al carrito →</div>""")
-
-    resumen = tarjeta(f"left:540px;top:650px;width:620px;padding:24px 34px 24px;border-radius:26px;{sombra}", f"""
-      <div style="font-size:34px;font-weight:600">Resumen del Pedido</div>
-      <div style="margin-top:6px">{linea("Subtotal:", "$ 74.500")}
-      <div style="margin:6px -14px;padding:0 14px;border-radius:14px;background:#F1ECFF;color:#4B33A8;font-weight:700">{linea("Gastos de gestión:", "$ 1.200", "border-bottom:none")}</div>
-      {linea("Envío:", '<b style="display:inline-flex;align-items:center">' + rayo + 'Tienes envío gratis</b>')}{linea("Total:", "$ 75.700", "border-bottom:none;font-weight:700;font-size:22px")}</div>
-      <div style="margin-top:2px;height:12px;border-radius:99px;background:#16A34A"></div>
-      <div style="font-size:21px;margin-top:12px">¡Ya alcanzaste el envío gratuito!</div>
-      <div style="margin-top:14px;height:56px;border-radius:14px;background:{azul};color:#fff;font-size:20px;font-weight:600;display:flex;align-items:center;justify-content:center">Finalizar Compra</div>""")
-    # líneas punteadas: cada tarjeta de configuración baja a la parte del resumen que cambia
+        miniatura = (f'<div style="flex:none;width:96px;height:96px;border-radius:16px;background:#E2D9FF url({uri}) center/cover no-repeat"></div>' if uri
+                     else '<div style="flex:none;width:96px;height:96px;border-radius:16px;background:#E2D9FF"></div>')
+        paso = lambda t, idn="": f'<span id="{idn}" style="width:40px;height:40px;border-radius:10px;box-shadow:inset 0 0 0 1.5px #E0DCEC;display:flex;align-items:center;justify-content:center;font-size:22px;color:#17122F">{t}</span>'
+        oculto = ";color:transparent" if vivo else ""
+        return (f'<div style="display:flex;gap:20px;align-items:center;padding:16px 0;border-top:1px solid #ECE8F5">{miniatura}'
+                f'<div style="flex:1"><div style="font-size:25px;color:#17122F">{nombre}</div><div style="font-size:22px;color:#6C4FD4;margin-top:2px">$ 14.900</div>'
+                f'<div style="display:flex;gap:8px;align-items:center;margin-top:8px">{paso("−")}<span id="q-{k}" style="width:48px;height:40px;border-radius:10px;box-shadow:inset 0 0 0 1.5px #E0DCEC;display:flex;align-items:center;justify-content:center;font-size:22px{oculto}">{cant}</span>{paso("+", f"mas-{k}")}</div></div></div>')
+    linea = lambda a, b, idn="", extra="": f'<div id="{idn}" style="display:flex;justify-content:space-between;align-items:center;padding:13px 0;border-bottom:1px solid #ECE8F5;font-size:23px;{extra}"><span>{a}</span><span>{b}</span></div>'
+    sombra = "box-shadow:0 -22px 50px -8px rgba(76,52,170,.34),0 -6px 18px -4px rgba(23,18,47,.12),0 40px 70px -34px rgba(23,18,47,.4),0 0 0 1px rgba(108,79,212,.14)"
+    carrito = tarjeta(f"left:600px;top:210px;width:560px;height:830px;padding:28px 34px 30px;border-radius:26px;display:flex;flex-direction:column;justify-content:space-between;{sombra}", f"""
+      <div>
+        <div style="display:flex;align-items:center;gap:14px;font-size:38px;font-weight:600;margin-bottom:10px">{carrito_ico}Tu Carrito</div>
+        {item("carrito-gris", "Remera gris", 2, 1, True)}{item("carrito-crema", "Remera crema", 1, 2)}
+      </div>
+      <div id="resumen" style="visibility:hidden">
+        {linea("Subtotal:", "$ 74.500", "ln-sub")}
+        {linea("Envío:", '<b style="display:inline-flex;align-items:center">' + rayo + 'Tienes envío gratis</b>', "ln-envio")}
+        <div style="margin:6px -16px;padding:0 16px;border-radius:14px;background:#F1ECFF;color:#4B33A8;font-weight:700">{linea("Gastos de gestión:", "$ 1.200", "ln-gastos", "border-bottom:none")}</div>
+        {linea("Total:", "$ 75.700", "ln-total", "border-bottom:none;font-weight:700;font-size:27px")}
+        <div style="margin-top:4px;height:14px;border-radius:99px;background:#16A34A"></div>
+        <div style="font-size:22px;margin-top:12px">¡Ya alcanzaste el envío gratuito!</div>
+      </div>
+      <div style="height:64px;border-radius:14px;background:{azul};color:#fff;font-size:22px;font-weight:600;display:flex;align-items:center;justify-content:center">Finalizar Compra</div>""")
     lineas = ('<svg class="conexion" width="1200" height="1200" viewBox="0 0 1200 1200" fill="none">'
-              '<path d="M310 598 V622 H760 V650" stroke="#7C6AE0" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="1 13"/>'
-              '<path d="M890 598 V650" stroke="#7C6AE0" stroke-width="6" stroke-linecap="round" stroke-dasharray="1 13"/>'
-              '<circle cx="310" cy="598" r="8" fill="#fff" stroke="#7C6AE0" stroke-width="4"/><circle cx="890" cy="598" r="8" fill="#fff" stroke="#7C6AE0" stroke-width="4"/>'
-              '<circle cx="760" cy="650" r="6" fill="#7C6AE0"/><circle cx="890" cy="650" r="6" fill="#7C6AE0"/></svg>')
-    return (TRAZO.format(s="right:-100px;top:700px") + envio + gestion + lineas + carrito + resumen
-            + sticker("Tu carrito", "Gestión y envío gratis", "left:60px;top:8px;white-space:nowrap")
-            + pill("Vos elegís las condiciones", "left:640px;top:36px;font-size:29px"))
+              '<path d="M560 475 H584 V712 H616" stroke="#7C6AE0" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="1 13"/>'
+              '<path d="M560 858 H616" stroke="#7C6AE0" stroke-width="6" stroke-linecap="round" stroke-dasharray="1 13"/>'
+              '<circle cx="560" cy="475" r="8" fill="#fff" stroke="#7C6AE0" stroke-width="4"/><circle cx="560" cy="858" r="8" fill="#fff" stroke="#7C6AE0" stroke-width="4"/>'
+              '<circle cx="616" cy="712" r="7" fill="#7C6AE0"/><circle cx="616" cy="858" r="7" fill="#7C6AE0"/></svg>')
+    return (TRAZO.format(s="right:-100px;top:900px") + envio + gestion + lineas
+            + sticker("Tu carrito", "Gestión y envío gratis", "left:56px;top:56px;white-space:nowrap")
+            + pill("Vos elegís las condiciones", "left:360px;top:1068px;font-size:29px"))
 
 
 def escena_6():
@@ -500,8 +491,6 @@ def escena_6():
                 '<span style="padding:9px 18px;border-radius:99px;background:#E2D9FF;color:#5B41C4;font-size:16px;font-weight:700">Admin</span></div></div>')
     sub = ('<div style="display:flex;align-items:center;justify-content:space-between"><span style="font-size:18px;color:#6b6679;max-width:600px;line-height:1.35">Portada del inicio. Sin elementos activos, la sección desaparece de la tienda.</span>'
            '<span style="padding:13px 24px;border-radius:14px;background:#6C4FD4;color:#fff;font-size:18px;font-weight:700;white-space:nowrap">+ Nuevo elemento</span></div>')
-    limites = ('<div style="font-size:17px;line-height:1.4;color:#17122F">Límites: hasta 6 en móvil y 6 en escritorio ("Ambos" ocupa lugar en los dos). '
-               'Disponibles ahora: 4 en móvil y 4 en escritorio.</div>')
     cols = "grid-template-columns:130px 2.1fr .6fr 1.15fr .8fr 150px"
     miniatura = lambda pos: (f'<div style="width:104px;height:62px;border-radius:10px;background:#E2D9FF url({uri_hero}) {pos}/cover no-repeat;box-shadow:inset 0 0 0 1px rgba(23,18,47,.1)"></div>' if uri_hero else '<div style="width:112px;height:64px;border-radius:10px;background:#E2D9FF"></div>')
     filas_def = [("Nueva colección", "Hasta 30% off · Remeras", 1, "Solo móvil", "right center"), ("Nueva colección", "Hasta 30% off · Remeras", 2, "Solo escritorio", "center center"),
@@ -515,12 +504,12 @@ def escena_6():
     tabla = (f'<div style="margin-top:18px;border-radius:14px;background:#fff;box-shadow:inset 0 0 0 1px #ECE8F5;overflow:hidden">'
              f'<div style="display:grid;{cols};align-items:center;padding:0 22px;height:50px;background:#FAF9FC;font-size:14px;font-weight:800;letter-spacing:.06em;color:#4A4560">'
              f'<span>IMAGEN</span><span>TÍTULO</span><span>ORDEN</span><span>VISIBLE EN</span><span>ESTADO</span><span></span></div>{filas}</div>')
-    principal = (f'<div style="position:absolute;left:84px;right:0;top:0;bottom:0;background:#F4F3F7">{cabecera}<div style="padding:26px 30px 0"><div style="font-size:18px;color:#6b6679;max-width:540px;line-height:1.35">Portada del inicio. Sin elementos activos, la sección desaparece de la tienda.</div><div style="margin-top:14px;font-size:18px;font-weight:500">Máximo 12 elementos. Te quedan 9.</div>{tabla}</div></div>')
+    principal = (f'<div style="position:absolute;left:84px;right:0;top:0;bottom:0;background:#F4F3F7">{cabecera}<div style="padding:26px 30px 0"><div style="font-size:18px;color:#6b6679;max-width:540px;line-height:1.35">Portada del inicio. Sin elementos activos, la sección desaparece de la tienda.</div>{tabla}</div></div>')
     ventana = tarjeta("left:40px;top:70px;width:960px;height:600px;padding:0;overflow:hidden;border-radius:40px", f"{lateral_admin('Carrusel')}{principal}")
 
     # tienda: el carrusel de la portada y un banner promocional
-    hero = ((f'<div style="position:relative;height:228px;border-radius:20px;overflow:hidden;background:#E2D9FF url({uri_hero}) center 35%/cover no-repeat">' if uri_hero
-             else '<div style="position:relative;height:228px;border-radius:20px;overflow:hidden;background:#E2D9FF">')
+    hero = ((f'<div style="position:relative;height:218px;border-radius:20px;overflow:hidden;background:#E2D9FF url({uri_hero}) center 35%/cover no-repeat">' if uri_hero
+             else '<div style="position:relative;height:218px;border-radius:20px;overflow:hidden;background:#E2D9FF">')
             + '<div style="position:absolute;inset:0;background:linear-gradient(90deg,rgba(23,18,47,.55),rgba(23,18,47,.05) 65%)"></div>'
             + '<div style="position:absolute;left:34px;top:0;bottom:0;display:flex;flex-direction:column;justify-content:center;color:#fff">'
             + '<b style="font-size:46px;line-height:1.05;letter-spacing:-.01em">Hasta 30% off</b><span style="font-size:19px;letter-spacing:.14em;font-weight:600;margin-top:10px;opacity:.92">NUEVA COLECCIÓN</span></div>'
@@ -529,55 +518,89 @@ def escena_6():
     promo = (f'<div style="display:flex;height:172px;border-radius:20px;overflow:hidden;background:#0B0B0B;margin-top:14px">{foto_prenda}'
              '<div style="flex:1;display:flex;flex-direction:column;justify-content:center;padding-left:40px;color:#fff"><span style="font-size:15px;letter-spacing:.06em;opacity:.85">PROMOCIÓN ESPECIAL</span>'
              '<b style="font-size:34px;margin-top:8px;letter-spacing:-.01em">2X1 EN REMERAS</b></div></div>')
-    tienda = tarjeta("left:300px;top:604px;width:860px;padding:20px 24px 22px;border-radius:34px", f"""
+    tienda = tarjeta("left:300px;top:560px;width:860px;padding:20px 24px 22px;border-radius:34px", f"""
       <div style="display:flex;justify-content:space-between;align-items:center;height:50px;margin-bottom:12px"><span class="logo" style="font-size:22px">TU LOGO</span>
       <span style="font-size:19px;color:#6b6679;font-weight:600;display:flex;gap:32px"><span>Inicio</span><span>Productos</span></span></div>{hero}{promo}""")
     # líneas punteadas: de la fila del carrusel al carrusel de la tienda, del sticker "Carrusel" al carrusel y del
     # sticker "Banners" al banner promocional
     linea = ('<svg class="conexion" width="1200" height="1200" viewBox="0 0 1200 1200" fill="none">'
-             '<path d="M962 375 H1086 V612" stroke="#7C6AE0" stroke-width="6" stroke-linecap="round" stroke-dasharray="1 13"/>'
+             '<path d="M962 375 H1086 V568" stroke="#7C6AE0" stroke-width="6" stroke-linecap="round" stroke-dasharray="1 13"/>'
              '<circle cx="962" cy="375" r="9" fill="#fff" stroke="#7C6AE0" stroke-width="4"/></svg>')
     senales = ('<svg class="conexion" width="1200" height="1200" viewBox="0 0 1200 1200" fill="none">'
-               '<path d="M1030 140 H1150 V800 H1096" stroke="#7C6AE0" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="1 13"/>'
-               '<circle cx="1096" cy="800" r="9" fill="#fff" stroke="#7C6AE0" stroke-width="4"/>'
-               '<path d="M290 1008 H470" stroke="#7C6AE0" stroke-width="6" stroke-linecap="round" stroke-dasharray="1 13"/>'
-               '<circle cx="470" cy="1008" r="9" fill="#fff" stroke="#7C6AE0" stroke-width="4"/></svg>')
+               '<path d="M1030 140 H1150 V751 H1096" stroke="#7C6AE0" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="1 13"/>'
+               '<circle cx="1096" cy="751" r="9" fill="#fff" stroke="#7C6AE0" stroke-width="4"/>'
+               '<path d="M200 900 V1000 H470" stroke="#7C6AE0" stroke-width="6" stroke-linecap="round" stroke-dasharray="1 13"/>'
+               '<circle cx="470" cy="1000" r="9" fill="#fff" stroke="#7C6AE0" stroke-width="4"/></svg>')
     return (TRAZO.format(s="left:-110px;top:-90px") + ventana + linea + tienda + senales
-            + sticker("Carrusel", "Hasta 12 imágenes", "left:700px;top:44px;white-space:nowrap")
-            + sticker("Banners", "Hasta 5 banners", "left:30px;top:880px;white-space:nowrap")
-            + pill("En vez de 8 y 3", "left:60px;top:1078px;font-size:29px"))
+            + sticker("Carrusel", "Más imágenes", "left:700px;top:44px;white-space:nowrap")
+            + sticker("Banners", "Para tus promos", "left:30px;top:760px;white-space:nowrap")
+            + pill("Más espacio para tus promociones", "left:60px;top:1078px;font-size:29px"))
+
+
+def badge(modo, ancho=132):
+    """Badge de promoción real (Black Friday, Hot Sale o CyberMonday), recortado a su contorno para controlar los espacios."""
+    return f'<img src="{foto_uri("badge-" + modo)}" alt="" style="display:block;width:{ancho}px;height:auto;flex:none">'
 
 
 def escena_7():
-    """Marketing: notificación de confianza, ofertas por tiempo limitado y modo promociones."""
-    barra = '<div style="height:50px;display:flex;align-items:center;justify-content:center;background:#E3F547;color:#17122F;font-weight:800;font-size:18px;letter-spacing:.06em">BLACK FRIDAY</div>'
-    etiqueta = '<div style="position:absolute;left:14px;top:14px;background:#FF9A52;color:#17122F;font-weight:800;font-size:18px;border-radius:99px;padding:7px 14px;letter-spacing:.06em">OFERTA</div>'
-    reloj = '<div style="margin-top:10px;background:#17122F;color:#fff;border-radius:14px;padding:8px 14px;font-size:20px;font-weight:700;display:inline-block">Termina en 02:14:36</div>'
-    precio = '<span style="text-decoration:line-through;color:#6b6679;font-size:21px;margin-right:10px">$14.900</span><b style="color:#6C4FD4;font-size:27px">$11.900</b>'
-    tel = celular("left:60px;top:200px;width:480px", 960, f"""
-      {barra}{cabecera_tienda()}
-      <div style="padding:14px 24px 0;position:relative">{foto("mkt-prod", "producto en oferta", "height:340px;border-radius:26px")}{etiqueta}
-      <b style="font-size:26px;display:block;margin-top:14px">Remera crema</b><div style="margin-top:4px">{precio}</div>{reloj}</div>""")
-    foto_aviso = foto_uri("mkt-aviso")
-    miniatura = (f'<div style="flex:none;width:84px;height:84px;border-radius:14px;background:#E2D9FF url({foto_aviso}) center/cover no-repeat"></div>' if foto_aviso
-                 else '<div style="flex:none;width:84px;height:84px;border-radius:14px;background:#E2D9FF"></div>')
-    aviso = tarjeta("left:90px;top:968px;width:520px;padding:18px 24px 18px 18px;border-radius:20px", f"""
-      <div style="display:flex;align-items:center;gap:20px">{miniatura}
-      <div style="flex:1;line-height:1.3"><div style="font-size:23px;color:#17122F">Alguien en <b>tu zona</b> ya compró este artículo</div>
-      <div style="font-size:17px;color:#6b6679;margin-top:6px">Remera oliva</div></div>
-      <span style="align-self:flex-start;font-size:22px;font-weight:800;color:#6b6679;line-height:1">✕</span></div>""")
-    def fila(n, sub, on=True):
-        tog = "tog" if on else "tog off"
-        return (f'<div class="row" style="justify-content:space-between;padding:17px 0;border-top:1px solid #EFEAFB">'
-                f'<div class="col"><b style="font-size:24px">{n}</b><span class="lbl" style="font-size:18px">{sub}</span></div><span class="{tog}"></span></div>')
-    panel = tarjeta("left:620px;top:120px;width:540px;padding:38px 40px", f"""
-      <div class="h" style="font-size:34px">Marketing</div><div class="sub" style="font-size:19px">Todo junto, en tu panel.</div>
-      <div class="col" style="margin-top:16px">{fila("Notificación de confianza", "Compras recientes de tu zona")}{fila("Ofertas por tiempo limitado", "Producto por producto")}{fila("Modo promociones", "Black Friday, Hot Sale, CyberMonday")}</div>
-      <div class="row" style="justify-content:flex-end;margin-top:22px"><div class="btn" style="height:58px">Guardar</div></div>""")
-    nota = '<div style="position:absolute;left:44px;top:26px;font-size:22px;font-weight:700;color:#DC2626;letter-spacing:.01em">Esta imagen no está terminada</div>'
-    return (TRAZO.format(s="right:-90px;top:640px") + tel + panel + aviso + nota
-            + sticker("Marketing", "Promos, ofertas y confianza", "left:660px;top:690px;white-space:nowrap")
-            + pill("Todo junto en tu panel", "left:640px;top:1070px;font-size:27px"))
+    """Marketing. Tesis espacial: dos columnas con los mismos márgenes (60 px). A la izquierda el resultado (el celular de la tienda con su
+    badge y su oferta); a la derecha la causa (el panel de promociones y los dos casilleros del producto). Dos líneas punteadas unen cada
+    casillero con lo que activa; el cartel y el mensaje cierran la columna derecha y la izquierda."""
+    azul = "#17122F"
+    chk = lambda on=True: (f'<span style="width:28px;height:28px;border-radius:8px;flex:none;display:flex;align-items:center;justify-content:center;'
+                           + ('background:#6C4FD4"><svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="#fff" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.500l4.500 4.500L19 7.500"/></svg></span>' if on
+                              else 'box-shadow:inset 0 0 0 2px #6b6679"></span>'))
+    # ---------------- panel: Promociones especiales (tres badges para elegir y uno propio)
+    def opcion(modo, nombre, elegido=False):
+        marca = ('<span style="position:absolute;right:8px;top:8px;width:24px;height:24px;border-radius:50%;background:#6C4FD4;display:flex;align-items:center;justify-content:center">'
+                 '<svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="#fff" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.500l4.500 4.500L19 7.500"/></svg></span>') if elegido else ""
+        borde = "box-shadow:inset 0 0 0 3px #6C4FD4;background:#F6F2FF" if elegido else "box-shadow:inset 0 0 0 2px #E6E2F0;background:#fff"
+        return (f'<div id="op-{modo}" style="position:relative;flex:1;height:136px;border-radius:18px;{borde};display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px">{marca}'
+                f'<div style="height:70px;display:flex;align-items:center">{badge(modo, 78)}</div><span style="font-size:15px;font-weight:700;color:#17122F;white-space:nowrap">{nombre}</span></div>')
+    propio = ('<div style="flex:1;height:136px;border-radius:18px;background:#fff;box-shadow:inset 0 0 0 2px #CFC3F7;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;color:#6C4FD4">'
+              '<svg viewBox="0 0 24 24" width="38" height="38" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V4m0 0l-4 4m4-4l4 4M4 16v3a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-3"/></svg>'
+              '<span style="font-size:15px;font-weight:700">Subí la tuya</span></div>')
+    promo = tarjeta("left:620px;top:230px;width:530px;padding:28px 32px 26px;border-radius:26px", f"""
+      <div style="font-size:30px;font-weight:800">Promociones especiales</div>
+      <div style="display:flex;align-items:center;gap:14px;margin-top:16px;font-size:21px;font-weight:700">{chk()}Activar modo promociones</div>
+      <div style="display:flex;gap:12px;margin-top:22px">{opcion("bf", "Black Friday")}{opcion("hs", "Hot Sale")}{opcion("cm", "CyberMonday")}{propio}</div>
+      <div class="row" style="justify-content:flex-end;margin-top:22px"><div class="btn" style="height:52px;font-size:20px;padding:0 30px;border-radius:14px">Guardar</div></div>""")
+    # ---------------- producto: los dos casilleros que activan la promoción y la oferta
+    activa = "background:#F1ECFF"
+    flag = lambda txt, on, idn="": (f'<div id="{idn}" style="display:flex;align-items:center;gap:14px;height:56px;padding:0 16px;border-radius:14px;font-size:20px;font-weight:700;white-space:nowrap;{activa}">{chk(on)}{txt}</div>')
+    producto = tarjeta("left:620px;top:628px;width:530px;padding:26px 32px 26px;border-radius:26px", f"""
+      <div style="font-size:24px;font-weight:800">Remera crema</div>
+      <div style="display:flex;flex-direction:column;gap:10px;margin-top:16px">{flag("En promoción", True, "ck-promo")}{flag("Oferta por tiempo limitado", True, "ck-oferta")}</div>""")
+    # ---------------- la tienda en el celular
+    reloj_ico = '<svg viewBox="0 0 24 24" width="20" height="20" fill="#17122F"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm1 5v5.200l3.600 2.100-1 1.700L11 13V7z"/></svg>'
+    caja = lambda idn, num, etq: (f'<div id="cd-{idn}" style="flex:1;height:66px;border-radius:12px;box-shadow:inset 0 0 0 1.5px #E6E2F0;background:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center">'
+                                  f'<b style="font-size:27px;line-height:1">{num}</b><span style="font-size:12px;color:#17122F;margin-top:3px;letter-spacing:.04em">{etq}</span></div>')
+    dos = '<span style="font-size:18px;font-weight:700;color:#17122F">:</span>'
+    reloj = ('<div id="cd-card" style="margin-top:14px;border-radius:16px;box-shadow:inset 0 0 0 1.5px #E6E2F0;padding:12px 14px 14px;background:#fff">'
+             f'<div style="display:flex;align-items:center;gap:8px;font-size:15px;font-weight:800;letter-spacing:.02em;color:#17122F">{reloj_ico}OFERTA POR TIEMPO LIMITADO</div>'
+             f'<div style="display:flex;align-items:center;gap:6px;margin-top:10px">{caja("dias", "1", "DÍAS")}{dos}{caja("horas", "19", "HORAS")}{dos}{caja("min", "59", "MIN")}{dos}{caja("seg", "39", "SEG")}</div></div>')
+    precio = '<span style="text-decoration:line-through;color:#17122F;font-size:21px;margin-right:10px;opacity:.7">$14.900</span><b style="color:#6C4FD4;font-size:27px">$11.900</b>'
+    cta = '<div style="margin-top:16px;height:60px;border-radius:14px;background:#6C4FD4;color:#fff;font-size:21px;font-weight:700;display:flex;align-items:center;justify-content:center">Agregar al carrito</div>'
+    def mini(clave, nombre):
+        uri = foto_uri(clave)
+        fondo = f"#E2D9FF url({uri}) center/cover no-repeat" if uri else "#E2D9FF"
+        return (f'<div style="flex:1"><div style="position:relative;height:150px;border-radius:18px;background:{fondo}">'
+                f'</div>'
+                f'<b style="font-size:19px;display:block;margin-top:10px">{nombre}</b><span style="color:#6C4FD4;font-weight:800;font-size:19px">$14.900</span></div>')
+    mas = (f'<div style="margin-top:24px;font-size:21px;font-weight:800">Más en promoción</div>'
+           f'<div style="display:flex;gap:16px;margin-top:12px">{mini("carrito-gris", "Remera gris")}{mini("mkt-aviso", "Remera oliva")}</div>')
+    tel = celular("left:50px;top:230px;width:520px", 1100, f"""
+      {cabecera_tienda()}
+      <div style="padding:6px 24px 0;position:relative"><div id="ft-prod">{foto("mkt-prod", "producto en promoción", "height:220px;border-radius:26px")}</div>
+      <b style="font-size:26px;display:block;margin-top:14px">Remera crema</b><div style="margin-top:4px">{precio}</div>{reloj}{cta}{mas}</div>""")
+    # líneas punteadas (posiciones medidas del dibujo): "En promoción" -> badge de la foto, "Oferta por tiempo limitado" -> contador
+    lineas = ('<svg class="conexion" width="1200" height="1200" viewBox="0 0 1200 1200" fill="none">'
+              '<path d="M620 731 H600 V474 H529" stroke="#7C6AE0" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="1 13"/>'
+              '<path d="M620 797 H529" stroke="#7C6AE0" stroke-width="6" stroke-linecap="round" stroke-dasharray="1 13"/>'
+              '<circle cx="529" cy="474" r="9" fill="#fff" stroke="#7C6AE0" stroke-width="4"/><circle cx="529" cy="797" r="9" fill="#fff" stroke="#7C6AE0" stroke-width="4"/></svg>')
+    return (TRAZO.format(s="left:560px;top:330px;transform-origin:0 0;transform:rotate(-90deg) scale(1.05)") + TRAZO.format(s="left:-110px;top:960px") + tel + lineas + producto + promo
+            + sticker("Marketing", "Promos, ofertas y confianza", "left:70px;top:84px;white-space:nowrap")
+            + pill("Sumá tu propio badge", "left:620px;top:940px;font-size:29px"))
 
 
 ESCENAS = {1: escena_barra, 2: escena_1, 3: lambda: escena_2("base"), 4: lambda: escena_3("base"), 5: escena_carrito, 6: escena_6, 7: escena_7}

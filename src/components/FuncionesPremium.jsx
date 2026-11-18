@@ -3,6 +3,8 @@ import FuncionesBloque from "./FuncionesBloque"
 import BarraMensajes from "./BarraMensajes"
 import InventarioAnimado from "./InventarioAnimado"
 import ClienteAnimado from "./ClienteAnimado"
+import MarketingAnimado from "./MarketingAnimado"
+import CarritoAnimado from "./CarritoAnimado"
 import { funcionesPremium } from "../lib/funcionesPremium"
 
 // Bloque Premium: fondo oscuro e imágenes con fondo lila. Las imágenes (src/assets/premium/premium-1 ...
@@ -17,7 +19,7 @@ const fotoDe = (n) => Object.entries(fotos).find(([ruta]) => ruta.includes(`prem
 const funciones = funcionesPremium.map((f, i) => ({
   ...f,
   imagen: fotoDe(i + 1),
-  superposicion: i === 0 ? <BarraMensajes /> : i === 2 ? <ClienteAnimado /> : i === 3 ? <InventarioAnimado /> : undefined,
+  superposicion: i === 0 ? <BarraMensajes /> : i === 2 ? <ClienteAnimado /> : i === 3 ? <InventarioAnimado /> : i === 4 ? <CarritoAnimado /> : i === 6 ? <MarketingAnimado /> : undefined,
 }))
 
 export default function FuncionesPremium() {

@@ -5,8 +5,8 @@ import ventana from "../assets/premium-overlays/cliente-ventana.webp"
 // La base es la imagen cuadrada (el panel de clientes); la ventana es una capa transparente del mismo tamaño.
 // Todo en porcentajes de la imagen de 1200 px. Se reproduce mientras la imagen está visible (`activa`).
 // Con "reducir movimiento" no se anima: el detalle queda abierto (ver .cli-* en index.css).
-const OJO = { x: "85%", y: "47.6%" } // botón del ojo de la primera fila
-const CERRAR = { x: "88.25%", y: "97.2%" } // botón "Cerrar" del detalle
+const OJO = { x: "85%", y: "44.25%" } // botón del ojo de la primera fila
+const CERRAR = { x: "88.38%", y: "81%" } // botón "Cerrar" del detalle
 
 export default function ClienteAnimado({ activa = false }) {
   return (

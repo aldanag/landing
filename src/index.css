@@ -110,20 +110,16 @@ body {
   animation: marquee-izq 18s linear infinite;
 }
 
-/* Imagen de inventario animada (InventarioAnimado), bucle de 10 s: cursor, clic, ventana que se despliega, clic en
-   la flechita de cada stock (hover y foco violeta, sube de a uno), "Guardar inventario" y cierre. Quieta con
-   "reducir movimiento" (la ventana queda abierta con el primer campo enfocado); con ?motion=on se fuerza. */
+/* Imagen de inventario animada (InventarioAnimado), bucle de 11 s: cursor, clic, ventana que se despliega, clic en el
+   precio de la primera remera (se borra el viejo y se escribe el nuevo), clic en la flechita del stock de la segunda
+   (hover y foco violeta, sube de a uno), "Guardar inventario" y cierre. Quieta con "reducir movimiento" (la ventana
+   queda abierta con los valores originales); con ?motion=on se fuerza. */
 .inv-onda {
   width: 4.2cqw;
   height: 4.2cqw;
   margin: -2.1cqw 0 0 -2.1cqw;
   border: 2px solid #6c4fd4;
   opacity: 0;
-}
-.inv-onda-f {
-  width: 2.6cqw;
-  height: 2.6cqw;
-  margin: -1.3cqw 0 0 -1.3cqw;
 }
 .inv-cursor {
   width: 2.8cqw;
@@ -132,31 +128,30 @@ body {
   opacity: 0;
   filter: drop-shadow(0 2px 3px rgba(23, 18, 47, 0.4));
 }
-.inv-parche {
-  position: absolute;
-  left: 81%;
-  width: 11.8cqw;
-  height: 6.63cqw;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 1.2cqw;
-  background: #fff;
-}
 .inv-campo {
-  position: relative;
-  width: 9cqw;
-  height: 3.83cqw;
+  position: absolute;
+  height: 3.833%;
   display: flex;
   align-items: center;
-  justify-content: flex-end;
-  gap: 0.5cqw;
-  padding-right: 1.1cqw;
   border-radius: 1cqw;
   background: #fff;
   box-shadow: inset 0 0 0 0.125cqw #e0dcec;
   font-size: 1.75cqw;
   font-weight: 800;
+  color: #17122f;
+}
+.inv-precio {
+  padding-left: 1.4cqw;
+  gap: 0.6cqw;
+  font-weight: 700;
+}
+.inv-pre {
+  font-weight: 600;
+}
+.inv-stock {
+  justify-content: flex-end;
+  gap: 0.6cqw;
+  padding-right: 1.1cqw;
 }
 .inv-anillo {
   position: absolute;
@@ -164,193 +159,190 @@ body {
   border-radius: 1cqw;
   box-shadow: inset 0 0 0 0.167cqw #6c4fd4, 0 0 0 0.33cqw rgba(108, 79, 212, 0.25);
   opacity: 0;
+  pointer-events: none;
 }
-.inv-anillo-1 {
-  opacity: 1;
-}
+.inv-texto,
 .inv-numeros {
   display: grid;
 }
+.inv-texto > span,
 .inv-numeros > span {
   grid-area: 1 / 1;
+}
+.inv-numeros > span {
   justify-self: end;
 }
-.inv-nuevo {
+.inv-escrito {
+  display: flex;
+}
+.inv-ch {
+  position: relative;
+  opacity: 0;
+}
+.inv-ch::after {
+  content: "";
+  position: absolute;
+  left: 100%;
+  top: 8%;
+  bottom: 8%;
+  width: 0.17cqw;
+  margin-left: 0.1cqw;
+  background: #6c4fd4;
+  opacity: 0;
+}
+.inv-nuevo-s {
   opacity: 0;
 }
 .inv-flechas {
   display: flex;
   flex-direction: column;
   gap: 0.1cqw;
-  font-size: 0.75cqw;
+  font-size: 0.9cqw;
   line-height: 1;
-  color: #6b6679;
+  color: #17122f;
 }
 .inv-flechas i {
   font-style: normal;
 }
 .inv-guardar {
   position: absolute;
-  left: 74.7%;
-  top: 89.7%;
+  left: 74.63%;
+  top: 84.92%;
   width: 18.7%;
-  height: 4.17%;
+  height: 4.33%;
   border-radius: 1cqw;
   background: rgba(40, 20, 110, 0.32);
   opacity: 0;
 }
 @keyframes inv-ventana {
-  0%, 17.5% { opacity: 0; transform: translateY(-1.6cqw) scale(0.88); }
-  23.5%, 69% { opacity: 1; transform: none; }
-  73%, 100% { opacity: 0; transform: translateY(1cqw) scale(0.96); }
+  0%, 13.5% { opacity: 0; transform: translateY(-1.6cqw) scale(0.88); }
+  19%, 63% { opacity: 1; transform: none; }
+  67%, 100% { opacity: 0; transform: translateY(1cqw) scale(0.96); }
 }
 @keyframes inv-cursor {
   0% { opacity: 0; transform: translate(9cqw, -8cqw); }
-  5% { opacity: 1; }
-  14% { opacity: 1; transform: translate(0, 0); }
-  16.5% { opacity: 1; transform: scale(0.82); }
-  18.5%, 25% { opacity: 1; transform: translate(0, 0) scale(1); }
-  31% { opacity: 1; transform: translate(5.3cqw, 16.7cqw) scale(1); }
-  32.5% { opacity: 1; transform: translate(5.3cqw, 16.7cqw) scale(0.82); }
-  34%, 36% { opacity: 1; transform: translate(5.3cqw, 16.7cqw) scale(1); }
-  40% { opacity: 1; transform: translate(5.3cqw, 25.6cqw) scale(1); }
-  41.5% { opacity: 1; transform: translate(5.3cqw, 25.6cqw) scale(0.82); }
-  43%, 45% { opacity: 1; transform: translate(5.3cqw, 25.6cqw) scale(1); }
-  49% { opacity: 1; transform: translate(5.3cqw, 34.35cqw) scale(1); }
-  50.5% { opacity: 1; transform: translate(5.3cqw, 34.35cqw) scale(0.82); }
-  52%, 58% { opacity: 1; transform: translate(5.3cqw, 34.35cqw) scale(1); }
-  64% { opacity: 1; transform: translate(-0.8cqw, 42.4cqw) scale(1); }
-  66% { opacity: 1; transform: translate(-0.8cqw, 42.4cqw) scale(0.82); }
-  68% { opacity: 1; transform: translate(-0.8cqw, 42.4cqw) scale(1); }
-  73%, 100% { opacity: 0; transform: translate(-0.8cqw, 42.4cqw); }
+  4% { opacity: 1; }
+  11% { opacity: 1; transform: translate(0, 0) scale(1); }
+  12.5% { opacity: 1; transform: scale(0.82); }
+  14.5%, 20% { opacity: 1; transform: translate(0, 0) scale(1); }
+  27% { opacity: 1; transform: translate(-5.37cqw, 17.1cqw) scale(1); }
+  29% { opacity: 1; transform: translate(-5.37cqw, 17.1cqw) scale(0.82); }
+  30.5%, 39% { opacity: 1; transform: translate(-5.37cqw, 17.1cqw) scale(1); }
+  45% { opacity: 1; transform: translate(5.47cqw, 23.85cqw) scale(1); }
+  47% { opacity: 1; transform: translate(5.47cqw, 23.85cqw) scale(0.82); }
+  48.5%, 50% { opacity: 1; transform: translate(5.47cqw, 23.85cqw) scale(1); }
+  58% { opacity: 1; transform: translate(-0.72cqw, 37.68cqw) scale(1); }
+  60.5% { opacity: 1; transform: translate(-0.72cqw, 37.68cqw) scale(0.82); }
+  62%, 66.5% { opacity: 1; transform: translate(-0.72cqw, 37.68cqw) scale(1); }
+  69%, 100% { opacity: 0; transform: translate(-0.72cqw, 37.68cqw); }
 }
 @keyframes inv-onda-1 {
-  0%, 14.9% { opacity: 0; transform: scale(0.3); }
-  15% { opacity: 0.7; transform: scale(0.3); }
-  21%, 100% { opacity: 0; transform: scale(1.6); }
+  0%, 12.4% { opacity: 0; transform: scale(0.3); }
+  12.5% { opacity: 0.7; transform: scale(0.3); }
+  18%, 100% { opacity: 0; transform: scale(1.6); }
 }
-@keyframes inv-onda-f1 {
-  0%, 31.4% { opacity: 0; transform: scale(0.3); }
-  31.5% { opacity: 0.7; transform: scale(0.3); }
-  36%, 100% { opacity: 0; transform: scale(1.2); }
+@keyframes inv-onda-p {
+  0%, 28.9% { opacity: 0; transform: scale(0.3); }
+  29% { opacity: 0.7; transform: scale(0.3); }
+  33.5%, 100% { opacity: 0; transform: scale(1.4); }
 }
-@keyframes inv-onda-f2 {
-  0%, 40.4% { opacity: 0; transform: scale(0.3); }
-  40.5% { opacity: 0.7; transform: scale(0.3); }
-  45%, 100% { opacity: 0; transform: scale(1.2); }
+@keyframes inv-onda-s {
+  0%, 46.9% { opacity: 0; transform: scale(0.3); }
+  47% { opacity: 0.7; transform: scale(0.3); }
+  51.5%, 100% { opacity: 0; transform: scale(1); }
 }
-@keyframes inv-onda-f3 {
-  0%, 49.4% { opacity: 0; transform: scale(0.3); }
-  49.5% { opacity: 0.7; transform: scale(0.3); }
-  54%, 100% { opacity: 0; transform: scale(1.2); }
+@keyframes inv-onda-g {
+  0%, 60.4% { opacity: 0; transform: scale(0.3); }
+  60.5% { opacity: 0.7; transform: scale(0.3); }
+  65.5%, 100% { opacity: 0; transform: scale(1.6); }
 }
-@keyframes inv-onda-2 {
-  0%, 64.9% { opacity: 0; transform: scale(0.3); }
-  65% { opacity: 0.7; transform: scale(0.3); }
-  70%, 100% { opacity: 0; transform: scale(1.6); }
+/* foco violeta: el precio se marca al llegar el cursor (hover) y queda enfocado mientras se escribe; al pasar al
+   stock el foco se mueve ahí, y se pierde al guardar */
+@keyframes inv-anillo-p {
+  0%, 27.4% { opacity: 0; }
+  27.9%, 45.4% { opacity: 1; }
+  46%, 100% { opacity: 0; }
 }
-/* foco violeta: el campo 1 llega enfocado; cada campo se marca al llegar el cursor (hover) y el foco se queda
-   en el último que se tocó; al hacer clic en "Guardar" se pierde */
-@keyframes inv-anillo-1 {
-  0%, 40.9% { opacity: 1; }
-  41.6%, 100% { opacity: 0; }
+@keyframes inv-anillo-s {
+  0%, 44.9% { opacity: 0; }
+  45.4%, 61.9% { opacity: 1; }
+  62.5%, 100% { opacity: 0; }
 }
-@keyframes inv-anillo-2 {
-  0%, 39.9% { opacity: 0; }
-  40.5%, 50.4% { opacity: 1; }
-  51.1%, 100% { opacity: 0; }
+/* el precio viejo se borra en el clic y el nuevo se escribe de a una tecla (cada caracter entra con su demora), con cursor de texto */
+@keyframes inv-ant-p { 0%, 29.4% { opacity: 1; } 29.5%, 100% { opacity: 0; } }
+@keyframes inv-ch {
+  0%, 30.4% { opacity: 0; }
+  30.5%, 70% { opacity: 1; }
+  70.1%, 100% { opacity: 0; }
 }
-@keyframes inv-anillo-3 {
-  0%, 48.9% { opacity: 0; }
-  49.5%, 64.9% { opacity: 1; }
-  65.6%, 100% { opacity: 0; }
+@keyframes inv-caret {
+  0%, 30.4% { opacity: 0; }
+  30.5%, 31.9% { opacity: 1; }
+  32%, 100% { opacity: 0; }
+}
+@keyframes inv-caret-fin {
+  0%, 30.4% { opacity: 0; }
+  30.5%, 32.5% { opacity: 1; }
+  32.6%, 34% { opacity: 0; }
+  34.1%, 35.5% { opacity: 1; }
+  35.6%, 37% { opacity: 0; }
+  37.1%, 38% { opacity: 1; }
+  38.1%, 100% { opacity: 0; }
 }
 /* flechita de arriba en violeta mientras el cursor está encima */
-@keyframes inv-arriba-1 {
-  0%, 30.5% { color: #6b6679; transform: none; }
-  31%, 35% { color: #6c4fd4; transform: scale(1.5); }
-  36%, 100% { color: #6b6679; transform: none; }
+@keyframes inv-arriba-s {
+  0%, 44.5% { color: #6b6679; transform: none; }
+  45%, 49.5% { color: #6c4fd4; transform: scale(1.5); }
+  50%, 100% { color: #6b6679; transform: none; }
 }
-@keyframes inv-arriba-2 {
-  0%, 39.5% { color: #6b6679; transform: none; }
-  40%, 44% { color: #6c4fd4; transform: scale(1.5); }
-  45%, 100% { color: #6b6679; transform: none; }
-}
-@keyframes inv-arriba-3 {
-  0%, 48.5% { color: #6b6679; transform: none; }
-  49%, 53% { color: #6c4fd4; transform: scale(1.5); }
-  54%, 100% { color: #6b6679; transform: none; }
-}
-/* el número cambia en el clic */
-@keyframes inv-ant-1 { 0%, 31.9% { opacity: 1; } 32%, 100% { opacity: 0; } }
-@keyframes inv-ant-2 { 0%, 40.9% { opacity: 1; } 41%, 100% { opacity: 0; } }
-@keyframes inv-ant-3 { 0%, 49.9% { opacity: 1; } 50%, 100% { opacity: 0; } }
-@keyframes inv-nuevo-1 {
-  0%, 31.9% { opacity: 0; transform: scale(1); }
-  32% { opacity: 1; transform: scale(1.25); }
-  34.5%, 99.9% { opacity: 1; transform: scale(1); }
-  100% { opacity: 0; }
-}
-@keyframes inv-nuevo-2 {
-  0%, 40.9% { opacity: 0; transform: scale(1); }
-  41% { opacity: 1; transform: scale(1.25); }
-  43.5%, 99.9% { opacity: 1; transform: scale(1); }
-  100% { opacity: 0; }
-}
-@keyframes inv-nuevo-3 {
-  0%, 49.9% { opacity: 0; transform: scale(1); }
-  50% { opacity: 1; transform: scale(1.25); }
-  52.5%, 99.9% { opacity: 1; transform: scale(1); }
+/* el stock cambia en el clic */
+@keyframes inv-ant-s { 0%, 46.9% { opacity: 1; } 47%, 100% { opacity: 0; } }
+@keyframes inv-nuevo-s {
+  0%, 46.9% { opacity: 0; transform: scale(1); }
+  47% { opacity: 1; transform: scale(1.25); }
+  49.5%, 99.9% { opacity: 1; transform: scale(1); }
   100% { opacity: 0; }
 }
 /* hover (más oscuro) del botón "Guardar inventario" al llegar el cursor, hasta el clic */
 @keyframes inv-guardar {
-  0%, 63.5% { opacity: 0; }
-  64%, 68.5% { opacity: 1; }
-  70%, 100% { opacity: 0; }
+  0%, 57.5% { opacity: 0; }
+  58%, 62% { opacity: 1; }
+  63.5%, 100% { opacity: 0; }
 }
 @media (prefers-reduced-motion: no-preference) {
-  .inv-activa .inv-ventana { animation: inv-ventana 10s cubic-bezier(0.22, 1, 0.36, 1) infinite; }
-  .inv-activa .inv-cursor { animation: inv-cursor 10s ease-in-out infinite; }
-  .inv-activa .inv-onda-1 { animation: inv-onda-1 10s ease-out infinite; }
-  .inv-activa .inv-onda-f1 { animation: inv-onda-f1 10s ease-out infinite; }
-  .inv-activa .inv-onda-f2 { animation: inv-onda-f2 10s ease-out infinite; }
-  .inv-activa .inv-onda-f3 { animation: inv-onda-f3 10s ease-out infinite; }
-  .inv-activa .inv-onda-2 { animation: inv-onda-2 10s ease-out infinite; }
-  .inv-activa .inv-anillo-1 { animation: inv-anillo-1 10s linear infinite; }
-  .inv-activa .inv-anillo-2 { animation: inv-anillo-2 10s linear infinite; }
-  .inv-activa .inv-anillo-3 { animation: inv-anillo-3 10s linear infinite; }
-  .inv-activa .inv-arriba-1 { animation: inv-arriba-1 10s ease-out infinite; }
-  .inv-activa .inv-arriba-2 { animation: inv-arriba-2 10s ease-out infinite; }
-  .inv-activa .inv-arriba-3 { animation: inv-arriba-3 10s ease-out infinite; }
-  .inv-activa .inv-ant-1 { animation: inv-ant-1 10s linear infinite; }
-  .inv-activa .inv-ant-2 { animation: inv-ant-2 10s linear infinite; }
-  .inv-activa .inv-ant-3 { animation: inv-ant-3 10s linear infinite; }
-  .inv-activa .inv-nuevo-1 { animation: inv-nuevo-1 10s ease-out infinite; }
-  .inv-activa .inv-nuevo-2 { animation: inv-nuevo-2 10s ease-out infinite; }
-  .inv-activa .inv-nuevo-3 { animation: inv-nuevo-3 10s ease-out infinite; }
-  .inv-activa .inv-guardar { animation: inv-guardar 10s linear infinite; }
+  .inv-activa .inv-ventana { animation: inv-ventana 11s cubic-bezier(0.22, 1, 0.36, 1) infinite; }
+  .inv-activa .inv-cursor { animation: inv-cursor 11s ease-in-out infinite; }
+  .inv-activa .inv-onda-1 { animation: inv-onda-1 11s ease-out infinite; }
+  .inv-activa .inv-onda-p { animation: inv-onda-p 11s ease-out infinite; }
+  .inv-activa .inv-onda-s { animation: inv-onda-s 11s ease-out infinite; }
+  .inv-activa .inv-onda-g { animation: inv-onda-g 11s ease-out infinite; }
+  .inv-activa .inv-anillo-p { animation: inv-anillo-p 11s linear infinite; }
+  .inv-activa .inv-anillo-s { animation: inv-anillo-s 11s linear infinite; }
+  .inv-activa .inv-ant-p { animation: inv-ant-p 11s linear infinite; }
+  .inv-activa .inv-ch { animation: inv-ch 11s linear infinite; animation-delay: calc(var(--i) * 0.165s); }
+  .inv-activa .inv-ch::after { animation: inv-caret 11s linear infinite; animation-delay: calc(var(--i) * 0.165s); }
+  .inv-activa .inv-ch:last-child::after { animation: inv-caret-fin 11s linear infinite; animation-delay: calc(var(--i) * 0.165s); }
+  .inv-activa .inv-arriba-s { animation: inv-arriba-s 11s ease-out infinite; }
+  .inv-activa .inv-ant-s { animation: inv-ant-s 11s linear infinite; }
+  .inv-activa .inv-nuevo-s { animation: inv-nuevo-s 11s ease-out infinite; }
+  .inv-activa .inv-guardar { animation: inv-guardar 11s linear infinite; }
 }
-:root[data-motion="on"] .inv-activa .inv-ventana { animation: inv-ventana 10s cubic-bezier(0.22, 1, 0.36, 1) infinite; }
-:root[data-motion="on"] .inv-activa .inv-cursor { animation: inv-cursor 10s ease-in-out infinite; }
-:root[data-motion="on"] .inv-activa .inv-onda-1 { animation: inv-onda-1 10s ease-out infinite; }
-:root[data-motion="on"] .inv-activa .inv-onda-f1 { animation: inv-onda-f1 10s ease-out infinite; }
-:root[data-motion="on"] .inv-activa .inv-onda-f2 { animation: inv-onda-f2 10s ease-out infinite; }
-:root[data-motion="on"] .inv-activa .inv-onda-f3 { animation: inv-onda-f3 10s ease-out infinite; }
-:root[data-motion="on"] .inv-activa .inv-onda-2 { animation: inv-onda-2 10s ease-out infinite; }
-:root[data-motion="on"] .inv-activa .inv-anillo-1 { animation: inv-anillo-1 10s linear infinite; }
-:root[data-motion="on"] .inv-activa .inv-anillo-2 { animation: inv-anillo-2 10s linear infinite; }
-:root[data-motion="on"] .inv-activa .inv-anillo-3 { animation: inv-anillo-3 10s linear infinite; }
-:root[data-motion="on"] .inv-activa .inv-arriba-1 { animation: inv-arriba-1 10s ease-out infinite; }
-:root[data-motion="on"] .inv-activa .inv-arriba-2 { animation: inv-arriba-2 10s ease-out infinite; }
-:root[data-motion="on"] .inv-activa .inv-arriba-3 { animation: inv-arriba-3 10s ease-out infinite; }
-:root[data-motion="on"] .inv-activa .inv-ant-1 { animation: inv-ant-1 10s linear infinite; }
-:root[data-motion="on"] .inv-activa .inv-ant-2 { animation: inv-ant-2 10s linear infinite; }
-:root[data-motion="on"] .inv-activa .inv-ant-3 { animation: inv-ant-3 10s linear infinite; }
-:root[data-motion="on"] .inv-activa .inv-nuevo-1 { animation: inv-nuevo-1 10s ease-out infinite; }
-:root[data-motion="on"] .inv-activa .inv-nuevo-2 { animation: inv-nuevo-2 10s ease-out infinite; }
-:root[data-motion="on"] .inv-activa .inv-nuevo-3 { animation: inv-nuevo-3 10s ease-out infinite; }
-:root[data-motion="on"] .inv-activa .inv-guardar { animation: inv-guardar 10s linear infinite; }
+:root[data-motion="on"] .inv-activa .inv-ventana { animation: inv-ventana 11s cubic-bezier(0.22, 1, 0.36, 1) infinite; }
+:root[data-motion="on"] .inv-activa .inv-cursor { animation: inv-cursor 11s ease-in-out infinite; }
+:root[data-motion="on"] .inv-activa .inv-onda-1 { animation: inv-onda-1 11s ease-out infinite; }
+:root[data-motion="on"] .inv-activa .inv-onda-p { animation: inv-onda-p 11s ease-out infinite; }
+:root[data-motion="on"] .inv-activa .inv-onda-s { animation: inv-onda-s 11s ease-out infinite; }
+:root[data-motion="on"] .inv-activa .inv-onda-g { animation: inv-onda-g 11s ease-out infinite; }
+:root[data-motion="on"] .inv-activa .inv-anillo-p { animation: inv-anillo-p 11s linear infinite; }
+:root[data-motion="on"] .inv-activa .inv-anillo-s { animation: inv-anillo-s 11s linear infinite; }
+:root[data-motion="on"] .inv-activa .inv-ant-p { animation: inv-ant-p 11s linear infinite; }
+:root[data-motion="on"] .inv-activa .inv-ch { animation: inv-ch 11s linear infinite; animation-delay: calc(var(--i) * 0.165s); }
+:root[data-motion="on"] .inv-activa .inv-ch::after { animation: inv-caret 11s linear infinite; animation-delay: calc(var(--i) * 0.165s); }
+:root[data-motion="on"] .inv-activa .inv-ch:last-child::after { animation: inv-caret-fin 11s linear infinite; animation-delay: calc(var(--i) * 0.165s); }
+:root[data-motion="on"] .inv-activa .inv-arriba-s { animation: inv-arriba-s 11s ease-out infinite; }
+:root[data-motion="on"] .inv-activa .inv-ant-s { animation: inv-ant-s 11s linear infinite; }
+:root[data-motion="on"] .inv-activa .inv-nuevo-s { animation: inv-nuevo-s 11s ease-out infinite; }
+:root[data-motion="on"] .inv-activa .inv-guardar { animation: inv-guardar 11s linear infinite; }
 
 /* Imagen de clientes animada (ClienteAnimado), bucle de 8 s: cursor, clic en el ojo, detalle que se despliega,
    clic en "Cerrar" y cierre. Quieta con "reducir movimiento" (el detalle queda abierto); con ?motion=on se fuerza. */
@@ -380,10 +372,10 @@ body {
   19% { opacity: 1; transform: scale(0.82); }
   21.3% { opacity: 1; transform: scale(1); }
   50% { opacity: 1; transform: translate(0, 0); }
-  65% { opacity: 1; transform: translate(3.25cqw, 49.7cqw); }
-  68.5% { opacity: 1; transform: translate(3.25cqw, 49.7cqw) scale(0.82); }
-  71% { opacity: 1; transform: translate(3.25cqw, 49.7cqw) scale(1); }
-  76%, 100% { opacity: 0; transform: translate(3.25cqw, 49.7cqw); }
+  65% { opacity: 1; transform: translate(3.38cqw, 36.75cqw); }
+  68.5% { opacity: 1; transform: translate(3.38cqw, 36.75cqw) scale(0.82); }
+  71% { opacity: 1; transform: translate(3.38cqw, 36.75cqw) scale(1); }
+  76%, 100% { opacity: 0; transform: translate(3.38cqw, 36.75cqw); }
 }
 @keyframes cli-onda-1 {
   0%, 18.7% { opacity: 0; transform: scale(0.3); }
@@ -405,3 +397,217 @@ body {
 :root[data-motion="on"] .cli-activa .cli-cursor { animation: cli-cursor 8s ease-in-out infinite; }
 :root[data-motion="on"] .cli-activa .cli-onda-1 { animation: cli-onda-1 8s ease-out infinite; }
 :root[data-motion="on"] .cli-activa .cli-onda-2 { animation: cli-onda-2 8s ease-out infinite; }
+
+/* Contador de la oferta (ContadorOferta): el número que cambia entra desde arriba. */
+@keyframes cd-cambia {
+  from { opacity: 0; transform: translateY(-35%); }
+  to { opacity: 1; transform: none; }
+}
+.cd-num { animation: cd-cambia 0.35s ease-out; }
+
+/* Notificación de confianza como push (MarketingAnimado), bucle de 8 s: sube desde el borde de abajo de la pantalla con un pequeño
+   rebote, se queda y se va hacia abajo. Quieta con "reducir movimiento" (queda a la vista); con ?motion=on se fuerza. */
+@keyframes push-aviso {
+  0%, 9% { opacity: 0; transform: translateY(6cqw) scale(0.97); }
+  15% { opacity: 1; transform: translateY(-0.5cqw) scale(1.01); }
+  18%, 74% { opacity: 1; transform: none; }
+  80%, 100% { opacity: 0; transform: translateY(4cqw) scale(0.98); }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .push-activa .push-aviso { animation: push-aviso 8s cubic-bezier(0.22, 1, 0.36, 1) infinite; }
+}
+:root[data-motion="on"] .push-activa .push-aviso { animation: push-aviso 8s cubic-bezier(0.22, 1, 0.36, 1) infinite; }
+
+/* Imagen del carrito animada (CarritoAnimado), bucle de 8 s: se suma un short (la fila entra y el carrito crece),
+   subtotal y total se actualizan, la barra se llena y recién entonces aparece la línea de envío gratis. Quieta con
+   "reducir movimiento" (queda el estado final); con ?motion=on se fuerza. */
+.car-fila {
+  display: grid;
+  grid-template-rows: 1fr;
+}
+.car-destello {
+  opacity: 0;
+}
+.car-par {
+  display: grid;
+}
+.car-par > span {
+  grid-area: 1 / 1;
+  justify-self: end;
+}
+.car-par-msg > span {
+  justify-self: start;
+}
+.car-ant {
+  opacity: 0;
+}
+.car-barra {
+  transform-origin: left center;
+}
+@keyframes car-fila-item {
+  0%, 13.9% { grid-template-rows: 0fr; }
+  22%, 88% { grid-template-rows: 1fr; }
+  92%, 100% { grid-template-rows: 0fr; }
+}
+@keyframes car-item-in {
+  0%, 14.5% { opacity: 0; transform: translateX(2.5cqw); }
+  22%, 88% { opacity: 1; transform: none; }
+  92%, 100% { opacity: 0; transform: none; }
+}
+@keyframes car-destello {
+  0%, 17.9% { opacity: 0; }
+  18.5% { opacity: 1; }
+  36%, 100% { opacity: 0; }
+}
+/* antes / ahora: cada valor cambia cuando entra el producto y vuelve al estado inicial al reiniciar el bucle */
+@keyframes car-ant {
+  0%, 18.4% { opacity: 1; }
+  18.5%, 88% { opacity: 0; }
+  92%, 100% { opacity: 1; }
+}
+@keyframes car-nuevo {
+  0%, 18.4% { opacity: 0; }
+  18.5%, 88% { opacity: 1; }
+  92%, 100% { opacity: 0; }
+}
+/* el aviso cambia cuando la barra termina de llenarse */
+@keyframes car-ant-msg {
+  0%, 35.4% { opacity: 1; }
+  35.5%, 88% { opacity: 0; }
+  92%, 100% { opacity: 1; }
+}
+@keyframes car-nuevo-msg {
+  0%, 35.4% { opacity: 0; }
+  35.5%, 88% { opacity: 1; }
+  92%, 100% { opacity: 0; }
+}
+@keyframes car-barra {
+  0%, 19.9% { transform: scaleX(0.667); }
+  34%, 88% { transform: scaleX(1); }
+  92%, 100% { transform: scaleX(0.667); }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .car-activa .car-fila-item { animation: car-fila-item 8s ease-out infinite; }
+  .car-activa .car-fila-item .car-fila-in { animation: car-item-in 8s ease-out infinite; }
+  .car-activa .car-destello { animation: car-destello 8s linear infinite; }
+  .car-activa .car-ant { animation: car-ant 8s linear infinite; }
+  .car-activa .car-nuevo { animation: car-nuevo 8s linear infinite; }
+  .car-activa .car-par-msg .car-ant { animation: car-ant-msg 8s linear infinite; }
+  .car-activa .car-par-msg .car-nuevo { animation: car-nuevo-msg 8s linear infinite; }
+  .car-activa .car-barra { animation: car-barra 8s ease-out infinite; }
+}
+:root[data-motion="on"] .car-activa .car-fila-item { animation: car-fila-item 8s ease-out infinite; }
+:root[data-motion="on"] .car-activa .car-fila-item .car-fila-in { animation: car-item-in 8s ease-out infinite; }
+:root[data-motion="on"] .car-activa .car-destello { animation: car-destello 8s linear infinite; }
+:root[data-motion="on"] .car-activa .car-ant { animation: car-ant 8s linear infinite; }
+:root[data-motion="on"] .car-activa .car-nuevo { animation: car-nuevo 8s linear infinite; }
+:root[data-motion="on"] .car-activa .car-par-msg .car-ant { animation: car-ant-msg 8s linear infinite; }
+:root[data-motion="on"] .car-activa .car-par-msg .car-nuevo { animation: car-nuevo-msg 8s linear infinite; }
+:root[data-motion="on"] .car-activa .car-barra { animation: car-barra 8s ease-out infinite; }
+
+/* Badges de la imagen Marketing (MarketingAnimado), bucle de 9 s: un cursor hace clic en Black Friday, Hot Sale y
+   CyberMonday (no en "Subí la tuya"); cada opción se marca en violeta y su badge se aplica al producto del celular y a
+   los de "Más en promoción". Quieta con "reducir movimiento" (queda Black Friday elegido); con ?motion=on se fuerza. */
+.bd-sel {
+  border-radius: 1.5cqw;
+  box-shadow: inset 0 0 0 0.25cqw #6c4fd4;
+  background: rgba(108, 79, 212, 0.07);
+  opacity: 0;
+}
+.bd-on-bf {
+  opacity: 1;
+}
+.bd-check {
+  position: absolute;
+  right: 0.667cqw;
+  top: 0.667cqw;
+  width: 2cqw;
+  height: 2cqw;
+  border-radius: 50%;
+  background: #6c4fd4;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.bd-img {
+  height: auto;
+  opacity: 0;
+  transform-origin: 30% 50%;
+}
+.bd-pop-bf {
+  opacity: 1;
+}
+.bd-onda {
+  width: 4.2cqw;
+  height: 4.2cqw;
+  margin: -2.1cqw 0 0 -2.1cqw;
+  border: 2px solid #6c4fd4;
+  opacity: 0;
+}
+.bd-cursor {
+  width: 2.8cqw;
+  height: 2.8cqw;
+  margin: -0.4cqw 0 0 -0.5cqw;
+  opacity: 0;
+  filter: drop-shadow(0 2px 3px rgba(23, 18, 47, 0.4));
+}
+@keyframes bd-cursor {
+  0%, 3% { opacity: 1; transform: translate(0, 0) scale(1); }
+  3.5% { opacity: 1; transform: translate(0, 0) scale(0.82); }
+  5%, 30% { opacity: 1; transform: translate(0, 0) scale(1); }
+  35% { opacity: 1; transform: translate(9.96cqw, 0) scale(1); }
+  36.5% { opacity: 1; transform: translate(9.96cqw, 0) scale(0.82); }
+  38%, 63% { opacity: 1; transform: translate(9.96cqw, 0) scale(1); }
+  68% { opacity: 1; transform: translate(19.92cqw, 0) scale(1); }
+  69.5% { opacity: 1; transform: translate(19.92cqw, 0) scale(0.82); }
+  71%, 90% { opacity: 1; transform: translate(19.92cqw, 0) scale(1); }
+  100% { opacity: 1; transform: translate(0, 0) scale(1); }
+}
+/* cada opción: activa entre su clic y el siguiente (CyberMonday sigue activa hasta el clic en Black Friday del ciclo siguiente) */
+@keyframes bd-on-bf { 0%, 3.4% { opacity: 0; } 3.5%, 36.4% { opacity: 1; } 36.5%, 100% { opacity: 0; } }
+@keyframes bd-on-hs { 0%, 36.4% { opacity: 0; } 36.5%, 69.4% { opacity: 1; } 69.5%, 100% { opacity: 0; } }
+@keyframes bd-on-cm { 0%, 3.4% { opacity: 1; } 3.5%, 69.4% { opacity: 0; } 69.5%, 100% { opacity: 1; } }
+/* el badge elegido se aplica al producto con un pequeño pop */
+@keyframes bd-pop-bf {
+  0%, 3.4% { opacity: 0; transform: scale(0.8) rotate(-8deg); }
+  3.5% { opacity: 1; transform: scale(1.18) rotate(-6deg); }
+  6.5%, 36.4% { opacity: 1; transform: none; }
+  36.5%, 100% { opacity: 0; transform: none; }
+}
+@keyframes bd-pop-hs {
+  0%, 36.4% { opacity: 0; transform: scale(0.8) rotate(-8deg); }
+  36.5% { opacity: 1; transform: scale(1.18) rotate(-6deg); }
+  39.5%, 69.4% { opacity: 1; transform: none; }
+  69.5%, 100% { opacity: 0; transform: none; }
+}
+@keyframes bd-pop-cm {
+  0%, 3.4% { opacity: 1; transform: none; }
+  3.5%, 69.4% { opacity: 0; transform: none; }
+  69.5% { opacity: 1; transform: scale(1.18) rotate(-6deg); }
+  72.5%, 100% { opacity: 1; transform: none; }
+}
+@keyframes bd-onda-bf { 0%, 3.4% { opacity: 0; transform: scale(0.3); } 3.5% { opacity: 0.7; transform: scale(0.3); } 8%, 100% { opacity: 0; transform: scale(1.4); } }
+@keyframes bd-onda-hs { 0%, 36.4% { opacity: 0; transform: scale(0.3); } 36.5% { opacity: 0.7; transform: scale(0.3); } 41%, 100% { opacity: 0; transform: scale(1.4); } }
+@keyframes bd-onda-cm { 0%, 69.4% { opacity: 0; transform: scale(0.3); } 69.5% { opacity: 0.7; transform: scale(0.3); } 74%, 100% { opacity: 0; transform: scale(1.4); } }
+@media (prefers-reduced-motion: no-preference) {
+  .push-activa .bd-cursor { animation: bd-cursor 9s ease-in-out infinite; }
+  .push-activa .bd-on-bf { animation: bd-on-bf 9s linear infinite; }
+  .push-activa .bd-pop-bf { animation: bd-pop-bf 9s ease-out infinite; }
+  .push-activa .bd-onda-bf { animation: bd-onda-bf 9s ease-out infinite; }
+  .push-activa .bd-on-hs { animation: bd-on-hs 9s linear infinite; }
+  .push-activa .bd-pop-hs { animation: bd-pop-hs 9s ease-out infinite; }
+  .push-activa .bd-onda-hs { animation: bd-onda-hs 9s ease-out infinite; }
+  .push-activa .bd-on-cm { animation: bd-on-cm 9s linear infinite; }
+  .push-activa .bd-pop-cm { animation: bd-pop-cm 9s ease-out infinite; }
+  .push-activa .bd-onda-cm { animation: bd-onda-cm 9s ease-out infinite; }
+}
+:root[data-motion="on"] .push-activa .bd-cursor { animation: bd-cursor 9s ease-in-out infinite; }
+:root[data-motion="on"] .push-activa .bd-on-bf { animation: bd-on-bf 9s linear infinite; }
+:root[data-motion="on"] .push-activa .bd-pop-bf { animation: bd-pop-bf 9s ease-out infinite; }
+:root[data-motion="on"] .push-activa .bd-onda-bf { animation: bd-onda-bf 9s ease-out infinite; }
+:root[data-motion="on"] .push-activa .bd-on-hs { animation: bd-on-hs 9s linear infinite; }
+:root[data-motion="on"] .push-activa .bd-pop-hs { animation: bd-pop-hs 9s ease-out infinite; }
+:root[data-motion="on"] .push-activa .bd-onda-hs { animation: bd-onda-hs 9s ease-out infinite; }
+:root[data-motion="on"] .push-activa .bd-on-cm { animation: bd-on-cm 9s linear infinite; }
+:root[data-motion="on"] .push-activa .bd-pop-cm { animation: bd-pop-cm 9s ease-out infinite; }
+:root[data-motion="on"] .push-activa .bd-onda-cm { animation: bd-onda-cm 9s ease-out infinite; }
