@@ -469,7 +469,7 @@ def escena_carrito():
               '<path d="M560 856 H616" stroke="#7C6AE0" stroke-width="6" stroke-linecap="round" stroke-dasharray="1 13"/>'
               '<circle cx="560" cy="463" r="8" fill="#fff" stroke="#7C6AE0" stroke-width="4"/><circle cx="560" cy="856" r="8" fill="#fff" stroke="#7C6AE0" stroke-width="4"/>'
               '<circle cx="616" cy="737" r="7" fill="#7C6AE0"/><circle cx="616" cy="856" r="7" fill="#7C6AE0"/></svg>')
-    return (TRAZO.format(s="right:-100px;top:900px") + envio + gestion + lineas
+    return (TRAZO.format(s="right:-100px;top:900px") + TRAZO.format(s="left:625px;top:325px;transform-origin:0 0;transform:rotate(-90deg) scale(1)") + envio + gestion + lineas
             + sticker("Tu carrito", "Gestión y envío gratis", "left:56px;top:56px;white-space:nowrap")
             + pill("Vos elegís las condiciones", "left:360px;top:1068px;font-size:29px"))
 
