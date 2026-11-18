@@ -1,6 +1,6 @@
 import ventana from "../assets/premium-overlays/cliente-ventana.webp"
 
-// Imagen "Clientes", animada en bucle (8 s): un cursor hace clic en el ojo de la primera fila, el detalle del
+// Imagen "Clientes", animada en bucle (6 s): un cursor hace clic en el ojo de la primera fila, el detalle del
 // cliente se despliega desde ese botón, se queda un momento, el cursor hace clic en "Cerrar" y se cierra.
 // La base es la imagen cuadrada (el panel de clientes); la ventana es una capa transparente del mismo tamaño.
 // Todo en porcentajes de la imagen de 1200 px. Se reproduce mientras la imagen está visible (`activa`).

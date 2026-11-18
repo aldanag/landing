@@ -17,7 +17,9 @@ import {
 //  - etiqueta, icono: la etiqueta lima de arriba y, opcional, un ícono a su izquierda.
 //  - titulo, intro: el título y, opcional, una bajada.
 //  - funciones: [{ titulo, cuerpo, imagen?, etiquetaImagen?, superposicion? }]. `superposicion` es un nodo que
-//    va encima de la imagen (por ejemplo la barra con mensajes en movimiento). Si una función no tiene `imagen`, el
+//    va encima de la imagen (por ejemplo la barra con mensajes en movimiento). Con `superposicionFija: true` la
+//    superposición es parte de la imagen (la imagen no la trae dibujada): entra y sale junto con ella, sin esperar
+//    a que termine el cambio. Si una función no tiene `imagen`, el
 //    marco muestra un lugar vacío con `etiquetaImagen` hasta que esté la imagen real.
 //  - oscuro: para fondos oscuros (título e intro en blanco).
 //  - invertido: espeja el bloque (lista a la izquierda, imagen a la derecha) para alternar con el de arriba.
@@ -147,8 +149,10 @@ export default function FuncionesBloque({
                 funcion.superposicion && (
                   <div
                     key={`sobre-${funcion.titulo}`}
-                    className={`pointer-events-none absolute inset-0 z-10 transition-opacity duration-500 motion-reduce:transition-none ${
-                      activeIndex === i && prevIndex === null ? "opacity-100" : "opacity-0"
+                    className={`pointer-events-none absolute inset-0 z-10 transition-opacity motion-reduce:transition-none ${
+                      funcion.superposicionFija ? "duration-[900ms]" : "duration-500"
+                    } ${
+                      (funcion.superposicionFija ? activeIndex === i : activeIndex === i && prevIndex === null) ? "opacity-100" : "opacity-0"
                     }`}
                   >
                     {cloneElement(funcion.superposicion, {

@@ -71,7 +71,7 @@ export default function CarritoAnimado({ activa = false }) {
         className="absolute"
         style={{
           left: "50%",
-          top: "17.5%",
+          top: "19.167%",
           width: "46.667%",
           padding: "2.333cqw 2.833cqw 2.5cqw",
           borderRadius: "2.167cqw",
@@ -103,7 +103,7 @@ export default function CarritoAnimado({ activa = false }) {
           </div>
         </div>
 
-        <div style={{ marginTop: "0.833cqw" }}>
+        <div style={{ marginTop: "1.25cqw" }}>
           <Linea etiqueta="Subtotal:">
             <Par antes="$ 29.800" ahora="$ 44.700" />
           </Linea>

@@ -39,12 +39,12 @@ export const funcionesPremium = [
   },
   {
     titulo: "Herramientas de marketing",
-    cuerpo: "Todo para promocionar tu tienda, en un solo lugar:",
+    cuerpo: "Activá promociones en tu tienda y mostrá lo que tenés para ofrecer:",
     puntos: [
-      "Notificación de confianza.",
-      "Ofertas por tiempo limitado, producto por producto.",
-      "Modo promociones: Black Friday, Hot Sale, CyberMonday o el que armes vos.",
+      "Modo promociones: elegí el badge de Black Friday, Hot Sale o CyberMonday, o subí el tuyo.",
+      "Ofertas por tiempo limitado, con cuenta regresiva, producto por producto.",
+      "Notificación de confianza: «Alguien en tu zona ya compró este artículo».",
     ],
-    etiquetaImagen: "La tienda con una oferta, una notificación y el modo promoción",
+    etiquetaImagen: "La tienda con su badge de promoción, la oferta con cuenta regresiva y la notificación de confianza",
   },
 ]

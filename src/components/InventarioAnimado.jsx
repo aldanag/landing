@@ -1,6 +1,6 @@
 import ventana from "../assets/premium-overlays/inventario-ventana.webp"
 
-// Imagen "Inventario por categorías", animada en bucle (11 s) como se comporta una web real: un cursor hace
+// Imagen "Inventario por categorías", animada en bucle (8,5 s) como se comporta una web real: un cursor hace
 // clic en el botón de cajas de la categoría y la ventana del inventario se despliega. Después toca el precio de la
 // primera remera (se marca en violeta, se borra el viejo y se escribe el nuevo tecla a tecla), toca la flechita del
 // stock de la segunda (al llegar se marca en violeta, el número sube de a uno y el foco pasa a ese campo), toca

@@ -420,19 +420,19 @@ def escena_carrito():
     campo = lambda label, valor, flecha="": (
         f'<div style="flex:1"><div style="font-size:22px;font-weight:700;line-height:1.2">{label}</div>'
         f'<div style="{caja};padding:0 18px;justify-content:space-between">{valor}{flecha}</div></div>')
-    guardar = '<div class="row" style="justify-content:flex-end;margin-top:28px"><div class="btn" style="height:58px;font-size:22px;padding:0 34px;border-radius:14px">Guardar</div></div>'
+    guardar = '<div class="row" style="justify-content:flex-end;margin-top:37px"><div class="btn" style="height:58px;font-size:22px;padding:0 34px;border-radius:14px">Guardar</div></div>'
     base = "width:520px;padding:30px 32px 28px;border-radius:26px"
-    envio = tarjeta(f"left:40px;top:678px;{base}", f"""
+    envio = tarjeta(f"left:40px;top:677px;{base}", f"""
       <div style="font-size:36px;font-weight:800">Envío gratuito</div>
-      <div style="display:flex;gap:24px;margin-top:24px">{campo("Cantidad mínima", "3")}{campo("Monto mínimo ($)", "50.000")}</div>
+      <div style="display:flex;gap:24px;margin-top:33px">{campo("Cantidad mínima", "3")}{campo("Monto mínimo ($)", "50.000")}</div>
       {guardar}""")
     chk = ('<span style="width:28px;height:28px;border-radius:8px;background:#6C4FD4;display:flex;align-items:center;justify-content:center;flex:none">'
            '<svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="#fff" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.500l4.500 4.500L19 7.500"/></svg></span>')
     flecha = '<span style="color:#6b6679;font-size:17px">⌄</span>'
-    gestion = tarjeta(f"left:40px;top:266px;{base}", f"""
+    gestion = tarjeta(f"left:40px;top:230px;{base}", f"""
       <div style="font-size:36px;font-weight:800">Gastos de gestión</div>
       <div style="display:flex;align-items:center;gap:14px;font-size:23px;font-weight:700;margin-top:22px">{chk}Habilitar gastos de gestión</div>
-      <div style="display:flex;gap:24px;margin-top:24px">{campo("Tipo de costo", "Costo fijo", flecha)}{campo("Monto fijo", "1.200")}</div>
+      <div style="display:flex;gap:24px;margin-top:33px">{campo("Tipo de costo", "Costo fijo", flecha)}{campo("Monto fijo", "1.200")}</div>
       {guardar}""")
 
     # ---- el carrito con toda la información
@@ -465,10 +465,10 @@ def escena_carrito():
       </div>
       <div style="height:64px;border-radius:14px;background:{azul};color:#fff;font-size:22px;font-weight:600;display:flex;align-items:center;justify-content:center">Finalizar Compra</div>""")
     lineas = ('<svg class="conexion" width="1200" height="1200" viewBox="0 0 1200 1200" fill="none">'
-              '<path d="M560 475 H584 V712 H616" stroke="#7C6AE0" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="1 13"/>'
-              '<path d="M560 858 H616" stroke="#7C6AE0" stroke-width="6" stroke-linecap="round" stroke-dasharray="1 13"/>'
-              '<circle cx="560" cy="475" r="8" fill="#fff" stroke="#7C6AE0" stroke-width="4"/><circle cx="560" cy="858" r="8" fill="#fff" stroke="#7C6AE0" stroke-width="4"/>'
-              '<circle cx="616" cy="712" r="7" fill="#7C6AE0"/><circle cx="616" cy="858" r="7" fill="#7C6AE0"/></svg>')
+              '<path d="M560 463 H584 V737 H616" stroke="#7C6AE0" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="1 13"/>'
+              '<path d="M560 856 H616" stroke="#7C6AE0" stroke-width="6" stroke-linecap="round" stroke-dasharray="1 13"/>'
+              '<circle cx="560" cy="463" r="8" fill="#fff" stroke="#7C6AE0" stroke-width="4"/><circle cx="560" cy="856" r="8" fill="#fff" stroke="#7C6AE0" stroke-width="4"/>'
+              '<circle cx="616" cy="737" r="7" fill="#7C6AE0"/><circle cx="616" cy="856" r="7" fill="#7C6AE0"/></svg>')
     return (TRAZO.format(s="right:-100px;top:900px") + envio + gestion + lineas
             + sticker("Tu carrito", "Gestión y envío gratis", "left:56px;top:56px;white-space:nowrap")
             + pill("Vos elegís las condiciones", "left:360px;top:1068px;font-size:29px"))

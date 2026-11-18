@@ -23,3 +23,4 @@ Colores, tipografías y reglas de uso: ver [DESIGN.md](DESIGN.md). Los tokens vi
 
 - **Motion:** GSAP con `useGSAP` y ScrollTrigger (`src/lib/motion.js`). Con "reducir movimiento" quedan solo fundidos.
 - **Íconos:** Font Awesome (solo los que se usan) más SVG propios.
+- **Imágenes Premium:** se generan con `python herramientas/premium-imagenes/generar.py`; los criterios de diseño, textos y movimiento (aprendidos de las correcciones) están en [CRITERIOS.md](herramientas/premium-imagenes/CRITERIOS.md).

@@ -19,6 +19,8 @@ const fotoDe = (n) => Object.entries(fotos).find(([ruta]) => ruta.includes(`prem
 const funciones = funcionesPremium.map((f, i) => ({
   ...f,
   imagen: fotoDe(i + 1),
+  // el carrito (4) y los badges de Marketing (6) los dibuja la animación: aparecen junto con la imagen
+  superposicionFija: i === 4 || i === 6,
   superposicion: i === 0 ? <BarraMensajes /> : i === 2 ? <ClienteAnimado /> : i === 3 ? <InventarioAnimado /> : i === 4 ? <CarritoAnimado /> : i === 6 ? <MarketingAnimado /> : undefined,
 }))
 
