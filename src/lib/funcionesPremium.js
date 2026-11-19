@@ -20,9 +20,9 @@ export const funcionesPremium = [
     etiquetaImagen: "El panel de clientes con el botón para exportar",
   },
   {
-    titulo: "Inventario con stock rápido",
+    titulo: "Inventario con gestión rápida",
     cuerpo:
-      "Mirá tus productos ordenados por categoría y editá el stock al toque, desde el panel.",
+      "Mirá tus productos ordenados por categoría y cambiá precios y stock de forma rápida, desde el panel.",
     etiquetaImagen: "El panel de inventario con el stock editable",
   },
   {
@@ -32,10 +32,10 @@ export const funcionesPremium = [
     etiquetaImagen: "El carrito con los gastos de gestión y el aviso de envío gratis",
   },
   {
-    titulo: "Más carrusel y más banners",
+    titulo: "Más espacio para tus promociones",
     cuerpo:
       "Sumá hasta 12 imágenes al carrusel de tu tienda, en vez de 8, y destacá más ofertas con 5 banners promocionales, en vez de 3.",
-    etiquetaImagen: "El carrusel y los banners de la tienda, con sus límites",
+    etiquetaImagen: "El carrusel y los banners de la tienda",
   },
   {
     titulo: "Herramientas de marketing",
@@ -43,7 +43,7 @@ export const funcionesPremium = [
     puntos: [
       "Modo promociones: Black Friday, Hot Sale, CyberMonday o el tuyo.",
       "Ofertas con cuenta regresiva, producto por producto.",
-      "Notificación de confianza.",
+      "Notificación de confianza cuando alguien compra.",
     ],
     etiquetaImagen: "La tienda con su badge de promoción, la oferta con cuenta regresiva y la notificación de confianza",
   },

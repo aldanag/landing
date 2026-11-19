@@ -244,10 +244,10 @@ export default function Hero() {
           }
           ribbons.forEach((el, i) => gsap.to(el, { y: i ? -30 : -18, ...scrub }))
           floats.forEach((el, i) => gsap.to(el, { yPercent: [-22, -34, -14][i % 3], ...scrub }))
-          // El fondo es lo más lejano: se queda atrás (baja unos 38 px mientras la mujer casi no baja), y entre los dos se nota un
-          // paralaje sutil de unos 30 px al desplazarse. El fondo no puede bajar más de ~7 %: se le acaba el margen de la foto.
-          gsap.to("[data-parallax=bg]", { yPercent: 6.5, ...scrub })
-          q("[data-art=girl]").forEach((el) => gsap.to(el, { y: 6, ...scrub }))
+          // El fondo es lo más lejano: se queda atrás (baja ~13 % del alto del panel, unos 65 px) mientras la mujer casi no baja:
+          // entre los dos se nota un paralaje sutil al desplazarse. La foto tiene 14 % de margen arriba, por eso no se corre.
+          gsap.to("[data-parallax=bg]", { yPercent: 10, ...scrub })
+          q("[data-art=girl]").forEach((el) => gsap.to(el, { y: 4, ...scrub }))
 
           // Las tarjetas se mueven un poco distinto con el mouse: da profundidad.
           if (window.matchMedia("(hover: hover) and (pointer: fine)").matches) {
@@ -319,7 +319,7 @@ export default function Hero() {
             height="848"
             fetchPriority="high"
             data-parallax="bg"
-            className="absolute -top-[8%] left-0 h-[116%] w-[115%] max-w-none object-cover object-[0%_30%] blur-[3px]"
+            className="absolute -top-[14%] left-0 h-[130%] w-[115%] max-w-none object-cover object-[0%_30%] blur-[3px]"
           />
           <div className="absolute inset-0 bg-linear-to-r from-white/70 via-white/35 via-35% to-transparent to-55%" />
         </div>
