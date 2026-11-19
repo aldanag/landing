@@ -18,6 +18,8 @@ Fuente de verdad para editar el sitio. Los tokens viven en `src/index.css` (`@th
 | `ink` | #17122F | Texto y bloques oscuros |
 | `ink-soft` | #4f4a5e | Texto secundario (solo sobre white/mist) |
 | `ink-muted` | #6b6679 | Texto apagado (solo sobre white/mist) |
+| `snow-soft` | #DFD8F8 | Texto secundario sobre fondos oscuros (azul): intermedio entre el lila y el blanco |
+| `snow-muted` | #A79DD6 | Texto apagado sobre fondos oscuros (preguntas sin abrir) |
 
 Lemora es una tienda online por membresía para emprendedores de Latinoamérica: el cliente arma el pedido en la tienda y el emprendedor lo recibe directo en WhatsApp. La marca se siente joven, clara y sin vueltas. Usá este sistema para cualquier página, pieza o pantalla de Lemora.
 

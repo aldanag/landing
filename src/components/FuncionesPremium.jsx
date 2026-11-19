@@ -5,6 +5,7 @@ import InventarioAnimado from "./InventarioAnimado"
 import ClienteAnimado from "./ClienteAnimado"
 import MarketingAnimado from "./MarketingAnimado"
 import CarritoAnimado from "./CarritoAnimado"
+import CarruselAnimado from "./CarruselAnimado"
 import { funcionesPremium } from "../lib/funcionesPremium"
 
 // Bloque Premium: fondo oscuro e imágenes con fondo lila. Las imágenes (src/assets/premium/premium-1 ...
@@ -20,8 +21,8 @@ const funciones = funcionesPremium.map((f, i) => ({
   ...f,
   imagen: fotoDe(i + 1),
   // el carrito (4) y los badges de Marketing (6) los dibuja la animación: aparecen junto con la imagen
-  superposicionFija: i === 4 || i === 6,
-  superposicion: i === 0 ? <BarraMensajes /> : i === 2 ? <ClienteAnimado /> : i === 3 ? <InventarioAnimado /> : i === 4 ? <CarritoAnimado /> : i === 6 ? <MarketingAnimado /> : undefined,
+  superposicionFija: i === 4 || i === 5 || i === 6,
+  superposicion: i === 0 ? <BarraMensajes /> : i === 2 ? <ClienteAnimado /> : i === 3 ? <InventarioAnimado /> : i === 4 ? <CarritoAnimado /> : i === 5 ? <CarruselAnimado /> : i === 6 ? <MarketingAnimado /> : undefined,
 }))
 
 export default function FuncionesPremium() {

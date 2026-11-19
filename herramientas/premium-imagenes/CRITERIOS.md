@@ -53,3 +53,11 @@ la siguiente sin que lo pida.
 - **No hacer commit ni push sin que lo pida.** «Commit y push» va directo a `main`.
 
 Estilo de la interfaz (colores, piezas, tipografía y espaciado): ver [ESTILO-UI.md](ESTILO-UI.md).
+
+## Criterios para todos los diseños (landing, portadas, imágenes)
+
+- **Espacios:** revisar siempre los espacios con los skills de diseño. Nada de huecos grandes entre elementos; en textos animados reservar solo el alto real (una línea) y acortar las frases para que entren.
+- **Celulares:** si van cortados, siempre contra el borde del contenedor (el de abajo del panel o de la tarjeta), nunca cortados al azar en el medio. Marco violeta oscuro, barra de estado 9:41, isla y señal/batería del mismo alto.
+- **UI real:** usar la interfaz ya aprobada de Lemora (las ventanas del panel de `src/assets/premium-overlays`, el contador y la notificación de confianza reales). No inventar menús, píldoras ni tarjetas.
+- **WhatsApp:** si la tienda vende por WhatsApp, usar el ícono de WhatsApp (botón de WhatsApp en la tienda, pedido por WhatsApp).
+- **Badges:** usar los que se pasaron (`badge-bf`, `badge-hs`, `badge-cm`), tal cual.

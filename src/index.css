@@ -36,6 +36,9 @@
   --color-ink: #17122F;
   --color-ink-soft: #4f4a5e;
   --color-ink-muted: #6b6679;
+  /* Textos sobre fondos oscuros (preguntas frecuentes en azul): snow-soft es el intermedio entre el lila y el blanco. */
+  --color-snow-soft: #DFD8F8;
+  --color-snow-muted: #A79DD6;
 
   --font-heading: "Manrope", system-ui, sans-serif;
   --font-body: "Manrope", system-ui, sans-serif;
@@ -74,6 +77,23 @@ body {
     html {
       scroll-behavior: smooth;
     }
+  }
+
+  /* manito en todo lo clickeable (Tailwind 4 deja los botones con la flecha) */
+  a[href],
+  button,
+  summary,
+  [role="button"],
+  [role="tab"],
+  label[for],
+  select,
+  input[type="checkbox"],
+  input[type="radio"] {
+    cursor: pointer;
+  }
+  button:disabled,
+  [aria-disabled="true"] {
+    cursor: not-allowed;
   }
 
   ::selection {
@@ -610,3 +630,79 @@ body {
 :root[data-motion="on"] .push-activa .bd-on-cm { animation: bd-on-cm 9s linear infinite; }
 :root[data-motion="on"] .push-activa .bd-pop-cm { animation: bd-pop-cm 9s ease-out infinite; }
 :root[data-motion="on"] .push-activa .bd-onda-cm { animation: bd-onda-cm 9s ease-out infinite; }
+
+/* Tiendas: cinta de celulares que pasa sola. Con "reducir movimiento" queda quieta y se desliza con el dedo. */
+@keyframes tiendas-pasan {
+  to {
+    transform: translateX(-50%);
+  }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .tiendas-ventana {
+    overflow-x: hidden;
+  }
+  .tiendas-cinta {
+    animation: tiendas-pasan linear infinite;
+  }
+  .tiendas-ventana:hover .tiendas-cinta,
+  .tiendas-cinta:focus-within {
+    animation-play-state: paused;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .tiendas-copia {
+    display: none;
+  }
+}
+
+/* Carrusel de la imagen "Más espacio para tus promociones" (CarruselAnimado), bucle de 10 s: las láminas se deslizan de
+   costado (la primera se repite al final, así vuelve sin saltos) y el punto de la lámina activa se estira.
+   Quieto con "reducir movimiento" (queda la primera lámina); con ?motion=on se fuerza. */
+.carru-punto {
+  transition: none;
+  background: #fff;
+}
+.carru-punto-1 { width: 2.167cqw; }
+.carru-punto-2,
+.carru-punto-3 { width: 0.833cqw; opacity: 0.55; }
+@keyframes carru-pista {
+  0%, 27% { transform: translateX(0); }
+  33%, 60% { transform: translateX(-25%); }
+  66%, 93% { transform: translateX(-50%); }
+  99.9% { transform: translateX(-75%); }
+  100% { transform: translateX(0); }
+}
+@keyframes carru-p1 {
+  0%, 30% { width: 2.167cqw; opacity: 1; }
+  36%, 93% { width: 0.833cqw; opacity: 0.55; }
+  99.9%, 100% { width: 2.167cqw; opacity: 1; }
+}
+@keyframes carru-p2 {
+  0%, 27% { width: 0.833cqw; opacity: 0.55; }
+  33%, 63% { width: 2.167cqw; opacity: 1; }
+  69%, 100% { width: 0.833cqw; opacity: 0.55; }
+}
+@keyframes carru-p3 {
+  0%, 60% { width: 0.833cqw; opacity: 0.55; }
+  66%, 93% { width: 2.167cqw; opacity: 1; }
+  99.9%, 100% { width: 0.833cqw; opacity: 0.55; }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .carru-activa .carru-pista { animation: carru-pista 10s cubic-bezier(0.65, 0, 0.35, 1) infinite; }
+  .carru-activa .carru-punto-1 { animation: carru-p1 10s ease-in-out infinite; }
+  .carru-activa .carru-punto-2 { animation: carru-p2 10s ease-in-out infinite; }
+  .carru-activa .carru-punto-3 { animation: carru-p3 10s ease-in-out infinite; }
+}
+:root[data-motion="on"] .carru-activa .carru-pista { animation: carru-pista 10s cubic-bezier(0.65, 0, 0.35, 1) infinite; }
+:root[data-motion="on"] .carru-activa .carru-punto-1 { animation: carru-p1 10s ease-in-out infinite; }
+:root[data-motion="on"] .carru-activa .carru-punto-2 { animation: carru-p2 10s ease-in-out infinite; }
+:root[data-motion="on"] .carru-activa .carru-punto-3 { animation: carru-p3 10s ease-in-out infinite; }
+
+@keyframes carru-flecha {
+  0%, 22%, 29%, 55%, 62%, 88%, 95%, 100% { transform: scale(1); }
+  25%, 58%, 91% { transform: scale(0.84); }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .carru-activa .carru-flecha { animation: carru-flecha 10s ease-in-out infinite; }
+}
+:root[data-motion="on"] .carru-activa .carru-flecha { animation: carru-flecha 10s ease-in-out infinite; }

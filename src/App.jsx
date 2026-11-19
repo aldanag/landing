@@ -5,6 +5,7 @@ import ProblemaSolucion from "./components/ProblemaSolucion"
 import TrialBanner from "./components/TrialBanner"
 import Features from "./components/Features"
 import FuncionesPremium from "./components/FuncionesPremium"
+import Tiendas from "./components/Tiendas"
 import Testimonials from "./components/Testimonials"
 import PricingCards from "./components/PricingCards"
 import FAQ from "./components/FAQ"
@@ -27,11 +28,12 @@ function App() {
         <TrialBanner />
         <Features />
         <FuncionesPremium />
+        <Tiendas />
         <Testimonials />
         <PricingCards />
-        <FAQ />
+        <FAQ layout="columnas" />
       </main>
-      <Footer />
+      <Footer fondo="bg-[#1F1842]" />
     </>
   )
 }

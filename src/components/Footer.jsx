@@ -42,9 +42,10 @@ function Column({ title, children }) {
   )
 }
 
-export default function Footer({ explorar = explorarDefault }) {
+// `fondo`: clase del fondo del pie (la landing usa un azul un poco más claro para separarlo de las preguntas).
+export default function Footer({ explorar = explorarDefault, fondo = "bg-ink" }) {
   return (
-    <footer className="bg-ink text-white">
+    <footer className={`${fondo} text-white`}>
       <div className="mx-auto max-w-[88rem]">
         <div className="px-6 pt-16 pb-10 md:px-10 md:pt-24 md:pb-12 lg:px-14">
           {/* Cierre con llamada a la acción */}

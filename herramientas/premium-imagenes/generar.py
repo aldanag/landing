@@ -45,6 +45,13 @@ FOTOS = {
 }
 for _i in range(1, 4):
     FOTOS[f"carr{_i}"] = _p("banner.jpg")
+# Foto del carrusel (slide de la tienda de hombre): si el archivo está, escena_6 la usa.
+if _p("slide-hombre-1.jpg").exists():
+    FOTOS["cat-slide"] = _p("slide-hombre-1.jpg")
+if _p("slide-hombre-2.jpg").exists():
+    FOTOS["cat-slide-2"] = _p("slide-hombre-2.jpg")
+if _p("slide-hombre-3.jpg").exists():
+    FOTOS["cat-slide-3"] = _p("slide-hombre-3.jpg")
     FOTOS[f"ban{_i}"] = _p("banner.jpg")
 for _g in ("almohadones", "living"):
     for _i in range(3):
@@ -227,7 +234,7 @@ def lateral_admin(activo):
     """Barra lateral colapsada del panel de administración (íconos sólidos, como el panel real)."""
     solido = lambda d, extra="": f'<svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor" {extra}>{d}</svg>'
     iconos = {
-        "Dashboard": solido('<path fill-rule="evenodd" d="M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zm1 4.6a1 1 0 0 0-2 0v1.2a1 1 0 0 0 2 0zM7.6 9.2a1 1 0 0 0-1.4 1.4l.8.9a1 1 0 0 0 1.4-1.4zm9.2 0-.9.9a1 1 0 1 0 1.4 1.4l.9-.9a1 1 0 0 0-1.4-1.4zM12 11l3.5-2.5-2 4.1A2 2 0 1 1 12 11z"/>'),
+        "Estadísticas": solido('<path fill-rule="evenodd" d="M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zm1 4.6a1 1 0 0 0-2 0v1.2a1 1 0 0 0 2 0zM7.6 9.2a1 1 0 0 0-1.4 1.4l.8.9a1 1 0 0 0 1.4-1.4zm9.2 0-.9.9a1 1 0 1 0 1.4 1.4l.9-.9a1 1 0 0 0-1.4-1.4zM12 11l3.5-2.5-2 4.1A2 2 0 1 1 12 11z"/>'),
         "Productos": solido('<path d="M4 3h16a1 1 0 0 1 .9.6L22 7H2l1.100-3.400A1 1 0 0 1 4 3zM2 9h20v10a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2zm7 2a1 1 0 0 0 0 2h6a1 1 0 0 0 0-2z"/>'),
         "Categorías": solido('<path fill-rule="evenodd" d="M2 4a1 1 0 0 1 1-1h7.200a2 2 0 0 1 1.400.600l8.800 8.800a2 2 0 0 1 0 2.800l-5.400 5.400a2 2 0 0 1-2.800 0L3.400 12.800A2 2 0 0 1 2.800 11.400zm5.500 1.500a1.500 1.500 0 1 0 0 3 1.500 1.500 0 0 0 0-3z"/><path d="M12.500 3H14a2 2 0 0 1 1.400.600l7 7a2 2 0 0 1 0 2.800L19 16.800l2.700-2.700a1 1 0 0 0 0-1.400L13.900 4.900z" opacity=".6"/>'),
         "Pedidos": solido('<path d="M2 3h2.600l.6 2H22l-2.200 8.500H8l.4 1.500H19v2H6.900L3.500 5H2z"/><circle cx="9" cy="20" r="1.700"/><circle cx="17" cy="20" r="1.700"/>'),
@@ -238,13 +245,17 @@ def lateral_admin(activo):
         "Carrusel": solido('<path d="M6 3h14a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2zm1 11h12l-3.500-4.500-2.500 3-1.500-1.800zm1.500-7a1.500 1.500 0 1 0 0 3 1.500 1.500 0 0 0 0-3z" fill-rule="evenodd"/><path d="M2 7v12a2 2 0 0 0 2 2h14v-2H4V7z"/>'),
         "Banners": solido('<path d="M4 2.500a1 1 0 0 1 2 0V4h12.500a1 1 0 0 1 .8 1.600L17.400 9l1.900 3.400a1 1 0 0 1-.8 1.600H6v7.500a1 1 0 0 1-2 0z"/>'),
         "Complementos": solido('<path d="M9 3a2 2 0 0 1 4 0v1.500h3.500A1.500 1.500 0 0 1 18 6v3.500h1.500a2 2 0 0 1 0 4H18V17a2 2 0 0 1-2 2h-3.500v-1.500a2 2 0 0 0-4 0V19H5a2 2 0 0 1-2-2v-3.500h1.500a2 2 0 0 0 0-4H3V6a1.500 1.500 0 0 1 1.500-1.500H9z"/>'),
+        "Medios": solido('<path d="M4 3h13a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2zm1 10h11l-3-4-2.500 3-1.500-1.700zM7 6a1.400 1.400 0 1 0 0 2.800A1.400 1.400 0 0 0 7 6z" fill-rule="evenodd"/><path d="M21 8v10a2 2 0 0 1-2 2H7v2h12a4 4 0 0 0 4-4V8z"/>'),
         "Comercial": solido('<path d="M3.500 3h17l1.500 5.500a3 3 0 0 1-5.500 1.700 3 3 0 0 1-5 0 3 3 0 0 1-5 0A3 3 0 0 1 2 8.500zM4 12.500a4 4 0 0 0 1.500-.400V20h13v-7.900a4 4 0 0 0 1.500.4V21a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1z"/>'),
         "Configuración": solido('<path fill-rule="evenodd" d="M10.300 2h3.400l.6 2.600c.6.200 1.100.5 1.600.900l2.500-.8 1.700 3-1.900 1.800c.1.500.1 1 0 1.500l1.900 1.800-1.700 3-2.500-.8c-.5.400-1 .7-1.600.9L13.700 22h-3.400l-.6-2.600c-.6-.2-1.100-.5-1.600-.9l-2.500.8-1.700-3 1.900-1.800a5 5 0 0 1 0-1.500L4 9.200l1.700-3 2.500.8c.5-.4 1-.7 1.600-.9zM12 9a3 3 0 1 0 0 6 3 3 0 0 0 0-6z"/>'),
         "Ayuda": solido('<path fill-rule="evenodd" d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm.1 4.500c-2 0-3.300 1.200-3.400 2.900h1.900c.1-.7.600-1.100 1.400-1.100.800 0 1.300.5 1.300 1.100 0 .6-.3.900-1 1.400-.9.600-1.300 1.200-1.300 2.200v.3h1.800v-.2c0-.6.200-.8.900-1.300.9-.6 1.500-1.300 1.500-2.400 0-1.700-1.400-2.900-3.100-2.900zM11 16.500v2h2v-2z"/>'),
         "Mi cuenta": solido('<circle cx="12" cy="7.500" r="4.500"/><path d="M3.500 21c0-4.400 3.800-7 8.500-7s8.500 2.600 8.500 7z"/>'),
     }
+    orden = ["Estadísticas", "Productos", "Categorías", "Pedidos", "Clientes", "Descuentos", "Reseñas", "Carrusel", "Banners",
+             "Complementos", "Medios", "Comercial", "Diseño", "Configuración", "Ayuda", "Mi cuenta"]
+    iconos = {n: iconos[n] for n in orden}
     menu = "".join(
-        f'<div style="display:flex;align-items:center;justify-content:center;height:41px;margin:0 12px 2px;border-radius:13px;'
+        f'<div style="display:flex;align-items:center;justify-content:center;height:39px;margin:0 12px 2px;border-radius:13px;'
         f'{"background:#E2D9FF;color:#6C4FD4" if n == activo else "color:#64748B"}">{svg}</div>'
         for n, svg in iconos.items())
     lateral = (f'<div style="position:absolute;left:0;top:0;bottom:0;width:84px;border-right:1px solid #ECE8F5;background:#fff">'
@@ -477,7 +488,10 @@ def escena_carrito():
 def escena_6():
     """Más carrusel y más banners: el panel del carrusel (límites reales), la tienda con el carrusel y un banner, y dos stickers."""
     # miniaturas y fotos de la tienda
-    uri_hero = foto_uri("cat-banner")
+    # La foto del carrusel: si está slide-hombre-1.jpg (el hombre caminando por la calle, 16:9), se usa esa; si no, el banner de siempre.
+    hay_slide = "cat-slide" in FOTOS
+    uri_hero = foto_uri("cat-slide" if hay_slide else "cat-banner")
+    pos_hero = "center top" if hay_slide else "center 35%"  # arriba: así no se corta la cabeza de la persona
     uri_prenda = foto_uri("cat-prod1")
     sol = lambda d, tam=20: f'<svg viewBox="0 0 24 24" width="{tam}" height="{tam}" fill="currentColor">{d}</svg>'
     lapiz = sol('<path d="M3 17.500V21h3.500L18 9.500 14.500 6zM20.700 7a1 1 0 0 0 0-1.400l-2.300-2.300a1 1 0 0 0-1.400 0l-1.800 1.800L18.900 8.800z"/>')
@@ -492,11 +506,13 @@ def escena_6():
     sub = ('<div style="display:flex;align-items:center;justify-content:space-between"><span style="font-size:18px;color:#6b6679;max-width:600px;line-height:1.35">Portada del inicio. Sin elementos activos, la sección desaparece de la tienda.</span>'
            '<span style="padding:13px 24px;border-radius:14px;background:#6C4FD4;color:#fff;font-size:18px;font-weight:700;white-space:nowrap">+ Nuevo elemento</span></div>')
     cols = "grid-template-columns:130px 2.1fr .6fr 1.15fr .8fr 150px"
-    miniatura = lambda pos: (f'<div style="width:104px;height:62px;border-radius:10px;background:#E2D9FF url({uri_hero}) {pos}/cover no-repeat;box-shadow:inset 0 0 0 1px rgba(23,18,47,.1)"></div>' if uri_hero else '<div style="width:112px;height:64px;border-radius:10px;background:#E2D9FF"></div>')
-    filas_def = [("Nueva colección", "Hasta 30% off · Remeras", 1, "Solo móvil", "right center"), ("Nueva colección", "Hasta 30% off · Remeras", 2, "Solo escritorio", "center center"),
+    uri_foto2 = foto_uri("cat-slide-2") if "cat-slide-2" in FOTOS else uri_hero
+    uris_fila = [uri_hero, uri_foto2, foto_uri("cat-slide-3") if "cat-slide-3" in FOTOS else None]  # sin tercera foto, la lámina 3 es lisa (violeta)
+    miniatura = lambda pos, n: (f'<div style="width:104px;height:62px;border-radius:10px;background:#E2D9FF url({uris_fila[n]}) {pos}/cover no-repeat;box-shadow:inset 0 0 0 1px rgba(23,18,47,.1)"></div>' if uris_fila[n] else '<div style="width:104px;height:62px;border-radius:10px;background:#6C4FD4"></div>')
+    filas_def = [("Nueva colección", "Hasta 30% off · Remeras", 1, "Solo móvil", "75% top"), ("Nueva colección", "Hasta 30% off · Remeras", 2, "Solo escritorio", "75% top"),
                  ("Envíos a todo el país", "Comprá en nuestra tienda", 3, "Ambos", "left center")]
     filas = "".join(
-        f'<div style="display:grid;{cols};align-items:center;padding:12px 22px;border-top:1px solid #ECE8F5;font-size:18px">{miniatura(pos)}'
+        f'<div style="display:grid;{cols};align-items:center;padding:12px 22px;border-top:1px solid #ECE8F5;font-size:18px">{miniatura(pos, o - 1)}'
         f'<div style="padding-right:14px"><b style="font-size:19px;white-space:nowrap">{t}</b><div style="color:#6b6679;font-size:15px;margin-top:2px">{st}</div></div><span>{o}</span><span style="white-space:nowrap;font-size:17px">{v}</span>'
         f'<span style="justify-self:start;padding:6px 14px;border-radius:99px;background:#DCFCE7;color:#15803D;font-size:16px;font-weight:700">Activo</span>'
         f'<div style="display:flex;gap:8px;justify-content:flex-end">{caja(lapiz)}{caja(copiar)}{caja(papelera, "color:#DC2626;box-shadow:inset 0 0 0 1.5px #F3B4B4")}</div></div>'
@@ -508,12 +524,18 @@ def escena_6():
     ventana = tarjeta("left:40px;top:70px;width:960px;height:600px;padding:0;overflow:hidden;border-radius:40px", f"{lateral_admin('Carrusel')}{principal}")
 
     # tienda: el carrusel de la portada y un banner promocional
-    hero = ((f'<div style="position:relative;height:218px;border-radius:20px;overflow:hidden;background:#E2D9FF url({uri_hero}) center 35%/cover no-repeat">' if uri_hero
+    flecha = lambda lado, giro: (f'<span style="position:absolute;{lado}:16px;top:50%;margin-top:-19px;width:38px;height:38px;border-radius:50%;background:rgba(255,255,255,.92);display:flex;align-items:center;justify-content:center">'
+                                 f'<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#17122F" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" style="transform:rotate({giro}deg)"><path d="m9 6 6 6-6 6"/></svg></span>')
+    puntos = ('<span style="position:absolute;left:0;right:0;bottom:12px;display:flex;justify-content:center;gap:9px">'
+              '<i style="width:10px;height:10px;border-radius:50%;background:#fff"></i>'
+              '<i style="width:10px;height:10px;border-radius:50%;background:rgba(255,255,255,.55)"></i>'
+              '<i style="width:10px;height:10px;border-radius:50%;background:rgba(255,255,255,.55)"></i></span>')
+    hero = ((f'<div style="position:relative;height:218px;border-radius:20px;overflow:hidden;background:#E2D9FF url({uri_hero}) {pos_hero}/cover no-repeat">' if uri_hero
              else '<div style="position:relative;height:218px;border-radius:20px;overflow:hidden;background:#E2D9FF">')
             + '<div style="position:absolute;inset:0;background:linear-gradient(90deg,rgba(23,18,47,.55),rgba(23,18,47,.05) 65%)"></div>'
-            + '<div style="position:absolute;left:34px;top:0;bottom:0;display:flex;flex-direction:column;justify-content:center;color:#fff">'
+            + '<div style="position:absolute;left:96px;top:0;bottom:0;display:flex;flex-direction:column;justify-content:center;color:#fff">'
             + '<b style="font-size:46px;line-height:1.05;letter-spacing:-.01em">Hasta 30% off</b><span style="font-size:19px;letter-spacing:.14em;font-weight:600;margin-top:10px;opacity:.92">NUEVA COLECCIÓN</span></div>'
-            + '<span style="position:absolute;right:22px;top:50%;margin-top:-18px;width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,.3)"></span></div>')
+            + flecha("left", 180) + flecha("right", 0) + puntos + '</div>')
     foto_prenda = (f'<div style="width:300px;background:#C9B79A url({uri_prenda}) center/cover no-repeat"></div>' if uri_prenda else '<div style="width:300px;background:#E2D9FF"></div>')
     promo = (f'<div style="display:flex;height:172px;border-radius:20px;overflow:hidden;background:#0B0B0B;margin-top:14px">{foto_prenda}'
              '<div style="flex:1;display:flex;flex-direction:column;justify-content:center;padding-left:40px;color:#fff"><span style="font-size:15px;letter-spacing:.06em;opacity:.85">PROMOCIÓN ESPECIAL</span>'
@@ -527,13 +549,13 @@ def escena_6():
              '<path d="M962 375 H1086 V568" stroke="#7C6AE0" stroke-width="6" stroke-linecap="round" stroke-dasharray="1 13"/>'
              '<circle cx="962" cy="375" r="9" fill="#fff" stroke="#7C6AE0" stroke-width="4"/></svg>')
     senales = ('<svg class="conexion" width="1200" height="1200" viewBox="0 0 1200 1200" fill="none">'
-               '<path d="M1030 140 H1150 V751 H1096" stroke="#7C6AE0" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="1 13"/>'
-               '<circle cx="1096" cy="751" r="9" fill="#fff" stroke="#7C6AE0" stroke-width="4"/>'
-               '<path d="M200 900 V1000 H470" stroke="#7C6AE0" stroke-width="6" stroke-linecap="round" stroke-dasharray="1 13"/>'
-               '<circle cx="470" cy="1000" r="9" fill="#fff" stroke="#7C6AE0" stroke-width="4"/></svg>')
+               '<path d="M1030 140 H1150 V688 H1096" stroke="#7C6AE0" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="1 13"/>'
+               '<circle cx="1096" cy="688" r="9" fill="#fff" stroke="#7C6AE0" stroke-width="4"/>'
+               '<path d="M368 975 H470 V952" stroke="#7C6AE0" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="1 13"/>'
+               '<circle cx="470" cy="944" r="9" fill="#fff" stroke="#7C6AE0" stroke-width="4"/></svg>')
     return (TRAZO.format(s="left:-110px;top:-90px") + ventana + linea + tienda + senales
             + sticker("Carrusel", "Más imágenes", "left:700px;top:44px;white-space:nowrap")
-            + sticker("Banners", "Para tus promos", "left:30px;top:760px;white-space:nowrap")
+            + sticker("Banners", "Para tus promos", "left:30px;top:880px;white-space:nowrap")
             + pill("Más espacio para tus promociones", "left:60px;top:1078px;font-size:29px"))
 
 

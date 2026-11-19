@@ -7,6 +7,7 @@ const defaultLinks = [
   { label: "Cómo funciona", href: "#como-funciona" },
   { label: "Funciones", href: "#funciones" },
   { label: "Premium", href: "#premium" },
+  { label: "Tiendas", href: "#tiendas" },
   { label: "Planes", href: "#planes" },
   { label: "Preguntas", href: "#faq" },
 ]
