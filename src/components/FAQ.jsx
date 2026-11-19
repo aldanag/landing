@@ -54,7 +54,7 @@ export default function FAQ({ faqs = faqsDefault, layout = "centrado" }) {
               columnas
                 ? isOpen
                   ? "text-white"
-                  : "text-snow-muted group-hover:text-white"
+                  : "text-snow-mid group-hover:text-white"
                 : isOpen
                   ? "text-ink"
                   : "text-ink-muted group-hover:text-ink"
@@ -87,7 +87,7 @@ export default function FAQ({ faqs = faqsDefault, layout = "centrado" }) {
 
   if (columnas) {
     return (
-      <section id="faq" ref={root} className="bg-ink py-16">
+      <section id="faq" ref={root} className="bg-ink py-16 md:py-[4.5rem]">
         <div className="mx-auto grid max-w-6xl gap-8 px-4 md:px-6 lg:grid-cols-[0.8fr_1.2fr] lg:gap-16">
           <div className="lg:sticky lg:top-28 lg:self-start">
             <span
@@ -115,7 +115,7 @@ export default function FAQ({ faqs = faqsDefault, layout = "centrado" }) {
   }
 
   return (
-    <section id="faq" ref={root} className="bg-mist py-16">
+    <section id="faq" ref={root} className="bg-mist py-16 md:py-[4.5rem]">
       <div className="mx-auto max-w-2xl px-4">
         <h2 className="text-center text-[clamp(25px,8.2vw,32px)] font-bold text-ink md:text-[34px]">
           ¿Tenés alguna duda?

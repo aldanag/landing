@@ -12,7 +12,7 @@ const REPETICIONES = 2 // cuántas veces se repite la lista en cada mitad, para 
 const SEGUNDOS_POR_TIENDA = 14
 
 // Fondo liso: el azul oscuro de la marca, sin brillos.
-const FONDO = { backgroundColor: "#17122F" }
+const FONDO = { backgroundColor: "var(--color-night-2)" }
 
 const Candado = () => (
   <svg viewBox="0 0 24 24" className="h-[2.2cqw] w-[2.2cqw] flex-none" fill="currentColor" aria-hidden="true">
@@ -30,7 +30,7 @@ function Tarjeta({ t, oculta }) {
         rel="noreferrer"
         tabIndex={oculta ? -1 : undefined}
         aria-label={`Ver la tienda ${t.nombre}, ${t.rubro.toLowerCase()}`}
-        className="group relative block aspect-[100/92] cursor-pointer overflow-hidden rounded-[2rem] focus-ring [container-type:inline-size]"
+        className="group relative block aspect-[100/92] ring-1 ring-white/10 cursor-pointer overflow-hidden rounded-[2rem] focus-ring [container-type:inline-size]"
         style={FONDO}
       >
         {/* Escritorio, con la barra del navegador y la dirección de la tienda */}
@@ -61,14 +61,14 @@ function Tarjeta({ t, oculta }) {
         </div>
 
         {/* Celular con el marco de las imágenes Premium (hora, isla y señal), cortado por el borde de abajo */}
-        <div className="absolute right-[6cqw] top-[52cqw] w-[26cqw] rounded-t-[4.4cqw] bg-[#3B3262] px-[1.2cqw] pt-[1.2cqw]">
+        <div className="absolute right-[6cqw] top-[52cqw] w-[26cqw] rounded-t-[4.4cqw] bg-marco-celu px-[1.2cqw] pt-[1.2cqw]">
           <div className="overflow-hidden rounded-t-[3.3cqw] bg-white">
             <div
               aria-hidden="true"
               className="relative flex h-[3.9cqw] items-center justify-between bg-white pl-[2.4cqw] pr-[2cqw] text-[max(6.5px,1.5cqw)] font-extrabold leading-none text-ink"
             >
               <span>9:41</span>
-              <span className="absolute left-1/2 top-[0.8cqw] h-[2cqw] w-[26%] -translate-x-1/2 rounded-full bg-[#0b0818]" />
+              <span className="absolute left-1/2 top-[0.8cqw] h-[2cqw] w-[26%] -translate-x-1/2 rounded-full bg-isla" />
               <span className="flex items-center gap-[max(2px,0.5cqw)]">
                 {/* Señal: cuatro rayas separadas */}
                 <svg viewBox="0 0 17 11" className="h-[max(3.8px,0.95cqw)] w-auto" fill="currentColor">
@@ -131,7 +131,7 @@ export default function Tiendas() {
   const mitad = Array.from({ length: REPETICIONES }).flatMap(() => visibles)
 
   return (
-    <section id="tiendas" ref={root} className="overflow-hidden bg-primary-tint py-16">
+    <section id="tiendas" ref={root} className="overflow-hidden bg-ink py-16 md:py-[4.5rem]">
       <div className="mx-auto max-w-6xl px-4 md:px-6">
         <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
           <div>
@@ -143,7 +143,7 @@ export default function Tiendas() {
             </span>
             <h2
               data-words
-              className="mt-4 text-[clamp(25px,8.2vw,32px)] font-bold text-ink md:text-[34px]"
+              className="mt-4 text-[clamp(25px,8.2vw,32px)] font-bold text-white md:text-[34px]"
             >
               Tiendas hechas con Lemora.
             </h2>

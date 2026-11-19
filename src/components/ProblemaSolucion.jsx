@@ -128,7 +128,7 @@ export default function ProblemaSolucion() {
   }
 
   return (
-    <section id="por-que-lemora" ref={root} className="bg-mist py-16">
+    <section id="por-que-lemora" ref={root} className="bg-white py-16 md:py-[4.5rem]">
       <div className="mx-auto max-w-6xl px-4 md:px-6">
         <div className="flex flex-col items-center gap-6 text-center">
           <div>
@@ -152,7 +152,7 @@ export default function ProblemaSolucion() {
       </div>
 
       {/* Celular: el interruptor queda fijo debajo del menú mientras se recorre la sección. */}
-      <div className="sticky top-[4.5rem] z-30 mt-6 flex justify-center bg-mist/90 py-2 backdrop-blur md:hidden">
+      <div className="sticky top-[4.5rem] z-30 mt-6 flex justify-center bg-white/90 py-2 backdrop-blur md:hidden">
         <Interruptor conLemora={conLemora} onChange={cambiar} />
       </div>
 

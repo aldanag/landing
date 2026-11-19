@@ -36,9 +36,16 @@
   --color-ink: #17122F;
   --color-ink-soft: #4f4a5e;
   --color-ink-muted: #6b6679;
-  /* Textos sobre fondos oscuros (preguntas frecuentes en azul): snow-soft es el intermedio entre el lila y el blanco. */
+  /* Textos sobre fondos oscuros: de más claro a más apagado, snow, snow-soft, snow-mid y snow-muted. */
+  --color-snow: #F4F1FF;
   --color-snow-soft: #DFD8F8;
+  --color-snow-mid: #C3BAE7;
   --color-snow-muted: #A79DD6;
+  /* Azules sobre el azul de marca (ink): paneles/pie y tarjetas elevadas; y las piezas del celular. */
+  --color-night-2: #1F1842;
+  --color-night-3: #2A2058;
+  --color-marco-celu: #3B3262;
+  --color-isla: #0B0818;
 
   --font-heading: "Manrope", system-ui, sans-serif;
   --font-body: "Manrope", system-ui, sans-serif;
@@ -69,6 +76,19 @@ body {
 }
 
 @layer base {
+  /* Medidas compartidas por el menú y la portada, para que nada quede a otra distancia.
+     --gutter: aire entre píldora, panel y bordes de la pantalla.
+     --menu-h: alto de la píldora del menú. */
+  :root {
+    --gutter: 0.75rem;
+    --menu-h: 3.5rem;
+  }
+  @media (min-width: 768px) {
+    :root {
+      --gutter: 1.25rem;
+    }
+  }
+
   html {
     scroll-padding-top: 6rem;
   }

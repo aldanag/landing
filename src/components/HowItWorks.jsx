@@ -115,7 +115,7 @@ export default function HowItWorks() {
   useReveal(root)
 
   return (
-    <section id="como-funciona" ref={root} className="bg-white py-16">
+    <section id="como-funciona" ref={root} className="bg-white py-16 md:py-[4.5rem]">
       <div className="mx-auto max-w-6xl px-4 md:px-6">
         <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
           <div>

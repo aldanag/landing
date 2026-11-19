@@ -63,7 +63,7 @@ export default function TrialBanner() {
   )
 
   return (
-    <section ref={root} className="py-16">
+    <section ref={root} className="py-16 md:py-[4.5rem]">
       <div className="mx-auto max-w-6xl px-4 md:px-6">
         <div
           data-reveal

@@ -292,7 +292,7 @@ export default function Hero() {
   )
 
   return (
-    <section id="top" ref={root} className="px-3 pt-[4.5rem] md:px-5 md:pt-24">
+    <section id="top" ref={root} className="px-[var(--gutter)] pb-16 pt-[calc(var(--gutter)*2+var(--menu-h))] md:pb-[4.5rem]">
       <div className="relative overflow-hidden rounded-[2rem] bg-white ring-1 ring-ink/10 md:rounded-[2.5rem] lg:min-h-[31rem]">
         {/* Celular: la foto es el fondo de todo el panel. Arriba un velo blanco la apaga para que el
             texto se lea; abajo se ve completa. */}

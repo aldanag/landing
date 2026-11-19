@@ -23,7 +23,7 @@ export default function Nav({ links = defaultLinks, logoHref = "#top" }) {
   }, [])
 
   return (
-    <header className="fixed inset-x-0 top-2 z-50 px-4 md:top-4 md:px-5">
+    <header className="fixed inset-x-0 top-[var(--gutter)] z-50 px-[var(--gutter)]">
       <div
         className={`mx-auto flex items-center justify-between gap-4 rounded-full bg-white ring-1 transition-all duration-500 ease-[cubic-bezier(0.19,1,0.22,1)] motion-reduce:transition-none ${
           scrolled

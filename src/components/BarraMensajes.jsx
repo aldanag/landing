@@ -10,7 +10,7 @@ export default function BarraMensajes() {
   return (
     <div
       aria-hidden="true"
-      className="absolute left-[5.583%] top-[45%] flex h-[4.167%] w-[38.833%] items-center overflow-hidden bg-[#17122F] text-white"
+      className="absolute left-[5.583%] top-[45%] flex h-[4.167%] w-[38.833%] items-center overflow-hidden bg-ink text-white"
     >
       <div className="marquee-pista flex w-max flex-none items-center gap-[2.83cqw] whitespace-nowrap pr-[2.83cqw] text-[1.417cqw] font-bold">
         {pista.map((m, i) => (

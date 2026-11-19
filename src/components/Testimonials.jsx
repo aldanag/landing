@@ -1,4 +1,4 @@
-import { useRef } from "react"
+import { useEffect, useRef, useState } from "react"
 import testimonioCarolina from "../assets/testimonio-carolina.webp"
 import testimonioAldana from "../assets/testimonio-aldana.jpg"
 import { useReveal } from "../lib/motion"
@@ -25,62 +25,132 @@ const testimonios = [
   },
 ]
 
+const Flecha = ({ giro = 0 }) => (
+  <svg
+    viewBox="0 0 24 24"
+    fill="none"
+    aria-hidden="true"
+    className="h-5 w-5"
+    style={{ transform: `rotate(${giro}deg)` }}
+  >
+    <path d="M19 12H5m0 0 6-6m-6 6 6 6" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
+  </svg>
+)
+
+const Comillas = () => (
+  <span className="font-heading text-4xl leading-none text-primary" aria-hidden="true">
+    &ldquo;
+  </span>
+)
+
+// Fondo azul oscuro con tarjetas claras. El título va a la izquierda con dos flechas redondas; a la derecha una fila de
+// tarjetas que se desliza (con las flechas, con el dedo o con el teclado) y deja asomar la siguiente, opaca.
 export default function Testimonials() {
   const root = useRef(null)
+  const pista = useRef(null)
+  const [tope, setTope] = useState({ inicio: true, fin: false })
+  const [vistas, setVistas] = useState({}) // índice -> la tarjeta está entera a la vista
   useReveal(root)
 
-  return (
-    <section ref={root} className="bg-white py-16">
-      <div className="mx-auto max-w-6xl px-4 md:px-6">
-        <span
-          data-reveal
-          className="inline-block rounded-full bg-lime px-2.5 py-1 text-[11px] font-semibold uppercase tracking-[0.08em] sm:px-3 sm:text-[12.5px] sm:tracking-[0.09em] text-ink"
-        >
-          Testimonios
-        </span>
-        <h2
-          data-words
-          className="mt-4 text-[clamp(25px,8.2vw,32px)] font-bold text-ink md:text-[34px]"
-        >
-          Lo que dicen quienes ya venden con Lemora.
-        </h2>
+  useEffect(() => {
+    const el = pista.current
+    if (!el) return undefined
+    const actualizar = () =>
+      setTope({
+        inicio: el.scrollLeft <= 4,
+        fin: el.scrollLeft + el.clientWidth >= el.scrollWidth - 4,
+      })
+    actualizar()
+    el.addEventListener("scroll", actualizar, { passive: true })
+    window.addEventListener("resize", actualizar)
 
-        <div className="mt-10 grid gap-6 md:grid-cols-3">
-          {testimonios.map((t) => (
+    // Las tarjetas que asoman por el borde se ven opacas.
+    let io
+    if ("IntersectionObserver" in window) {
+      io = new IntersectionObserver(
+        (entradas) =>
+          setVistas((prev) => {
+            const sig = { ...prev }
+            entradas.forEach((e) => {
+              sig[e.target.dataset.i] = e.intersectionRatio >= 0.85
+            })
+            return sig
+          }),
+        { root: el, threshold: [0, 0.5, 0.85, 1] },
+      )
+      el.querySelectorAll("[data-tarjeta]").forEach((c) => io.observe(c))
+    }
+    return () => {
+      el.removeEventListener("scroll", actualizar)
+      window.removeEventListener("resize", actualizar)
+      io?.disconnect()
+    }
+  }, [])
+
+  const mover = (dir) => {
+    const el = pista.current
+    const tarjeta = el.querySelector("[data-tarjeta]")
+    const paso = tarjeta.getBoundingClientRect().width + 20
+    const quieto = window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    el.scrollBy({ left: dir * paso, behavior: quieto ? "auto" : "smooth" })
+  }
+
+  const boton =
+    "flex h-12 w-12 cursor-pointer items-center justify-center rounded-full bg-primary text-white transition-colors duration-200 hover:bg-primary-dark focus-ring-light disabled:cursor-default disabled:bg-white/10 disabled:text-white/40 motion-reduce:transition-none"
+  const tarjeta =
+    "flex w-[82%] flex-none snap-start flex-col justify-between gap-8 rounded-3xl p-6 transition-opacity duration-500 sm:w-[22rem] motion-reduce:transition-none"
+
+  return (
+    <section ref={root} className="overflow-hidden bg-ink py-16 md:py-[4.5rem] text-white [container-type:inline-size]">
+      {/* Alineado a la izquierda con el resto de la página, pero la fila de tarjetas sigue hasta el borde de la pantalla. */}
+      <div className="grid gap-8 pl-4 md:pl-6 lg:grid-cols-[22rem_1fr] lg:items-center lg:gap-12 lg:pl-[max(1.5rem,calc((100cqw-72rem)/2+1.5rem))]">
+        <div className="pr-4 md:pr-6 lg:pr-0">
+          <span
+            data-reveal
+            className="inline-block rounded-full bg-lime px-2.5 py-1 text-[11px] font-semibold uppercase tracking-[0.08em] sm:px-3 sm:text-[12.5px] sm:tracking-[0.09em] text-ink"
+          >
+            Testimonios
+          </span>
+          <h2
+            data-words
+            className="mt-4 text-[clamp(25px,8.2vw,32px)] font-bold text-white md:text-[34px]"
+          >
+            Lo que dicen quienes ya venden con Lemora.
+          </h2>
+          <div data-reveal className="mt-6 flex gap-3 lg:mt-8">
+            <button type="button" onClick={() => mover(-1)} disabled={tope.inicio} aria-label="Testimonio anterior" className={boton}>
+              <Flecha />
+            </button>
+            <button type="button" onClick={() => mover(1)} disabled={tope.fin} aria-label="Testimonio siguiente" className={boton}>
+              <Flecha giro={180} />
+            </button>
+          </div>
+        </div>
+
+        <div
+          ref={pista}
+          data-reveal
+          role="group"
+          aria-roledescription="carrusel"
+          aria-label="Testimonios"
+          tabIndex={0}
+          className="flex snap-x snap-mandatory gap-5 overflow-x-auto pb-1 [scrollbar-width:none] focus-ring-light [&::-webkit-scrollbar]:hidden"
+        >
+          {testimonios.map((t, i) => (
             <figure
               key={t.name}
-              data-reveal
-              className="flex flex-col justify-between gap-8 rounded-3xl bg-mist p-6 transition-transform duration-300 ease-out hover:-translate-y-1 motion-reduce:transition-none motion-reduce:hover:transform-none"
+              data-tarjeta
+              data-i={i}
+              className={`${tarjeta} bg-white text-ink ${vistas[i] === false ? "opacity-60" : ""}`}
             >
               <blockquote>
-                <span
-                  className="font-heading text-4xl leading-none text-primary"
-                  aria-hidden="true"
-                >
-                  &ldquo;
-                </span>
-                <p className="mt-2 text-lg font-medium leading-snug text-ink">
-                  {t.quote}
-                </p>
+                <Comillas />
+                <p className="mt-2 text-lg font-medium leading-snug">{t.quote}</p>
               </blockquote>
               <figcaption className="flex items-center gap-3">
-                {t.photo ? (
-                  <img
-                    src={t.photo}
-                    alt=""
-                    className="h-12 w-12 rounded-full object-cover"
-                    loading="lazy"
-                  />
-                ) : (
-                  <span
-                    className="flex h-12 w-12 flex-none items-center justify-center rounded-full bg-primary text-sm font-semibold text-white"
-                    aria-hidden="true"
-                  >
-                    {t.initials}
-                  </span>
-                )}
+                <img src={t.photo} alt="" className="h-12 w-12 rounded-full object-cover" loading="lazy" />
                 <div>
-                  <p className="text-sm font-semibold text-ink">{t.name}</p>
+                  <p className="text-sm font-semibold">{t.name}</p>
                   <p className="text-[12.5px] text-ink-soft">{t.role}</p>
                 </div>
               </figcaption>
@@ -88,16 +158,13 @@ export default function Testimonials() {
           ))}
 
           <div
-            data-reveal
-            className="flex flex-col justify-between gap-8 rounded-3xl bg-lilac p-6 transition-transform duration-300 ease-out hover:-translate-y-1 motion-reduce:transition-none motion-reduce:hover:transform-none"
+            data-tarjeta
+            data-i={testimonios.length}
+            className={`${tarjeta} bg-lilac text-ink ${vistas[testimonios.length] === false ? "opacity-60" : ""}`}
           >
             <div>
-              <span className="font-heading text-4xl leading-none text-primary" aria-hidden="true">
-                &ldquo;
-              </span>
-              <p className="mt-2 text-lg font-medium leading-snug text-ink">
-                El próximo testimonio puede ser el tuyo.
-              </p>
+              <Comillas />
+              <p className="mt-2 text-lg font-medium leading-snug">El próximo testimonio puede ser el tuyo.</p>
               <p className="mt-2 text-[15px] text-ink-soft">
                 Probá Lemora gratis durante 1 mes. No te pedimos la tarjeta.
               </p>
@@ -106,6 +173,9 @@ export default function Testimonials() {
               Probar gratis 1 mes
             </Button>
           </div>
+
+          {/* Espacio final: deja que cada tarjeta, también la última, se corra hasta quedar entera contra el borde izquierdo. */}
+          <div aria-hidden="true" className="w-[calc(18%-1.25rem)] flex-none sm:w-[calc(100%-22rem-1.25rem)]" />
         </div>
       </div>
     </section>

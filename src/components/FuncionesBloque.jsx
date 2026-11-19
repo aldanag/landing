@@ -88,7 +88,7 @@ export default function FuncionesBloque({
   )
 
   return (
-    <section id={id} ref={root} className={`${fondo} py-16`}>
+    <section id={id} ref={root} className={`${fondo} py-16 md:py-[4.5rem]`}>
       <div className="mx-auto max-w-6xl px-4 md:px-6">
         <span
           data-reveal

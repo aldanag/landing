@@ -56,7 +56,7 @@ export default function Features() {
   return (
     <FuncionesBloque
       id="funciones"
-      fondo="bg-mist"
+      fondo="bg-white"
       etiqueta="Funcionalidades"
       titulo="Todo lo que necesitás, integrado en nuestras webs."
       funciones={features}

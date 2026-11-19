@@ -33,7 +33,7 @@ function App() {
         <PricingCards />
         <FAQ layout="columnas" />
       </main>
-      <Footer fondo="bg-[#1F1842]" />
+      <Footer fondo="bg-night-2" />
     </>
   )
 }

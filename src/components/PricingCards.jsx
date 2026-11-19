@@ -52,7 +52,7 @@ export default function PricingCards() {
   )
 
   return (
-    <section id="planes" ref={root} className="bg-ink py-16 text-white">
+    <section id="planes" ref={root} className="bg-ink py-16 md:py-[4.5rem] text-white">
       <div className="mx-auto max-w-3xl px-4">
         <h2
           data-words

@@ -19,7 +19,14 @@ Fuente de verdad para editar el sitio. Los tokens viven en `src/index.css` (`@th
 | `ink-soft` | #4f4a5e | Texto secundario (solo sobre white/mist) |
 | `ink-muted` | #6b6679 | Texto apagado (solo sobre white/mist) |
 | `snow-soft` | #DFD8F8 | Texto secundario sobre fondos oscuros (azul): intermedio entre el lila y el blanco |
-| `snow-muted` | #A79DD6 | Texto apagado sobre fondos oscuros (preguntas sin abrir) |
+| `snow` | #F4F1FF | Texto principal sobre fondos oscuros |
+| `snow-soft` | #DFD8F8 | Texto secundario sobre oscuro (bajadas): intermedio entre el lila y el blanco, 13.2:1 sobre `ink` |
+| `snow-mid` | #C3BAE7 | Intermedio entre `snow-soft` y `snow-muted`: preguntas sin abrir y textos de apoyo sobre oscuro, 9.9:1 sobre `ink` |
+| `snow-muted` | #A79DD6 | Texto apagado sobre oscuro (metadatos), 7.2:1 sobre `ink` |
+| `night-2` | #1F1842 | Azul un tono más claro que `ink`: pie, paneles y tarjetas sobre `ink` |
+| `night-3` | #2A2058 | Azul de tarjetas elevadas sobre `night-2` |
+| `marco-celu` | #3B3262 | Marco violeta oscuro de los celulares |
+| `isla` | #0B0818 | Isla (notch) del celular |
 
 Lemora es una tienda online por membresía para emprendedores de Latinoamérica: el cliente arma el pedido en la tienda y el emprendedor lo recibe directo en WhatsApp. La marca se siente joven, clara y sin vueltas. Usá este sistema para cualquier página, pieza o pantalla de Lemora.
 
