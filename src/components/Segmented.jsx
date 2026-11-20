@@ -1,6 +1,8 @@
 // Selector segmentado (Mensual/Anual, Básico/Premium, Sin/Con Lemora). Un solo componente para toda la web.
 // tone="light": caja blanca (va sobre fondos claros u oscuros). tone="dark": caja azul oscura (Premium).
 // Cada opción puede traer `on` para cambiar el color del activo (por defecto, violeta) y `badge` para una etiqueta lima.
+import { INSIGNIA } from "../lib/pastillas"
+
 export default function Segmented({ options, value, onChange, label, tone = "light", className = "" }) {
   const dark = tone === "dark"
   return (
@@ -29,7 +31,7 @@ export default function Segmented({ options, value, onChange, label, tone = "lig
         >
           {op.label}
           {op.badge && (
-            <span className="rounded-full bg-lime px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.06em] text-ink">
+            <span className={INSIGNIA}>
               {op.badge}
             </span>
           )}

@@ -3,6 +3,7 @@ import { gsap, REDUCED_MOTION_OFF, ScrollTrigger, useGSAP, useReveal } from "../
 import agachada from "../assets/mascota-agachada.webp"
 import estirada from "../assets/mascota-estirada.webp"
 import Button from "./Button"
+import { ETIQUETA, INSIGNIA } from "../lib/pastillas"
 
 const WHATSAPP_START_LINK =
   "https://wa.me/543515957014?text=Hola,%20quiero%20empezar%20gratis%20con%20Lemora"
@@ -70,7 +71,7 @@ export default function TrialBanner() {
           className="relative grid gap-10 rounded-[2.5rem] bg-ink p-5 text-white sm:p-8 md:grid-cols-2 md:items-center md:p-14"
         >
           <div className="relative">
-            <span className="inline-block rounded-full bg-lime px-2.5 py-1 text-[11px] font-semibold uppercase tracking-[0.08em] sm:px-3 sm:text-[12.5px] sm:tracking-[0.09em] text-ink">
+            <span className={ETIQUETA}>
               Tu momento es ahora
             </span>
             <h2 className="mt-4 text-[clamp(25px,8.2vw,32px)] font-bold leading-tight md:text-[34px]">
@@ -135,7 +136,7 @@ export default function TrialBanner() {
                 />
               </div>
             </div>
-            <span className="inline-block rounded-full bg-lime px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.08em] sm:text-[11px] sm:tracking-[0.09em] text-ink">
+            <span className={`inline-block ${INSIGNIA}`}>
               Prueba completa
             </span>
             <div className="mt-3 flex items-end gap-2">

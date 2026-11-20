@@ -5,6 +5,7 @@ import { useReveal } from "../lib/motion"
 import { WHATSAPP_TRIAL_LINK } from "../lib/planes"
 import Button from "./Button"
 import IconButton from "./IconButton"
+import { ETIQUETA } from "../lib/pastillas"
 
 // Testimonios reales solamente: no completar con datos, nombres ni métricas inventadas.
 // Mientras falta uno, el último lugar es una invitación a ser el próximo; cuando haya otro testimonio
@@ -106,7 +107,7 @@ export default function Testimonials() {
         <div className="pr-4 md:pr-6 lg:pr-0">
           <span
             data-reveal
-            className="inline-block rounded-full bg-lime px-2.5 py-1 text-[11px] font-semibold uppercase tracking-[0.08em] sm:px-3 sm:text-[12.5px] sm:tracking-[0.09em] text-ink"
+            className={ETIQUETA}
           >
             Testimonios
           </span>

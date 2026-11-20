@@ -10,6 +10,7 @@ import chica700 from "../assets/hero-mujer-660.webp"
 import { gsap, REDUCED_MOTION_OFF, REDUCED_MOTION_ON, useGSAP } from "../lib/motion"
 import Button from "./Button"
 import { WHATSAPP_TRIAL_LINK } from "../lib/planes"
+import { ETIQUETA } from "../lib/pastillas"
 
 const fondoSrcSet = `${fondo1200} 1200w, ${fondo2000} 2000w`
 const chicaSrcSet = `${chica700} 509w, ${chica1100} 783w`
@@ -371,7 +372,7 @@ export default function Hero() {
           <div className="relative z-10 text-center lg:max-w-[46%] lg:text-left">
             <span
               data-hero="badge"
-              className="inline-block rounded-full bg-lime px-2.5 py-1 text-[11px] font-semibold uppercase tracking-[0.08em] sm:px-3 sm:text-[12.5px] sm:tracking-[0.09em] text-ink max-[359px]:text-[11px] max-[359px]:tracking-[0.05em] max-[299px]:text-[10px] max-[299px]:tracking-[0.02em]"
+              className={`${ETIQUETA} max-[359px]:text-[11px] max-[359px]:tracking-[0.05em] max-[299px]:text-[10px] max-[299px]:tracking-[0.02em]`}
             >
               Hecha para emprendedores
             </span>

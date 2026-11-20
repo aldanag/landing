@@ -11,6 +11,7 @@ import costos from "../assets/ps-costos.webp"
 import confusion from "../assets/ps-confusion.webp"
 import marketplace from "../assets/ps-marketplace.webp"
 import precios from "../assets/ps-precios.webp"
+import { ETIQUETA, ETIQUETA_OSCURA } from "../lib/pastillas"
 
 const pares = [
   {
@@ -121,7 +122,7 @@ export default function ProblemaSolucion() {
           <div>
             <span
               data-reveal
-              className="inline-block rounded-full bg-lime px-2.5 py-1 text-[11px] font-semibold uppercase tracking-[0.08em] text-ink sm:px-3 sm:text-[12.5px] sm:tracking-[0.09em]"
+              className={ETIQUETA}
             >
               Por qué Lemora
             </span>
@@ -176,7 +177,7 @@ export default function ProblemaSolucion() {
               <div className="absolute left-3 top-3 grid">
                 <span
                   aria-hidden={conLemora}
-                  className={`col-start-1 row-start-1 rounded-full bg-ink px-2.5 py-1 text-[11px] font-semibold uppercase tracking-[0.08em] text-white ${fade} ${
+                  className={`col-start-1 row-start-1 ${ETIQUETA_OSCURA} ${fade} ${
                     conLemora ? "-translate-y-1 opacity-0" : ""
                   }`}
                 >
@@ -184,7 +185,7 @@ export default function ProblemaSolucion() {
                 </span>
                 <span
                   aria-hidden={!conLemora}
-                  className={`col-start-1 row-start-1 rounded-full bg-lime px-2.5 py-1 text-[11px] font-semibold uppercase tracking-[0.08em] text-ink ${fade} ${
+                  className={`col-start-1 row-start-1 ${ETIQUETA} ${fade} ${
                     conLemora ? "" : "translate-y-1 opacity-0"
                   }`}
                 >

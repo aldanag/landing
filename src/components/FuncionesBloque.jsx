@@ -1,6 +1,7 @@
 import { cloneElement, useRef, useState } from "react"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faImage } from "@fortawesome/free-solid-svg-icons"
+import { ETIQUETA_ICONO } from "../lib/pastillas"
 import {
   gsap,
   REDUCED_MOTION_OFF,
@@ -93,7 +94,7 @@ export default function FuncionesBloque({
       <div className="mx-auto max-w-6xl px-4 md:px-6">
         <span
           data-reveal
-          className="inline-flex items-center gap-1.5 rounded-full bg-lime px-2.5 py-1 text-[11px] font-semibold uppercase tracking-[0.08em] sm:px-3 sm:text-[12.5px] sm:tracking-[0.09em] text-ink"
+          className={ETIQUETA_ICONO}
         >
           {icono}
           {etiqueta}

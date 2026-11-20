@@ -1,6 +1,7 @@
 import { useRef, useState } from "react"
 import { faqsDefault } from "../lib/faqs"
 import { useReveal } from "../lib/motion"
+import { ETIQUETA } from "../lib/pastillas"
 
 // Botón + / − de siempre: círculo lila que pasa a tinta al abrir.
 function Signo({ open, oscuro = false }) {
@@ -30,7 +31,7 @@ function Signo({ open, oscuro = false }) {
   )
 }
 
-// layout="columnas": etiqueta lima y título a la izquierda, lista abierta con líneas a la derecha, todo en azul oscuro
+// layout="columnas": etiqueta lima y título a la izquierda, lista abierta con líneas a la derecha, sobre fondo claro
 // (landing principal). layout="centrado": tarjeta única centrada (página Básico).
 export default function FAQ({ faqs = faqsDefault, layout = "centrado" }) {
   const root = useRef(null)
@@ -47,22 +48,16 @@ export default function FAQ({ faqs = faqsDefault, layout = "centrado" }) {
           onClick={() => setOpenIndex(isOpen ? null : i)}
           aria-expanded={isOpen}
           aria-controls={`faq-${i}`}
-          className={`group flex w-full cursor-pointer items-center justify-between text-left ${columnas ? "focus-ring-inverse gap-6 py-5" : "focus-ring gap-4 py-4"}`}
+          className={`group flex w-full cursor-pointer items-center justify-between text-left focus-ring ${columnas ? "gap-6 py-5" : "gap-4 py-4"}`}
         >
           <span
             className={`font-bold ${columnas ? "text-base md:text-lg" : "text-base"} ${
-              columnas
-                ? isOpen
-                  ? "text-white"
-                  : "text-snow-mid group-hover:text-white"
-                : isOpen
-                  ? "text-ink"
-                  : "text-ink-muted group-hover:text-ink"
+              isOpen ? "text-ink" : "text-ink-muted group-hover:text-ink"
             }`}
           >
             {item.q}
           </span>
-          <Signo open={isOpen} oscuro={columnas} />
+          <Signo open={isOpen} />
         </button>
         <div
           id={`faq-${i}`}
@@ -74,7 +69,7 @@ export default function FAQ({ faqs = faqsDefault, layout = "centrado" }) {
           <div className="overflow-hidden">
             <p
               className={`leading-relaxed ${
-                columnas ? "max-w-[56ch] pb-5 text-[15px] text-snow-soft" : "pb-4 text-sm text-ink-soft"
+                columnas ? "max-w-[56ch] pb-5 text-[15px] text-ink-soft" : "pb-4 text-sm text-ink-soft"
               }`}
             >
               {item.a}
@@ -87,26 +82,26 @@ export default function FAQ({ faqs = faqsDefault, layout = "centrado" }) {
 
   if (columnas) {
     return (
-      <section id="faq" ref={root} className="bg-ink py-16 md:py-[4.5rem]">
+      <section id="faq" ref={root} className="bg-mist pb-16 pt-4 md:pb-[4.5rem] md:pt-6">
         <div className="mx-auto grid max-w-6xl gap-8 px-4 md:px-6 lg:grid-cols-[0.8fr_1.2fr] lg:gap-16">
           <div className="lg:sticky lg:top-28 lg:self-start">
             <span
               data-reveal
-              className="inline-block rounded-full bg-lime px-2.5 py-1 text-[11px] font-semibold uppercase tracking-[0.08em] sm:px-3 sm:text-[12.5px] sm:tracking-[0.09em] text-ink"
+              className={ETIQUETA}
             >
               Preguntas frecuentes
             </span>
             <h2
               data-words
-              className="mt-4 text-[clamp(25px,8.2vw,32px)] font-bold text-white md:text-[34px]"
+              className="mt-4 text-[clamp(25px,8.2vw,32px)] font-bold text-ink md:text-[34px]"
             >
               ¿Tenés alguna duda?
             </h2>
-            <p data-reveal className="mt-3 max-w-[40ch] text-balance text-base text-snow-soft">
+            <p data-reveal className="mt-3 max-w-[40ch] text-balance text-base text-ink-soft">
               Lo que casi todos quieren saber antes de empezar.
             </p>
           </div>
-          <div data-reveal className="flex flex-col divide-y divide-white/15 border-y border-white/15">
+          <div data-reveal className="flex flex-col divide-y divide-ink/10 border-y border-ink/10">
             {items}
           </div>
         </div>

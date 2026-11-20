@@ -4,6 +4,7 @@ import ImagePlaceholder from "./ImagePlaceholder"
 import WhatsAppIcon from "./WhatsAppIcon"
 import tazaFoto from "../assets/producto-taza.webp"
 import { useReveal } from "../lib/motion"
+import { ETIQUETA } from "../lib/pastillas"
 
 // Cada paso cuenta una mini historia en bucle mientras su tarjeta está a la vista (clase `paso-activa`, ver "Así de simple" en
 // index.css). Los tres pasos van desfasados para que se lea como una cadena. Con "reducir movimiento" quedan quietos, en su
@@ -271,7 +272,7 @@ export default function HowItWorks() {
           <div>
             <span
               data-reveal
-              className="inline-block rounded-full bg-lime px-2.5 py-1 text-[11px] font-semibold uppercase tracking-[0.08em] sm:px-3 sm:text-[12.5px] sm:tracking-[0.09em] text-ink"
+              className={ETIQUETA}
             >
               Así de simple
             </span>

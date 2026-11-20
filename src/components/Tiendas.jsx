@@ -2,6 +2,8 @@ import { useRef, useState } from "react"
 import { useReveal } from "../lib/motion"
 import Segmented from "./Segmented"
 import { tiendasEjemplo } from "../lib/tiendas"
+import { ETIQUETA } from "../lib/pastillas"
+import Button from "./Button"
 
 // Cinta de cuadrados oscuros que pasa sola de costado (efecto portfolio). Cada uno muestra la tienda en
 // escritorio y en celular, con el rubro y «Ver tienda» adentro. Se frena al pasar el mouse o al enfocar un
@@ -102,7 +104,7 @@ function Tarjeta({ t, oculta }) {
           {t.rubro}
         </span>
 
-        <span className="absolute right-[9.5%] top-[7cqw] rounded-full bg-lime px-2.5 py-1 text-[11px] font-semibold uppercase tracking-[0.08em] text-ink sm:px-3 sm:text-[12px]">
+        <span className={`absolute right-[9.5%] top-[7cqw] ${ETIQUETA}`}>
           Plan {t.plan}
         </span>
 
@@ -138,7 +140,7 @@ export default function Tiendas() {
           <div>
             <span
               data-reveal
-              className="inline-block rounded-full bg-lime px-2.5 py-1 text-[11px] font-semibold uppercase tracking-[0.08em] sm:px-3 sm:text-[12.5px] sm:tracking-[0.09em] text-ink"
+              className={ETIQUETA}
             >
               Tiendas
             </span>
@@ -191,12 +193,9 @@ export default function Tiendas() {
                 Mientras tanto, mirá todo lo que suma este plan.
               </p>
             </div>
-            <a
-              href="#premium"
-              className="inline-flex flex-none cursor-pointer items-center gap-2 rounded-full bg-ink px-5 py-3 text-sm font-semibold text-white focus-ring"
-            >
+            <Button href="#premium" variant="dark" className="flex-none">
               Ver funciones Premium
-            </a>
+            </Button>
           </div>
         </div>
       )}

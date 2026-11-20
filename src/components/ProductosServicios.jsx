@@ -1,10 +1,11 @@
 import { useEffect, useRef, useState } from "react"
 import { useReveal } from "../lib/motion"
 import Button from "./Button"
-import CheckIcon from "./CheckIcon"
+import Tick from "./Tick"
 import Segmented from "./Segmented"
 import EscenaProducto from "./escenas/EscenaProducto"
 import EscenaTurnos from "./escenas/EscenaTurnos"
+import { ETIQUETA } from "../lib/pastillas"
 
 // Sección propia: la tienda es de productos o de servicios. Se elige con el selector; cambia la escena y el texto.
 // Datos tomados de web-basico (BasicoIncluye y FAQ): reserva de turnos en la tienda, horarios que define la tienda, calendario de
@@ -57,7 +58,7 @@ export default function ProductosServicios() {
         <div className="flex flex-col items-center text-center">
           <span
             data-reveal
-            className="inline-block rounded-full bg-lime px-2.5 py-1 text-[11px] font-semibold uppercase tracking-[0.08em] text-ink sm:px-3 sm:text-[12.5px] sm:tracking-[0.09em]"
+            className={ETIQUETA}
           >
             Productos y servicios
           </span>
@@ -102,7 +103,7 @@ export default function ProductosServicios() {
                 <ul className="mt-6 space-y-3.5">
                   {t.puntos.map((p) => (
                     <li key={p} className="flex items-center gap-3 text-[16px] font-semibold text-ink">
-                      <CheckIcon className="h-6 w-6" />
+                      <Tick className="h-5 w-5" />
                       {p}
                     </li>
                   ))}

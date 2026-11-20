@@ -6,6 +6,7 @@ import Segmented from "./Segmented"
 import CrownIcon from "./CrownIcon"
 import VerEjemplo from "./VerEjemplo"
 import { anualLink, peso, plans } from "../lib/planes"
+import { INSIGNIA } from "../lib/pastillas"
 
 const opciones = [
   { id: false, label: "Mensual" },
@@ -59,7 +60,7 @@ export default function PricingCards() {
   )
 
   return (
-    <section id="planes" ref={root} className="bg-ink py-16 md:py-[4.5rem] text-white">
+    <section id="planes" ref={root} className="bg-mist py-16 text-ink md:py-[4.5rem]">
       <div className="mx-auto max-w-3xl px-4">
         <h2
           data-words
@@ -69,7 +70,7 @@ export default function PricingCards() {
         </h2>
         <p
           data-reveal
-          className="mx-auto mt-3 max-w-2xl text-balance text-center text-base text-white/70"
+          className="mx-auto mt-3 max-w-2xl text-balance text-center text-base text-ink-soft"
         >
           Probá el primer mes del plan Básico sin costo. Si funciona para vos, te quedás
           contratando el plan que mejor se adapte a tu negocio. Sin letra chica, te das de baja
@@ -86,42 +87,44 @@ export default function PricingCards() {
         </div>
 
         <div className="mt-8 grid gap-6 md:grid-cols-2">
-          {plans.map((plan) => (
+          {plans.map((plan) => {
+            const azul = Boolean(plan.featured) // Premium va en azul oscuro; Básico en blanco
+            return (
             <div
               key={plan.name}
               data-reveal
-              className={`relative flex min-w-0 flex-col rounded-3xl bg-white p-5 text-ink shadow-xl sm:p-6 shadow-ink/10 transition-transform duration-300 ease-out hover:-translate-y-1 motion-reduce:transition-none motion-reduce:hover:transform-none ${
-                plan.featured ? "ring-[3px] ring-accent" : ""
+              className={`relative flex min-w-0 flex-col rounded-3xl p-5 shadow-xl sm:p-6 shadow-ink/10 transition-transform duration-300 ease-out hover:-translate-y-1 motion-reduce:transition-none motion-reduce:hover:transform-none ${
+                azul ? "bg-ink text-white ring-[3px] ring-accent" : "bg-white text-ink ring-1 ring-ink/10"
               }`}
             >
               <div className="flex min-h-10 flex-wrap items-center gap-2">
                 <h3 className="text-xl font-extrabold">{plan.name}</h3>
                 {plan.badge && (
-                  <span className="rounded-full bg-lime px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.08em] sm:text-[11px] sm:tracking-[0.09em] text-ink">
+                  <span className={INSIGNIA}>
                     {plan.badge}
                   </span>
                 )}
-                {plan.crown && <CrownIcon className="h-5 w-5 text-primary" />}
+                {plan.crown && <CrownIcon className={`h-5 w-5 ${azul ? "text-lavender" : "text-primary"}`} />}
                 {plan.ejemplo && <VerEjemplo plan={plan.name} href={plan.ejemplo} />}
               </div>
               <div className="mt-3 flex flex-wrap items-baseline gap-x-2 gap-y-1">
                 <p className="text-[32px] font-extrabold leading-none">
                   {peso(anual ? plan.anual / 12 : plan.mensual)}
-                  <span className="text-base font-bold text-ink-soft">/mes</span>
+                  <span className={`text-base font-bold ${azul ? "text-snow-soft" : "text-ink-soft"}`}>/mes</span>
                 </p>
                 {anual && (
-                  <p className="text-sm font-semibold text-ink-muted line-through decoration-2">
+                  <p className={`text-sm font-semibold line-through decoration-2 ${azul ? "text-snow-muted" : "text-ink-muted"}`}>
                     {peso(plan.mensual)}
                   </p>
                 )}
               </div>
-              <p className="mt-2 text-xs font-semibold text-ink-muted">
+              <p className={`mt-2 text-xs font-semibold ${azul ? "text-snow-muted" : "text-ink-muted"}`}>
                 {anual
                   ? `Pagás ${peso(plan.anual)} una vez al año · ahorrás ${peso(plan.mensual * 12 - plan.anual)}`
                   : plan.commitment}
               </p>
 
-              <div className="mt-3 flex-1 border-t border-ink/10 pt-3">
+              <div className={`mt-3 flex-1 border-t pt-3 ${azul ? "border-white/15" : "border-ink/10"}`}>
                 {plan.intro && <p className="mb-3 text-sm font-bold">{plan.intro}</p>}
                 <ul className="space-y-1.5">
                   {plan.features.map((item) => {
@@ -161,7 +164,7 @@ export default function PricingCards() {
                   })}
                 </ul>
                 {plan.verMas && (
-                  <LinkTexto suelto href={plan.verMasHref} external={plan.verMasExterno} className="mt-1 text-sm">
+                  <LinkTexto suelto tone={azul ? "dark" : "light"} href={plan.verMasHref} external={plan.verMasExterno} className="mt-1 text-sm">
                     {plan.verMas}
                   </LinkTexto>
                 )}
@@ -171,7 +174,7 @@ export default function PricingCards() {
                 {(anual ? anualActions(plan) : plan.actions).map((action, i) => (
                   <div key={action.label}>
                     {action.note && (
-                      <p className="mb-2 flex items-center justify-center gap-1.5 text-xs font-semibold text-ink-soft">
+                      <p className={`mb-2 flex items-center justify-center gap-1.5 text-xs font-semibold ${azul ? "text-snow-soft" : "text-ink-soft"}`}>
                         <svg
                           viewBox="0 0 24 24"
                           fill="none"
@@ -192,7 +195,7 @@ export default function PricingCards() {
                     <Button
                       href={action.href}
                       external={action.external}
-                      variant={i === 0 ? "primary" : "secondary"}
+                      variant={i === 0 ? (azul ? "inverse" : "primary") : "secondary"}
                       block
                     >
                       {action.label}
@@ -201,7 +204,8 @@ export default function PricingCards() {
                 ))}
               </div>
             </div>
-          ))}
+            )
+          })}
         </div>
       </div>
     </section>
