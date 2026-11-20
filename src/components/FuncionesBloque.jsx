@@ -16,7 +16,8 @@ import {
 //  - id, fondo: id de la sección y su fondo (clase de Tailwind).
 //  - etiqueta, icono: la etiqueta lima de arriba y, opcional, un ícono a su izquierda.
 //  - titulo, intro: el título y, opcional, una bajada.
-//  - funciones: [{ titulo, cuerpo, imagen?, etiquetaImagen?, superposicion? }]. `superposicion` es un nodo que
+//  - funciones: [{ titulo, cuerpo, imagen?, escena?, etiquetaImagen?, superposicion? }]. `escena` es un componente vivo
+//    (con prop `activa`) que reemplaza a la imagen. `superposicion` es un nodo que
 //    va encima de la imagen (por ejemplo la barra con mensajes en movimiento). Con `superposicionFija: true` la
 //    superposición es parte de la imagen (la imagen no la trae dibujada): entra y sale junto con ella, sin esperar
 //    a que termine el cambio. Si una función no tiene `imagen`, el
@@ -113,12 +114,25 @@ export default function FuncionesBloque({
           <div
             ref={frame}
             data-reveal
-            className={`@container relative aspect-square overflow-hidden rounded-3xl bg-lavender shadow-xl shadow-primary/15 ring-1 ring-primary/20 ${
+            className={`@container relative aspect-square overflow-hidden rounded-[2rem] bg-lavender shadow-xl shadow-primary/15 ring-1 ring-primary/20 ${
               invertido ? "md:order-2" : ""
             }`}
           >
             {funciones.map((funcion, i) => {
               const visible = i === activeIndex || i === prevIndex ? "visible" : "invisible"
+              if (funcion.escena) {
+                return (
+                  <div
+                    key={funcion.titulo}
+                    data-capa
+                    role="img"
+                    aria-label={funcion.titulo}
+                    className={`absolute inset-0 ${visible}`}
+                  >
+                    {cloneElement(funcion.escena, { activa: activeIndex === i && prevIndex === null })}
+                  </div>
+                )
+              }
               return funcion.imagen ? (
                 <img
                   key={funcion.titulo}
@@ -165,7 +179,7 @@ export default function FuncionesBloque({
 
           <div
             data-reveal
-            className={`flex flex-col divide-y divide-ink/10 rounded-3xl bg-white px-6 py-1 ring-1 ring-ink/10 md:px-8 ${
+            className={`flex flex-col divide-y divide-ink/10 rounded-[2rem] bg-white px-6 py-1 ring-1 ring-ink/10 md:px-8 ${
               invertido ? "md:order-1" : ""
             }`}
           >

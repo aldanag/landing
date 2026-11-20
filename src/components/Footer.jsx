@@ -29,7 +29,7 @@ const redes = [
 const YEAR = new Date().getFullYear()
 
 const linkClass =
-  "inline-flex min-h-11 items-center rounded text-[15px] text-white/70 transition-colors hover:text-white focus-ring-light"
+  "inline-flex min-h-11 items-center rounded text-[15px] text-white/70 transition-colors hover:text-white focus-ring-inverse"
 
 function Column({ title, children }) {
   return (
@@ -56,6 +56,7 @@ export default function Footer({ explorar = explorarDefault, fondo = "bg-ink" })
             <Button
               href={WHATSAPP_TRIAL_LINK}
               external
+              variant="inverse"
               size="lg"
               className="self-start md:self-auto"
             >
@@ -68,7 +69,7 @@ export default function Footer({ explorar = explorarDefault, fondo = "bg-ink" })
           {/* Columnas */}
           <div className="mt-12 grid gap-12 sm:grid-cols-2 md:mt-14 lg:grid-cols-[1.4fr_1fr_1fr_1fr] lg:gap-8">
             <div className="sm:col-span-2 lg:col-span-1">
-              <a href="#top" className="inline-block rounded-lg focus-ring-light">
+              <a href="#top" className="inline-block rounded-lg focus-ring-inverse">
                 <img src={logo} alt="Lemora" className="h-8 w-auto brightness-0 invert" />
               </a>
               <p className="mt-5 max-w-sm text-[15px] leading-relaxed text-white/70">
@@ -123,7 +124,7 @@ export default function Footer({ explorar = explorarDefault, fondo = "bg-ink" })
                         target="_blank"
                         rel="noopener noreferrer"
                         aria-label={red.label}
-                        className="flex h-11 w-11 items-center justify-center rounded-full bg-white/10 text-white/80 transition-colors hover:bg-white hover:text-ink focus-ring-light"
+                        className="flex h-11 w-11 items-center justify-center rounded-full bg-white/10 text-white/80 transition-colors hover:bg-white hover:text-ink focus-ring-inverse"
                       >
                         <FontAwesomeIcon icon={red.icon} className="h-[18px] w-[18px]" aria-hidden="true" />
                       </a>

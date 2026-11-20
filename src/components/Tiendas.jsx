@@ -1,5 +1,6 @@
 import { useRef, useState } from "react"
 import { useReveal } from "../lib/motion"
+import Segmented from "./Segmented"
 import { tiendasEjemplo } from "../lib/tiendas"
 
 // Cinta de cuadrados oscuros que pasa sola de costado (efecto portfolio). Cada uno muestra la tienda en
@@ -150,29 +151,12 @@ export default function Tiendas() {
           </div>
 
           <div data-reveal className="flex">
-            <div
-              role="group"
-              aria-label="Plan de las tiendas"
-              className="inline-flex flex-none rounded-full bg-white p-1 ring-1 ring-ink/10"
-            >
-              {PLANES.map((p) => (
-                <button
-                  key={p}
-                  type="button"
-                  aria-pressed={plan === p}
-                  onClick={() => setPlan(p)}
-                  className={`flex min-h-10 cursor-pointer items-center rounded-full px-5 py-2 text-sm font-semibold transition-colors duration-300 focus-ring-light motion-reduce:transition-none ${
-                    plan === p
-                      ? p === "Premium"
-                        ? "bg-primary text-white"
-                        : "bg-ink text-white"
-                      : "text-ink-soft hover:text-ink"
-                  }`}
-                >
-                  {p}
-                </button>
-              ))}
-            </div>
+            <Segmented
+              label="Plan de las tiendas"
+              value={plan}
+              onChange={setPlan}
+              options={PLANES.map((p) => ({ id: p, label: p, on: p === "Premium" ? "bg-primary text-white" : "bg-ink text-white" }))}
+            />
           </div>
         </div>
       </div>

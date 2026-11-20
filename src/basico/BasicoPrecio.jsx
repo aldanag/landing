@@ -1,6 +1,8 @@
 import { useRef, useState } from "react"
 import { useReveal } from "../lib/motion"
 import Button from "../components/Button"
+import LinkTexto from "../components/LinkTexto"
+import Segmented from "../components/Segmented"
 import Tick from "../components/Tick"
 import { anualLink, BASICO_CHECKOUT_LINK, peso, plans, WHATSAPP_TRIAL_LINK } from "../lib/planes"
 
@@ -9,8 +11,8 @@ const basico = plans.find((p) => p.name === "Básico")
 const destacadas = ["Cargá productos o servicios ilimitados"]
 
 const opciones = [
-  { id: false, label: "Mensual", on: "bg-ink text-white" },
-  { id: true, label: "Anual", on: "bg-primary text-white", badge: "Ahorrá 11%" },
+  { id: false, label: "Mensual" },
+  { id: true, label: "Anual", badge: "Ahorrá 11%" },
 ]
 
 export default function BasicoPrecio() {
@@ -36,30 +38,12 @@ export default function BasicoPrecio() {
         </div>
 
         <div data-reveal className="mt-8 flex justify-center">
-          <div
-            role="group"
-            aria-label="Período de pago"
-            className="inline-flex flex-none rounded-full bg-white p-1 ring-1 ring-ink/10"
-          >
-            {opciones.map((op) => (
-              <button
-                key={op.label}
-                type="button"
-                aria-pressed={anual === op.id}
-                onClick={() => setAnual(op.id)}
-                className={`flex items-center gap-2 rounded-full px-4 py-2 text-sm font-semibold transition-colors duration-300 focus-ring-light motion-reduce:transition-none ${
-                  anual === op.id ? op.on : "text-ink-soft hover:text-ink"
-                }`}
-              >
-                {op.label}
-                {op.badge && (
-                  <span className="rounded-full bg-lime px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.06em] text-ink">
-                    {op.badge}
-                  </span>
-                )}
-              </button>
-            ))}
-          </div>
+          <Segmented
+            label="Período de pago"
+            value={anual}
+            onChange={setAnual}
+            options={opciones}
+          />
         </div>
 
         <div
@@ -90,20 +74,15 @@ export default function BasicoPrecio() {
               Sin compromiso de adquirir nuestro plan, no te pedimos tarjeta ni ningún tipo de pago.
             </p>
 
-            <div className="mt-6 flex flex-col gap-3 md:mt-auto">
-              <Button href={WHATSAPP_TRIAL_LINK} external block>
+            <div className="mt-6 flex flex-col gap-3 md:mt-auto md:pt-6">
+              <Button href={WHATSAPP_TRIAL_LINK} external className="w-full md:w-fit md:self-start md:px-10">
                 Probar gratis 1 mes
               </Button>
-              <p className="text-center text-sm text-ink-soft">
+              <p className="text-center text-sm text-ink-soft md:text-left">
                 ¿Ya sabés que lo querés?{" "}
-                <a
-                  href={anual ? anualLink("Básico") : BASICO_CHECKOUT_LINK}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="rounded font-semibold text-primary underline underline-offset-4 focus-ring"
-                >
+                <LinkTexto href={anual ? anualLink("Básico") : BASICO_CHECKOUT_LINK} external>
                   {anual ? "Contratar plan anual" : "Suscribirme ahora"}
-                </a>
+                </LinkTexto>
               </p>
             </div>
           </div>

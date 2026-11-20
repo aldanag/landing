@@ -67,7 +67,7 @@ export default function BasicoHero() {
               </Button>
               <Button
                 href="#incluye"
-                variant="light"
+                variant="tinted"
                 size="lg"
                 className="w-full max-w-xs sm:w-56 lg:w-auto lg:max-w-none lg:flex-1 lg:px-4"
               >

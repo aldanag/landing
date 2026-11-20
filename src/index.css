@@ -51,7 +51,9 @@
   --font-body: "Manrope", system-ui, sans-serif;
 }
 
-/* Anillo de foco único para todo elemento interactivo. */
+/* Anillos de foco. El nombre dice sobre qué superficie van, y significa lo mismo en la landing y en Premium:
+   - focus-ring:         sobre CLARO (blanco, lila, píldora blanca del menú): contorno ink.
+   - focus-ring-inverse: sobre OSCURO (azul): contorno lavanda. */
 @utility focus-ring {
   &:focus-visible {
     outline: 2px solid var(--color-ink);
@@ -59,10 +61,9 @@
   }
 }
 
-/* Misma regla sobre fondos oscuros (footer). */
-@utility focus-ring-light {
+@utility focus-ring-inverse {
   &:focus-visible {
-    outline: 2px solid #ffffff;
+    outline: 2px solid var(--color-lavender);
     outline-offset: 2px;
   }
 }
@@ -726,3 +727,486 @@ body {
   .carru-activa .carru-flecha { animation: carru-flecha 10s ease-in-out infinite; }
 }
 :root[data-motion="on"] .carru-activa .carru-flecha { animation: carru-flecha 10s ease-in-out infinite; }
+
+/* ===== "Así de simple": cada paso cuenta su mini historia en bucle (7 s) mientras la tarjeta está a la vista (.paso-activa).
+   Los tres pasos van desfasados (0 s, 2 s, 4 s) para que se lea como una cadena: cargás, compartís, vendés.
+   El estado de reposo es el diseño original; con "reducir movimiento" no se anima nada. ===== */
+
+/* Paso 1: se aprieta "Nuevo producto", aparece el producto con sus datos y se guarda. */
+@keyframes p1-pill { 0%, 8% { transform: scale(1); } 11% { transform: scale(0.9); } 15%, 100% { transform: scale(1); } }
+@keyframes p1-onda { 0%, 10% { opacity: 0; transform: scale(0.7); } 11% { opacity: 0.7; transform: scale(0.9); } 20%, 100% { opacity: 0; transform: scale(2.1); } }
+@keyframes p1-fila { 0%, 13% { transform: none; } 17% { transform: translateY(-5px); } 22%, 100% { transform: none; } }
+@keyframes p1-vacio { 0%, 15% { opacity: 1; } 18%, 93% { opacity: 0; } 97%, 100% { opacity: 1; } }
+@keyframes p1-lleno { 0%, 15% { opacity: 0; } 18%, 93% { opacity: 1; } 97%, 100% { opacity: 0; } }
+@keyframes p1-guardado { 0%, 24% { opacity: 0; transform: scale(0.6); } 27% { opacity: 1; transform: scale(1.12); } 30%, 93% { opacity: 1; transform: none; } 97%, 100% { opacity: 0; transform: scale(0.6); } }
+@keyframes p1-icono { 0%, 10% { transform: scale(1); } 14%, 24% { transform: scale(1.14); } 30%, 100% { transform: scale(1); } }
+
+/* Paso 2: se escribe el link, queda publicado y aparecen dónde compartirlo. */
+@keyframes p2-url {
+  0%, 9% { opacity: 1; clip-path: inset(0 0 0 0); }
+  11% { opacity: 0; clip-path: inset(0 0 0 0); }
+  12% { opacity: 0; clip-path: inset(0 100% 0 0); }
+  14% { opacity: 1; clip-path: inset(0 100% 0 0); animation-timing-function: steps(19, end); }
+  38%, 100% { opacity: 1; clip-path: inset(0 0 0 0); }
+}
+@keyframes p2-pub { 0%, 12% { opacity: 0; } 14%, 38% { opacity: 1; } 41%, 100% { opacity: 0; } }
+@keyframes p2-listo { 0%, 9% { opacity: 1; } 11%, 43% { opacity: 0; } 46%, 100% { opacity: 1; } }
+@keyframes p2-check { 0%, 44% { transform: scale(0); } 48% { transform: scale(1.3); } 52%, 100% { transform: scale(1); } }
+@keyframes p2-icono { 0%, 40% { transform: scale(1); } 44%, 56% { transform: scale(1.14); } 62%, 100% { transform: scale(1); } }
+
+/* Paso 3: el pedido se completa con el producto del paso 1, se envía y avisa por WhatsApp. */
+@keyframes p3-vacio { 0%, 9% { opacity: 1; } 12%, 93% { opacity: 0; } 97%, 100% { opacity: 1; } }
+@keyframes p3-lleno { 0%, 9% { opacity: 0; } 12%, 93% { opacity: 1; } 97%, 100% { opacity: 0; } }
+@keyframes p3-lab1 { 0%, 31% { opacity: 1; } 34%, 93% { opacity: 0; } 97%, 100% { opacity: 1; } }
+@keyframes p3-lab2 { 0%, 31% { opacity: 0; } 34%, 93% { opacity: 1; } 97%, 100% { opacity: 0; } }
+@keyframes p3-icono { 0%, 31% { transform: scale(1); } 35%, 46% { transform: scale(1.14); } 52%, 100% { transform: scale(1); } }
+
+@media (prefers-reduced-motion: no-preference) {
+  .paso-activa .p1-pill { animation: p1-pill 7s cubic-bezier(0.22, 1, 0.36, 1) var(--demora, 0s) infinite; }
+  .paso-activa .p1-onda { animation: p1-onda 7s cubic-bezier(0.22, 1, 0.36, 1) var(--demora, 0s) infinite; }
+  .paso-activa .p1-fila { animation: p1-fila 7s cubic-bezier(0.22, 1, 0.36, 1) var(--demora, 0s) infinite; }
+  .paso-activa .p1-vacio { animation: p1-vacio 7s cubic-bezier(0.22, 1, 0.36, 1) var(--demora, 0s) infinite; }
+  .paso-activa .p1-lleno { animation: p1-lleno 7s cubic-bezier(0.22, 1, 0.36, 1) var(--demora, 0s) infinite; }
+  .paso-activa .p1-guardado { animation: p1-guardado 7s cubic-bezier(0.22, 1, 0.36, 1) var(--demora, 0s) infinite; }
+  .paso-activa .p1-icono { animation: p1-icono 7s cubic-bezier(0.22, 1, 0.36, 1) var(--demora, 0s) infinite; }
+  .paso-activa .p2-url { animation: p2-url 7s cubic-bezier(0.22, 1, 0.36, 1) var(--demora, 0s) infinite; }
+  .paso-activa .p2-pub { animation: p2-pub 7s cubic-bezier(0.22, 1, 0.36, 1) var(--demora, 0s) infinite; }
+  .paso-activa .p2-listo { animation: p2-listo 7s cubic-bezier(0.22, 1, 0.36, 1) var(--demora, 0s) infinite; }
+  .paso-activa .p2-check { animation: p2-check 7s cubic-bezier(0.22, 1, 0.36, 1) var(--demora, 0s) infinite; }
+  .paso-activa .p2-icono { animation: p2-icono 7s cubic-bezier(0.22, 1, 0.36, 1) var(--demora, 0s) infinite; }
+  .paso-activa .p3-vacio { animation: p3-vacio 7s cubic-bezier(0.22, 1, 0.36, 1) var(--demora, 0s) infinite; }
+  .paso-activa .p3-lleno { animation: p3-lleno 7s cubic-bezier(0.22, 1, 0.36, 1) var(--demora, 0s) infinite; }
+  .paso-activa .p3-boton { animation: p3-boton 7s cubic-bezier(0.22, 1, 0.36, 1) var(--demora, 0s) infinite; }
+  .paso-activa .p3-lab1 { animation: p3-lab1 7s cubic-bezier(0.22, 1, 0.36, 1) var(--demora, 0s) infinite; }
+  .paso-activa .p3-lab2 { animation: p3-lab2 7s cubic-bezier(0.22, 1, 0.36, 1) var(--demora, 0s) infinite; }
+  .paso-activa .p3-icono { animation: p3-icono 7s cubic-bezier(0.22, 1, 0.36, 1) var(--demora, 0s) infinite; }
+}
+:root[data-motion="on"] .paso-activa .p1-pill { animation: p1-pill 7s cubic-bezier(0.22, 1, 0.36, 1) var(--demora, 0s) infinite; }
+:root[data-motion="on"] .paso-activa .p1-onda { animation: p1-onda 7s cubic-bezier(0.22, 1, 0.36, 1) var(--demora, 0s) infinite; }
+:root[data-motion="on"] .paso-activa .p1-fila { animation: p1-fila 7s cubic-bezier(0.22, 1, 0.36, 1) var(--demora, 0s) infinite; }
+:root[data-motion="on"] .paso-activa .p1-vacio { animation: p1-vacio 7s cubic-bezier(0.22, 1, 0.36, 1) var(--demora, 0s) infinite; }
+:root[data-motion="on"] .paso-activa .p1-lleno { animation: p1-lleno 7s cubic-bezier(0.22, 1, 0.36, 1) var(--demora, 0s) infinite; }
+:root[data-motion="on"] .paso-activa .p1-guardado { animation: p1-guardado 7s cubic-bezier(0.22, 1, 0.36, 1) var(--demora, 0s) infinite; }
+:root[data-motion="on"] .paso-activa .p1-icono { animation: p1-icono 7s cubic-bezier(0.22, 1, 0.36, 1) var(--demora, 0s) infinite; }
+:root[data-motion="on"] .paso-activa .p2-url { animation: p2-url 7s cubic-bezier(0.22, 1, 0.36, 1) var(--demora, 0s) infinite; }
+:root[data-motion="on"] .paso-activa .p2-pub { animation: p2-pub 7s cubic-bezier(0.22, 1, 0.36, 1) var(--demora, 0s) infinite; }
+:root[data-motion="on"] .paso-activa .p2-listo { animation: p2-listo 7s cubic-bezier(0.22, 1, 0.36, 1) var(--demora, 0s) infinite; }
+:root[data-motion="on"] .paso-activa .p2-check { animation: p2-check 7s cubic-bezier(0.22, 1, 0.36, 1) var(--demora, 0s) infinite; }
+:root[data-motion="on"] .paso-activa .p2-icono { animation: p2-icono 7s cubic-bezier(0.22, 1, 0.36, 1) var(--demora, 0s) infinite; }
+:root[data-motion="on"] .paso-activa .p3-vacio { animation: p3-vacio 7s cubic-bezier(0.22, 1, 0.36, 1) var(--demora, 0s) infinite; }
+:root[data-motion="on"] .paso-activa .p3-lleno { animation: p3-lleno 7s cubic-bezier(0.22, 1, 0.36, 1) var(--demora, 0s) infinite; }
+:root[data-motion="on"] .paso-activa .p3-boton { animation: p3-boton 7s cubic-bezier(0.22, 1, 0.36, 1) var(--demora, 0s) infinite; }
+:root[data-motion="on"] .paso-activa .p3-lab1 { animation: p3-lab1 7s cubic-bezier(0.22, 1, 0.36, 1) var(--demora, 0s) infinite; }
+:root[data-motion="on"] .paso-activa .p3-lab2 { animation: p3-lab2 7s cubic-bezier(0.22, 1, 0.36, 1) var(--demora, 0s) infinite; }
+:root[data-motion="on"] .paso-activa .p3-icono { animation: p3-icono 7s cubic-bezier(0.22, 1, 0.36, 1) var(--demora, 0s) infinite; }
+
+/* Paso 2: tras publicar, aparece "Copiar link", se aprieta y pasa a "¡Copiado!". */
+@keyframes p2-copiar { 0%, 48% { opacity: 0; transform: scale(0.6); } 52% { opacity: 1; transform: scale(1.08); } 55%, 62% { opacity: 1; transform: none; } 64% { opacity: 1; transform: scale(0.92); } 67%, 93% { opacity: 1; transform: none; } 97%, 100% { opacity: 0; transform: scale(0.6); } }
+@keyframes p2-c1 { 0%, 63% { opacity: 1; } 66%, 93% { opacity: 0; } 97%, 100% { opacity: 1; } }
+@keyframes p2-c2 { 0%, 63% { opacity: 0; } 66%, 93% { opacity: 1; } 97%, 100% { opacity: 0; } }
+@media (prefers-reduced-motion: no-preference) {
+  .paso-activa .p2-copiar { animation: p2-copiar 7s cubic-bezier(0.22, 1, 0.36, 1) var(--demora, 0s) infinite; }
+  .paso-activa .p2-c1 { animation: p2-c1 7s cubic-bezier(0.22, 1, 0.36, 1) var(--demora, 0s) infinite; }
+  .paso-activa .p2-c2 { animation: p2-c2 7s cubic-bezier(0.22, 1, 0.36, 1) var(--demora, 0s) infinite; }
+}
+:root[data-motion="on"] .paso-activa .p2-copiar { animation: p2-copiar 7s cubic-bezier(0.22, 1, 0.36, 1) var(--demora, 0s) infinite; }
+:root[data-motion="on"] .paso-activa .p2-c1 { animation: p2-c1 7s cubic-bezier(0.22, 1, 0.36, 1) var(--demora, 0s) infinite; }
+:root[data-motion="on"] .paso-activa .p2-c2 { animation: p2-c2 7s cubic-bezier(0.22, 1, 0.36, 1) var(--demora, 0s) infinite; }
+
+/* Paso 2: al publicarse, aparecen los íconos de dónde compartir (uno por uno). */
+@keyframes p2-chip-1 { 0%, 46% { opacity: 0; transform: scale(0.4); } 50% { opacity: 1; transform: scale(1.15); } 53%, 93% { opacity: 1; transform: none; } 97%, 100% { opacity: 0; transform: scale(0.4); } }
+@keyframes p2-chip-2 { 0%, 50% { opacity: 0; transform: scale(0.4); } 54% { opacity: 1; transform: scale(1.15); } 57%, 93% { opacity: 1; transform: none; } 97%, 100% { opacity: 0; transform: scale(0.4); } }
+@keyframes p2-chip-3 { 0%, 54% { opacity: 0; transform: scale(0.4); } 58% { opacity: 1; transform: scale(1.15); } 61%, 93% { opacity: 1; transform: none; } 97%, 100% { opacity: 0; transform: scale(0.4); } }
+@media (prefers-reduced-motion: no-preference) {
+  .paso-activa .p2-chip-1 { animation: p2-chip-1 7s cubic-bezier(0.22, 1, 0.36, 1) var(--demora, 0s) infinite; }
+  .paso-activa .p2-chip-2 { animation: p2-chip-2 7s cubic-bezier(0.22, 1, 0.36, 1) var(--demora, 0s) infinite; }
+  .paso-activa .p2-chip-3 { animation: p2-chip-3 7s cubic-bezier(0.22, 1, 0.36, 1) var(--demora, 0s) infinite; }
+}
+:root[data-motion="on"] .paso-activa .p2-chip-1 { animation: p2-chip-1 7s cubic-bezier(0.22, 1, 0.36, 1) var(--demora, 0s) infinite; }
+:root[data-motion="on"] .paso-activa .p2-chip-2 { animation: p2-chip-2 7s cubic-bezier(0.22, 1, 0.36, 1) var(--demora, 0s) infinite; }
+:root[data-motion="on"] .paso-activa .p2-chip-3 { animation: p2-chip-3 7s cubic-bezier(0.22, 1, 0.36, 1) var(--demora, 0s) infinite; }
+
+/* Paso 3 (rehecho): el carrito del cliente se envía y sube; entra el chat de tu WhatsApp con el pedido recibido y tu respuesta.
+   Nunca se ven los dos a la vez. */
+@keyframes p3-boton { 0%, 27% { transform: none; } 30% { transform: scale(0.94); } 33%, 100% { transform: none; } }
+@keyframes p3-carro { 0%, 40% { transform: none; opacity: 1; } 47%, 93% { transform: translateY(-120%); opacity: 0; } 99%, 100% { transform: none; opacity: 1; } }
+@keyframes p3-chat { 0%, 41% { opacity: 0; transform: translateY(110%); } 47%, 90% { opacity: 1; transform: none; } 95%, 100% { opacity: 0; transform: translateY(40%); } }
+@keyframes p3-b1 { 0%, 48% { opacity: 0; transform: translateY(8px) scale(0.94); } 53%, 92% { opacity: 1; transform: none; } 95%, 100% { opacity: 0; transform: none; } }
+@keyframes p3-punto { 0%, 60%, 100% { transform: translateY(0); opacity: 0.4; } 30% { transform: translateY(-2px); opacity: 1; } }
+@media (prefers-reduced-motion: no-preference) {
+  .paso-activa .p3-carro { animation: p3-carro 7s cubic-bezier(0.22, 1, 0.36, 1) var(--demora, 0s) infinite; }
+  .paso-activa .p3-chat { animation: p3-chat 7s cubic-bezier(0.22, 1, 0.36, 1) var(--demora, 0s) infinite; }
+  .paso-activa .p3-b1 { animation: p3-b1 7s cubic-bezier(0.22, 1, 0.36, 1) var(--demora, 0s) infinite; }
+  .paso-activa .p3-puntos { animation: p3-puntos 7s linear var(--demora, 0s) infinite; }
+  .paso-activa .p3-b2 { animation: p3-b2 7s cubic-bezier(0.22, 1, 0.36, 1) var(--demora, 0s) infinite; }
+  .paso-activa .p3-punto { animation: p3-punto 0.9s ease-in-out infinite; }
+}
+:root[data-motion="on"] .paso-activa .p3-carro { animation: p3-carro 7s cubic-bezier(0.22, 1, 0.36, 1) var(--demora, 0s) infinite; }
+:root[data-motion="on"] .paso-activa .p3-chat { animation: p3-chat 7s cubic-bezier(0.22, 1, 0.36, 1) var(--demora, 0s) infinite; }
+:root[data-motion="on"] .paso-activa .p3-b1 { animation: p3-b1 7s cubic-bezier(0.22, 1, 0.36, 1) var(--demora, 0s) infinite; }
+:root[data-motion="on"] .paso-activa .p3-puntos { animation: p3-puntos 7s linear var(--demora, 0s) infinite; }
+:root[data-motion="on"] .paso-activa .p3-b2 { animation: p3-b2 7s cubic-bezier(0.22, 1, 0.36, 1) var(--demora, 0s) infinite; }
+:root[data-motion="on"] .paso-activa .p3-punto { animation: p3-punto 0.9s ease-in-out infinite; }
+
+@media (prefers-reduced-motion: no-preference) {
+}
+
+/* Paso 3: el pedido llega completo (es un mensaje automático, no se escribe); después aparecen los puntos y tu respuesta. */
+@keyframes p3-puntos { 0%, 59% { opacity: 0; } 61%, 66% { opacity: 1; } 68%, 100% { opacity: 0; } }
+@keyframes p3-b2 { 0%, 66% { opacity: 0; transform: translateY(6px) scale(0.94); } 71%, 92% { opacity: 1; transform: none; } 95%, 100% { opacity: 0; transform: none; } }
+
+/* ===== ESCENA CARRITO (landing, "Carrito de compras"): bucle de 8 s mientras está a la vista (.ec-activa). Reposo = imagen original. =====
+   Un toque suma una remera (el total se actualiza al instante), otro suma un jean y otro toca "Finalizar Compra". */
+@keyframes ec-a { 0%, 19% { opacity: 1; } 21%, 94% { opacity: 0; } 97%, 100% { opacity: 1; } }
+@keyframes ec-b { 0%, 19% { opacity: 0; } 21%, 94% { opacity: 1; } 97%, 100% { opacity: 0; } }
+@keyframes ec-c { 0%, 43% { opacity: 1; } 45%, 94% { opacity: 0; } 97%, 100% { opacity: 1; } }
+@keyframes ec-d { 0%, 43% { opacity: 0; } 45%, 94% { opacity: 1; } 97%, 100% { opacity: 0; } }
+@keyframes ec-m { 0%, 19% { opacity: 0; } 21%, 43% { opacity: 1; } 45%, 100% { opacity: 0; } }
+@keyframes ec-boton { 0%, 66% { transform: none; } 68.5% { transform: scale(0.97); } 71%, 100% { transform: none; } }
+@keyframes ec-sticker { 0%, 19% { transform: rotate(-10deg) scale(1); } 23% { transform: rotate(-10deg) scale(1.13); } 27%, 43% { transform: rotate(-10deg) scale(1); } 47% { transform: rotate(-10deg) scale(1.13); } 51%, 100% { transform: rotate(-10deg) scale(1); } }
+/* La fila que se toca se resalta en lila (como en la tienda): primero la remera, después el jean. */
+@keyframes ec-h2 { 0%, 12% { opacity: 0; } 15%, 28% { opacity: 1; } 31%, 100% { opacity: 0; } }
+@keyframes ec-h1 { 0%, 36% { opacity: 0; } 39%, 52% { opacity: 1; } 55%, 100% { opacity: 0; } }
+@media (prefers-reduced-motion: no-preference) {
+  .ec-activa .ec-r0 { animation: ec-a 8s linear infinite; }
+  .ec-activa .ec-r1 { animation: ec-b 8s linear infinite; }
+  .ec-activa .ec-j0 { animation: ec-c 8s linear infinite; }
+  .ec-activa .ec-j1 { animation: ec-d 8s linear infinite; }
+  .ec-activa .ec-t0 { animation: ec-a 8s linear infinite; }
+  .ec-activa .ec-t1 { animation: ec-m 8s linear infinite; }
+  .ec-activa .ec-t2 { animation: ec-d 8s linear infinite; }
+  .ec-activa .ec-boton { animation: ec-boton 8s ease-in-out infinite; }
+  .ec-activa .ec-h1 { animation: ec-h1 8s linear infinite; }
+  .ec-activa .ec-h2 { animation: ec-h2 8s linear infinite; }
+  .ec-activa .ec-sticker { animation: ec-sticker 8s cubic-bezier(0.22, 1, 0.36, 1) infinite; }
+}
+:root[data-motion="on"] .ec-activa .ec-r0 { animation: ec-a 8s linear infinite; }
+:root[data-motion="on"] .ec-activa .ec-r1 { animation: ec-b 8s linear infinite; }
+:root[data-motion="on"] .ec-activa .ec-j0 { animation: ec-c 8s linear infinite; }
+:root[data-motion="on"] .ec-activa .ec-j1 { animation: ec-d 8s linear infinite; }
+:root[data-motion="on"] .ec-activa .ec-t0 { animation: ec-a 8s linear infinite; }
+:root[data-motion="on"] .ec-activa .ec-t1 { animation: ec-m 8s linear infinite; }
+:root[data-motion="on"] .ec-activa .ec-t2 { animation: ec-d 8s linear infinite; }
+:root[data-motion="on"] .ec-activa .ec-boton { animation: ec-boton 8s ease-in-out infinite; }
+:root[data-motion="on"] .ec-activa .ec-h1 { animation: ec-h1 8s linear infinite; }
+:root[data-motion="on"] .ec-activa .ec-h2 { animation: ec-h2 8s linear infinite; }
+:root[data-motion="on"] .ec-activa .ec-sticker { animation: ec-sticker 8s cubic-bezier(0.22, 1, 0.36, 1) infinite; }
+/* ===== ESCENA GALERÍA (landing, "Galería de imágenes"): bucle de 10 s mientras está a la vista (.eg-activa). Reposo = foto 1 y su miniatura marcada. =====
+   Las fotos pasan solas; la miniatura activa se marca con el borde violeta y un toque (tap) anticipa cada cambio. */
+.eg-toque { position: absolute; width: calc(var(--u) * 64); height: calc(var(--u) * 64); border-radius: 9999px; background: rgba(108, 79, 212, 0.35); border: calc(var(--u) * 3) solid rgba(108, 79, 212, 0.75); opacity: 0; pointer-events: none; }
+@media (prefers-reduced-motion: no-preference) {
+}
+
+/* ===== ESCENA DESCUENTOS (landing, "Automatizá descuentos"): bucle de 10 s mientras está a la vista (.ed-activa). Reposo = cupón ya aplicado. =====
+   Se reinicia al 9 %: un toque en el campo, se escribe TIKTOK10, un toque en "Aplicar", aparece el aviso, el cupón queda en el
+   carrito, se suma la línea de descuento y el total baja a $68.850. */
+.ed-toast { opacity: 0; }
+@keyframes ed-v36 { 0%, 8% { opacity: 1; } 10%, 34% { opacity: 0; } 36%, 100% { opacity: 1; } }
+@keyframes ed-v38 { 0%, 8% { opacity: 1; } 10%, 36% { opacity: 0; } 38%, 100% { opacity: 1; } }
+@keyframes ed-i36 { 0%, 8% { opacity: 0; } 10%, 34% { opacity: 1; } 36%, 100% { opacity: 0; } }
+@keyframes ed-i38 { 0%, 8% { opacity: 0; } 10%, 36% { opacity: 1; } 38%, 100% { opacity: 0; } }
+@keyframes ed-ph { 0%, 14% { opacity: 1; } 15%, 100% { opacity: 0; } }
+@keyframes ed-code { 0%, 14% { clip-path: inset(0 100% 0 0); } 15% { clip-path: inset(0 100% 0 0); animation-timing-function: steps(8, end); } 27%, 100% { clip-path: inset(0 0 0 0); } }
+@keyframes ed-aplicar { 0%, 30% { transform: none; } 32% { transform: scale(0.94); } 34%, 100% { transform: none; } }
+@keyframes ed-sticker { 0%, 8% { opacity: 1; transform: rotate(10deg) scale(1); } 10%, 36% { opacity: 0; transform: rotate(10deg) scale(0.5); } 40% { opacity: 1; transform: rotate(10deg) scale(1.15); } 44%, 100% { opacity: 1; transform: rotate(10deg) scale(1); } }
+@keyframes ed-toast { 0%, 34% { opacity: 0; transform: translateY(12px); } 38%, 60% { opacity: 1; transform: none; } 64%, 100% { opacity: 0; transform: translateY(8px); } }
+@keyframes ed-ta { 0%, 11.5% { opacity: 0; transform: translate(-50%, -50%) scale(0.5); } 12.8% { opacity: 0.85; transform: translate(-50%, -50%) scale(0.8); } 14% { opacity: 0.6; transform: translate(-50%, -50%) scale(0.95); } 16%, 100% { opacity: 0; transform: translate(-50%, -50%) scale(1.5); } }
+@keyframes ed-tb { 0%, 29.5% { opacity: 0; transform: translate(-50%, -50%) scale(0.5); } 31% { opacity: 0.85; transform: translate(-50%, -50%) scale(0.8); } 32.4% { opacity: 0.6; transform: translate(-50%, -50%) scale(0.95); } 34.5%, 100% { opacity: 0; transform: translate(-50%, -50%) scale(1.5); } }
+@media (prefers-reduced-motion: no-preference) {
+  .ed-activa .ed-v36 { animation: ed-v36 10s linear infinite; }
+  .ed-activa .ed-v38 { animation: ed-v38 10s linear infinite; }
+  .ed-activa .ed-i36 { animation: ed-i36 10s linear infinite; }
+  .ed-activa .ed-i38 { animation: ed-i38 10s linear infinite; }
+  .ed-activa .ed-ph { animation: ed-ph 10s linear infinite; }
+  .ed-activa .ed-code { animation: ed-code 10s linear infinite; }
+  .ed-activa .ed-aplicar { animation: ed-aplicar 10s ease-in-out infinite; }
+  .ed-activa .ed-sticker { animation: ed-sticker 10s cubic-bezier(0.22, 1, 0.36, 1) infinite; }
+  .ed-activa .ed-toast { animation: ed-toast 10s cubic-bezier(0.22, 1, 0.36, 1) infinite; }
+  .ed-activa .ed-ta { animation: ed-ta 10s ease-out infinite; }
+  .ed-activa .ed-tb { animation: ed-tb 10s ease-out infinite; }
+}
+:root[data-motion="on"] .ed-activa .ed-v36 { animation: ed-v36 10s linear infinite; }
+:root[data-motion="on"] .ed-activa .ed-v38 { animation: ed-v38 10s linear infinite; }
+:root[data-motion="on"] .ed-activa .ed-i36 { animation: ed-i36 10s linear infinite; }
+:root[data-motion="on"] .ed-activa .ed-i38 { animation: ed-i38 10s linear infinite; }
+:root[data-motion="on"] .ed-activa .ed-ph { animation: ed-ph 10s linear infinite; }
+:root[data-motion="on"] .ed-activa .ed-code { animation: ed-code 10s linear infinite; }
+:root[data-motion="on"] .ed-activa .ed-aplicar { animation: ed-aplicar 10s ease-in-out infinite; }
+:root[data-motion="on"] .ed-activa .ed-sticker { animation: ed-sticker 10s cubic-bezier(0.22, 1, 0.36, 1) infinite; }
+:root[data-motion="on"] .ed-activa .ed-toast { animation: ed-toast 10s cubic-bezier(0.22, 1, 0.36, 1) infinite; }
+:root[data-motion="on"] .ed-activa .ed-ta { animation: ed-ta 10s ease-out infinite; }
+:root[data-motion="on"] .ed-activa .ed-tb { animation: ed-tb 10s ease-out infinite; }
+
+/* Toques (tap) del Carrito: sobre el "+" de la remera, el "+" del jean y el botón (los círculos son los de la Galería, .eg-toque). */
+@keyframes ec-ta { 0%, 17% { opacity: 0; transform: translate(-50%, -50%) scale(0.5); } 18.2% { opacity: 0.85; transform: translate(-50%, -50%) scale(0.8); } 19.4% { opacity: 0.6; transform: translate(-50%, -50%) scale(0.95); } 21.5%, 100% { opacity: 0; transform: translate(-50%, -50%) scale(1.5); } }
+@keyframes ec-tb { 0%, 41% { opacity: 0; transform: translate(-50%, -50%) scale(0.5); } 42.2% { opacity: 0.85; transform: translate(-50%, -50%) scale(0.8); } 43.4% { opacity: 0.6; transform: translate(-50%, -50%) scale(0.95); } 45.5%, 100% { opacity: 0; transform: translate(-50%, -50%) scale(1.5); } }
+@keyframes ec-tc { 0%, 64% { opacity: 0; transform: translate(-50%, -50%) scale(0.5); } 65.2% { opacity: 0.85; transform: translate(-50%, -50%) scale(0.8); } 66.4% { opacity: 0.6; transform: translate(-50%, -50%) scale(0.95); } 68.5%, 100% { opacity: 0; transform: translate(-50%, -50%) scale(1.5); } }
+@media (prefers-reduced-motion: no-preference) {
+  .ec-activa .ec-ta { animation: ec-ta 8s ease-out infinite; }
+  .ec-activa .ec-tb { animation: ec-tb 8s ease-out infinite; }
+  .ec-activa .ec-tc { animation: ec-tc 8s ease-out infinite; }
+}
+:root[data-motion="on"] .ec-activa .ec-ta { animation: ec-ta 8s ease-out infinite; }
+:root[data-motion="on"] .ec-activa .ec-tb { animation: ec-tb 8s ease-out infinite; }
+:root[data-motion="on"] .ec-activa .ec-tc { animation: ec-tc 8s ease-out infinite; }
+
+/* Ondas del toque: dos anillos que se expanden desde el punto tocado (una vez por bucle; `--ini` y `--dur` los pone cada escena). */
+.eg-anillo { position: absolute; width: calc(var(--u) * 64); height: calc(var(--u) * 64); transform: translate(-50%, -50%); pointer-events: none; }
+.eg-anillo::before, .eg-anillo::after { content: ""; position: absolute; inset: 0; border-radius: 9999px; border: calc(var(--u) * 3) solid rgba(108, 79, 212, 0.6); opacity: 0; transform: scale(0.55); }
+@keyframes eg-anillo { 0% { opacity: 0; transform: scale(0.55); } 1.2% { opacity: 0.8; transform: scale(0.7); } 10%, 100% { opacity: 0; transform: scale(2.3); } }
+@media (prefers-reduced-motion: no-preference) {
+  .eg-activa .eg-anillo::before { animation: eg-anillo var(--dur) ease-out var(--ini) infinite; }
+  .eg-activa .eg-anillo::after { animation: eg-anillo var(--dur) ease-out calc(var(--ini) + 0.16s) infinite; }
+  .ec-activa .eg-anillo::before { animation: eg-anillo var(--dur) ease-out var(--ini) infinite; }
+  .ec-activa .eg-anillo::after { animation: eg-anillo var(--dur) ease-out calc(var(--ini) + 0.16s) infinite; }
+  .ed-activa .eg-anillo::before { animation: eg-anillo var(--dur) ease-out var(--ini) infinite; }
+  .ed-activa .eg-anillo::after { animation: eg-anillo var(--dur) ease-out calc(var(--ini) + 0.16s) infinite; }
+}
+:root[data-motion="on"] .eg-activa .eg-anillo::before { animation: eg-anillo var(--dur) ease-out var(--ini) infinite; }
+:root[data-motion="on"] .eg-activa .eg-anillo::after { animation: eg-anillo var(--dur) ease-out calc(var(--ini) + 0.16s) infinite; }
+:root[data-motion="on"] .ec-activa .eg-anillo::before { animation: eg-anillo var(--dur) ease-out var(--ini) infinite; }
+:root[data-motion="on"] .ec-activa .eg-anillo::after { animation: eg-anillo var(--dur) ease-out calc(var(--ini) + 0.16s) infinite; }
+:root[data-motion="on"] .ed-activa .eg-anillo::before { animation: eg-anillo var(--dur) ease-out var(--ini) infinite; }
+:root[data-motion="on"] .ed-activa .eg-anillo::after { animation: eg-anillo var(--dur) ease-out calc(var(--ini) + 0.16s) infinite; }
+
+/* Galería (rehecha): la foto se desplaza de verdad con cada toque en la flecha derecha, y la flecha se aprieta. */
+@media (prefers-reduced-motion: no-preference) {
+}
+
+/* ===== ESCENA PEDIDO (landing, "Pedido directo"): bucle de 10 s mientras está a la vista (.ep-activa). Reposo = pedido ya enviado. =====
+   Toque en "Finalizar Compra", se dibuja la línea hacia WhatsApp, aparece el sticker, llega el mensaje armado (automático) y "Pedido recibido". */
+@keyframes ep-boton { 0%, 12% { transform: none; } 13.2% { transform: scale(0.95); } 15%, 100% { transform: none; } }
+@keyframes ep-linea { 0%, 8% { opacity: 1; } 10%, 16% { opacity: 0; } 22%, 100% { opacity: 1; } }
+@keyframes ep-wa { 0%, 8% { opacity: 1; transform: none; } 10%, 24% { opacity: 0; transform: scale(0.6); } 29% { opacity: 1; transform: scale(1.1); } 33%, 100% { opacity: 1; transform: none; } }
+@keyframes ep-msg { 0%, 8% { opacity: 1; transform: none; } 10%, 38% { opacity: 0; transform: translateY(24px); } 44%, 100% { opacity: 1; transform: none; } }
+@keyframes ep-aviso { 0%, 8% { opacity: 1; transform: none; } 10%, 50% { opacity: 0; transform: translateY(14px) scale(0.95); } 55%, 100% { opacity: 1; transform: none; } }
+@keyframes ep-ta { 0%, 12% { opacity: 0; transform: translate(-50%, -50%) scale(0.5); } 13.2% { opacity: 0.85; transform: translate(-50%, -50%) scale(0.8); } 14.4% { opacity: 0.6; transform: translate(-50%, -50%) scale(0.95); } 16.5%, 100% { opacity: 0; transform: translate(-50%, -50%) scale(1.5); } }
+/* ===== ESCENA BANNERS (landing, "Banners que venden"): bucle de 10 s mientras está a la vista (.eb-activa). Reposo = banner publicado. ===== */
+@keyframes eb-banner { 0%, 8% { opacity: 1; transform: none; } 10%, 22% { opacity: 0; transform: translateY(-22px); } 30%, 100% { opacity: 1; transform: none; } }
+@keyframes eb-sticker { 0%, 8% { opacity: 1; transform: rotate(10deg) scale(1); } 10%, 32% { opacity: 0; transform: rotate(10deg) scale(0.5); } 37% { opacity: 1; transform: rotate(10deg) scale(1.15); } 42%, 100% { opacity: 1; transform: rotate(10deg) scale(1); } }
+@keyframes eb-aviso { 0%, 8% { opacity: 1; transform: none; } 10%, 44% { opacity: 0; transform: translateY(14px) scale(0.95); } 50%, 100% { opacity: 1; transform: none; } }
+/* ===== ESCENA PREGUNTAS (landing, "En detalle, sin límites"): bucle de 12 s mientras está a la vista (.eq-activa). Reposo = primera abierta. =====
+   Arranca todo cerrado; un toque abre cada pregunta y cierra la anterior (animando la altura, así el resto sube y baja). */
+@media (prefers-reduced-motion: no-preference) {
+  .ep-activa .ep-boton { animation: ep-boton 10s ease-in-out infinite; }
+  .ep-activa .ep-linea { animation: ep-linea 10s linear infinite; }
+  .ep-activa .ep-wa { animation: ep-wa 10s cubic-bezier(0.22, 1, 0.36, 1) infinite; }
+  .ep-activa .ep-msg { animation: ep-msg 10s cubic-bezier(0.22, 1, 0.36, 1) infinite; }
+  .ep-activa .ep-aviso { animation: ep-aviso 10s cubic-bezier(0.22, 1, 0.36, 1) infinite; }
+  .ep-activa .ep-ta { animation: ep-ta 10s ease-out infinite; }
+  .eb-activa .eb-banner { animation: eb-banner 10s cubic-bezier(0.22, 1, 0.36, 1) infinite; }
+  .eb-activa .eb-sticker { animation: eb-sticker 10s cubic-bezier(0.22, 1, 0.36, 1) infinite; }
+  .eb-activa .eb-aviso { animation: eb-aviso 10s cubic-bezier(0.22, 1, 0.36, 1) infinite; }
+}
+:root[data-motion="on"] .ep-activa .ep-boton { animation: ep-boton 10s ease-in-out infinite; }
+:root[data-motion="on"] .ep-activa .ep-linea { animation: ep-linea 10s linear infinite; }
+:root[data-motion="on"] .ep-activa .ep-wa { animation: ep-wa 10s cubic-bezier(0.22, 1, 0.36, 1) infinite; }
+:root[data-motion="on"] .ep-activa .ep-msg { animation: ep-msg 10s cubic-bezier(0.22, 1, 0.36, 1) infinite; }
+:root[data-motion="on"] .ep-activa .ep-aviso { animation: ep-aviso 10s cubic-bezier(0.22, 1, 0.36, 1) infinite; }
+:root[data-motion="on"] .ep-activa .ep-ta { animation: ep-ta 10s ease-out infinite; }
+:root[data-motion="on"] .eb-activa .eb-banner { animation: eb-banner 10s cubic-bezier(0.22, 1, 0.36, 1) infinite; }
+:root[data-motion="on"] .eb-activa .eb-sticker { animation: eb-sticker 10s cubic-bezier(0.22, 1, 0.36, 1) infinite; }
+:root[data-motion="on"] .eb-activa .eb-aviso { animation: eb-aviso 10s cubic-bezier(0.22, 1, 0.36, 1) infinite; }
+@media (prefers-reduced-motion: no-preference) {
+  .ep-activa .eg-anillo::before { animation: eg-anillo var(--dur) ease-out var(--ini) infinite; }
+  .ep-activa .eg-anillo::after { animation: eg-anillo var(--dur) ease-out calc(var(--ini) + 0.16s) infinite; }
+  .eq-activa .eg-anillo::before { animation: eg-anillo var(--dur) ease-out var(--ini) infinite; }
+  .eq-activa .eg-anillo::after { animation: eg-anillo var(--dur) ease-out calc(var(--ini) + 0.16s) infinite; }
+}
+:root[data-motion="on"] .ep-activa .eg-anillo::before { animation: eg-anillo var(--dur) ease-out var(--ini) infinite; }
+:root[data-motion="on"] .ep-activa .eg-anillo::after { animation: eg-anillo var(--dur) ease-out calc(var(--ini) + 0.16s) infinite; }
+:root[data-motion="on"] .eq-activa .eg-anillo::before { animation: eg-anillo var(--dur) ease-out var(--ini) infinite; }
+:root[data-motion="on"] .eq-activa .eg-anillo::after { animation: eg-anillo var(--dur) ease-out calc(var(--ini) + 0.16s) infinite; }
+
+/* Galería (4 fotos): bucle de 12 s; un toque en la flecha derecha desplaza la foto y mueve el borde de la miniatura. */
+@keyframes eg-f0 { 0%, 22% { transform: none; } 25%, 96.9% { transform: translateX(-100%); } 97% { transform: translateX(100%); } 100% { transform: none; } }
+@keyframes eg-f1 { 0%, 22% { transform: translateX(100%); } 25%, 47% { transform: none; } 50%, 100% { transform: translateX(-100%); } }
+@keyframes eg-f2 { 0%, 47% { transform: translateX(100%); } 50%, 72% { transform: none; } 75%, 100% { transform: translateX(-100%); } }
+@keyframes eg-f3 { 0%, 72% { transform: translateX(100%); } 75%, 94% { transform: none; } 97%, 100% { transform: translateX(-100%); } }
+@keyframes eg-r0 { 0%, 23% { opacity: 1; } 25%, 97% { opacity: 0; } 100% { opacity: 1; } }
+@keyframes eg-r1 { 0%, 24% { opacity: 0; } 26%, 48% { opacity: 1; } 50%, 100% { opacity: 0; } }
+@keyframes eg-r2 { 0%, 49% { opacity: 0; } 51%, 73% { opacity: 1; } 75%, 100% { opacity: 0; } }
+@keyframes eg-r3 { 0%, 74% { opacity: 0; } 76%, 96% { opacity: 1; } 98%, 100% { opacity: 0; } }
+@keyframes eg-t1 { 0%, 21% { opacity: 0; transform: translate(-50%, -50%) scale(0.5); } 22.2% { opacity: 0.85; transform: translate(-50%, -50%) scale(0.8); } 23.2% { opacity: 0.6; transform: translate(-50%, -50%) scale(0.95); } 25%, 100% { opacity: 0; transform: translate(-50%, -50%) scale(1.5); } }
+@keyframes eg-t2 { 0%, 46% { opacity: 0; transform: translate(-50%, -50%) scale(0.5); } 47.2% { opacity: 0.85; transform: translate(-50%, -50%) scale(0.8); } 48.2% { opacity: 0.6; transform: translate(-50%, -50%) scale(0.95); } 50%, 100% { opacity: 0; transform: translate(-50%, -50%) scale(1.5); } }
+@keyframes eg-t3 { 0%, 71% { opacity: 0; transform: translate(-50%, -50%) scale(0.5); } 72.2% { opacity: 0.85; transform: translate(-50%, -50%) scale(0.8); } 73.2% { opacity: 0.6; transform: translate(-50%, -50%) scale(0.95); } 75%, 100% { opacity: 0; transform: translate(-50%, -50%) scale(1.5); } }
+@keyframes eg-t0 { 0%, 96% { opacity: 0; transform: translate(-50%, -50%) scale(0.5); } 97.2% { opacity: 0.85; transform: translate(-50%, -50%) scale(0.8); } 98.2% { opacity: 0.6; transform: translate(-50%, -50%) scale(0.95); } 100%, 100% { opacity: 0; transform: translate(-50%, -50%) scale(1.5); } }
+@keyframes eg-flecha { 0% { transform: scale(1); } 21.4% { transform: scale(1); } 22.599999999999998% { transform: scale(0.86); } 24.2% { transform: scale(1); } 46.400000000000006% { transform: scale(1); } 47.6% { transform: scale(0.86); } 49.2% { transform: scale(1); } 71.4% { transform: scale(1); } 72.60000000000001% { transform: scale(0.86); } 74.2% { transform: scale(1); } 96.4% { transform: scale(1); } 97.60000000000001% { transform: scale(0.86); } 99.2% { transform: scale(1); } 100% { transform: scale(1); } }
+@keyframes eg-zoom { 0% { transform: rotate(8deg) scale(1); } 21.2% { transform: rotate(8deg) scale(1); } 23.2% { transform: rotate(8deg) scale(1.08); } 26.2% { transform: rotate(8deg) scale(1); } 46.2% { transform: rotate(8deg) scale(1); } 48.2% { transform: rotate(8deg) scale(1.08); } 51.2% { transform: rotate(8deg) scale(1); } 71.2% { transform: rotate(8deg) scale(1); } 73.2% { transform: rotate(8deg) scale(1.08); } 76.2% { transform: rotate(8deg) scale(1); } 96.2% { transform: rotate(8deg) scale(1); } 98.2% { transform: rotate(8deg) scale(1.08); } 100% { transform: rotate(8deg) scale(1); } 100% { transform: rotate(8deg) scale(1); } }
+@media (prefers-reduced-motion: no-preference) {
+  .eg-activa .eg-f0 { animation: eg-f0 12s cubic-bezier(0.45, 0, 0.2, 1) infinite; }
+  .eg-activa .eg-f1 { animation: eg-f1 12s cubic-bezier(0.45, 0, 0.2, 1) infinite; }
+  .eg-activa .eg-f2 { animation: eg-f2 12s cubic-bezier(0.45, 0, 0.2, 1) infinite; }
+  .eg-activa .eg-f3 { animation: eg-f3 12s cubic-bezier(0.45, 0, 0.2, 1) infinite; }
+  .eg-activa .eg-r0 { animation: eg-r0 12s linear infinite; }
+  .eg-activa .eg-r1 { animation: eg-r1 12s linear infinite; }
+  .eg-activa .eg-r2 { animation: eg-r2 12s linear infinite; }
+  .eg-activa .eg-r3 { animation: eg-r3 12s linear infinite; }
+  .eg-activa .eg-t0 { animation: eg-t0 12s ease-out infinite; }
+  .eg-activa .eg-t1 { animation: eg-t1 12s ease-out infinite; }
+  .eg-activa .eg-t2 { animation: eg-t2 12s ease-out infinite; }
+  .eg-activa .eg-t3 { animation: eg-t3 12s ease-out infinite; }
+  .eg-activa .eg-flecha { animation: eg-flecha 12s ease-in-out infinite; }
+  .eg-activa .eg-zoom { animation: eg-zoom 12s cubic-bezier(0.22, 1, 0.36, 1) infinite; }
+}
+:root[data-motion="on"] .eg-activa .eg-f0 { animation: eg-f0 12s cubic-bezier(0.45, 0, 0.2, 1) infinite; }
+:root[data-motion="on"] .eg-activa .eg-f1 { animation: eg-f1 12s cubic-bezier(0.45, 0, 0.2, 1) infinite; }
+:root[data-motion="on"] .eg-activa .eg-f2 { animation: eg-f2 12s cubic-bezier(0.45, 0, 0.2, 1) infinite; }
+:root[data-motion="on"] .eg-activa .eg-f3 { animation: eg-f3 12s cubic-bezier(0.45, 0, 0.2, 1) infinite; }
+:root[data-motion="on"] .eg-activa .eg-r0 { animation: eg-r0 12s linear infinite; }
+:root[data-motion="on"] .eg-activa .eg-r1 { animation: eg-r1 12s linear infinite; }
+:root[data-motion="on"] .eg-activa .eg-r2 { animation: eg-r2 12s linear infinite; }
+:root[data-motion="on"] .eg-activa .eg-r3 { animation: eg-r3 12s linear infinite; }
+:root[data-motion="on"] .eg-activa .eg-t0 { animation: eg-t0 12s ease-out infinite; }
+:root[data-motion="on"] .eg-activa .eg-t1 { animation: eg-t1 12s ease-out infinite; }
+:root[data-motion="on"] .eg-activa .eg-t2 { animation: eg-t2 12s ease-out infinite; }
+:root[data-motion="on"] .eg-activa .eg-t3 { animation: eg-t3 12s ease-out infinite; }
+:root[data-motion="on"] .eg-activa .eg-flecha { animation: eg-flecha 12s ease-in-out infinite; }
+:root[data-motion="on"] .eg-activa .eg-zoom { animation: eg-zoom 12s cubic-bezier(0.22, 1, 0.36, 1) infinite; }
+
+/* ===== TIENDA DE SERVICIOS (et-, 12 s) y DE PRODUCTOS (ev-, 10 s): sección Productos y servicios. Reposo = ya reservado / ya agregado. ===== */
+@keyframes et-d0 { 0%, 8% { opacity: 0; } 10%, 12.4% { opacity: 1; } 13.4%, 100% { opacity: 0; } }
+@keyframes et-d2 { 0%, 8% { opacity: 1; } 10%, 12.4% { opacity: 0; } 13.4%, 100% { opacity: 1; } }
+@keyframes et-h { 0%, 8% { opacity: 1; } 10%, 26.4% { opacity: 0; } 27.4%, 100% { opacity: 1; } }
+@keyframes et-boton { 0%, 43.6% { transform: none; } 44.8% { transform: scale(0.95); } 46.6%, 100% { transform: none; } }
+@keyframes et-aviso { 0%, 8% { opacity: 1; transform: none; } 10%, 47% { opacity: 0; transform: translateY(14px) scale(0.95); } 52%, 100% { opacity: 1; transform: none; } }
+@keyframes et-ta { 0%, 12% { opacity: 0; transform: translate(-50%, -50%) scale(0.5); } 13.2% { opacity: 0.85; transform: translate(-50%, -50%) scale(0.8); } 14.2% { opacity: 0.6; transform: translate(-50%, -50%) scale(0.95); } 16%, 100% { opacity: 0; transform: translate(-50%, -50%) scale(1.5); } }
+@keyframes et-tb { 0%, 26% { opacity: 0; transform: translate(-50%, -50%) scale(0.5); } 27.2% { opacity: 0.85; transform: translate(-50%, -50%) scale(0.8); } 28.2% { opacity: 0.6; transform: translate(-50%, -50%) scale(0.95); } 30%, 100% { opacity: 0; transform: translate(-50%, -50%) scale(1.5); } }
+@keyframes et-tc { 0%, 43.6% { opacity: 0; transform: translate(-50%, -50%) scale(0.5); } 44.800000000000004% { opacity: 0.85; transform: translate(-50%, -50%) scale(0.8); } 45.800000000000004% { opacity: 0.6; transform: translate(-50%, -50%) scale(0.95); } 47.6%, 100% { opacity: 0; transform: translate(-50%, -50%) scale(1.5); } }
+@keyframes ev-boton { 0%, 12% { transform: none; } 13.2% { transform: scale(0.96); } 15%, 100% { transform: none; } }
+@keyframes ev-badge { 0%, 8% { opacity: 1; transform: none; } 10%, 14% { opacity: 0; transform: scale(0); } 18% { opacity: 1; transform: scale(1.25); } 22%, 100% { opacity: 1; transform: none; } }
+@keyframes ev-aviso { 0%, 8% { opacity: 1; transform: none; } 10%, 15% { opacity: 0; transform: translateY(14px) scale(0.95); } 20%, 100% { opacity: 1; transform: none; } }
+@keyframes ev-ta { 0%, 12% { opacity: 0; transform: translate(-50%, -50%) scale(0.5); } 13.2% { opacity: 0.85; transform: translate(-50%, -50%) scale(0.8); } 14.2% { opacity: 0.6; transform: translate(-50%, -50%) scale(0.95); } 16%, 100% { opacity: 0; transform: translate(-50%, -50%) scale(1.5); } }
+@media (prefers-reduced-motion: no-preference) {
+  .et-activa .et-d0 { animation: et-d0 12s linear infinite; }
+  .et-activa .et-d2 { animation: et-d2 12s linear infinite; }
+  .et-activa .et-h { animation: et-h 12s linear infinite; }
+  .et-activa .et-boton { animation: et-boton 12s ease-in-out infinite; }
+  .et-activa .et-aviso { animation: et-aviso 12s cubic-bezier(0.22, 1, 0.36, 1) infinite; }
+  .et-activa .et-ta { animation: et-ta 12s ease-out infinite; }
+  .et-activa .et-tb { animation: et-tb 12s ease-out infinite; }
+  .et-activa .et-tc { animation: et-tc 12s ease-out infinite; }
+  .et-activa .eg-anillo::before { animation: eg-anillo var(--dur) ease-out var(--ini) infinite; }
+  .et-activa .eg-anillo::after { animation: eg-anillo var(--dur) ease-out calc(var(--ini) + 0.16s) infinite; }
+  .ev-activa .ev-boton { animation: ev-boton 10s ease-in-out infinite; }
+  .ev-activa .ev-badge { animation: ev-badge 10s cubic-bezier(0.22, 1, 0.36, 1) infinite; }
+  .ev-activa .ev-aviso { animation: ev-aviso 10s cubic-bezier(0.22, 1, 0.36, 1) infinite; }
+  .ev-activa .ev-ta { animation: ev-ta 10s ease-out infinite; }
+  .ev-activa .eg-anillo::before { animation: eg-anillo var(--dur) ease-out var(--ini) infinite; }
+  .ev-activa .eg-anillo::after { animation: eg-anillo var(--dur) ease-out calc(var(--ini) + 0.16s) infinite; }
+}
+:root[data-motion="on"] .et-activa .et-d0 { animation: et-d0 12s linear infinite; }
+:root[data-motion="on"] .et-activa .et-d2 { animation: et-d2 12s linear infinite; }
+:root[data-motion="on"] .et-activa .et-h { animation: et-h 12s linear infinite; }
+:root[data-motion="on"] .et-activa .et-boton { animation: et-boton 12s ease-in-out infinite; }
+:root[data-motion="on"] .et-activa .et-aviso { animation: et-aviso 12s cubic-bezier(0.22, 1, 0.36, 1) infinite; }
+:root[data-motion="on"] .et-activa .et-ta { animation: et-ta 12s ease-out infinite; }
+:root[data-motion="on"] .et-activa .et-tb { animation: et-tb 12s ease-out infinite; }
+:root[data-motion="on"] .et-activa .et-tc { animation: et-tc 12s ease-out infinite; }
+:root[data-motion="on"] .et-activa .eg-anillo::before { animation: eg-anillo var(--dur) ease-out var(--ini) infinite; }
+:root[data-motion="on"] .et-activa .eg-anillo::after { animation: eg-anillo var(--dur) ease-out calc(var(--ini) + 0.16s) infinite; }
+:root[data-motion="on"] .ev-activa .ev-boton { animation: ev-boton 10s ease-in-out infinite; }
+:root[data-motion="on"] .ev-activa .ev-badge { animation: ev-badge 10s cubic-bezier(0.22, 1, 0.36, 1) infinite; }
+:root[data-motion="on"] .ev-activa .ev-aviso { animation: ev-aviso 10s cubic-bezier(0.22, 1, 0.36, 1) infinite; }
+:root[data-motion="on"] .ev-activa .ev-ta { animation: ev-ta 10s ease-out infinite; }
+:root[data-motion="on"] .ev-activa .eg-anillo::before { animation: eg-anillo var(--dur) ease-out var(--ini) infinite; }
+:root[data-motion="on"] .ev-activa .eg-anillo::after { animation: eg-anillo var(--dur) ease-out calc(var(--ini) + 0.16s) infinite; }
+
+@media (prefers-reduced-motion: no-preference) {
+}
+
+/* ===== PREGUNTAS (3 preguntas, bucle 12 s): cada toque abre una y cierra la anterior a la vez; la tarjeta blanca crece y se achica. Reposo = la primera abierta. ===== */
+@keyframes eq-r0 { 0%, 8% { grid-template-rows: 1fr; } 11%, 86% { grid-template-rows: 0fr; } 89%, 100% { grid-template-rows: 1fr; } }
+@keyframes eq-c0 { 0%, 8% { background-color: #17122F; } 11%, 86% { background-color: #EFEAFD; } 89%, 100% { background-color: #17122F; } }
+@keyframes eq-s0 { 0%, 8% { transform: rotate(180deg); color: #fff; } 11%, 86% { transform: none; color: #6C4FD4; } 89%, 100% { transform: rotate(180deg); color: #fff; } }
+@keyframes eq-t0 { 0%, 8% { color: #17122F; font-weight: 600; } 11%, 86% { color: #4A4560; font-weight: 500; } 89%, 100% { color: #17122F; font-weight: 600; } }
+@keyframes eq-r1 { 0%, 20% { grid-template-rows: 0fr; } 23%, 53% { grid-template-rows: 1fr; } 56%, 100% { grid-template-rows: 0fr; } }
+@keyframes eq-c1 { 0%, 20% { background-color: #EFEAFD; } 23%, 53% { background-color: #17122F; } 56%, 100% { background-color: #EFEAFD; } }
+@keyframes eq-s1 { 0%, 20% { transform: none; color: #6C4FD4; } 23%, 53% { transform: rotate(180deg); color: #fff; } 56%, 100% { transform: none; color: #6C4FD4; } }
+@keyframes eq-t1 { 0%, 20% { color: #4A4560; font-weight: 500; } 23%, 53% { color: #17122F; font-weight: 600; } 56%, 100% { color: #4A4560; font-weight: 500; } }
+@keyframes eq-r2 { 0%, 53% { grid-template-rows: 0fr; } 56%, 86% { grid-template-rows: 1fr; } 89%, 100% { grid-template-rows: 0fr; } }
+@keyframes eq-c2 { 0%, 53% { background-color: #EFEAFD; } 56%, 86% { background-color: #17122F; } 89%, 100% { background-color: #EFEAFD; } }
+@keyframes eq-s2 { 0%, 53% { transform: none; color: #6C4FD4; } 56%, 86% { transform: rotate(180deg); color: #fff; } 89%, 100% { transform: none; color: #6C4FD4; } }
+@keyframes eq-t2 { 0%, 53% { color: #4A4560; font-weight: 500; } 56%, 86% { color: #17122F; font-weight: 600; } 89%, 100% { color: #4A4560; font-weight: 500; } }
+@keyframes eq-ta { 0%, 20% { opacity: 0; transform: translate(-50%, -50%) scale(0.5); } 21.2% { opacity: 0.85; transform: translate(-50%, -50%) scale(0.8); } 22.4% { opacity: 0.6; transform: translate(-50%, -50%) scale(0.95); } 24.5%, 100% { opacity: 0; transform: translate(-50%, -50%) scale(1.5); } }
+@keyframes eq-tb { 0%, 53% { opacity: 0; transform: translate(-50%, -50%) scale(0.5); } 54.2% { opacity: 0.85; transform: translate(-50%, -50%) scale(0.8); } 55.4% { opacity: 0.6; transform: translate(-50%, -50%) scale(0.95); } 57.5%, 100% { opacity: 0; transform: translate(-50%, -50%) scale(1.5); } }
+@keyframes eq-tc { 0%, 86% { opacity: 0; transform: translate(-50%, -50%) scale(0.5); } 87.2% { opacity: 0.85; transform: translate(-50%, -50%) scale(0.8); } 88.4% { opacity: 0.6; transform: translate(-50%, -50%) scale(0.95); } 90.5%, 100% { opacity: 0; transform: translate(-50%, -50%) scale(1.5); } }
+@media (prefers-reduced-motion: no-preference) {
+  .eq-activa .eq-r0 { animation: eq-r0 12s cubic-bezier(0.4, 0, 0.2, 1) infinite; }
+  .eq-activa .eq-c0 { animation: eq-c0 12s cubic-bezier(0.4, 0, 0.2, 1) infinite; }
+  .eq-activa .eq-s0 { animation: eq-s0 12s cubic-bezier(0.4, 0, 0.2, 1) infinite; }
+  .eq-activa .eq-t0 { animation: eq-t0 12s cubic-bezier(0.4, 0, 0.2, 1) infinite; }
+  .eq-activa .eq-r1 { animation: eq-r1 12s cubic-bezier(0.4, 0, 0.2, 1) infinite; }
+  .eq-activa .eq-c1 { animation: eq-c1 12s cubic-bezier(0.4, 0, 0.2, 1) infinite; }
+  .eq-activa .eq-s1 { animation: eq-s1 12s cubic-bezier(0.4, 0, 0.2, 1) infinite; }
+  .eq-activa .eq-t1 { animation: eq-t1 12s cubic-bezier(0.4, 0, 0.2, 1) infinite; }
+  .eq-activa .eq-r2 { animation: eq-r2 12s cubic-bezier(0.4, 0, 0.2, 1) infinite; }
+  .eq-activa .eq-c2 { animation: eq-c2 12s cubic-bezier(0.4, 0, 0.2, 1) infinite; }
+  .eq-activa .eq-s2 { animation: eq-s2 12s cubic-bezier(0.4, 0, 0.2, 1) infinite; }
+  .eq-activa .eq-t2 { animation: eq-t2 12s cubic-bezier(0.4, 0, 0.2, 1) infinite; }
+  .eq-activa .eq-ta { animation: eq-ta 12s ease-out infinite; }
+  .eq-activa .eq-tb { animation: eq-tb 12s ease-out infinite; }
+  .eq-activa .eq-tc { animation: eq-tc 12s ease-out infinite; }
+}
+:root[data-motion="on"] .eq-activa .eq-r0 { animation: eq-r0 12s cubic-bezier(0.4, 0, 0.2, 1) infinite; }
+:root[data-motion="on"] .eq-activa .eq-c0 { animation: eq-c0 12s cubic-bezier(0.4, 0, 0.2, 1) infinite; }
+:root[data-motion="on"] .eq-activa .eq-s0 { animation: eq-s0 12s cubic-bezier(0.4, 0, 0.2, 1) infinite; }
+:root[data-motion="on"] .eq-activa .eq-t0 { animation: eq-t0 12s cubic-bezier(0.4, 0, 0.2, 1) infinite; }
+:root[data-motion="on"] .eq-activa .eq-r1 { animation: eq-r1 12s cubic-bezier(0.4, 0, 0.2, 1) infinite; }
+:root[data-motion="on"] .eq-activa .eq-c1 { animation: eq-c1 12s cubic-bezier(0.4, 0, 0.2, 1) infinite; }
+:root[data-motion="on"] .eq-activa .eq-s1 { animation: eq-s1 12s cubic-bezier(0.4, 0, 0.2, 1) infinite; }
+:root[data-motion="on"] .eq-activa .eq-t1 { animation: eq-t1 12s cubic-bezier(0.4, 0, 0.2, 1) infinite; }
+:root[data-motion="on"] .eq-activa .eq-r2 { animation: eq-r2 12s cubic-bezier(0.4, 0, 0.2, 1) infinite; }
+:root[data-motion="on"] .eq-activa .eq-c2 { animation: eq-c2 12s cubic-bezier(0.4, 0, 0.2, 1) infinite; }
+:root[data-motion="on"] .eq-activa .eq-s2 { animation: eq-s2 12s cubic-bezier(0.4, 0, 0.2, 1) infinite; }
+:root[data-motion="on"] .eq-activa .eq-t2 { animation: eq-t2 12s cubic-bezier(0.4, 0, 0.2, 1) infinite; }
+:root[data-motion="on"] .eq-activa .eq-ta { animation: eq-ta 12s ease-out infinite; }
+:root[data-motion="on"] .eq-activa .eq-tb { animation: eq-tb 12s ease-out infinite; }
+:root[data-motion="on"] .eq-activa .eq-tc { animation: eq-tc 12s ease-out infinite; }
+/* Preguntas: carrusel de 3 reseñas (se desliza suave; la 4.ª es la 1.ª repetida para volver sin salto). */
+@keyframes eq-car { 0%, 24% { transform: none; } 30%, 55% { transform: translateX(-25%); } 61%, 86% { transform: translateX(-50%); } 92%, 99.9% { transform: translateX(-75%); } 100% { transform: none; } }
+@keyframes eq-p0 { 0%, 24% { opacity: 1; } 27%, 89% { opacity: 0; } 92%, 100% { opacity: 1; } }
+@keyframes eq-p1 { 0%, 27% { opacity: 0; } 30%, 55% { opacity: 1; } 58%, 100% { opacity: 0; } }
+@keyframes eq-p2 { 0%, 58% { opacity: 0; } 61%, 86% { opacity: 1; } 89%, 100% { opacity: 0; } }
+@media (prefers-reduced-motion: no-preference) {
+  .eq-activa .eq-car { animation: eq-car 12s cubic-bezier(0.45, 0, 0.2, 1) infinite; }
+  .eq-activa .eq-p0 { animation: eq-p0 12s linear infinite; }
+  .eq-activa .eq-p1 { animation: eq-p1 12s linear infinite; }
+  .eq-activa .eq-p2 { animation: eq-p2 12s linear infinite; }
+}
+:root[data-motion="on"] .eq-activa .eq-car { animation: eq-car 12s cubic-bezier(0.45, 0, 0.2, 1) infinite; }
+:root[data-motion="on"] .eq-activa .eq-p0 { animation: eq-p0 12s linear infinite; }
+:root[data-motion="on"] .eq-activa .eq-p1 { animation: eq-p1 12s linear infinite; }
+:root[data-motion="on"] .eq-activa .eq-p2 { animation: eq-p2 12s linear infinite; }
+
+/* ===== POR MAYOR Y POR MENOR (em-): bucle de 12 s, compra mínima por monto ($ 130.000). Reposo = mínimo cumplido. ===== */
+@keyframes em-q0 { 0%, 8% { opacity: 0; } 10%, 27.4% { opacity: 1; } 28.4%, 100% { opacity: 0; } }
+@keyframes em-q1 { 0%, 27.4% { opacity: 0; } 28.4%, 43.4% { opacity: 1; } 44.4%, 100% { opacity: 0; } }
+@keyframes em-q2 { 0%, 8% { opacity: 1; } 10%, 43.4% { opacity: 0; } 44.4%, 100% { opacity: 1; } }
+@keyframes em-barra { 0%, 8% { transform: scaleX(1); } 10%, 27.4% { transform: scaleX(0.6); } 28.4%, 43.4% { transform: scaleX(0.8); } 44.4%, 100% { transform: scaleX(1); } }
+@keyframes em-boton { 0%, 8% { opacity: 1; } 10%, 43.4% { opacity: 0; } 44.4%, 100% { opacity: 1; } }
+@keyframes em-aviso { 0%, 8% { opacity: 1; transform: none; } 10%, 48% { opacity: 0; transform: translateY(14px) scale(0.95); } 53%, 100% { opacity: 1; transform: none; } }
+@keyframes em-ta { 0%, 26% { opacity: 0; transform: translate(-50%, -50%) scale(0.5); } 27.2% { opacity: 0.85; transform: translate(-50%, -50%) scale(0.8); } 28.2% { opacity: 0.6; transform: translate(-50%, -50%) scale(0.95); } 30%, 100% { opacity: 0; transform: translate(-50%, -50%) scale(1.5); } }
+@keyframes em-tb { 0%, 42% { opacity: 0; transform: translate(-50%, -50%) scale(0.5); } 43.2% { opacity: 0.85; transform: translate(-50%, -50%) scale(0.8); } 44.2% { opacity: 0.6; transform: translate(-50%, -50%) scale(0.95); } 46%, 100% { opacity: 0; transform: translate(-50%, -50%) scale(1.5); } }
+@media (prefers-reduced-motion: no-preference) {
+  .em-activa .em-q0 { animation: em-q0 12s linear infinite; }
+  .em-activa .em-q1 { animation: em-q1 12s linear infinite; }
+  .em-activa .em-q2 { animation: em-q2 12s linear infinite; }
+  .em-activa .em-barra { animation: em-barra 12s cubic-bezier(0.4, 0, 0.2, 1) infinite; }
+  .em-activa .em-boton { animation: em-boton 12s linear infinite; }
+  .em-activa .em-aviso { animation: em-aviso 12s cubic-bezier(0.22, 1, 0.36, 1) infinite; }
+  .em-activa .em-ta { animation: em-ta 12s ease-out infinite; }
+  .em-activa .em-tb { animation: em-tb 12s ease-out infinite; }
+  .em-activa .eg-anillo::before { animation: eg-anillo var(--dur) ease-out var(--ini) infinite; }
+  .em-activa .eg-anillo::after { animation: eg-anillo var(--dur) ease-out calc(var(--ini) + 0.16s) infinite; }
+}
+:root[data-motion="on"] .em-activa .em-q0 { animation: em-q0 12s linear infinite; }
+:root[data-motion="on"] .em-activa .em-q1 { animation: em-q1 12s linear infinite; }
+:root[data-motion="on"] .em-activa .em-q2 { animation: em-q2 12s linear infinite; }
+:root[data-motion="on"] .em-activa .em-barra { animation: em-barra 12s cubic-bezier(0.4, 0, 0.2, 1) infinite; }
+:root[data-motion="on"] .em-activa .em-boton { animation: em-boton 12s linear infinite; }
+:root[data-motion="on"] .em-activa .em-aviso { animation: em-aviso 12s cubic-bezier(0.22, 1, 0.36, 1) infinite; }
+:root[data-motion="on"] .em-activa .em-ta { animation: em-ta 12s ease-out infinite; }
+:root[data-motion="on"] .em-activa .em-tb { animation: em-tb 12s ease-out infinite; }
+:root[data-motion="on"] .em-activa .eg-anillo::before { animation: eg-anillo var(--dur) ease-out var(--ini) infinite; }
+:root[data-motion="on"] .em-activa .eg-anillo::after { animation: eg-anillo var(--dur) ease-out calc(var(--ini) + 0.16s) infinite; }

@@ -1,8 +1,10 @@
 import { useEffect, useRef, useState } from "react"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faXmark } from "@fortawesome/free-solid-svg-icons"
+import CtaPlanes from "./CtaPlanes"
 import { useReveal } from "../lib/motion"
 import CheckIcon from "./CheckIcon"
+import Segmented from "./Segmented"
 import ventaDirecta from "../assets/ps-venta-directa.webp"
 import simplicidad from "../assets/ps-simplicidad.webp"
 import costos from "../assets/ps-costos.webp"
@@ -65,31 +67,16 @@ const pares = [
 const fade = "transition-[opacity,translate] duration-500 ease-out motion-reduce:transition-none"
 
 function Interruptor({ conLemora, onChange }) {
-  const base =
-    "min-h-10 rounded-full px-4 py-2 text-sm font-semibold transition-colors duration-300 focus-ring motion-reduce:transition-none"
   return (
-    <div
-      role="group"
-      aria-label="Comparar"
-      className="inline-flex flex-none rounded-full bg-white p-1 ring-1 ring-ink/10"
-    >
-      <button
-        type="button"
-        aria-pressed={!conLemora}
-        onClick={() => onChange(false)}
-        className={`${base} ${!conLemora ? "bg-ink text-white" : "text-ink-soft hover:text-ink"}`}
-      >
-        Sin Lemora
-      </button>
-      <button
-        type="button"
-        aria-pressed={conLemora}
-        onClick={() => onChange(true)}
-        className={`${base} ${conLemora ? "bg-primary text-white" : "text-ink-soft hover:text-ink"}`}
-      >
-        Con Lemora
-      </button>
-    </div>
+    <Segmented
+      label="Comparar"
+      value={conLemora}
+      onChange={onChange}
+      options={[
+        { id: false, label: "Sin Lemora", on: "bg-ink text-white" },
+        { id: true, label: "Con Lemora" },
+      ]}
+    />
   )
 }
 
@@ -241,6 +228,7 @@ export default function ProblemaSolucion() {
           </article>
         ))}
       </div>
+      <CtaPlanes className="mt-10 px-4 md:mt-12" />
     </section>
   )
 }

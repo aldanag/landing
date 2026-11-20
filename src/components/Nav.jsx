@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react"
 import logo from "../assets/lemora-logo.svg"
 import Button from "./Button"
-import { WHATSAPP_TRIAL_LINK } from "../lib/planes"
 
 const defaultLinks = [
   { label: "Cómo funciona", href: "#como-funciona" },
@@ -58,14 +57,8 @@ export default function Nav({ links = defaultLinks, logoHref = "#top" }) {
           </ul>
         </nav>
 
-        <Button
-          href={WHATSAPP_TRIAL_LINK}
-          external
-          variant="dark"
-          size="sm"
-          className="flex-none max-[359px]:px-3 max-[359px]:text-[13px]"
-        >
-          Probar gratis<span className="max-[339px]:hidden">&nbsp;1 mes</span>
+        <Button href="#planes" variant="dark" size="sm" className="flex-none max-[359px]:px-3 max-[359px]:text-[13px]">
+          Ver planes
         </Button>
       </div>
     </header>

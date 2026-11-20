@@ -1,3 +1,4 @@
+import Button from "./Button"
 import CrownIcon from "./CrownIcon"
 import FuncionesBloque from "./FuncionesBloque"
 import BarraMensajes from "./BarraMensajes"
@@ -36,6 +37,7 @@ export default function FuncionesPremium() {
       titulo="Premium: tus clientes, tus ofertas, tu tienda."
       funciones={funciones}
       invertido
+      cta={<Button href="#planes" variant="inverse" size="lg">Ver planes</Button>}
     />
   )
 }

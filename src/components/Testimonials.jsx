@@ -4,6 +4,7 @@ import testimonioAldana from "../assets/testimonio-aldana.jpg"
 import { useReveal } from "../lib/motion"
 import { WHATSAPP_TRIAL_LINK } from "../lib/planes"
 import Button from "./Button"
+import IconButton from "./IconButton"
 
 // Testimonios reales solamente: no completar con datos, nombres ni métricas inventadas.
 // Mientras falta uno, el último lugar es una invitación a ser el próximo; cuando haya otro testimonio
@@ -95,8 +96,6 @@ export default function Testimonials() {
     el.scrollBy({ left: dir * paso, behavior: quieto ? "auto" : "smooth" })
   }
 
-  const boton =
-    "flex h-12 w-12 cursor-pointer items-center justify-center rounded-full bg-primary text-white transition-colors duration-200 hover:bg-primary-dark focus-ring-light disabled:cursor-default disabled:bg-white/10 disabled:text-white/40 motion-reduce:transition-none"
   const tarjeta =
     "flex w-[82%] flex-none snap-start flex-col justify-between gap-8 rounded-3xl p-6 transition-opacity duration-500 sm:w-[22rem] motion-reduce:transition-none"
 
@@ -118,12 +117,12 @@ export default function Testimonials() {
             Lo que dicen quienes ya venden con Lemora.
           </h2>
           <div data-reveal className="mt-6 flex gap-3 lg:mt-8">
-            <button type="button" onClick={() => mover(-1)} disabled={tope.inicio} aria-label="Testimonio anterior" className={boton}>
+            <IconButton label="Testimonio anterior" onClick={() => mover(-1)} disabled={tope.inicio}>
               <Flecha />
-            </button>
-            <button type="button" onClick={() => mover(1)} disabled={tope.fin} aria-label="Testimonio siguiente" className={boton}>
+            </IconButton>
+            <IconButton label="Testimonio siguiente" onClick={() => mover(1)} disabled={tope.fin}>
               <Flecha giro={180} />
-            </button>
+            </IconButton>
           </div>
         </div>
 
@@ -134,7 +133,7 @@ export default function Testimonials() {
           aria-roledescription="carrusel"
           aria-label="Testimonios"
           tabIndex={0}
-          className="flex snap-x snap-mandatory gap-5 overflow-x-auto pb-1 [scrollbar-width:none] focus-ring-light [&::-webkit-scrollbar]:hidden"
+          className="flex snap-x snap-mandatory gap-5 overflow-x-auto pb-1 [scrollbar-width:none] focus-ring-inverse [&::-webkit-scrollbar]:hidden"
         >
           {testimonios.map((t, i) => (
             <figure

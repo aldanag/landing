@@ -4,6 +4,7 @@ import HowItWorks from "./components/HowItWorks"
 import ProblemaSolucion from "./components/ProblemaSolucion"
 import TrialBanner from "./components/TrialBanner"
 import Features from "./components/Features"
+import ProductosServicios from "./components/ProductosServicios"
 import FuncionesPremium from "./components/FuncionesPremium"
 import Tiendas from "./components/Tiendas"
 import Testimonials from "./components/Testimonials"
@@ -27,6 +28,7 @@ function App() {
         <ProblemaSolucion />
         <TrialBanner />
         <Features />
+        <ProductosServicios />
         <FuncionesPremium />
         <Tiendas />
         <Testimonials />

@@ -47,7 +47,7 @@ export default function FAQ({ faqs = faqsDefault, layout = "centrado" }) {
           onClick={() => setOpenIndex(isOpen ? null : i)}
           aria-expanded={isOpen}
           aria-controls={`faq-${i}`}
-          className={`group flex w-full cursor-pointer items-center justify-between text-left ${columnas ? "focus-ring-light gap-6 py-5" : "focus-ring gap-4 py-4"}`}
+          className={`group flex w-full cursor-pointer items-center justify-between text-left ${columnas ? "focus-ring-inverse gap-6 py-5" : "focus-ring gap-4 py-4"}`}
         >
           <span
             className={`font-bold ${columnas ? "text-base md:text-lg" : "text-base"} ${

@@ -61,7 +61,7 @@ export default function BasicoPasos() {
 
         <div data-reveal className="mt-8 flex justify-center">
           <Button href={WHATSAPP_TRIAL_LINK} external size="lg" className="w-full max-w-xs sm:w-56">
-            Empezar gratis
+            Probar gratis 1 mes
           </Button>
         </div>
       </div>

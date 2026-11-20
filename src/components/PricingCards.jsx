@@ -1,9 +1,16 @@
 import { useRef, useState } from "react"
 import { gsap, REDUCED_MOTION_OFF, ScrollTrigger, useGSAP, useReveal } from "../lib/motion"
 import Button from "./Button"
+import LinkTexto from "./LinkTexto"
+import Segmented from "./Segmented"
 import CrownIcon from "./CrownIcon"
 import VerEjemplo from "./VerEjemplo"
 import { anualLink, peso, plans } from "../lib/planes"
+
+const opciones = [
+  { id: false, label: "Mensual" },
+  { id: true, label: "Anual", badge: "Ahorrá 11%" },
+]
 
 // Con el plan anual, el botón principal contrata el año; Básico conserva la prueba gratis.
 function anualActions(plan) {
@@ -70,33 +77,12 @@ export default function PricingCards() {
         </p>
 
         <div data-reveal className="mt-8 flex justify-center">
-          <div
-            role="group"
-            aria-label="Período de pago"
-            className="inline-flex flex-none rounded-full bg-white p-1 ring-1 ring-ink/10"
-          >
-            {[
-              { id: false, label: "Mensual", on: "bg-ink text-white" },
-              { id: true, label: "Anual", on: "bg-primary text-white", badge: "Ahorrá 11%" },
-            ].map((op) => (
-              <button
-                key={op.label}
-                type="button"
-                aria-pressed={anual === op.id}
-                onClick={() => setAnual(op.id)}
-                className={`flex min-h-10 items-center gap-2 rounded-full px-4 py-2 text-sm font-semibold transition-colors duration-300 focus-ring-light motion-reduce:transition-none ${
-                  anual === op.id ? op.on : "text-ink-soft hover:text-ink"
-                }`}
-              >
-                {op.label}
-                {op.badge && (
-                  <span className="rounded-full bg-lime px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.06em] text-ink">
-                    {op.badge}
-                  </span>
-                )}
-              </button>
-            ))}
-          </div>
+          <Segmented
+            label="Período de pago"
+            value={anual}
+            onChange={setAnual}
+            options={opciones}
+          />
         </div>
 
         <div className="mt-8 grid gap-6 md:grid-cols-2">
@@ -175,13 +161,9 @@ export default function PricingCards() {
                   })}
                 </ul>
                 {plan.verMas && (
-                  <a
-                    href={plan.verMasHref}
-                    {...(plan.verMasExterno ? { target: "_blank", rel: "noopener noreferrer" } : {})}
-                    className="mt-1 inline-flex min-h-11 items-center text-sm font-semibold text-primary underline underline-offset-4 hover:text-primary-dark focus-ring"
-                  >
+                  <LinkTexto suelto href={plan.verMasHref} external={plan.verMasExterno} className="mt-1 text-sm">
                     {plan.verMas}
-                  </a>
+                  </LinkTexto>
                 )}
               </div>
 
