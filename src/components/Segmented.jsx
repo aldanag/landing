@@ -1,6 +1,7 @@
 // Selector segmentado (Mensual/Anual, Básico/Premium, Sin/Con Lemora). Un solo componente para toda la web.
 // tone="light": caja blanca (va sobre fondos claros u oscuros). tone="dark": caja azul oscura (Premium).
-// Cada opción puede traer `on` para cambiar el color del activo (por defecto, violeta) y `badge` para una etiqueta lima.
+// El color del activo cambia según la opción, igual en todos los selectores: la primera va en tinta (blanco sobre azul) y las demás en violeta.
+// Cada opción puede traer `on` para forzar otro color y `badge` para una etiqueta lima.
 import { INSIGNIA } from "../lib/pastillas"
 
 export default function Segmented({ options, value, onChange, label, tone = "light", className = "" }) {
@@ -13,7 +14,7 @@ export default function Segmented({ options, value, onChange, label, tone = "lig
         dark ? "bg-night-2 ring-white/10" : "bg-white ring-ink/10"
       } ${className}`}
     >
-      {options.map((op) => (
+      {options.map((op, i) => (
         <button
           key={op.label}
           type="button"
@@ -23,7 +24,7 @@ export default function Segmented({ options, value, onChange, label, tone = "lig
             dark ? "focus-ring-inverse" : "focus-ring"
           } ${
             value === op.id
-              ? (op.on ?? "bg-primary text-white")
+              ? (op.on ?? (i === 0 ? (dark ? "bg-white text-ink" : "bg-ink text-white") : "bg-primary text-white"))
               : dark
                 ? "text-snow-soft hover:text-white"
                 : "text-ink-soft hover:text-ink"

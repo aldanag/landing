@@ -157,7 +157,7 @@ export default function Tiendas() {
               label="Plan de las tiendas"
               value={plan}
               onChange={setPlan}
-              options={PLANES.map((p) => ({ id: p, label: p, on: p === "Premium" ? "bg-primary text-white" : "bg-ink text-white" }))}
+              options={PLANES.map((p) => ({ id: p, label: p }))}
             />
           </div>
         </div>

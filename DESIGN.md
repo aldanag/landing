@@ -96,4 +96,4 @@ Las capturas del producto reales se muestran dentro de una card de `radius-card`
 
 **Foco**: `focus-ring` (contorno `ink`) sobre claro y `focus-ring-inverse` (contorno `lavender`) sobre oscuro. Significan lo mismo en las dos webs y cada variante de `Button` trae el suyo.
 
-**Otros controles**: `Segmented` (Mensual/Anual, Básico/Premium, Sin/Con Lemora; activo violeta, salvo donde las dos opciones significan cosas distintas), `IconButton` (48 px, flechas del carrusel: blanco sobre oscuro) y `LinkTexto` (link subrayado; `suelto` mide 44 px de alto).
+**Otros controles**: `Segmented` (Mensual/Anual, Básico/Premium, Sin/Con Lemora; el activo cambia de color según la opción, igual en todos: la primera en tinta y las demás en violeta), `IconButton` (48 px, flechas del carrusel: blanco sobre oscuro) y `LinkTexto` (link subrayado; `suelto` mide 44 px de alto).
