@@ -5,8 +5,8 @@ import Button from "./Button"
 const defaultLinks = [
   { label: "Cómo funciona", href: "#como-funciona" },
   { label: "Funciones", href: "#funciones" },
-  { label: "Premium", href: "#premium" },
   { label: "Tiendas", href: "#tiendas" },
+  { label: "Premium", href: "#premium" },
   { label: "Planes", href: "#planes" },
   { label: "Preguntas", href: "#faq" },
 ]

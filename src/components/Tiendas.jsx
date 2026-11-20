@@ -1,21 +1,25 @@
-import { useRef, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { useReveal } from "../lib/motion"
-import Segmented from "./Segmented"
 import { tiendasEjemplo } from "../lib/tiendas"
 import { ETIQUETA } from "../lib/pastillas"
-import Button from "./Button"
+import IconButton from "./IconButton"
 
-// Cinta de cuadrados oscuros que pasa sola de costado (efecto portfolio). Cada uno muestra la tienda en
-// escritorio y en celular, con el rubro y «Ver tienda» adentro. Se frena al pasar el mouse o al enfocar un
-// enlace. Con "reducir movimiento" no se anima: queda una fila que se desliza con el dedo.
-// El interruptor Básico / Premium está siempre. Si un plan todavía no tiene tiendas, se muestra un aviso
-// con un enlace a las funciones Premium (se sumas tiendas en src/lib/tiendas.js con plan: "Premium").
-const PLANES = ["Básico", "Premium"]
-const REPETICIONES = 2 // cuántas veces se repite la lista en cada mitad, para que la cinta llene la pantalla
-const SEGUNDOS_POR_TIENDA = 14
+// Carrusel de cuadrados oscuros (efecto portfolio). Cada uno muestra la tienda en escritorio y en celular, con el rubro y
+// «Ver tienda» adentro. Se puede arrastrar (mouse o dedo) y tiene puntitos abajo; sola avanza de a una tienda cada pocos
+// segundos, y se frena al tocarla, pasar el mouse o enfocar un enlace (y con "reducir movimiento" no avanza sola).
+// Hay pocas tiendas, así que van todas juntas (sin interruptor por plan); cada tarjeta dice su plan.
+// Las tiendas se suman en src/lib/tiendas.js con plan: "Básico" o "Premium".
+const SEGUNDOS_ENTRE_TIENDAS = 4.5
+const SEGUNDOS_DE_PAUSA_TRAS_TOCAR = 9
 
 // Fondo liso: el azul oscuro de la marca, sin brillos.
 const FONDO = { backgroundColor: "var(--color-night-2)" }
+
+const Flecha = ({ giro = 0 }) => (
+  <svg viewBox="0 0 24 24" fill="none" aria-hidden="true" className="h-5 w-5" style={{ transform: `rotate(${giro}deg)` }}>
+    <path d="M19 12H5m0 0 6-6m-6 6 6 6" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
+  </svg>
+)
 
 const Candado = () => (
   <svg viewBox="0 0 24 24" className="h-[2.2cqw] w-[2.2cqw] flex-none" fill="currentColor" aria-hidden="true">
@@ -23,16 +27,16 @@ const Candado = () => (
   </svg>
 )
 
-function Tarjeta({ t, oculta }) {
+function Tarjeta({ t }) {
   const dominio = new URL(t.url).hostname
   return (
-    <article aria-hidden={oculta || undefined} className="w-[19rem] flex-none sm:w-[24rem]">
+    <article className="w-[19rem] flex-none snap-start sm:w-[24rem]">
       <a
         href={t.url}
         target="_blank"
         rel="noreferrer"
-        tabIndex={oculta ? -1 : undefined}
         aria-label={`Ver la tienda ${t.nombre}, ${t.rubro.toLowerCase()}`}
+        draggable="false"
         className="group relative block aspect-[100/92] ring-1 ring-white/10 cursor-pointer overflow-hidden rounded-[2rem] focus-ring [container-type:inline-size]"
         style={FONDO}
       >
@@ -127,21 +131,101 @@ function Tarjeta({ t, oculta }) {
 
 export default function Tiendas() {
   const root = useRef(null)
+  const pista = useRef(null)
+  const arrastre = useRef({ activo: false, x0: 0, scroll0: 0, movido: false })
+  const ultimoToque = useRef(0)
+  const quieto = useRef(false) // el mouse está encima o hay un enlace enfocado
+  const visible = useRef(false)
+  const [pasos, setPasos] = useState({ paginas: tiendasEjemplo.length, paso: 1 })
+  const [activa, setActiva] = useState(0)
   useReveal(root)
 
-  const [plan, setPlan] = useState(PLANES[0])
-  const visibles = tiendasEjemplo.filter((t) => t.plan === plan)
-  const mitad = Array.from({ length: REPETICIONES }).flatMap(() => visibles)
+  // Cuánto mide un paso (de una tarjeta a la siguiente) y cuántas posiciones hay hasta el final.
+  useEffect(() => {
+    const el = pista.current
+    if (!el) return
+    const medir = () => {
+      const tarjetas = el.querySelectorAll("article")
+      if (tarjetas.length < 2) return setPasos({ paginas: 1, paso: 1 })
+      const paso = tarjetas[1].offsetLeft - tarjetas[0].offsetLeft
+      const maximo = el.scrollWidth - el.clientWidth
+      setPasos({ paginas: Math.max(1, Math.round(maximo / paso) + 1), paso })
+    }
+    medir()
+    const ro = new ResizeObserver(medir)
+    ro.observe(el)
+    return () => ro.disconnect()
+  }, [])
+
+  const alScrollear = () => {
+    const el = pista.current
+    setActiva(Math.min(pasos.paginas - 1, Math.max(0, Math.round(el.scrollLeft / pasos.paso))))
+  }
+
+  const ir = (i) => pista.current?.scrollTo({ left: i * pasos.paso, behavior: "smooth" })
+  const mover = (d) => {
+    ultimoToque.current = Date.now()
+    ir(Math.min(pasos.paginas - 1, Math.max(0, activa + d)))
+  }
+
+  // Avanza sola, de a una tienda, mientras está a la vista y nadie la toca.
+  useEffect(() => {
+    const el = pista.current
+    if (!el || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return
+    const io = new IntersectionObserver(([e]) => (visible.current = e.isIntersecting), { threshold: 0.4 })
+    io.observe(el)
+    const id = setInterval(() => {
+      if (!visible.current || quieto.current || document.hidden) return
+      if (Date.now() - ultimoToque.current < SEGUNDOS_DE_PAUSA_TRAS_TOCAR * 1000) return
+      const siguiente = Math.round(el.scrollLeft / pasos.paso) + 1
+      el.scrollTo({ left: siguiente >= pasos.paginas ? 0 : siguiente * pasos.paso, behavior: "smooth" })
+    }, SEGUNDOS_ENTRE_TIENDAS * 1000)
+    return () => {
+      io.disconnect()
+      clearInterval(id)
+    }
+  }, [pasos])
+
+  // Arrastrar con el mouse (con el dedo ya se desliza solo).
+  const alApretar = (e) => {
+    ultimoToque.current = Date.now()
+    if (e.pointerType !== "mouse" || e.button !== 0) return
+    const el = pista.current
+    arrastre.current = { activo: true, x0: e.clientX, scroll0: el.scrollLeft, movido: false }
+    el.style.scrollSnapType = "none"
+    el.setPointerCapture(e.pointerId)
+  }
+  const alMover = (e) => {
+    const a = arrastre.current
+    if (!a.activo) return
+    const dx = e.clientX - a.x0
+    if (Math.abs(dx) > 5) a.movido = true
+    pista.current.scrollLeft = a.scroll0 - dx
+  }
+  const alSoltar = (e) => {
+    const a = arrastre.current
+    if (!a.activo) return
+    a.activo = false
+    const el = pista.current
+    el.releasePointerCapture?.(e.pointerId)
+    el.style.scrollSnapType = ""
+    el.scrollTo({ left: Math.round(el.scrollLeft / pasos.paso) * pasos.paso, behavior: "smooth" })
+  }
+  // Si se arrastró, el soltar no cuenta como un clic en «Ver tienda».
+  const alHacerClic = (e) => {
+    if (arrastre.current.movido) {
+      e.preventDefault()
+      e.stopPropagation()
+      arrastre.current.movido = false
+    }
+  }
 
   return (
     <section id="tiendas" ref={root} className="overflow-hidden bg-ink py-16 md:py-[4.5rem]">
       <div className="mx-auto max-w-6xl px-4 md:px-6">
         <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
           <div>
-            <span
-              data-reveal
-              className={ETIQUETA}
-            >
+            <span data-reveal className={ETIQUETA}>
               Tiendas
             </span>
             <h2
@@ -152,53 +236,67 @@ export default function Tiendas() {
             </h2>
           </div>
 
-          <div data-reveal className="flex">
-            <Segmented
-              label="Plan de las tiendas"
-              value={plan}
-              onChange={setPlan}
-              options={PLANES.map((p) => ({ id: p, label: p }))}
-            />
+          {/* Flechas: van donde estaba el interruptor de planes */}
+          <div data-reveal className="flex gap-3">
+            <IconButton label="Tienda anterior" onClick={() => mover(-1)} disabled={activa <= 0}>
+              <Flecha />
+            </IconButton>
+            <IconButton label="Tienda siguiente" onClick={() => mover(1)} disabled={activa >= pasos.paginas - 1}>
+              <Flecha giro={180} />
+            </IconButton>
           </div>
         </div>
       </div>
 
-      {visibles.length > 0 ? (
-        <div
-          data-reveal
-          className="tiendas-ventana mt-10 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
-        >
-          <div
-            key={plan}
-            className="tiendas-cinta flex w-max"
-            style={{ animationDuration: `${visibles.length * SEGUNDOS_POR_TIENDA}s` }}
+      <div
+        ref={pista}
+        data-reveal
+        role="region"
+        aria-label="Tiendas hechas con Lemora"
+        onScroll={alScrollear}
+        onPointerDown={alApretar}
+        onPointerMove={alMover}
+        onPointerUp={alSoltar}
+        onPointerCancel={alSoltar}
+        onClickCapture={alHacerClic}
+        onMouseEnter={() => (quieto.current = true)}
+        onMouseLeave={() => (quieto.current = false)}
+        onFocusCapture={() => (quieto.current = true)}
+        onBlurCapture={() => (quieto.current = false)}
+        onWheel={() => (ultimoToque.current = Date.now())}
+        className="mt-10 flex cursor-grab snap-x snap-mandatory gap-5 overflow-x-auto pb-1 active:cursor-grabbing [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+        style={{
+          paddingInline: "max(1rem, calc((100% - 72rem) / 2 + 1.5rem))",
+          scrollPaddingInline: "max(1rem, calc((100% - 72rem) / 2 + 1.5rem))",
+        }}
+      >
+        {tiendasEjemplo.map((t) => (
+          <Tarjeta key={t.url} t={t} />
+        ))}
+      </div>
+
+      {/* Puntitos: uno por posición del carrusel */}
+      <div data-reveal className="mt-6 flex justify-center gap-1">
+        {Array.from({ length: pasos.paginas }).map((_, i) => (
+          <button
+            key={i}
+            type="button"
+            onClick={() => {
+              ultimoToque.current = Date.now()
+              ir(i)
+            }}
+            aria-label={`Ir a la posición ${i + 1} de ${pasos.paginas}`}
+            aria-current={activa === i}
+            className="group flex h-6 w-6 cursor-pointer items-center justify-center rounded-full focus-ring-inverse"
           >
-            {[0, 1].map((m) => (
-              <div key={m} className={`flex gap-5 pr-5 ${m ? "tiendas-copia" : ""}`}>
-                {mitad.map((t, i) => (
-                  <Tarjeta key={`${m}-${i}`} t={t} oculta={m === 1 || i >= visibles.length} />
-                ))}
-              </div>
-            ))}
-          </div>
-        </div>
-      ) : (
-        <div className="mx-auto mt-10 max-w-6xl px-4 md:px-6">
-          <div className="flex flex-col items-start gap-4 rounded-[2rem] bg-white p-6 ring-1 ring-ink/10 md:flex-row md:items-center md:justify-between md:p-8">
-            <div>
-              <p className="text-lg font-bold text-ink md:text-xl">
-                Estamos preparando las primeras tiendas Premium.
-              </p>
-              <p className="mt-1 text-base text-ink-soft">
-                Mientras tanto, mirá todo lo que suma este plan.
-              </p>
-            </div>
-            <Button href="#premium" variant="dark" className="flex-none">
-              Ver funciones Premium
-            </Button>
-          </div>
-        </div>
-      )}
+            <span
+              className={`block h-2.5 rounded-full transition-all duration-300 motion-reduce:transition-none ${
+                activa === i ? "w-6 bg-white" : "w-2.5 bg-white/30 group-hover:bg-white/60"
+              }`}
+            />
+          </button>
+        ))}
+      </div>
     </section>
   )
 }

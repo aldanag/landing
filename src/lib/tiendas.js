@@ -7,6 +7,10 @@ import belovaEscritorio from "../assets/tiendas/belova-desktop.webp"
 import belovaMovil from "../assets/tiendas/belova-movil.webp"
 import amberEscritorio from "../assets/tiendas/amberparfums-desktop.webp"
 import amberMovil from "../assets/tiendas/amberparfums-movil.webp"
+import mouraEscritorio from "../assets/tiendas/moura-desktop.webp"
+import mouraMovil from "../assets/tiendas/moura-movil.webp"
+import boutiqueEscritorio from "../assets/tiendas/boutique-desktop.webp"
+import boutiqueMovil from "../assets/tiendas/boutique-movil.webp"
 
 export const tiendasEjemplo = [
   {
@@ -18,12 +22,28 @@ export const tiendasEjemplo = [
     plan: "Básico",
   },
   {
+    nombre: "Moura Deco",
+    rubro: "Deco y accesorios",
+    url: "https://moura.lemora.lat/",
+    escritorio: mouraEscritorio,
+    movil: mouraMovil,
+    plan: "Premium",
+  },
+  {
     nombre: "Belova",
     rubro: "Estética",
     url: "https://belova.lemora.lat/",
     escritorio: belovaEscritorio,
     movil: belovaMovil,
     plan: "Básico",
+  },
+  {
+    nombre: "Boutique",
+    rubro: "Indumentaria",
+    url: "https://premium.lemora.lat/",
+    escritorio: boutiqueEscritorio,
+    movil: boutiqueMovil,
+    plan: "Premium",
   },
   {
     nombre: "Amber Parfums",

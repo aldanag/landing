@@ -29,8 +29,8 @@ function App() {
         <TrialBanner />
         <Features />
         <ProductosServicios />
-        <FuncionesPremium />
         <Tiendas />
+        <FuncionesPremium />
         <Testimonials />
         <PricingCards />
         <FAQ layout="columnas" />

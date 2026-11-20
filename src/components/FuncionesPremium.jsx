@@ -8,6 +8,7 @@ import MarketingAnimado from "./MarketingAnimado"
 import CarritoAnimado from "./CarritoAnimado"
 import CarruselAnimado from "./CarruselAnimado"
 import { funcionesPremium } from "../lib/funcionesPremium"
+import { PREMIUM_LANDING_LINK } from "../lib/planes"
 
 // Bloque Premium: fondo oscuro e imágenes con fondo lila. Las imágenes (src/assets/premium/premium-1 ...
 // premium-7, cuadradas) se generan con `python herramientas/premium-imagenes/generar.py`; los textos
@@ -37,7 +38,18 @@ export default function FuncionesPremium() {
       titulo="Premium: tus clientes, tus ofertas, tu tienda."
       funciones={funciones}
       invertido
-      cta={<Button href="#planes" variant="inverse" size="lg">Ver planes</Button>}
+      cta={
+        <div className="flex flex-col items-center gap-3 sm:flex-row">
+          {PREMIUM_LANDING_LINK && (
+            <Button href={PREMIUM_LANDING_LINK} external variant="inverse" size="lg">
+              Ver más sobre Premium
+            </Button>
+          )}
+          <Button href="#planes" variant={PREMIUM_LANDING_LINK ? "outline" : "inverse"} size="lg">
+            Ver planes
+          </Button>
+        </div>
+      }
     />
   )
 }

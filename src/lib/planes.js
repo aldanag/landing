@@ -6,6 +6,10 @@ export const WHATSAPP_TRIAL_LINK =
 // Landing del plan Básico (el sitio que se publica aparte). TODO: cambiar por el dominio definitivo cuando exista.
 export const BASICO_LANDING_LINK = "https://lemora-basico-six.vercel.app"
 
+// Landing del plan Premium (el sitio de `web-premium`, que se publica aparte). TODO: poner acá el link cuando esté publicada;
+// mientras esté vacío, la sección Premium no muestra el botón "Ver más sobre Premium".
+export const PREMIUM_LANDING_LINK = ""
+
 export const BASICO_CHECKOUT_LINK =
   "https://www.mercadopago.com.ar/subscriptions/checkout?preapproval_plan_id=d37372dd19924098bcfeb189bbb8fbcf"
 
@@ -17,8 +21,9 @@ export const anualLink = (plan) =>
 
 export const peso = (n) => `$${Math.round(n).toLocaleString("es-AR")}`
 
-// Tienda de ejemplo del plan Básico. Premium todavía no tiene una: sin `ejemplo`, la tarjeta no muestra el chip.
+// Tiendas de ejemplo de cada plan (el chip "Ver ejemplo" de la tarjeta). Premium: la tienda de muestra de Lemora (Boutique).
 export const EJEMPLO_BASICO_LINK = "https://tommytommy.lemora.lat/"
+export const EJEMPLO_PREMIUM_LINK = "https://premium.lemora.lat/"
 
 // Lo usa la página /basico/ (todavía con tiendas de relleno).
 // TODO: reemplazar por la URL real de una tienda de ejemplo.
@@ -72,6 +77,7 @@ export const plans = [
     mensual: 15000,
     anual: 160000,
     commitment: "Contratación mínima: 3 meses",
+    ejemplo: EJEMPLO_PREMIUM_LINK,
     intro: "Todo lo del plan Básico y además:",
     features: [
       { text: "Carrusel de hasta 12 imágenes", strong: "12 imágenes" },

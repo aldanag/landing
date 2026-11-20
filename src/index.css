@@ -652,30 +652,6 @@ body {
 :root[data-motion="on"] .push-activa .bd-pop-cm { animation: bd-pop-cm 9s ease-out infinite; }
 :root[data-motion="on"] .push-activa .bd-onda-cm { animation: bd-onda-cm 9s ease-out infinite; }
 
-/* Tiendas: cinta de celulares que pasa sola. Con "reducir movimiento" queda quieta y se desliza con el dedo. */
-@keyframes tiendas-pasan {
-  to {
-    transform: translateX(-50%);
-  }
-}
-@media (prefers-reduced-motion: no-preference) {
-  .tiendas-ventana {
-    overflow-x: hidden;
-  }
-  .tiendas-cinta {
-    animation: tiendas-pasan linear infinite;
-  }
-  .tiendas-ventana:hover .tiendas-cinta,
-  .tiendas-cinta:focus-within {
-    animation-play-state: paused;
-  }
-}
-@media (prefers-reduced-motion: reduce) {
-  .tiendas-copia {
-    display: none;
-  }
-}
-
 /* Carrusel de la imagen "Más espacio para tus promociones" (CarruselAnimado), bucle de 10 s: las láminas se deslizan de
    costado (la primera se repite al final, así vuelve sin saltos) y el punto de la lámina activa se estira.
    Quieto con "reducir movimiento" (queda la primera lámina); con ?motion=on se fuerza. */
