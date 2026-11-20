@@ -23,7 +23,7 @@ function Flecha({ lado, giro, clase = "" }) {
   return (
     <span
       className={`absolute flex items-center justify-center rounded-full bg-white/90 ${clase}`}
-      style={{ [lado]: "1.333cqw", top: "50%", width: "3.167cqw", height: "3.167cqw", marginTop: "-1.583cqw" }}
+      style={{ [lado]: "1.333cqw", top: "47.6667%", width: "3.167cqw", height: "3.167cqw", marginTop: "-1.583cqw" }}
     >
       <svg
         viewBox="0 0 24 24"
@@ -47,7 +47,7 @@ export default function CarruselAnimado({ activa = false }) {
     <div aria-hidden="true" className={`absolute inset-0 ${activa ? "carru-activa" : ""}`}>
       <div
         className="absolute overflow-hidden bg-[#E2D9FF]"
-        style={{ left: "27%", top: "53.5%", width: "67.667%", height: "18.167%", borderRadius: "1.667cqw" }}
+        style={{ left: "27%", top: "47.6667%", width: "67.667%", height: "18.167%", borderRadius: "1.667cqw" }}
       >
         <div className="carru-pista flex h-full" style={{ width: "400%" }}>
           {pista.map((l, i) => (
@@ -87,8 +87,8 @@ export default function CarruselAnimado({ activa = false }) {
       </div>
       {/* La línea de puntos del sticker «Carrusel» termina sobre la tira: se redibuja encima para que no quede tapada. */}
       <svg className="absolute inset-0 h-full w-full" viewBox="0 0 1200 1200" fill="none">
-        <path d="M1030 140 H1150 V688 H1096" stroke="#7C6AE0" strokeWidth="6" strokeLinecap="round" strokeLinejoin="round" strokeDasharray="1 13" />
-        <circle cx="1096" cy="688" r="9" fill="#fff" stroke="#7C6AE0" strokeWidth="4" />
+        <path d="M1142 140 H1150 V618 H1096" stroke="#7C6AE0" strokeWidth="6" strokeLinecap="round" strokeLinejoin="round" strokeDasharray="1 13" />
+        <circle cx="1096" cy="618" r="9" fill="#fff" stroke="#7C6AE0" strokeWidth="4" />
       </svg>
     </div>
   )
