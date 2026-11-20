@@ -74,7 +74,7 @@ export default function BasicoComparar() {
         </div>
 
         <div data-reveal className="mt-8 flex justify-center">
-          <Button href="/#planes" variant="secondary" size="lg" className="w-full max-w-xs sm:w-56">
+          <Button href="/#planes" variant="primary" size="lg" className="w-full max-w-xs sm:w-56">
             Ver todos los planes
           </Button>
         </div>
