@@ -68,20 +68,22 @@ export default function ProductosServicios() {
           >
             Dos tipos de tienda: productos o servicios.
           </h2>
-          <div data-reveal className="mt-6">
-            <Segmented
-              label="Tipo de tienda"
-              value={tipo}
-              onChange={setTipo}
-              options={[
-                { id: "productos", label: "Tienda de productos" },
-                { id: "servicios", label: "Tienda de servicios" },
-              ]}
-            />
-          </div>
         </div>
 
-        <div className="mt-8 grid gap-6 md:grid-cols-2 md:items-center">
+        {/* La píldora queda fija debajo del menú en celular mientras se recorre el contenido que cambia. */}
+        <div className="sticky top-[4.5rem] z-30 mt-6 flex justify-center bg-mist/90 py-2 backdrop-blur md:static md:bg-transparent md:py-0 md:backdrop-blur-none">
+          <Segmented
+            label="Tipo de tienda"
+            value={tipo}
+            onChange={setTipo}
+            options={[
+              { id: "productos", label: "Tienda de productos" },
+              { id: "servicios", label: "Tienda de servicios" },
+            ]}
+          />
+        </div>
+
+        <div className="mt-6 grid gap-6 md:grid-cols-2 md:items-center">
           <div
             ref={marco}
             data-reveal

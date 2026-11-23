@@ -1,4 +1,4 @@
-import { cloneElement, useRef, useState } from "react"
+import { cloneElement, useEffect, useRef, useState } from "react"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faImage } from "@fortawesome/free-solid-svg-icons"
 import { ETIQUETA_ICONO } from "../lib/pastillas"
@@ -27,6 +27,66 @@ import {
 //  - invertido: espeja el bloque (lista a la izquierda, imagen a la derecha) para alternar con el de arriba.
 //  - cta: opcional, un botón o link que va centrado debajo.
 
+// En pantallas anchas la imagen va al costado y cambia con la función elegida. En celular no: la imagen quedaría arriba de la
+// lista, fuera de la vista al tocar una función. Ahí cada función, al abrirse, muestra su propia imagen debajo de su texto.
+function useEscritorio() {
+  const consulta = "(min-width: 768px)"
+  const [escritorio, setEscritorio] = useState(() => (typeof window === "undefined" ? true : window.matchMedia(consulta).matches))
+  useEffect(() => {
+    const mq = window.matchMedia(consulta)
+    const cambio = (e) => setEscritorio(e.matches)
+    mq.addEventListener("change", cambio)
+    return () => mq.removeEventListener("change", cambio)
+  }, [])
+  return escritorio
+}
+
+// Una capa del marco: la escena viva, la imagen o el lugar vacío de esa función.
+function Capa({ funcion, visible, activa, inmediata = false }) {
+  if (funcion.escena) {
+    return (
+      <div data-capa role="img" aria-label={funcion.titulo} className={`absolute inset-0 ${visible}`}>
+        {cloneElement(funcion.escena, { activa })}
+      </div>
+    )
+  }
+  return funcion.imagen ? (
+    <img
+      data-capa
+      src={funcion.imagen}
+      alt={funcion.titulo}
+      loading={inmediata ? "eager" : "lazy"}
+      decoding="async"
+      className={`absolute inset-0 h-full w-full object-contain ${visible}`}
+    />
+  ) : (
+    <div
+      data-capa
+      role="img"
+      aria-label={`Lugar para la imagen: ${funcion.etiquetaImagen ?? funcion.titulo}`}
+      className={`absolute inset-0 flex flex-col items-center justify-center gap-3 bg-primary-tint p-8 text-center text-primary ${visible}`}
+    >
+      <FontAwesomeIcon icon={faImage} className="h-12 w-12" aria-hidden="true" />
+      <p className="text-sm font-bold uppercase tracking-[0.09em]">Imagen</p>
+      <p className="max-w-[16rem] text-[15px] leading-snug text-ink-soft">{funcion.etiquetaImagen ?? funcion.titulo}</p>
+    </div>
+  )
+}
+
+// La superposición de una función (por ejemplo la barra con mensajes), encima de su imagen.
+function Sobre({ funcion, visible, activa }) {
+  if (!funcion.superposicion) return null
+  return (
+    <div
+      className={`pointer-events-none absolute inset-0 z-10 transition-opacity motion-reduce:transition-none ${
+        funcion.superposicionFija ? "duration-[900ms]" : "duration-500"
+      } ${visible ? "opacity-100" : "opacity-0"}`}
+    >
+      {cloneElement(funcion.superposicion, { activa })}
+    </div>
+  )
+}
+
 // GSAP deja estilos puestos en las imágenes: se limpian antes y después de cada transición.
 const ESTILOS_GSAP = "transform,opacity,zIndex,clipPath"
 
@@ -46,13 +106,27 @@ export default function FuncionesBloque({
   const frame = useRef(null)
   const [activeIndex, setActiveIndex] = useState(0)
   const [prevIndex, setPrevIndex] = useState(null)
+  const escritorio = useEscritorio()
+  const botones = useRef([])
 
   useReveal(root)
+
+  // En celular la imagen de cada función aparece al abrirla: se precargan todas para que no se vea el hueco mientras llegan.
+  useEffect(() => {
+    if (escritorio) return
+    funciones.forEach((f) => {
+      if (f.imagen) new Image().src = f.imagen
+    })
+  }, [escritorio, funciones])
 
   const select = (i) => {
     if (i === activeIndex) return
     setPrevIndex(activeIndex)
     setActiveIndex(i)
+    // En celular se cierra la función anterior (arriba) y la lista se corre: se lleva la elegida a la vista.
+    if (!escritorio) {
+      window.setTimeout(() => botones.current[i]?.scrollIntoView({ behavior: "smooth", block: "start" }), 330)
+    }
   }
 
   // La imagen nueva aparece despacio sobre la anterior (fundido suave, con un acercamiento casi
@@ -61,6 +135,10 @@ export default function FuncionesBloque({
   useGSAP(
     () => {
       if (prevIndex === null) return
+      if (!frame.current) {
+        setPrevIndex(null)
+        return
+      }
       const mm = gsap.matchMedia()
       const preparar = () => {
         const layers = frame.current.querySelectorAll("[data-capa]")
@@ -112,71 +190,32 @@ export default function FuncionesBloque({
         )}
 
         <div className="mt-8 grid gap-6 md:grid-cols-2 md:items-stretch">
-          <div
-            ref={frame}
-            data-reveal
-            className={`@container relative aspect-square overflow-hidden rounded-[2rem] bg-lavender shadow-xl shadow-primary/15 ring-1 ring-primary/20 ${
-              invertido ? "md:order-2" : ""
-            }`}
-          >
-            {funciones.map((funcion, i) => {
-              const visible = i === activeIndex || i === prevIndex ? "visible" : "invisible"
-              if (funcion.escena) {
-                return (
-                  <div
-                    key={funcion.titulo}
-                    data-capa
-                    role="img"
-                    aria-label={funcion.titulo}
-                    className={`absolute inset-0 ${visible}`}
-                  >
-                    {cloneElement(funcion.escena, { activa: activeIndex === i && prevIndex === null })}
-                  </div>
-                )
-              }
-              return funcion.imagen ? (
-                <img
+          {escritorio && (
+            <div
+              ref={frame}
+              data-reveal
+              className={`@container relative aspect-square overflow-hidden rounded-[2rem] bg-lavender shadow-xl shadow-primary/15 ring-1 ring-primary/20 ${
+                invertido ? "md:order-2" : ""
+              }`}
+            >
+              {funciones.map((funcion, i) => (
+                <Capa
                   key={funcion.titulo}
-                  data-capa
-                  src={funcion.imagen}
-                  alt={funcion.titulo}
-                  loading="lazy"
-                  className={`absolute inset-0 h-full w-full object-contain ${visible}`}
+                  funcion={funcion}
+                  visible={i === activeIndex || i === prevIndex ? "visible" : "invisible"}
+                  activa={activeIndex === i && prevIndex === null}
                 />
-              ) : (
-                <div
-                  key={funcion.titulo}
-                  data-capa
-                  role="img"
-                  aria-label={`Lugar para la imagen: ${funcion.etiquetaImagen ?? funcion.titulo}`}
-                  className={`absolute inset-0 flex flex-col items-center justify-center gap-3 bg-primary-tint p-8 text-center text-primary ${visible}`}
-                >
-                  <FontAwesomeIcon icon={faImage} className="h-12 w-12" aria-hidden="true" />
-                  <p className="text-sm font-bold uppercase tracking-[0.09em]">Imagen</p>
-                  <p className="max-w-[16rem] text-[15px] leading-snug text-ink-soft">
-                    {funcion.etiquetaImagen ?? funcion.titulo}
-                  </p>
-                </div>
-              )
-            })}
-            {funciones.map(
-              (funcion, i) =>
-                funcion.superposicion && (
-                  <div
-                    key={`sobre-${funcion.titulo}`}
-                    className={`pointer-events-none absolute inset-0 z-10 transition-opacity motion-reduce:transition-none ${
-                      funcion.superposicionFija ? "duration-[900ms]" : "duration-500"
-                    } ${
-                      (funcion.superposicionFija ? activeIndex === i : activeIndex === i && prevIndex === null) ? "opacity-100" : "opacity-0"
-                    }`}
-                  >
-                    {cloneElement(funcion.superposicion, {
-                      activa: activeIndex === i && prevIndex === null,
-                    })}
-                  </div>
-                ),
-            )}
-          </div>
+              ))}
+              {funciones.map((funcion, i) => (
+                <Sobre
+                  key={`sobre-${funcion.titulo}`}
+                  funcion={funcion}
+                  visible={funcion.superposicionFija ? activeIndex === i : activeIndex === i && prevIndex === null}
+                  activa={activeIndex === i && prevIndex === null}
+                />
+              ))}
+            </div>
+          )}
 
           <div
             data-reveal
@@ -190,10 +229,13 @@ export default function FuncionesBloque({
                 <div key={funcion.titulo} className="md:flex md:flex-1 md:flex-col md:justify-center">
                   <button
                     type="button"
+                    ref={(el) => {
+                      botones.current[i] = el
+                    }}
                     onClick={() => select(i)}
                     aria-expanded={isOpen}
                     aria-controls={`${id}-detalle-${i}`}
-                    className="group flex w-full items-center justify-between gap-4 py-3 text-left focus-ring"
+                    className="group flex w-full scroll-mt-24 items-center justify-between gap-4 py-3 text-left focus-ring"
                   >
                     <span
                       className={`text-base font-bold ${
@@ -242,6 +284,12 @@ export default function FuncionesBloque({
                             </li>
                           ))}
                         </ul>
+                      )}
+                      {!escritorio && isOpen && (
+                        <div className="@container relative mb-4 mt-1 aspect-square overflow-hidden rounded-[1.5rem] bg-lavender ring-1 ring-primary/20">
+                          <Capa funcion={funcion} visible="visible" activa inmediata />
+                          <Sobre funcion={funcion} visible activa />
+                        </div>
                       )}
                     </div>
                   </div>

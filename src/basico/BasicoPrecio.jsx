@@ -37,7 +37,7 @@ export default function BasicoPrecio() {
           </p>
         </div>
 
-        <div data-reveal className="mt-8 flex justify-center">
+        <div className="sticky top-[4.5rem] z-30 mt-8 flex justify-center bg-ink/90 py-2 backdrop-blur md:static md:bg-transparent md:py-0 md:backdrop-blur-none">
           <Segmented
             label="Período de pago"
             value={anual}
