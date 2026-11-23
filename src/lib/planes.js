@@ -6,9 +6,9 @@ export const WHATSAPP_TRIAL_LINK =
 // Landing del plan Básico (el sitio que se publica aparte). TODO: cambiar por el dominio definitivo cuando exista.
 export const BASICO_LANDING_LINK = "https://lemora-basico-six.vercel.app"
 
-// Landing del plan Premium (el sitio de `web-premium`, que se publica aparte). TODO: poner acá el link cuando esté publicada;
-// mientras esté vacío, la sección Premium no muestra el botón "Ver más sobre Premium".
-export const PREMIUM_LANDING_LINK = ""
+// Landing del plan Premium (el sitio de `web-premium`, que se publica aparte). TODO: cambiar por el dominio definitivo cuando exista.
+// La usan el botón "Ver más sobre Premium" de la sección Premium y el link de la tarjeta del plan.
+export const PREMIUM_LANDING_LINK = "https://lemora-premium.vercel.app"
 
 export const BASICO_CHECKOUT_LINK =
   "https://www.mercadopago.com.ar/subscriptions/checkout?preapproval_plan_id=d37372dd19924098bcfeb189bbb8fbcf"
@@ -89,8 +89,9 @@ export const plans = [
       { text: "Marketing: notificación de confianza, ofertas por tiempo limitado y promociones", isNew: true },
       { text: "Barra promocional con tus mensajes y tu color, sin Lemora Ads", isNew: true },
     ],
-    verMas: "Ver todas las funciones Premium",
-    verMasHref: "#premium",
+    verMas: "Ver todo lo que incluye el plan Premium",
+    verMasHref: PREMIUM_LANDING_LINK,
+    verMasExterno: true,
     // TODO: reemplazar por el link real de suscripción de MercadoPago del plan Premium.
     actions: [{ label: "Suscribirme", href: "#registro", external: false }],
     featured: true,
