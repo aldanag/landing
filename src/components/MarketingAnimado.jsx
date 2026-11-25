@@ -16,24 +16,24 @@ import badgeCM from "../assets/premium-overlays/badge-cm.svg"
 // Solo se anima mientras la imagen está visible (`activa`) y si el sistema no pide "reducir movimiento"
 // (o se abrió la página con ?motion=on); si no, queda la imagen con la notificación a la vista.
 const INICIO = 59 * 60 + 39 // 59 min 39 seg, como en la imagen
-const TOP = "65.25%"
+const TOP = "67.583%"
 const ALTO = "5.5%"
 const ANCHO = "7.408%"
 
 const OPCIONES = [
-  { k: "bf", img: badgeBF, left: 54.333 },
-  { k: "hs", img: badgeHS, left: 64.292 },
+  { k: "bf", img: badgeBF, left: 54.167 },
+  { k: "hs", img: badgeHS, left: 64.208 },
   { k: "cm", img: badgeCM, left: 74.25 },
 ]
 // dónde se aplica el badge elegido: la foto del producto y los dos de "Más en promoción" (izquierda, arriba, ancho)
 const APLICA = [
-  { left: "8.417%", top: "35.917%", width: "10.667%" },
-  { left: "8.25%", top: "84.25%", width: "6.167%" },
-  { left: "27.167%", top: "84.25%", width: "6.167%" },
+  { left: "8.417%", top: "38.25%", width: "10.667%" },
+  { left: "8.25%", top: "86.583%", width: "6.167%" },
+  { left: "27.167%", top: "86.583%", width: "6.167%" },
 ]
 const TILE_TOP = "30.417%"
 const TILE_ALTO = "11.333%"
-const TILE_ANCHO = 8.958
+const TILE_ANCHO = 9.042
 const TILE_CENTRO_Y = "36.083%"
 
 function puedeAnimar() {
@@ -95,7 +95,7 @@ export default function MarketingAnimado({ activa = false }) {
           <img key={`img-${i}-${o.k}`} src={o.img} alt="" className={`bd-img bd-pop-${o.k} absolute`} style={a} />
         )),
       )}
-      <div className="absolute" style={{ left: "7.583%", top: "85.5%", width: "36.5%" }}>
+      <div className="absolute" style={{ left: "7.583%", top: "87.833%", width: "36.5%" }}>
         <div
           className="push-aviso flex items-stretch overflow-hidden bg-white"
           style={{

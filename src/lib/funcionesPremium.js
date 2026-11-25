@@ -32,10 +32,16 @@ export const funcionesPremium = [
     etiquetaImagen: "El carrito con los gastos de gestión y el aviso de envío gratis",
   },
   {
-    titulo: "Más espacio para tus promociones",
+    titulo: "Vendé mayorista o minorista",
     cuerpo:
-      "Sumá hasta 12 imágenes al carrusel de tu tienda, en vez de 8, y destacá más ofertas con 5 banners promocionales, en vez de 3.",
-    etiquetaImagen: "El carrusel y los banners de la tienda",
+      "Vendé por mayor o por menor. Definí una compra mínima por monto o por cantidad de productos.",
+    etiquetaImagen: "El carrito con la compra mínima",
+  },
+  {
+    titulo: "Métodos de pago",
+    cuerpo:
+      "Cobrá como quieras: efectivo y transferencia, y además Mercado Pago y cuotas.",
+    etiquetaImagen: "Los métodos de pago de la tienda: efectivo, transferencia, Mercado Pago y cuotas",
   },
   {
     titulo: "Herramientas de marketing",
@@ -44,6 +50,7 @@ export const funcionesPremium = [
       "Modo promociones: Black Friday, Hot Sale, CyberMonday o el tuyo.",
       "Ofertas con cuenta regresiva, producto por producto.",
       "Notificación de confianza cuando alguien compra.",
+      "Pop-up de salida: una ventana emergente para quien se va sin terminar su pedido.",
     ],
     etiquetaImagen: "La tienda con su badge de promoción, la oferta con cuenta regresiva y la notificación de confianza",
   },

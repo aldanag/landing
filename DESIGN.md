@@ -35,7 +35,7 @@ Lemora es una tienda online por membresía para emprendedores de Latinoamérica:
 - Escribí en español rioplatense con voseo: "Probá", "Empezá", "Vendé", "Tenés", "Pagás". Nunca "tú" ni formas de España ("añadir": usá "agregar").
 - Los títulos son frases cortas que terminan en punto, a veces en dos oraciones: "Tu tienda online. Sin comisiones.", "Empezá gratis. Vendé desde hoy."
 - Los botones usan el infinitivo y dicen qué pasa: "Probar gratis 1 mes", "Suscribirme". Sin signos de exclamación ni emojis.
-- Solo afirmaciones verdaderas. Los datos que se pueden repetir: sin comisiones por venta, sin tarjeta para el mes de prueba, Básico $9.000/mes con contratación mínima de 1 mes, Premium $15.000/mes con contratación mínima de 3 meses, pedidos por WhatsApp, cobro por MercadoPago. No inventes cifras, calificaciones con estrellas ni cantidades de tiendas.
+- Solo afirmaciones verdaderas. Los datos que se pueden repetir: sin comisiones por venta, sin tarjeta para el mes de prueba, Básico $12.490/mes con contratación mínima de 1 mes, Premium $18.990/mes con contratación mínima de 3 meses, pedidos por WhatsApp, cobro por MercadoPago. No inventes cifras, calificaciones con estrellas ni cantidades de tiendas.
 - Los testimonios son siempre reales, con nombre, rubro o tienda y foto si existe. Un testimonio pendiente va como lugar marcado con `[Completar]`, nunca con datos inventados.
 - Evitá jerga técnica ("marquee", "popup", "slides") en textos nuevos: el carrusel se cuenta en "imágenes", no en "slides". Si un plan ya usa la jerga, se respeta.
 - El mes gratis se nombra siempre "1 mes" (botones, banner y planes). No uses "30 días".

@@ -55,7 +55,7 @@ const bloques = [
     etiqueta: "Que te vean",
     title: "Destacá tus ofertas y novedades apenas entran.",
     body: "Un carrusel y banners en tu tienda, para que lo que querés vender y promocionar sea lo primero que se vea.",
-    incluye: ["Carrusel de hasta 8 imágenes", "3 banners promocionales"],
+    incluye: ["Carrusel de hasta 6 slides", "8 banners promocionales"],
     sugerencia: "El carrusel con un banner de oferta arriba de los productos",
     alt: "Carrusel y banner promocional arriba de una grilla de productos",
   },

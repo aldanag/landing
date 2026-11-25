@@ -261,17 +261,17 @@ body {
   67%, 100% { opacity: 0; transform: translateY(1cqw) scale(0.96); }
 }
 @keyframes inv-cursor {
-  0% { opacity: 0; transform: translate(9cqw, -8cqw); }
-  4% { opacity: 1; }
+  0%, 6% { opacity: 0; transform: translate(3cqw, -3cqw) scale(1); }
+  8% { opacity: 1; transform: translate(3cqw, -3cqw) scale(1); }
   11% { opacity: 1; transform: translate(0, 0) scale(1); }
   12.5% { opacity: 1; transform: scale(0.82); }
-  14.5%, 20% { opacity: 1; transform: translate(0, 0) scale(1); }
+  14.5%, 24.5% { opacity: 1; transform: translate(0, 0) scale(1); }
   27% { opacity: 1; transform: translate(-5.37cqw, 17.1cqw) scale(1); }
   29% { opacity: 1; transform: translate(-5.37cqw, 17.1cqw) scale(0.82); }
-  30.5%, 39% { opacity: 1; transform: translate(-5.37cqw, 17.1cqw) scale(1); }
+  30.5%, 42.5% { opacity: 1; transform: translate(-5.37cqw, 17.1cqw) scale(1); }
   45% { opacity: 1; transform: translate(5.47cqw, 23.85cqw) scale(1); }
   47% { opacity: 1; transform: translate(5.47cqw, 23.85cqw) scale(0.82); }
-  48.5%, 50% { opacity: 1; transform: translate(5.47cqw, 23.85cqw) scale(1); }
+  48.5%, 55.5% { opacity: 1; transform: translate(5.47cqw, 23.85cqw) scale(1); }
   58% { opacity: 1; transform: translate(-0.72cqw, 37.68cqw) scale(1); }
   60.5% { opacity: 1; transform: translate(-0.72cqw, 37.68cqw) scale(0.82); }
   62%, 66.5% { opacity: 1; transform: translate(-0.72cqw, 37.68cqw) scale(1); }
@@ -351,41 +351,41 @@ body {
   63.5%, 100% { opacity: 0; }
 }
 @media (prefers-reduced-motion: no-preference) {
-  .inv-activa .inv-ventana { animation: inv-ventana 8.5s cubic-bezier(0.22, 1, 0.36, 1) infinite; }
-  .inv-activa .inv-cursor { animation: inv-cursor 8.5s ease-in-out infinite; }
-  .inv-activa .inv-onda-1 { animation: inv-onda-1 8.5s ease-out infinite; }
-  .inv-activa .inv-onda-p { animation: inv-onda-p 8.5s ease-out infinite; }
-  .inv-activa .inv-onda-s { animation: inv-onda-s 8.5s ease-out infinite; }
-  .inv-activa .inv-onda-g { animation: inv-onda-g 8.5s ease-out infinite; }
-  .inv-activa .inv-anillo-p { animation: inv-anillo-p 8.5s linear infinite; }
-  .inv-activa .inv-anillo-s { animation: inv-anillo-s 8.5s linear infinite; }
-  .inv-activa .inv-ant-p { animation: inv-ant-p 8.5s linear infinite; }
-  .inv-activa .inv-ch { animation: inv-ch 8.5s linear infinite; animation-delay: calc(var(--i) * 0.127s); }
-  .inv-activa .inv-ch::after { animation: inv-caret 8.5s linear infinite; animation-delay: calc(var(--i) * 0.127s); }
-  .inv-activa .inv-ch:last-child::after { animation: inv-caret-fin 8.5s linear infinite; animation-delay: calc(var(--i) * 0.127s); }
-  .inv-activa .inv-arriba-s { animation: inv-arriba-s 8.5s ease-out infinite; }
-  .inv-activa .inv-ant-s { animation: inv-ant-s 8.5s linear infinite; }
-  .inv-activa .inv-nuevo-s { animation: inv-nuevo-s 8.5s ease-out infinite; }
-  .inv-activa .inv-guardar { animation: inv-guardar 8.5s linear infinite; }
+  .inv-activa .inv-ventana { animation: inv-ventana 7s cubic-bezier(0.22, 1, 0.36, 1) infinite; }
+  .inv-activa .inv-cursor { animation: inv-cursor 7s ease-in-out infinite; }
+  .inv-activa .inv-onda-1 { animation: inv-onda-1 7s ease-out infinite; }
+  .inv-activa .inv-onda-p { animation: inv-onda-p 7s ease-out infinite; }
+  .inv-activa .inv-onda-s { animation: inv-onda-s 7s ease-out infinite; }
+  .inv-activa .inv-onda-g { animation: inv-onda-g 7s ease-out infinite; }
+  .inv-activa .inv-anillo-p { animation: inv-anillo-p 7s linear infinite; }
+  .inv-activa .inv-anillo-s { animation: inv-anillo-s 7s linear infinite; }
+  .inv-activa .inv-ant-p { animation: inv-ant-p 7s linear infinite; }
+  .inv-activa .inv-ch { animation: inv-ch 7s linear infinite; animation-delay: calc(var(--i) * 0.105s); }
+  .inv-activa .inv-ch::after { animation: inv-caret 7s linear infinite; animation-delay: calc(var(--i) * 0.105s); }
+  .inv-activa .inv-ch:last-child::after { animation: inv-caret-fin 7s linear infinite; animation-delay: calc(var(--i) * 0.105s); }
+  .inv-activa .inv-arriba-s { animation: inv-arriba-s 7s ease-out infinite; }
+  .inv-activa .inv-ant-s { animation: inv-ant-s 7s linear infinite; }
+  .inv-activa .inv-nuevo-s { animation: inv-nuevo-s 7s ease-out infinite; }
+  .inv-activa .inv-guardar { animation: inv-guardar 7s linear infinite; }
 }
-:root[data-motion="on"] .inv-activa .inv-ventana { animation: inv-ventana 8.5s cubic-bezier(0.22, 1, 0.36, 1) infinite; }
-:root[data-motion="on"] .inv-activa .inv-cursor { animation: inv-cursor 8.5s ease-in-out infinite; }
-:root[data-motion="on"] .inv-activa .inv-onda-1 { animation: inv-onda-1 8.5s ease-out infinite; }
-:root[data-motion="on"] .inv-activa .inv-onda-p { animation: inv-onda-p 8.5s ease-out infinite; }
-:root[data-motion="on"] .inv-activa .inv-onda-s { animation: inv-onda-s 8.5s ease-out infinite; }
-:root[data-motion="on"] .inv-activa .inv-onda-g { animation: inv-onda-g 8.5s ease-out infinite; }
-:root[data-motion="on"] .inv-activa .inv-anillo-p { animation: inv-anillo-p 8.5s linear infinite; }
-:root[data-motion="on"] .inv-activa .inv-anillo-s { animation: inv-anillo-s 8.5s linear infinite; }
-:root[data-motion="on"] .inv-activa .inv-ant-p { animation: inv-ant-p 8.5s linear infinite; }
-:root[data-motion="on"] .inv-activa .inv-ch { animation: inv-ch 8.5s linear infinite; animation-delay: calc(var(--i) * 0.127s); }
-:root[data-motion="on"] .inv-activa .inv-ch::after { animation: inv-caret 8.5s linear infinite; animation-delay: calc(var(--i) * 0.127s); }
-:root[data-motion="on"] .inv-activa .inv-ch:last-child::after { animation: inv-caret-fin 8.5s linear infinite; animation-delay: calc(var(--i) * 0.127s); }
-:root[data-motion="on"] .inv-activa .inv-arriba-s { animation: inv-arriba-s 8.5s ease-out infinite; }
-:root[data-motion="on"] .inv-activa .inv-ant-s { animation: inv-ant-s 8.5s linear infinite; }
-:root[data-motion="on"] .inv-activa .inv-nuevo-s { animation: inv-nuevo-s 8.5s ease-out infinite; }
-:root[data-motion="on"] .inv-activa .inv-guardar { animation: inv-guardar 8.5s linear infinite; }
+:root[data-motion="on"] .inv-activa .inv-ventana { animation: inv-ventana 7s cubic-bezier(0.22, 1, 0.36, 1) infinite; }
+:root[data-motion="on"] .inv-activa .inv-cursor { animation: inv-cursor 7s ease-in-out infinite; }
+:root[data-motion="on"] .inv-activa .inv-onda-1 { animation: inv-onda-1 7s ease-out infinite; }
+:root[data-motion="on"] .inv-activa .inv-onda-p { animation: inv-onda-p 7s ease-out infinite; }
+:root[data-motion="on"] .inv-activa .inv-onda-s { animation: inv-onda-s 7s ease-out infinite; }
+:root[data-motion="on"] .inv-activa .inv-onda-g { animation: inv-onda-g 7s ease-out infinite; }
+:root[data-motion="on"] .inv-activa .inv-anillo-p { animation: inv-anillo-p 7s linear infinite; }
+:root[data-motion="on"] .inv-activa .inv-anillo-s { animation: inv-anillo-s 7s linear infinite; }
+:root[data-motion="on"] .inv-activa .inv-ant-p { animation: inv-ant-p 7s linear infinite; }
+:root[data-motion="on"] .inv-activa .inv-ch { animation: inv-ch 7s linear infinite; animation-delay: calc(var(--i) * 0.105s); }
+:root[data-motion="on"] .inv-activa .inv-ch::after { animation: inv-caret 7s linear infinite; animation-delay: calc(var(--i) * 0.105s); }
+:root[data-motion="on"] .inv-activa .inv-ch:last-child::after { animation: inv-caret-fin 7s linear infinite; animation-delay: calc(var(--i) * 0.105s); }
+:root[data-motion="on"] .inv-activa .inv-arriba-s { animation: inv-arriba-s 7s ease-out infinite; }
+:root[data-motion="on"] .inv-activa .inv-ant-s { animation: inv-ant-s 7s linear infinite; }
+:root[data-motion="on"] .inv-activa .inv-nuevo-s { animation: inv-nuevo-s 7s ease-out infinite; }
+:root[data-motion="on"] .inv-activa .inv-guardar { animation: inv-guardar 7s linear infinite; }
 
-/* Imagen de clientes animada (ClienteAnimado), bucle de 8 s: cursor, clic en el ojo, detalle que se despliega,
+/* Imagen de clientes animada (ClienteAnimado), bucle de 5 s: el cursor aparece pegado al botón (casi sin deslizarse), clic en el ojo, detalle que se despliega,
    clic en "Cerrar" y cierre. Quieta con "reducir movimiento" (el detalle queda abierto); con ?motion=on se fuerza. */
 .cli-onda {
   width: 4.2cqw;
@@ -402,42 +402,45 @@ body {
   filter: drop-shadow(0 2px 3px rgba(23, 18, 47, 0.4));
 }
 @keyframes cli-ventana {
-  0%, 21.3% { opacity: 0; transform: translateY(-1.6cqw) scale(0.88); }
-  28.8%, 71.3% { opacity: 1; transform: none; }
-  76.3%, 100% { opacity: 0; transform: translateY(1cqw) scale(0.96); }
+  0%, 13.5% { opacity: 0; transform: translateY(-1.6cqw) scale(0.88); }
+  22.5%, 66% { opacity: 1; transform: none; }
+  72%, 100% { opacity: 0; transform: translateY(1cqw) scale(0.96); }
 }
+/* El cursor casi no se desliza: aparece pegado al botón, hace clic y se va. Lo mismo con "Cerrar". */
 @keyframes cli-cursor {
-  0% { opacity: 0; transform: translate(9cqw, -8cqw); }
-  5% { opacity: 1; }
-  16.3% { opacity: 1; transform: translate(0, 0); }
-  19% { opacity: 1; transform: scale(0.82); }
-  21.3% { opacity: 1; transform: scale(1); }
-  50% { opacity: 1; transform: translate(0, 0); }
-  65% { opacity: 1; transform: translate(3.38cqw, 36.75cqw); }
-  68.5% { opacity: 1; transform: translate(3.38cqw, 36.75cqw) scale(0.82); }
-  71% { opacity: 1; transform: translate(3.38cqw, 36.75cqw) scale(1); }
-  76%, 100% { opacity: 0; transform: translate(3.38cqw, 36.75cqw); }
+  0% { opacity: 0; transform: translate(3cqw, -3cqw); }
+  3% { opacity: 1; transform: translate(3cqw, -3cqw); }
+  10% { opacity: 1; transform: translate(0, 0); }
+  12% { opacity: 1; transform: scale(0.82); }
+  15% { opacity: 1; transform: scale(1); }
+  17%, 52% { opacity: 0; transform: translate(0, 0); }
+  53% { opacity: 0; transform: translate(6.38cqw, 33.75cqw); }
+  56% { opacity: 1; transform: translate(6.38cqw, 33.75cqw); }
+  61% { opacity: 1; transform: translate(3.38cqw, 36.75cqw); }
+  63.5% { opacity: 1; transform: translate(3.38cqw, 36.75cqw) scale(0.82); }
+  66% { opacity: 1; transform: translate(3.38cqw, 36.75cqw) scale(1); }
+  69%, 100% { opacity: 0; transform: translate(3.38cqw, 36.75cqw); }
 }
 @keyframes cli-onda-1 {
-  0%, 18.7% { opacity: 0; transform: scale(0.3); }
-  19% { opacity: 0.7; transform: scale(0.3); }
-  26%, 100% { opacity: 0; transform: scale(1.6); }
+  0%, 11.8% { opacity: 0; transform: scale(0.3); }
+  12% { opacity: 0.7; transform: scale(0.3); }
+  19%, 100% { opacity: 0; transform: scale(1.6); }
 }
 @keyframes cli-onda-2 {
-  0%, 66.2% { opacity: 0; transform: scale(0.3); }
-  66.5% { opacity: 0.7; transform: scale(0.3); }
-  73%, 100% { opacity: 0; transform: scale(1.6); }
+  0%, 63.3% { opacity: 0; transform: scale(0.3); }
+  63.5% { opacity: 0.7; transform: scale(0.3); }
+  70%, 100% { opacity: 0; transform: scale(1.6); }
 }
 @media (prefers-reduced-motion: no-preference) {
-  .cli-activa .cli-ventana { animation: cli-ventana 6s cubic-bezier(0.22, 1, 0.36, 1) infinite; }
-  .cli-activa .cli-cursor { animation: cli-cursor 6s ease-in-out infinite; }
-  .cli-activa .cli-onda-1 { animation: cli-onda-1 6s ease-out infinite; }
-  .cli-activa .cli-onda-2 { animation: cli-onda-2 6s ease-out infinite; }
+  .cli-activa .cli-ventana { animation: cli-ventana 5s cubic-bezier(0.22, 1, 0.36, 1) infinite; }
+  .cli-activa .cli-cursor { animation: cli-cursor 5s ease-out infinite; }
+  .cli-activa .cli-onda-1 { animation: cli-onda-1 5s ease-out infinite; }
+  .cli-activa .cli-onda-2 { animation: cli-onda-2 5s ease-out infinite; }
 }
-:root[data-motion="on"] .cli-activa .cli-ventana { animation: cli-ventana 6s cubic-bezier(0.22, 1, 0.36, 1) infinite; }
-:root[data-motion="on"] .cli-activa .cli-cursor { animation: cli-cursor 6s ease-in-out infinite; }
-:root[data-motion="on"] .cli-activa .cli-onda-1 { animation: cli-onda-1 6s ease-out infinite; }
-:root[data-motion="on"] .cli-activa .cli-onda-2 { animation: cli-onda-2 6s ease-out infinite; }
+:root[data-motion="on"] .cli-activa .cli-ventana { animation: cli-ventana 5s cubic-bezier(0.22, 1, 0.36, 1) infinite; }
+:root[data-motion="on"] .cli-activa .cli-cursor { animation: cli-cursor 5s ease-out infinite; }
+:root[data-motion="on"] .cli-activa .cli-onda-1 { animation: cli-onda-1 5s ease-out infinite; }
+:root[data-motion="on"] .cli-activa .cli-onda-2 { animation: cli-onda-2 5s ease-out infinite; }
 
 /* Contador de la oferta (ContadorOferta): el número que cambia entra desde arriba. */
 @keyframes cd-cambia {
@@ -949,40 +952,72 @@ body {
 @media (prefers-reduced-motion: no-preference) {
 }
 
-/* ===== ESCENA PEDIDO (landing, "Pedido directo"): bucle de 10 s mientras está a la vista (.ep-activa). Reposo = pedido ya enviado. =====
-   Toque en "Finalizar Compra", se dibuja la línea hacia WhatsApp, aparece el sticker, llega el mensaje armado (automático) y "Pedido recibido". */
-@keyframes ep-boton { 0%, 12% { transform: none; } 13.2% { transform: scale(0.95); } 15%, 100% { transform: none; } }
-@keyframes ep-linea { 0%, 8% { opacity: 1; } 10%, 16% { opacity: 0; } 22%, 100% { opacity: 1; } }
-@keyframes ep-wa { 0%, 8% { opacity: 1; transform: none; } 10%, 24% { opacity: 0; transform: scale(0.6); } 29% { opacity: 1; transform: scale(1.1); } 33%, 100% { opacity: 1; transform: none; } }
-@keyframes ep-msg { 0%, 8% { opacity: 1; transform: none; } 10%, 38% { opacity: 0; transform: translateY(24px); } 44%, 100% { opacity: 1; transform: none; } }
-@keyframes ep-aviso { 0%, 8% { opacity: 1; transform: none; } 10%, 50% { opacity: 0; transform: translateY(14px) scale(0.95); } 55%, 100% { opacity: 1; transform: none; } }
-@keyframes ep-ta { 0%, 12% { opacity: 0; transform: translate(-50%, -50%) scale(0.5); } 13.2% { opacity: 0.85; transform: translate(-50%, -50%) scale(0.8); } 14.4% { opacity: 0.6; transform: translate(-50%, -50%) scale(0.95); } 16.5%, 100% { opacity: 0; transform: translate(-50%, -50%) scale(1.5); } }
-/* ===== ESCENA BANNERS (landing, "Banners que venden"): bucle de 10 s mientras está a la vista (.eb-activa). Reposo = banner publicado. ===== */
-@keyframes eb-banner { 0%, 8% { opacity: 1; transform: none; } 10%, 22% { opacity: 0; transform: translateY(-22px); } 30%, 100% { opacity: 1; transform: none; } }
-@keyframes eb-sticker { 0%, 8% { opacity: 1; transform: rotate(10deg) scale(1); } 10%, 32% { opacity: 0; transform: rotate(10deg) scale(0.5); } 37% { opacity: 1; transform: rotate(10deg) scale(1.15); } 42%, 100% { opacity: 1; transform: rotate(10deg) scale(1); } }
-@keyframes eb-aviso { 0%, 8% { opacity: 1; transform: none; } 10%, 44% { opacity: 0; transform: translateY(14px) scale(0.95); } 50%, 100% { opacity: 1; transform: none; } }
+/* ===== ESCENA PEDIDO (landing, "Carrito y pedido directo"): bucle de 9 s mientras está a la vista (.ep-activa). Reposo = pedido ya enviado (2 jeans y 1 remera). =====
+   Toque en el "+" del jean (1 a 2), toque en el "−" de la remera (2 a 1), toque en "Finalizar Compra" y, medio segundo después, la línea punteada,
+   el sticker de WhatsApp, el mensaje armado y "Pedido recibido". Al final se desvanece todo y vuelve a empezar. */
+@keyframes ep-j1 { 0%, 11.33% { opacity: 1; } 11.78%, 100% { opacity: 0; } }
+@keyframes ep-j2 { 0%, 11.33% { opacity: 0; } 11.78%, 100% { opacity: 1; } }
+@keyframes ep-r2 { 0%, 23.56% { opacity: 1; } 24%, 100% { opacity: 0; } }
+@keyframes ep-r1 { 0%, 23.56% { opacity: 0; } 24%, 100% { opacity: 1; } }
+@keyframes ep-t0 { 0%, 11.33% { opacity: 1; } 11.78%, 100% { opacity: 0; } }
+@keyframes ep-t1 { 0%, 11.33% { opacity: 0; } 11.78%, 23.56% { opacity: 1; } 24%, 100% { opacity: 0; } }
+@keyframes ep-tf { 0%, 23.56% { opacity: 0; } 24%, 100% { opacity: 1; } }
+@keyframes ep-cf { 0%, 11.33% { opacity: 1; } 11.78%, 23.56% { opacity: 0; } 24%, 100% { opacity: 1; } }
+@keyframes ep-cm { 0%, 11.33% { opacity: 0; } 11.78%, 23.56% { opacity: 1; } 24%, 100% { opacity: 0; } }
+@keyframes ep-h1 { 0%, 8.33% { opacity: 0; } 10%, 17.78% { opacity: 1; } 21.11%, 100% { opacity: 0; } }
+@keyframes ep-h2 { 0%, 20.56% { opacity: 0; } 22.22%, 30% { opacity: 1; } 33.33%, 100% { opacity: 0; } }
+@keyframes ep-boton { 0%, 35.56% { transform: none; } 36.89% { transform: scale(0.95); } 38.89%, 100% { transform: none; } }
+@keyframes ep-linea { 0%, 36.67% { opacity: 0; } 39.44%, 93.33% { opacity: 1; } 97.78%, 100% { opacity: 0; } }
+@keyframes ep-wa { 0%, 37.78% { opacity: 0; transform: scale(0.6); } 41.67% { opacity: 1; transform: scale(1.1); } 44.44%, 93.33% { opacity: 1; transform: none; } 97.78%, 100% { opacity: 0; transform: none; } }
+@keyframes ep-msg { 0%, 40.56% { opacity: 0; transform: translateY(24px); } 46.11%, 93.33% { opacity: 1; transform: none; } 97.78%, 100% { opacity: 0; transform: none; } }
+@keyframes ep-aviso { 0%, 47.78% { opacity: 0; transform: translateY(14px) scale(0.95); } 53.33%, 93.33% { opacity: 1; transform: none; } 97.78%, 100% { opacity: 0; transform: none; } }
+@keyframes ep-tp { 0%, 8.4% { opacity: 0; transform: translate(-50%, -50%) scale(0.5); } 10% { opacity: 0.85; transform: translate(-50%, -50%) scale(0.8); } 11.33% { opacity: 0.6; transform: translate(-50%, -50%) scale(0.95); } 13.73%, 100% { opacity: 0; transform: translate(-50%, -50%) scale(1.5); } }
+@keyframes ep-tm { 0%, 20.62% { opacity: 0; transform: translate(-50%, -50%) scale(0.5); } 22.22% { opacity: 0.85; transform: translate(-50%, -50%) scale(0.8); } 23.56% { opacity: 0.6; transform: translate(-50%, -50%) scale(0.95); } 25.96%, 100% { opacity: 0; transform: translate(-50%, -50%) scale(1.5); } }
+@keyframes ep-ta { 0%, 33.96% { opacity: 0; transform: translate(-50%, -50%) scale(0.5); } 35.56% { opacity: 0.85; transform: translate(-50%, -50%) scale(0.8); } 36.89% { opacity: 0.6; transform: translate(-50%, -50%) scale(0.95); } 39.29%, 100% { opacity: 0; transform: translate(-50%, -50%) scale(1.5); } }
+@media (prefers-reduced-motion: no-preference) {
+  .ep-activa .ep-j1 { animation: ep-j1 9s linear infinite; }
+  .ep-activa .ep-j2 { animation: ep-j2 9s linear infinite; }
+  .ep-activa .ep-r1 { animation: ep-r1 9s linear infinite; }
+  .ep-activa .ep-r2 { animation: ep-r2 9s linear infinite; }
+  .ep-activa .ep-t0 { animation: ep-t0 9s linear infinite; }
+  .ep-activa .ep-t1 { animation: ep-t1 9s linear infinite; }
+  .ep-activa .ep-tf { animation: ep-tf 9s linear infinite; }
+  .ep-activa .ep-cf { animation: ep-cf 9s linear infinite; }
+  .ep-activa .ep-cm { animation: ep-cm 9s linear infinite; }
+  .ep-activa .ep-h1 { animation: ep-h1 9s linear infinite; }
+  .ep-activa .ep-h2 { animation: ep-h2 9s linear infinite; }
+  .ep-activa .ep-boton { animation: ep-boton 9s ease-in-out infinite; }
+  .ep-activa .ep-linea { animation: ep-linea 9s linear infinite; }
+  .ep-activa .ep-wa { animation: ep-wa 9s cubic-bezier(0.22, 1, 0.36, 1) infinite; }
+  .ep-activa .ep-msg { animation: ep-msg 9s cubic-bezier(0.22, 1, 0.36, 1) infinite; }
+  .ep-activa .ep-aviso { animation: ep-aviso 9s cubic-bezier(0.22, 1, 0.36, 1) infinite; }
+  .ep-activa .ep-tp { animation: ep-tp 9s ease-out infinite; }
+  .ep-activa .ep-tm { animation: ep-tm 9s ease-out infinite; }
+  .ep-activa .ep-ta { animation: ep-ta 9s ease-out infinite; }
+}
+:root[data-motion="on"] .ep-activa .ep-j1 { animation: ep-j1 9s linear infinite; }
+:root[data-motion="on"] .ep-activa .ep-j2 { animation: ep-j2 9s linear infinite; }
+:root[data-motion="on"] .ep-activa .ep-r1 { animation: ep-r1 9s linear infinite; }
+:root[data-motion="on"] .ep-activa .ep-r2 { animation: ep-r2 9s linear infinite; }
+:root[data-motion="on"] .ep-activa .ep-t0 { animation: ep-t0 9s linear infinite; }
+:root[data-motion="on"] .ep-activa .ep-t1 { animation: ep-t1 9s linear infinite; }
+:root[data-motion="on"] .ep-activa .ep-tf { animation: ep-tf 9s linear infinite; }
+:root[data-motion="on"] .ep-activa .ep-cf { animation: ep-cf 9s linear infinite; }
+:root[data-motion="on"] .ep-activa .ep-cm { animation: ep-cm 9s linear infinite; }
+:root[data-motion="on"] .ep-activa .ep-h1 { animation: ep-h1 9s linear infinite; }
+:root[data-motion="on"] .ep-activa .ep-h2 { animation: ep-h2 9s linear infinite; }
+:root[data-motion="on"] .ep-activa .ep-boton { animation: ep-boton 9s ease-in-out infinite; }
+:root[data-motion="on"] .ep-activa .ep-linea { animation: ep-linea 9s linear infinite; }
+:root[data-motion="on"] .ep-activa .ep-wa { animation: ep-wa 9s cubic-bezier(0.22, 1, 0.36, 1) infinite; }
+:root[data-motion="on"] .ep-activa .ep-msg { animation: ep-msg 9s cubic-bezier(0.22, 1, 0.36, 1) infinite; }
+:root[data-motion="on"] .ep-activa .ep-aviso { animation: ep-aviso 9s cubic-bezier(0.22, 1, 0.36, 1) infinite; }
+:root[data-motion="on"] .ep-activa .ep-tp { animation: ep-tp 9s ease-out infinite; }
+:root[data-motion="on"] .ep-activa .ep-tm { animation: ep-tm 9s ease-out infinite; }
+:root[data-motion="on"] .ep-activa .ep-ta { animation: ep-ta 9s ease-out infinite; }
 /* ===== ESCENA PREGUNTAS (landing, "En detalle, sin límites"): bucle de 12 s mientras está a la vista (.eq-activa). Reposo = primera abierta. =====
    Arranca todo cerrado; un toque abre cada pregunta y cierra la anterior (animando la altura, así el resto sube y baja). */
 @media (prefers-reduced-motion: no-preference) {
-  .ep-activa .ep-boton { animation: ep-boton 10s ease-in-out infinite; }
-  .ep-activa .ep-linea { animation: ep-linea 10s linear infinite; }
-  .ep-activa .ep-wa { animation: ep-wa 10s cubic-bezier(0.22, 1, 0.36, 1) infinite; }
-  .ep-activa .ep-msg { animation: ep-msg 10s cubic-bezier(0.22, 1, 0.36, 1) infinite; }
-  .ep-activa .ep-aviso { animation: ep-aviso 10s cubic-bezier(0.22, 1, 0.36, 1) infinite; }
-  .ep-activa .ep-ta { animation: ep-ta 10s ease-out infinite; }
-  .eb-activa .eb-banner { animation: eb-banner 10s cubic-bezier(0.22, 1, 0.36, 1) infinite; }
-  .eb-activa .eb-sticker { animation: eb-sticker 10s cubic-bezier(0.22, 1, 0.36, 1) infinite; }
-  .eb-activa .eb-aviso { animation: eb-aviso 10s cubic-bezier(0.22, 1, 0.36, 1) infinite; }
 }
-:root[data-motion="on"] .ep-activa .ep-boton { animation: ep-boton 10s ease-in-out infinite; }
-:root[data-motion="on"] .ep-activa .ep-linea { animation: ep-linea 10s linear infinite; }
-:root[data-motion="on"] .ep-activa .ep-wa { animation: ep-wa 10s cubic-bezier(0.22, 1, 0.36, 1) infinite; }
-:root[data-motion="on"] .ep-activa .ep-msg { animation: ep-msg 10s cubic-bezier(0.22, 1, 0.36, 1) infinite; }
-:root[data-motion="on"] .ep-activa .ep-aviso { animation: ep-aviso 10s cubic-bezier(0.22, 1, 0.36, 1) infinite; }
-:root[data-motion="on"] .ep-activa .ep-ta { animation: ep-ta 10s ease-out infinite; }
-:root[data-motion="on"] .eb-activa .eb-banner { animation: eb-banner 10s cubic-bezier(0.22, 1, 0.36, 1) infinite; }
-:root[data-motion="on"] .eb-activa .eb-sticker { animation: eb-sticker 10s cubic-bezier(0.22, 1, 0.36, 1) infinite; }
-:root[data-motion="on"] .eb-activa .eb-aviso { animation: eb-aviso 10s cubic-bezier(0.22, 1, 0.36, 1) infinite; }
 @media (prefers-reduced-motion: no-preference) {
   .ep-activa .eg-anillo::before { animation: eg-anillo var(--dur) ease-out var(--ini) infinite; }
   .ep-activa .eg-anillo::after { animation: eg-anillo var(--dur) ease-out calc(var(--ini) + 0.16s) infinite; }
@@ -994,51 +1029,70 @@ body {
 :root[data-motion="on"] .eq-activa .eg-anillo::before { animation: eg-anillo var(--dur) ease-out var(--ini) infinite; }
 :root[data-motion="on"] .eq-activa .eg-anillo::after { animation: eg-anillo var(--dur) ease-out calc(var(--ini) + 0.16s) infinite; }
 
-/* Galería (4 fotos): bucle de 12 s; un toque en la flecha derecha desplaza la foto y mueve el borde de la miniatura. */
-@keyframes eg-f0 { 0%, 22% { transform: none; } 25%, 96.9% { transform: translateX(-100%); } 97% { transform: translateX(100%); } 100% { transform: none; } }
-@keyframes eg-f1 { 0%, 22% { transform: translateX(100%); } 25%, 47% { transform: none; } 50%, 100% { transform: translateX(-100%); } }
-@keyframes eg-f2 { 0%, 47% { transform: translateX(100%); } 50%, 72% { transform: none; } 75%, 100% { transform: translateX(-100%); } }
-@keyframes eg-f3 { 0%, 72% { transform: translateX(100%); } 75%, 94% { transform: none; } 97%, 100% { transform: translateX(-100%); } }
-@keyframes eg-r0 { 0%, 23% { opacity: 1; } 25%, 97% { opacity: 0; } 100% { opacity: 1; } }
-@keyframes eg-r1 { 0%, 24% { opacity: 0; } 26%, 48% { opacity: 1; } 50%, 100% { opacity: 0; } }
-@keyframes eg-r2 { 0%, 49% { opacity: 0; } 51%, 73% { opacity: 1; } 75%, 100% { opacity: 0; } }
-@keyframes eg-r3 { 0%, 74% { opacity: 0; } 76%, 96% { opacity: 1; } 98%, 100% { opacity: 0; } }
-@keyframes eg-t1 { 0%, 21% { opacity: 0; transform: translate(-50%, -50%) scale(0.5); } 22.2% { opacity: 0.85; transform: translate(-50%, -50%) scale(0.8); } 23.2% { opacity: 0.6; transform: translate(-50%, -50%) scale(0.95); } 25%, 100% { opacity: 0; transform: translate(-50%, -50%) scale(1.5); } }
-@keyframes eg-t2 { 0%, 46% { opacity: 0; transform: translate(-50%, -50%) scale(0.5); } 47.2% { opacity: 0.85; transform: translate(-50%, -50%) scale(0.8); } 48.2% { opacity: 0.6; transform: translate(-50%, -50%) scale(0.95); } 50%, 100% { opacity: 0; transform: translate(-50%, -50%) scale(1.5); } }
-@keyframes eg-t3 { 0%, 71% { opacity: 0; transform: translate(-50%, -50%) scale(0.5); } 72.2% { opacity: 0.85; transform: translate(-50%, -50%) scale(0.8); } 73.2% { opacity: 0.6; transform: translate(-50%, -50%) scale(0.95); } 75%, 100% { opacity: 0; transform: translate(-50%, -50%) scale(1.5); } }
-@keyframes eg-t0 { 0%, 96% { opacity: 0; transform: translate(-50%, -50%) scale(0.5); } 97.2% { opacity: 0.85; transform: translate(-50%, -50%) scale(0.8); } 98.2% { opacity: 0.6; transform: translate(-50%, -50%) scale(0.95); } 100%, 100% { opacity: 0; transform: translate(-50%, -50%) scale(1.5); } }
-@keyframes eg-flecha { 0% { transform: scale(1); } 21.4% { transform: scale(1); } 22.599999999999998% { transform: scale(0.86); } 24.2% { transform: scale(1); } 46.400000000000006% { transform: scale(1); } 47.6% { transform: scale(0.86); } 49.2% { transform: scale(1); } 71.4% { transform: scale(1); } 72.60000000000001% { transform: scale(0.86); } 74.2% { transform: scale(1); } 96.4% { transform: scale(1); } 97.60000000000001% { transform: scale(0.86); } 99.2% { transform: scale(1); } 100% { transform: scale(1); } }
-@keyframes eg-zoom { 0% { transform: rotate(8deg) scale(1); } 21.2% { transform: rotate(8deg) scale(1); } 23.2% { transform: rotate(8deg) scale(1.08); } 26.2% { transform: rotate(8deg) scale(1); } 46.2% { transform: rotate(8deg) scale(1); } 48.2% { transform: rotate(8deg) scale(1.08); } 51.2% { transform: rotate(8deg) scale(1); } 71.2% { transform: rotate(8deg) scale(1); } 73.2% { transform: rotate(8deg) scale(1.08); } 76.2% { transform: rotate(8deg) scale(1); } 96.2% { transform: rotate(8deg) scale(1); } 98.2% { transform: rotate(8deg) scale(1.08); } 100% { transform: rotate(8deg) scale(1); } 100% { transform: rotate(8deg) scale(1); } }
+/* Galería (4 fotos): bucle de 19 s. Toque en el corazón (se llena y aparece el aviso), toque en la lupa (zoom real sobre la foto 1),
+   y luego un toque en la flecha derecha por cada foto: la foto se desplaza y se mueve el borde de la miniatura. */
+@keyframes eg-f0 { 0%, 56.58% { transform: none; } 59.47%, 95.53% { transform: translateX(-100%); } 95.53% { transform: translateX(100%); } 98.42%, 100% { transform: none; } }
+@keyframes eg-f1 { 0%, 56.58% { transform: translateX(100%); } 59.47%, 69.74% { transform: none; } 72.63%, 100% { transform: translateX(-100%); } }
+@keyframes eg-f2 { 0%, 69.74% { transform: translateX(100%); } 72.63%, 82.89% { transform: none; } 85.79%, 100% { transform: translateX(-100%); } }
+@keyframes eg-f3 { 0%, 82.89% { transform: translateX(100%); } 85.79%, 95.53% { transform: none; } 98.42%, 99.99% { transform: translateX(-100%); } 100% { transform: translateX(100%); } }
+@keyframes eg-r0 { 0%, 56.84% { opacity: 1; } 59.47%, 96.58% { opacity: 0; } 98.95%, 100% { opacity: 1; } }
+@keyframes eg-r1 { 0%, 57.11% { opacity: 0; } 60%, 70% { opacity: 1; } 72.63%, 100% { opacity: 0; } }
+@keyframes eg-r2 { 0%, 70.26% { opacity: 0; } 73.16%, 83.16% { opacity: 1; } 85.79%, 100% { opacity: 0; } }
+@keyframes eg-r3 { 0%, 83.42% { opacity: 0; } 86.32%, 95.79% { opacity: 1; } 98.42%, 100% { opacity: 0; } }
+@keyframes eg-th { 0%, 6.61% { opacity: 0; transform: translate(-50%, -50%) scale(0.5); } 7.37% { opacity: 0.85; transform: translate(-50%, -50%) scale(0.8); } 8% { opacity: 0.6; transform: translate(-50%, -50%) scale(0.95); } 9.14%, 100% { opacity: 0; transform: translate(-50%, -50%) scale(1.5); } }
+@keyframes eg-tl { 0%, 27.66% { opacity: 0; transform: translate(-50%, -50%) scale(0.5); } 28.42% { opacity: 0.85; transform: translate(-50%, -50%) scale(0.8); } 29.05% { opacity: 0.6; transform: translate(-50%, -50%) scale(0.95); } 30.19%, 100% { opacity: 0; transform: translate(-50%, -50%) scale(1.5); } }
+@keyframes eg-t1 { 0%, 55.03% { opacity: 0; transform: translate(-50%, -50%) scale(0.5); } 55.79% { opacity: 0.85; transform: translate(-50%, -50%) scale(0.8); } 56.42% { opacity: 0.6; transform: translate(-50%, -50%) scale(0.95); } 57.56%, 100% { opacity: 0; transform: translate(-50%, -50%) scale(1.5); } }
+@keyframes eg-t2 { 0%, 68.19% { opacity: 0; transform: translate(-50%, -50%) scale(0.5); } 68.95% { opacity: 0.85; transform: translate(-50%, -50%) scale(0.8); } 69.58% { opacity: 0.6; transform: translate(-50%, -50%) scale(0.95); } 70.72%, 100% { opacity: 0; transform: translate(-50%, -50%) scale(1.5); } }
+@keyframes eg-t3 { 0%, 81.35% { opacity: 0; transform: translate(-50%, -50%) scale(0.5); } 82.11% { opacity: 0.85; transform: translate(-50%, -50%) scale(0.8); } 82.74% { opacity: 0.6; transform: translate(-50%, -50%) scale(0.95); } 83.87%, 100% { opacity: 0; transform: translate(-50%, -50%) scale(1.5); } }
+@keyframes eg-t0 { 0%, 93.98% { opacity: 0; transform: translate(-50%, -50%) scale(0.5); } 94.74% { opacity: 0.85; transform: translate(-50%, -50%) scale(0.8); } 95.37% { opacity: 0.6; transform: translate(-50%, -50%) scale(0.95); } 96.51%, 100% { opacity: 0; transform: translate(-50%, -50%) scale(1.5); } }
+@keyframes eg-flecha { 0% { transform: scale(1); } 55.26% { transform: scale(1); } 56.05% { transform: scale(0.86); } 57.11% { transform: scale(1); } 68.42% { transform: scale(1); } 69.21% { transform: scale(0.86); } 70.26% { transform: scale(1); } 81.58% { transform: scale(1); } 82.37% { transform: scale(0.86); } 83.42% { transform: scale(1); } 94.21% { transform: scale(1); } 95% { transform: scale(0.86); } 96.05% { transform: scale(1); } 100% { transform: scale(1); } }
+@keyframes eg-lupa { 0%, 27.89% { transform: scale(1); } 28.68% { transform: scale(0.86); } 29.74%, 100% { transform: scale(1); } }
+@keyframes eg-lleno { 0%, 7.58% { opacity: 0; transform: scale(0.6); } 8.42% { opacity: 1; transform: scale(1.3); } 10.26%, 97% { opacity: 1; transform: none; } 100% { opacity: 0; transform: none; } }
+@keyframes eg-aviso { 0%, 7.89% { opacity: 0; transform: translateY(14px) scale(0.95); } 11.58%, 23.16% { opacity: 1; transform: none; } 25.79%, 100% { opacity: 0; transform: translateY(8px) scale(0.97); } }
+@keyframes eg-zfoto { 0%, 29.47% { transform: scale(1); } 33.68%, 46.32% { transform: scale(2.5); } 51.05%, 100% { transform: scale(1); } }
+@keyframes eg-zoom { 0%, 27.79% { transform: rotate(8deg) scale(1); } 29.68% { transform: rotate(8deg) scale(1.08); } 31.58%, 100% { transform: rotate(8deg) scale(1); } }
 @media (prefers-reduced-motion: no-preference) {
-  .eg-activa .eg-f0 { animation: eg-f0 12s cubic-bezier(0.45, 0, 0.2, 1) infinite; }
-  .eg-activa .eg-f1 { animation: eg-f1 12s cubic-bezier(0.45, 0, 0.2, 1) infinite; }
-  .eg-activa .eg-f2 { animation: eg-f2 12s cubic-bezier(0.45, 0, 0.2, 1) infinite; }
-  .eg-activa .eg-f3 { animation: eg-f3 12s cubic-bezier(0.45, 0, 0.2, 1) infinite; }
-  .eg-activa .eg-r0 { animation: eg-r0 12s linear infinite; }
-  .eg-activa .eg-r1 { animation: eg-r1 12s linear infinite; }
-  .eg-activa .eg-r2 { animation: eg-r2 12s linear infinite; }
-  .eg-activa .eg-r3 { animation: eg-r3 12s linear infinite; }
-  .eg-activa .eg-t0 { animation: eg-t0 12s ease-out infinite; }
-  .eg-activa .eg-t1 { animation: eg-t1 12s ease-out infinite; }
-  .eg-activa .eg-t2 { animation: eg-t2 12s ease-out infinite; }
-  .eg-activa .eg-t3 { animation: eg-t3 12s ease-out infinite; }
-  .eg-activa .eg-flecha { animation: eg-flecha 12s ease-in-out infinite; }
-  .eg-activa .eg-zoom { animation: eg-zoom 12s cubic-bezier(0.22, 1, 0.36, 1) infinite; }
+  .eg-activa .eg-f0 { animation: eg-f0 19s cubic-bezier(0.45, 0, 0.2, 1) infinite; }
+  .eg-activa .eg-f1 { animation: eg-f1 19s cubic-bezier(0.45, 0, 0.2, 1) infinite; }
+  .eg-activa .eg-f2 { animation: eg-f2 19s cubic-bezier(0.45, 0, 0.2, 1) infinite; }
+  .eg-activa .eg-f3 { animation: eg-f3 19s cubic-bezier(0.45, 0, 0.2, 1) infinite; }
+  .eg-activa .eg-r0 { animation: eg-r0 19s linear infinite; }
+  .eg-activa .eg-r1 { animation: eg-r1 19s linear infinite; }
+  .eg-activa .eg-r2 { animation: eg-r2 19s linear infinite; }
+  .eg-activa .eg-r3 { animation: eg-r3 19s linear infinite; }
+  .eg-activa .eg-t0 { animation: eg-t0 19s ease-out infinite; }
+  .eg-activa .eg-t1 { animation: eg-t1 19s ease-out infinite; }
+  .eg-activa .eg-t2 { animation: eg-t2 19s ease-out infinite; }
+  .eg-activa .eg-t3 { animation: eg-t3 19s ease-out infinite; }
+  .eg-activa .eg-th { animation: eg-th 19s ease-out infinite; }
+  .eg-activa .eg-tl { animation: eg-tl 19s ease-out infinite; }
+  .eg-activa .eg-flecha { animation: eg-flecha 19s ease-in-out infinite; }
+  .eg-activa .eg-lupa { animation: eg-lupa 19s ease-in-out infinite; }
+  .eg-activa .eg-lleno { animation: eg-lleno 19s cubic-bezier(0.22, 1, 0.36, 1) infinite; }
+  .eg-activa .eg-aviso { animation: eg-aviso 19s cubic-bezier(0.22, 1, 0.36, 1) infinite; }
+  .eg-activa .eg-zfoto { animation: eg-zfoto 19s cubic-bezier(0.45, 0, 0.2, 1) infinite; }
+  .eg-activa .eg-zoom { animation: eg-zoom 19s cubic-bezier(0.22, 1, 0.36, 1) infinite; }
 }
-:root[data-motion="on"] .eg-activa .eg-f0 { animation: eg-f0 12s cubic-bezier(0.45, 0, 0.2, 1) infinite; }
-:root[data-motion="on"] .eg-activa .eg-f1 { animation: eg-f1 12s cubic-bezier(0.45, 0, 0.2, 1) infinite; }
-:root[data-motion="on"] .eg-activa .eg-f2 { animation: eg-f2 12s cubic-bezier(0.45, 0, 0.2, 1) infinite; }
-:root[data-motion="on"] .eg-activa .eg-f3 { animation: eg-f3 12s cubic-bezier(0.45, 0, 0.2, 1) infinite; }
-:root[data-motion="on"] .eg-activa .eg-r0 { animation: eg-r0 12s linear infinite; }
-:root[data-motion="on"] .eg-activa .eg-r1 { animation: eg-r1 12s linear infinite; }
-:root[data-motion="on"] .eg-activa .eg-r2 { animation: eg-r2 12s linear infinite; }
-:root[data-motion="on"] .eg-activa .eg-r3 { animation: eg-r3 12s linear infinite; }
-:root[data-motion="on"] .eg-activa .eg-t0 { animation: eg-t0 12s ease-out infinite; }
-:root[data-motion="on"] .eg-activa .eg-t1 { animation: eg-t1 12s ease-out infinite; }
-:root[data-motion="on"] .eg-activa .eg-t2 { animation: eg-t2 12s ease-out infinite; }
-:root[data-motion="on"] .eg-activa .eg-t3 { animation: eg-t3 12s ease-out infinite; }
-:root[data-motion="on"] .eg-activa .eg-flecha { animation: eg-flecha 12s ease-in-out infinite; }
-:root[data-motion="on"] .eg-activa .eg-zoom { animation: eg-zoom 12s cubic-bezier(0.22, 1, 0.36, 1) infinite; }
+:root[data-motion="on"] .eg-activa .eg-f0 { animation: eg-f0 19s cubic-bezier(0.45, 0, 0.2, 1) infinite; }
+:root[data-motion="on"] .eg-activa .eg-f1 { animation: eg-f1 19s cubic-bezier(0.45, 0, 0.2, 1) infinite; }
+:root[data-motion="on"] .eg-activa .eg-f2 { animation: eg-f2 19s cubic-bezier(0.45, 0, 0.2, 1) infinite; }
+:root[data-motion="on"] .eg-activa .eg-f3 { animation: eg-f3 19s cubic-bezier(0.45, 0, 0.2, 1) infinite; }
+:root[data-motion="on"] .eg-activa .eg-r0 { animation: eg-r0 19s linear infinite; }
+:root[data-motion="on"] .eg-activa .eg-r1 { animation: eg-r1 19s linear infinite; }
+:root[data-motion="on"] .eg-activa .eg-r2 { animation: eg-r2 19s linear infinite; }
+:root[data-motion="on"] .eg-activa .eg-r3 { animation: eg-r3 19s linear infinite; }
+:root[data-motion="on"] .eg-activa .eg-t0 { animation: eg-t0 19s ease-out infinite; }
+:root[data-motion="on"] .eg-activa .eg-t1 { animation: eg-t1 19s ease-out infinite; }
+:root[data-motion="on"] .eg-activa .eg-t2 { animation: eg-t2 19s ease-out infinite; }
+:root[data-motion="on"] .eg-activa .eg-t3 { animation: eg-t3 19s ease-out infinite; }
+:root[data-motion="on"] .eg-activa .eg-th { animation: eg-th 19s ease-out infinite; }
+:root[data-motion="on"] .eg-activa .eg-tl { animation: eg-tl 19s ease-out infinite; }
+:root[data-motion="on"] .eg-activa .eg-flecha { animation: eg-flecha 19s ease-in-out infinite; }
+:root[data-motion="on"] .eg-activa .eg-lupa { animation: eg-lupa 19s ease-in-out infinite; }
+:root[data-motion="on"] .eg-activa .eg-lleno { animation: eg-lleno 19s cubic-bezier(0.22, 1, 0.36, 1) infinite; }
+:root[data-motion="on"] .eg-activa .eg-aviso { animation: eg-aviso 19s cubic-bezier(0.22, 1, 0.36, 1) infinite; }
+:root[data-motion="on"] .eg-activa .eg-zfoto { animation: eg-zfoto 19s cubic-bezier(0.45, 0, 0.2, 1) infinite; }
+:root[data-motion="on"] .eg-activa .eg-zoom { animation: eg-zoom 19s cubic-bezier(0.22, 1, 0.36, 1) infinite; }
 
 /* ===== TIENDA DE SERVICIOS (et-, 12 s) y DE PRODUCTOS (ev-, 10 s): sección Productos y servicios. Reposo = ya reservado / ya agregado. ===== */
 @keyframes et-d0 { 0%, 8% { opacity: 0; } 10%, 12.4% { opacity: 1; } 13.4%, 100% { opacity: 0; } }
@@ -1186,3 +1240,115 @@ body {
 :root[data-motion="on"] .em-activa .em-tb { animation: em-tb 12s ease-out infinite; }
 :root[data-motion="on"] .em-activa .eg-anillo::before { animation: eg-anillo var(--dur) ease-out var(--ini) infinite; }
 :root[data-motion="on"] .em-activa .eg-anillo::after { animation: eg-anillo var(--dur) ease-out calc(var(--ini) + 0.16s) infinite; }
+
+/* ===== ESCENA ESTADÍSTICAS (landing, "Accedé a tus estadísticas"): bucle de 12 s mientras está a la vista (.est-activa). Reposo = todo dibujado. =====
+   0,4 a 3 s: se llena (la curva, las tortas con un barrido y las barras). 3 a 5 s: late el punto final. 5,2 s: llega una venta (aviso, el total sube, la curva sube, 51 a 52,
+   48 a 49). A los 11 s se desvanece todo y vuelve a empezar. */
+@keyframes est-curva-a { 0%, 45.83% { opacity: 1; } 47.92%, 100% { opacity: 0; } }
+@keyframes est-curva-b { 0%, 45.83% { opacity: 0; } 47.92%, 100% { opacity: 1; } }
+@keyframes est-trazo { 0%, 3.33% { stroke-dashoffset: 1; } 20%, 100% { stroke-dashoffset: 0; } }
+@keyframes est-area { 0%, 3.33% { clip-path: inset(0 100% 0 0); } 20%, 100% { clip-path: inset(0 0 0 0); } }
+@keyframes est-punto { 0%, 17.5% { opacity: 0; transform: scale(0.4); } 20.83%, 100% { opacity: 1; transform: none; } }
+@keyframes est-pulso { 0%, 25% { opacity: 0; transform: scale(1); } 25.42% { opacity: 0.55; transform: scale(1); } 32.5% { opacity: 0; transform: scale(2.8); } 34.17% { opacity: 0.55; transform: scale(1); } 41.25%, 100% { opacity: 0; transform: scale(2.8); } }
+@keyframes est-num-a { 0%, 45.83% { opacity: 1; } 46%, 100% { opacity: 0; } }
+@keyframes est-num-b { 0%, 45.83% { opacity: 0; transform: scale(1); } 46.25% { opacity: 1; transform: scale(1.16); } 50%, 100% { opacity: 1; transform: scale(1); } }
+@keyframes est-pil-a { 0%, 45.83% { opacity: 1; } 46%, 100% { opacity: 0; } }
+@keyframes est-pil-b { 0%, 45.83% { opacity: 0; transform: scale(1); } 46.25% { opacity: 1; transform: scale(1.16); } 50%, 100% { opacity: 1; transform: scale(1); } }
+@keyframes est-cen-a { 0%, 45.83% { opacity: 1; } 46%, 100% { opacity: 0; } }
+@keyframes est-cen-b { 0%, 45.83% { opacity: 0; transform: scale(1); } 46.25% { opacity: 1; transform: scale(1.16); } 50%, 100% { opacity: 1; transform: scale(1); } }
+@keyframes est-pen-a { 0%, 45.83% { opacity: 1; } 46%, 100% { opacity: 0; } }
+@keyframes est-pen-b { 0%, 45.83% { opacity: 0; transform: scale(1); } 46.25% { opacity: 1; transform: scale(1.16); } 50%, 100% { opacity: 1; transform: scale(1); } }
+@keyframes est-top-a { 0%, 45.83% { opacity: 1; } 46%, 100% { opacity: 0; } }
+@keyframes est-top-b { 0%, 45.83% { opacity: 0; transform: scale(1); } 46.25% { opacity: 1; transform: scale(1.16); } 50%, 100% { opacity: 1; transform: scale(1); } }
+@keyframes est-barrido-e { 0%, 6.67% { stroke-dasharray: 0 100; } 20.83%, 100% { stroke-dasharray: 100 0; } }
+@keyframes est-barrido-c { 0%, 10% { stroke-dasharray: 0 100; } 24.17%, 100% { stroke-dasharray: 100 0; } }
+@keyframes est-ea-g { 0%, 45.83% { opacity: 1; } 46.17%, 100% { opacity: 0; } }
+@keyframes est-eb-g { 0%, 45.83% { opacity: 0; } 46.17%, 100% { opacity: 1; } }
+@keyframes est-bar-0 { 0%, 13.33% { transform: scaleX(0); } 21.67%, 100% { transform: scaleX(1); } }
+@keyframes est-bar-1 { 0%, 15.83% { transform: scaleX(0); } 24.17%, 100% { transform: scaleX(1); } }
+@keyframes est-bar-2 { 0%, 18.33% { transform: scaleX(0); } 26.67%, 100% { transform: scaleX(1); } }
+@keyframes est-bar-3 { 0%, 20.83% { transform: scaleX(0); } 29.17%, 100% { transform: scaleX(1); } }
+@keyframes est-aviso { 0%, 43.33% { opacity: 0; transform: translateY(14px) scale(0.95); } 47.5%, 71.67% { opacity: 1; transform: none; } 75.83%, 100% { opacity: 0; transform: translateY(8px) scale(0.97); } }
+@keyframes est-aviso-base { 0%, 43.33% { opacity: 1; } 44.58%, 76.67% { opacity: 0; } 78.33%, 100% { opacity: 1; } }
+@keyframes est-fin { 0%, 91.67% { opacity: 1; } 97.5%, 100% { opacity: 0; } }
+@media (prefers-reduced-motion: no-preference) {
+  .est-activa .est-curva-a { animation: est-curva-a 12s linear infinite; }
+  .est-activa .est-curva-b { animation: est-curva-b 12s linear infinite; }
+  .est-activa .est-trazo-a { animation: est-trazo 12s cubic-bezier(0.4, 0, 0.2, 1) infinite; }
+  .est-activa .est-area-a { animation: est-area 12s cubic-bezier(0.4, 0, 0.2, 1) infinite; }
+  .est-activa .est-punto-a { animation: est-punto 12s cubic-bezier(0.22, 1, 0.36, 1) infinite; }
+  .est-activa .est-pulso { animation: est-pulso 12s ease-out infinite; }
+  .est-activa .est-num-a { animation: est-num-a 12s linear infinite; }
+  .est-activa .est-num-b { animation: est-num-b 12s cubic-bezier(0.22, 1, 0.36, 1) infinite; }
+  .est-activa .est-pil-a { animation: est-pil-a 12s linear infinite; }
+  .est-activa .est-pil-b { animation: est-pil-b 12s cubic-bezier(0.22, 1, 0.36, 1) infinite; }
+  .est-activa .est-cen-a { animation: est-cen-a 12s linear infinite; }
+  .est-activa .est-cen-b { animation: est-cen-b 12s cubic-bezier(0.22, 1, 0.36, 1) infinite; }
+  .est-activa .est-pen-a { animation: est-pen-a 12s linear infinite; }
+  .est-activa .est-pen-b { animation: est-pen-b 12s cubic-bezier(0.22, 1, 0.36, 1) infinite; }
+  .est-activa .est-top-a { animation: est-top-a 12s linear infinite; }
+  .est-activa .est-top-b { animation: est-top-b 12s cubic-bezier(0.22, 1, 0.36, 1) infinite; }
+  .est-activa .est-barrido-e { animation: est-barrido-e 12s cubic-bezier(0.4, 0, 0.2, 1) infinite; }
+  .est-activa .est-barrido-c { animation: est-barrido-c 12s cubic-bezier(0.4, 0, 0.2, 1) infinite; }
+  .est-activa .est-ea-g { animation: est-ea-g 12s linear infinite; }
+  .est-activa .est-eb-g { animation: est-eb-g 12s linear infinite; }
+  .est-activa .est-bar-0 { animation: est-bar-0 12s cubic-bezier(0.22, 1, 0.36, 1) infinite; }
+  .est-activa .est-bar-1 { animation: est-bar-1 12s cubic-bezier(0.22, 1, 0.36, 1) infinite; }
+  .est-activa .est-bar-2 { animation: est-bar-2 12s cubic-bezier(0.22, 1, 0.36, 1) infinite; }
+  .est-activa .est-bar-3 { animation: est-bar-3 12s cubic-bezier(0.22, 1, 0.36, 1) infinite; }
+  .est-activa .est-aviso { animation: est-aviso 12s cubic-bezier(0.22, 1, 0.36, 1) infinite; }
+  .est-activa .est-aviso-base { animation: est-aviso-base 12s linear infinite; }
+  .est-activa .est-graf { animation: est-fin 12s linear infinite; }
+}
+:root[data-motion="on"] .est-activa .est-curva-a { animation: est-curva-a 12s linear infinite; }
+:root[data-motion="on"] .est-activa .est-curva-b { animation: est-curva-b 12s linear infinite; }
+:root[data-motion="on"] .est-activa .est-trazo-a { animation: est-trazo 12s cubic-bezier(0.4, 0, 0.2, 1) infinite; }
+:root[data-motion="on"] .est-activa .est-area-a { animation: est-area 12s cubic-bezier(0.4, 0, 0.2, 1) infinite; }
+:root[data-motion="on"] .est-activa .est-punto-a { animation: est-punto 12s cubic-bezier(0.22, 1, 0.36, 1) infinite; }
+:root[data-motion="on"] .est-activa .est-pulso { animation: est-pulso 12s ease-out infinite; }
+:root[data-motion="on"] .est-activa .est-num-a { animation: est-num-a 12s linear infinite; }
+:root[data-motion="on"] .est-activa .est-num-b { animation: est-num-b 12s cubic-bezier(0.22, 1, 0.36, 1) infinite; }
+:root[data-motion="on"] .est-activa .est-pil-a { animation: est-pil-a 12s linear infinite; }
+:root[data-motion="on"] .est-activa .est-pil-b { animation: est-pil-b 12s cubic-bezier(0.22, 1, 0.36, 1) infinite; }
+:root[data-motion="on"] .est-activa .est-cen-a { animation: est-cen-a 12s linear infinite; }
+:root[data-motion="on"] .est-activa .est-cen-b { animation: est-cen-b 12s cubic-bezier(0.22, 1, 0.36, 1) infinite; }
+:root[data-motion="on"] .est-activa .est-pen-a { animation: est-pen-a 12s linear infinite; }
+:root[data-motion="on"] .est-activa .est-pen-b { animation: est-pen-b 12s cubic-bezier(0.22, 1, 0.36, 1) infinite; }
+:root[data-motion="on"] .est-activa .est-top-a { animation: est-top-a 12s linear infinite; }
+:root[data-motion="on"] .est-activa .est-top-b { animation: est-top-b 12s cubic-bezier(0.22, 1, 0.36, 1) infinite; }
+:root[data-motion="on"] .est-activa .est-barrido-e { animation: est-barrido-e 12s cubic-bezier(0.4, 0, 0.2, 1) infinite; }
+:root[data-motion="on"] .est-activa .est-barrido-c { animation: est-barrido-c 12s cubic-bezier(0.4, 0, 0.2, 1) infinite; }
+:root[data-motion="on"] .est-activa .est-ea-g { animation: est-ea-g 12s linear infinite; }
+:root[data-motion="on"] .est-activa .est-eb-g { animation: est-eb-g 12s linear infinite; }
+:root[data-motion="on"] .est-activa .est-bar-0 { animation: est-bar-0 12s cubic-bezier(0.22, 1, 0.36, 1) infinite; }
+:root[data-motion="on"] .est-activa .est-bar-1 { animation: est-bar-1 12s cubic-bezier(0.22, 1, 0.36, 1) infinite; }
+:root[data-motion="on"] .est-activa .est-bar-2 { animation: est-bar-2 12s cubic-bezier(0.22, 1, 0.36, 1) infinite; }
+:root[data-motion="on"] .est-activa .est-bar-3 { animation: est-bar-3 12s cubic-bezier(0.22, 1, 0.36, 1) infinite; }
+:root[data-motion="on"] .est-activa .est-aviso { animation: est-aviso 12s cubic-bezier(0.22, 1, 0.36, 1) infinite; }
+:root[data-motion="on"] .est-activa .est-aviso-base { animation: est-aviso-base 12s linear infinite; }
+:root[data-motion="on"] .est-activa .est-graf { animation: est-fin 12s linear infinite; }
+
+/* Imagen de métodos de pago animada (PagosAnimado), bucle de 7 s: Mercado Pago se conecta y la venta en cuotas se activa, una tarjeta después de la otra, en azul oscuro.
+   El cursor no se desliza: aparece pegado al botón o a la casilla. Quieta con "reducir movimiento" (queda todo activo); con ?motion=on se fuerza. */
+.pg-onda { width: 4.2cqw; height: 4.2cqw; margin: -2.1cqw 0 0 -2.1cqw; border: 2px solid #17122f; opacity: 0; }
+.pg-cursor { width: 2.8cqw; height: 2.8cqw; margin: -0.4cqw 0 0 -0.5cqw; opacity: 0; filter: drop-shadow(0 2px 3px rgba(23, 18, 47, 0.4)); }
+@keyframes pg-on-a { 0%, 12.86% { opacity: 0; } 17.86%, 100% { opacity: 1; } }
+@keyframes pg-onda-a { 0%, 11.14% { opacity: 0; transform: scale(0.3); } 11.29% { opacity: 0.7; transform: scale(0.3); } 21.43%, 100% { opacity: 0; transform: scale(1.6); } }
+@keyframes pg-on-b { 0%, 41.43% { opacity: 0; } 46.43%, 100% { opacity: 1; } }
+@keyframes pg-onda-b { 0%, 39.71% { opacity: 0; transform: scale(0.3); } 39.86% { opacity: 0.7; transform: scale(0.3); } 50%, 100% { opacity: 0; transform: scale(1.6); } }
+@keyframes pg-cursor { 0%, 2.86% { opacity: 0; transform: translate(3cqw, -3cqw) scale(1); } 4.57% { opacity: 1; transform: translate(3cqw, -3cqw) scale(1); } 7.86% { opacity: 1; transform: translate(0, 0) scale(1); } 10.29% { opacity: 1; transform: translate(0, 0) scale(0.82); } 13.14% { opacity: 1; transform: translate(0, 0) scale(1); } 15.71%, 29.29% { opacity: 0; transform: translate(0, 0) scale(1); } 30% { opacity: 0; transform: translate(-52.60cqw, 12.33cqw) scale(1); } 32.14% { opacity: 1; transform: translate(-52.60cqw, 12.33cqw) scale(1); } 35.71% { opacity: 1; transform: translate(-55.60cqw, 15.33cqw) scale(1); } 38.86% { opacity: 1; transform: translate(-55.60cqw, 15.33cqw) scale(0.82); } 41.71% { opacity: 1; transform: translate(-55.60cqw, 15.33cqw) scale(1); } 44.29%, 100% { opacity: 0; transform: translate(-55.60cqw, 15.33cqw) scale(1); } }
+@keyframes pg-fin { 0%, 85.71% { opacity: 1; } 94.29%, 100% { opacity: 0; } }
+@media (prefers-reduced-motion: no-preference) {
+  .pg-activa .pg-on-a { animation: pg-on-a 7s ease-out infinite; }
+  .pg-activa .pg-onda-a { animation: pg-onda-a 7s ease-out infinite; }
+  .pg-activa .pg-on-b { animation: pg-on-b 7s ease-out infinite; }
+  .pg-activa .pg-onda-b { animation: pg-onda-b 7s ease-out infinite; }
+  .pg-activa .pg-cursor { animation: pg-cursor 7s ease-out infinite; }
+  .pg-activa .pg-graf { animation: pg-fin 7s linear infinite; }
+}
+:root[data-motion="on"] .pg-activa .pg-on-a { animation: pg-on-a 7s ease-out infinite; }
+:root[data-motion="on"] .pg-activa .pg-onda-a { animation: pg-onda-a 7s ease-out infinite; }
+:root[data-motion="on"] .pg-activa .pg-on-b { animation: pg-on-b 7s ease-out infinite; }
+:root[data-motion="on"] .pg-activa .pg-onda-b { animation: pg-onda-b 7s ease-out infinite; }
+:root[data-motion="on"] .pg-activa .pg-cursor { animation: pg-cursor 7s ease-out infinite; }
+:root[data-motion="on"] .pg-activa .pg-graf { animation: pg-fin 7s linear infinite; }

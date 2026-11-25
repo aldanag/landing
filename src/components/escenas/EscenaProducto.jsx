@@ -52,7 +52,7 @@ export default function EscenaProducto({ activa = false }) {
       {/* Sticker "Productos ilimitados" */}
       <Pegatina className="ev-sticker" xd={736} y={530} giro={6}>
         <span style={{ fontSize: u(36), fontWeight: 800, lineHeight: 1.1 }}>Productos</span>
-        <span style={{ fontSize: u(14), fontWeight: 500, letterSpacing: "0.06em", opacity: 0.85, marginTop: u(4) }}>ILIMITADOS</span>
+        <span style={{ fontSize: u(36), fontWeight: 800, lineHeight: 1.1 }}>ilimitados</span>
       </Pegatina>
 
       {/* Aviso */}

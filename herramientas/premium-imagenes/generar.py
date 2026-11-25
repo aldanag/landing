@@ -1,7 +1,7 @@
 """Genera las 7 imágenes del bloque "Funciones Premium" de la landing.
 
 Cada imagen es un HTML de 1200x1200 que se saca a WebP con Playwright y queda en src/assets/premium/
-(premium-1.webp ... premium-7.webp): la landing las toma sola.
+(premium-1.webp ... premium-7.webp, más carrusel-slides.webp y estadisticas-base.webp en src/assets/escenas): la landing las toma sola.
 
 Las fotos de productos todavía no están: donde van aparecen lugares marcados con lo que iría ahí.
 Cuando haya fotos, se ponen en FOTOS (arriba) con la ruta del archivo y se vuelve a correr:
@@ -230,8 +230,10 @@ def escena_1():
             + pill_azul("Con su propio filtro", "left:700px;top:105px;font-size:31px"))
 
 
-def lateral_admin(activo):
-    """Barra lateral colapsada del panel de administración (íconos sólidos, como el panel real)."""
+def lateral_admin(activo, paso=37, hueco=32):
+    """Barra lateral colapsada del panel de administración (íconos sólidos, como el panel real).
+    Sin la estrella de Reseñas y con un espacio entre grupos (tablero a descuentos | carrusel a medios | tienda a configuración | ayuda y cuenta).
+    `paso` es la separación entre íconos y `hueco` el espacio extra entre grupos: se ajustan para que entre todo sin cortarse."""
     solido = lambda d, extra="": f'<svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor" {extra}>{d}</svg>'
     iconos = {
         "Estadísticas": solido('<path fill-rule="evenodd" d="M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zm1 4.6a1 1 0 0 0-2 0v1.2a1 1 0 0 0 2 0zM7.6 9.2a1 1 0 0 0-1.4 1.4l.8.9a1 1 0 0 0 1.4-1.4zm9.2 0-.9.9a1 1 0 1 0 1.4 1.4l.9-.9a1 1 0 0 0-1.4-1.4zM12 11l3.5-2.5-2 4.1A2 2 0 1 1 12 11z"/>'),
@@ -251,13 +253,18 @@ def lateral_admin(activo):
         "Ayuda": solido('<path fill-rule="evenodd" d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm.1 4.500c-2 0-3.300 1.200-3.400 2.900h1.900c.1-.7.600-1.100 1.400-1.100.800 0 1.300.5 1.300 1.100 0 .6-.3.900-1 1.400-.9.600-1.300 1.200-1.300 2.200v.3h1.800v-.2c0-.6.200-.8.900-1.300.9-.6 1.500-1.300 1.500-2.400 0-1.700-1.400-2.900-3.100-2.900zM11 16.500v2h2v-2z"/>'),
         "Mi cuenta": solido('<circle cx="12" cy="7.500" r="4.500"/><path d="M3.500 21c0-4.400 3.800-7 8.500-7s8.500 2.600 8.500 7z"/>'),
     }
-    orden = ["Estadísticas", "Productos", "Categorías", "Pedidos", "Clientes", "Descuentos", "Reseñas", "Carrusel", "Banners",
-             "Complementos", "Medios", "Comercial", "Diseño", "Configuración", "Ayuda", "Mi cuenta"]
-    iconos = {n: iconos[n] for n in orden}
-    menu = "".join(
-        f'<div style="display:flex;align-items:center;justify-content:center;height:39px;margin:0 12px 2px;border-radius:13px;'
-        f'{"background:#E2D9FF;color:#6C4FD4" if n == activo else "color:#64748B"}">{svg}</div>'
-        for n, svg in iconos.items())
+    grupos = [["Estadísticas", "Productos", "Categorías", "Pedidos", "Clientes", "Descuentos"],
+              ["Carrusel", "Banners", "Complementos", "Medios"],
+              ["Comercial", "Diseño", "Configuración"],
+              ["Ayuda", "Mi cuenta"]]
+    alto_item = paso - 2
+    menu = ""
+    for g, grupo in enumerate(grupos):
+        for n in grupo:
+            menu += (f'<div style="display:flex;align-items:center;justify-content:center;height:{alto_item}px;margin:0 12px 2px;border-radius:13px;'
+                     f'{"background:#E2D9FF;color:#6C4FD4" if n == activo else "color:#64748B"}">{iconos[n]}</div>')
+        if g < len(grupos) - 1:
+            menu += f'<div style="height:{hueco}px"></div>'
     lateral = (f'<div style="position:absolute;left:0;top:0;bottom:0;width:84px;border-right:1px solid #ECE8F5;background:#fff">'
                f'<div style="display:flex;align-items:center;justify-content:center;height:84px;border-bottom:1px solid #ECE8F5">'
                f'<img src="{foto_uri("logo-l")}" style="width:46px;height:46px;border-radius:13px;display:block"></div>'
@@ -520,8 +527,8 @@ def escena_6():
     tabla = (f'<div style="margin-top:18px;border-radius:14px;background:#fff;box-shadow:inset 0 0 0 1px #ECE8F5;overflow:hidden">'
              f'<div style="display:grid;{cols};align-items:center;padding:0 22px;height:50px;background:#FAF9FC;font-size:14px;font-weight:800;letter-spacing:.06em;color:#4A4560">'
              f'<span>IMAGEN</span><span>TÍTULO</span><span>ORDEN</span><span>VISIBLE EN</span><span>ESTADO</span><span></span></div>{filas}</div>')
-    principal = (f'<div style="position:absolute;left:84px;right:0;top:0;bottom:0;background:#F4F3F7">{cabecera}<div style="padding:26px 30px 0"><div style="font-size:18px;color:#6b6679;max-width:540px;line-height:1.35">Portada del inicio. Sin elementos activos, la sección desaparece de la tienda.</div>{tabla}</div></div>')
-    ventana = tarjeta("left:40px;top:70px;width:960px;height:600px;padding:0;overflow:hidden;border-radius:40px", f"{lateral_admin('Carrusel')}{principal}")
+    principal = (f'<div style="position:absolute;left:84px;right:0;top:0;bottom:0;background:#F4F3F7">{cabecera}<div style="padding:6px 30px 0">{tabla}</div></div>')
+    ventana = tarjeta("left:40px;top:70px;width:960px;height:660px;padding:0;overflow:hidden;border-radius:40px", f"{lateral_admin('Carrusel', paso=33, hueco=19)}{principal}")
 
     # tienda: el carrusel de la portada y un banner promocional
     flecha = lambda lado, giro: (f'<span style="position:absolute;{lado}:16px;top:50%;margin-top:-19px;width:38px;height:38px;border-radius:50%;background:rgba(255,255,255,.92);display:flex;align-items:center;justify-content:center">'
@@ -540,23 +547,23 @@ def escena_6():
     promo = (f'<div style="display:flex;height:172px;border-radius:20px;overflow:hidden;background:#0B0B0B;margin-top:14px">{foto_prenda}'
              '<div style="flex:1;display:flex;flex-direction:column;justify-content:center;padding-left:40px;color:#fff"><span style="font-size:15px;letter-spacing:.06em;opacity:.85">PROMOCIÓN ESPECIAL</span>'
              '<b style="font-size:34px;margin-top:8px;letter-spacing:-.01em">2X1 EN REMERAS</b></div></div>')
-    tienda = tarjeta("left:300px;top:560px;width:860px;padding:20px 24px 22px;border-radius:34px", f"""
+    tienda = tarjeta("left:300px;top:489px;width:860px;padding:20px 24px 22px;border-radius:34px", f"""
       <div style="display:flex;justify-content:space-between;align-items:center;height:50px;margin-bottom:12px"><span class="logo" style="font-size:22px">TU LOGO</span>
       <span style="font-size:19px;color:#6b6679;font-weight:600;display:flex;gap:32px"><span>Inicio</span><span>Productos</span></span></div>{hero}{promo}""")
     # líneas punteadas: de la fila del carrusel al carrusel de la tienda, del sticker "Carrusel" al carrusel y del
     # sticker "Banners" al banner promocional
     linea = ('<svg class="conexion" width="1200" height="1200" viewBox="0 0 1200 1200" fill="none">'
-             '<path d="M962 375 H1086 V568" stroke="#7C6AE0" stroke-width="6" stroke-linecap="round" stroke-dasharray="1 13"/>'
-             '<circle cx="962" cy="375" r="9" fill="#fff" stroke="#7C6AE0" stroke-width="4"/></svg>')
+             '<path d="M962 304 H1086 V497" stroke="#7C6AE0" stroke-width="6" stroke-linecap="round" stroke-dasharray="1 13"/>'
+             '<circle cx="962" cy="304" r="9" fill="#fff" stroke="#7C6AE0" stroke-width="4"/></svg>')
     senales = ('<svg class="conexion" width="1200" height="1200" viewBox="0 0 1200 1200" fill="none">'
-               '<path d="M1030 140 H1150 V688 H1096" stroke="#7C6AE0" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="1 13"/>'
-               '<circle cx="1096" cy="688" r="9" fill="#fff" stroke="#7C6AE0" stroke-width="4"/>'
-               '<path d="M368 975 H470 V952" stroke="#7C6AE0" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="1 13"/>'
-               '<circle cx="470" cy="944" r="9" fill="#fff" stroke="#7C6AE0" stroke-width="4"/></svg>')
+               '<path d="M1030 140 H1150 V617 H1096" stroke="#7C6AE0" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="1 13"/>'
+               '<circle cx="1096" cy="617" r="9" fill="#fff" stroke="#7C6AE0" stroke-width="4"/>'
+               '<path d="M368 904 H470 V881" stroke="#7C6AE0" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="1 13"/>'
+               '<circle cx="470" cy="873" r="9" fill="#fff" stroke="#7C6AE0" stroke-width="4"/></svg>')
     return (TRAZO.format(s="left:-110px;top:-90px") + ventana + linea + tienda + senales
-            + sticker("Carrusel", "Más imágenes", "left:700px;top:44px;white-space:nowrap")
-            + sticker("Banners", "Para tus promos", "left:30px;top:880px;white-space:nowrap")
-            + pill("Más espacio para tus promociones", "left:60px;top:1078px;font-size:29px"))
+            + sticker("Carrusel", "Para tus ofertas", "left:700px;top:44px;white-space:nowrap")
+            + sticker("Banners", "Para tus promos", "left:30px;top:809px;white-space:nowrap")
+            + pill("Destacá tus ofertas", "left:60px;top:1007px;font-size:29px"))
 
 
 def badge(modo, ancho=132):
@@ -582,7 +589,7 @@ def escena_7():
     propio = ('<div style="flex:1;height:136px;border-radius:18px;background:#fff;box-shadow:inset 0 0 0 2px #CFC3F7;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;color:#6C4FD4">'
               '<svg viewBox="0 0 24 24" width="38" height="38" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V4m0 0l-4 4m4-4l4 4M4 16v3a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-3"/></svg>'
               '<span style="font-size:15px;font-weight:700">Subí la tuya</span></div>')
-    promo = tarjeta("left:620px;top:230px;width:530px;padding:28px 32px 26px;border-radius:26px", f"""
+    promo = tarjeta("left:620px;top:230px;width:530px;padding:28px 30px 26px;border-radius:26px", f"""
       <div style="font-size:30px;font-weight:800">Promociones especiales</div>
       <div style="display:flex;align-items:center;gap:14px;margin-top:16px;font-size:21px;font-weight:700">{chk()}Activar modo promociones</div>
       <div style="display:flex;gap:12px;margin-top:22px">{opcion("bf", "Black Friday")}{opcion("hs", "Hot Sale")}{opcion("cm", "CyberMonday")}{propio}</div>
@@ -591,7 +598,7 @@ def escena_7():
     activa = "background:#F1ECFF"
     flag = lambda txt, on, idn="": (f'<div id="{idn}" style="display:flex;align-items:center;gap:14px;height:56px;padding:0 16px;border-radius:14px;font-size:20px;font-weight:700;white-space:nowrap;{activa}">{chk(on)}{txt}</div>')
     producto = tarjeta("left:620px;top:628px;width:530px;padding:26px 32px 26px;border-radius:26px", f"""
-      <div style="font-size:24px;font-weight:800">Remera crema</div>
+      <div style="font-size:24px;font-weight:800">Remera Aura</div>
       <div style="display:flex;flex-direction:column;gap:10px;margin-top:16px">{flag("En promoción", True, "ck-promo")}{flag("Oferta por tiempo limitado", True, "ck-oferta")}</div>""")
     # ---------------- la tienda en el celular
     reloj_ico = '<svg viewBox="0 0 24 24" width="20" height="20" fill="#17122F"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm1 5v5.200l3.600 2.100-1 1.700L11 13V7z"/></svg>'
@@ -611,21 +618,158 @@ def escena_7():
                 f'<b style="font-size:19px;display:block;margin-top:10px">{nombre}</b><span style="color:#6C4FD4;font-weight:800;font-size:19px">$14.900</span></div>')
     mas = (f'<div style="margin-top:24px;font-size:21px;font-weight:800">Más en promoción</div>'
            f'<div style="display:flex;gap:16px;margin-top:12px">{mini("carrito-gris", "Remera gris")}{mini("mkt-aviso", "Remera oliva")}</div>')
-    tel = celular("left:50px;top:230px;width:520px", 1100, f"""
+    tel = celular("left:50px;top:258px;width:520px", 1100, f"""
       {cabecera_tienda()}
       <div style="padding:6px 24px 0;position:relative"><div id="ft-prod">{foto("mkt-prod", "producto en promoción", "height:220px;border-radius:26px")}</div>
-      <b style="font-size:26px;display:block;margin-top:14px">Remera crema</b><div style="margin-top:4px">{precio}</div>{reloj}{cta}{mas}</div>""")
+      <b style="font-size:26px;display:block;margin-top:14px">Remera Aura</b><div style="margin-top:4px">{precio}</div>{reloj}{cta}{mas}</div>""")
     # líneas punteadas (posiciones medidas del dibujo): "En promoción" -> badge de la foto, "Oferta por tiempo limitado" -> contador
     lineas = ('<svg class="conexion" width="1200" height="1200" viewBox="0 0 1200 1200" fill="none">'
-              '<path d="M620 731 H600 V474 H529" stroke="#7C6AE0" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="1 13"/>'
-              '<path d="M620 797 H529" stroke="#7C6AE0" stroke-width="6" stroke-linecap="round" stroke-dasharray="1 13"/>'
-              '<circle cx="529" cy="474" r="9" fill="#fff" stroke="#7C6AE0" stroke-width="4"/><circle cx="529" cy="797" r="9" fill="#fff" stroke="#7C6AE0" stroke-width="4"/></svg>')
+              '<path d="M620 731 H600 V502 H529" stroke="#7C6AE0" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="1 13"/>'
+              '<path d="M620 797 H574 V825 H529" stroke="#7C6AE0" stroke-width="6" stroke-linecap="round" stroke-dasharray="1 13"/>'
+              '<circle cx="529" cy="502" r="9" fill="#fff" stroke="#7C6AE0" stroke-width="4"/><circle cx="529" cy="825" r="9" fill="#fff" stroke="#7C6AE0" stroke-width="4"/></svg>')
     return (TRAZO.format(s="left:560px;top:330px;transform-origin:0 0;transform:rotate(-90deg) scale(1.05)") + TRAZO.format(s="left:-110px;top:960px") + tel + lineas + producto + promo
             + sticker("Marketing", "Promos, ofertas y confianza", "left:70px;top:84px;white-space:nowrap")
             + pill("Sumá tu propio badge", "left:620px;top:940px;font-size:29px"))
 
 
-ESCENAS = {1: escena_barra, 2: escena_1, 3: lambda: escena_2("base"), 4: lambda: escena_3("base"), 5: escena_carrito, 6: escena_6, 7: escena_7}
+def escena_pagos(on=False):
+    """Métodos de pago (función Premium), dibujado como el panel real: "Medios de pago" (casillas de efectivo y transferencia / WhatsApp),
+    "Mercado Pago" (cuenta por conectar) y "Venta en cuotas" (casilla y recargo por cantidad de cuotas: 1, 3, 6, 9, 12 y 18).
+    on=False: Mercado Pago desconectado y la venta en cuotas sin activar (es la imagen de la página). on=True: las dos conectadas y activas,
+    en azul oscuro; la capa viva (PagosAnimado.jsx) muestra esa versión sobre la otra, en cada tarjeta, cuando se activan.
+    Cada pieza lleva un id: `python generar.py pagos-medidas` imprime dónde está."""
+    VIO, OSC, LIL = "#6C4FD4", "#17122F", "#F1ECFF"
+    corona = '<svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M3 8l4.500 3.500L12 5l4.500 6.500L21 8l-2 10H5z"/></svg>'
+    tilde = '<svg viewBox="0 0 24 24" width="{t}" height="{t}" fill="none" stroke="#fff" stroke-width="3.600" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.500l4.500 4.500L19 7.500"/></svg>'
+    pildora = lambda txt, fondo, color: (f'<span style="display:inline-flex;align-items:center;gap:8px;padding:7px 16px;border-radius:99px;background:{fondo};color:{color};'
+                                         f'font-size:18px;font-weight:800;white-space:nowrap">{corona}{txt}</span>')
+    premium = lambda: pildora("Premium", OSC if on else LIL, "#fff" if on else VIO)
+
+    def casilla(txt, marcada, color=VIO, ident=""):
+        caja = (f'<span id="{ident}" style="flex:none;width:30px;height:30px;border-radius:9px;background:{color};display:flex;align-items:center;justify-content:center">{tilde.format(t=20)}</span>'
+                if marcada else f'<span id="{ident}" style="flex:none;width:30px;height:30px;border-radius:9px;box-shadow:inset 0 0 0 2.5px #CFC9E0;background:#fff;display:block"></span>')
+        return f'<div style="display:flex;align-items:center;gap:16px;font-size:23px;font-weight:600;color:{OSC}">{caja}{txt}</div>'
+
+    boton = lambda txt, estilo, ident="": (f'<div id="{ident}" style="height:58px;border-radius:14px;display:flex;align-items:center;justify-content:center;'
+                                           f'font-size:21px;font-weight:700;white-space:nowrap;{estilo}">{txt}</div>')
+
+    # --- Medios de pago (siempre iguales)
+    medios = tarjeta("left:60px;top:250px;width:520px;height:330px;padding:30px 32px;box-sizing:border-box;border-radius:28px", f"""
+      <div style="font-size:30px;font-weight:800;color:{OSC}">Medios de pago</div>
+      <div style="display:flex;flex-direction:column;gap:18px;margin-top:26px">{casilla("Habilitar efectivo", True)}{casilla("Habilitar transferencia / WhatsApp", True)}</div>
+      <div style="position:absolute;left:32px;right:32px;bottom:30px">{boton("Guardar métodos", f"background:{VIO};color:#fff")}</div>""")
+
+    # --- Mercado Pago
+    estado = (f'<span style="display:inline-flex;align-items:center;gap:9px;padding:8px 18px;border-radius:99px;background:{OSC};color:#fff;font-size:19px;font-weight:700">{tilde.format(t=16)}Conectado</span>'
+              if on else f'<span style="display:inline-flex;align-items:center;padding:8px 18px;border-radius:99px;background:{LIL};color:{VIO};font-size:19px;font-weight:700">Desconectado</span>')
+    texto_mp = ("Tu cuenta está conectada: ya podés cobrar con Mercado Pago." if on else "Conectá tu cuenta para habilitar Mercado Pago como medio de pago.")
+    conectar = boton("Conectar Mercado Pago", (f"box-shadow:inset 0 0 0 2.5px #E6E2F0;color:#B9B3D0;background:#fff" if on else f"box-shadow:inset 0 0 0 2.5px {VIO};color:{VIO};background:#fff"), "pg-btn-mp")
+    desconectar = boton("Desconectar", (f"box-shadow:inset 0 0 0 2.5px {OSC};color:{OSC};background:#fff" if on else "box-shadow:inset 0 0 0 2.5px #E6E2F0;color:#B9B3D0;background:#fff"))
+    mp = tarjeta("left:600px;top:250px;width:540px;height:330px;padding:30px 32px;box-sizing:border-box;border-radius:28px", f"""
+      <div style="display:flex;align-items:center;gap:14px"><span style="font-size:30px;font-weight:800;color:{OSC}">Mercado Pago</span>{premium()}</div>
+      <div style="margin-top:24px">{estado}</div>
+      <div style="margin-top:20px;font-size:21px;font-weight:600;line-height:1.4;color:{OSC}">{texto_mp}</div>
+      <div style="position:absolute;left:32px;right:32px;bottom:30px;display:flex;gap:14px"><div style="flex:1.6">{conectar}</div><div style="flex:1">{desconectar}</div></div>""")
+    # marca de dónde está la tarjeta (para recortar la capa viva)
+    mp = mp.replace('<div class="card"', '<div id="pg-card-mp" class="card"', 1)
+
+    # --- Venta en cuotas
+    def campo(n):
+        etq = "1 cuota" if n == 1 else f"{n} cuotas"
+        caja = (f'<div style="height:52px;border-radius:12px;box-shadow:inset 0 0 0 2px {"#CFC3F7" if on else "#E6E2F0"};background:{"#fff" if on else "#F7F6FA"};'
+                f'display:flex;align-items:center;padding:0 18px;font-size:21px;font-weight:600;color:{OSC if on else "#B9B3D0"}">{ {1: "0", 3: "5", 6: "10", 9: "15", 12: "20", 18: "30"}[n] if on else "0" }</div>')
+        return f'<div><div style="font-size:19px;font-weight:700;color:{OSC if on else "#9C97B3"};margin-bottom:8px">{etq}</div>{caja}</div>'
+    campos = "".join(campo(n) for n in (1, 3, 6, 9, 12, 18))
+    guardar = boton("Guardar", (f"background:{OSC};color:#fff;padding:0 38px" if on else "background:#CBC0F2;color:#fff;padding:0 38px"))
+    cu = tarjeta("left:60px;top:600px;width:1080px;height:380px;padding:28px 32px;box-sizing:border-box;border-radius:28px", f"""
+      <div style="display:flex;align-items:center;gap:14px"><span style="font-size:30px;font-weight:800;color:{OSC}">Venta en cuotas</span>{premium()}</div>
+      <div style="margin-top:20px">{casilla("Activar venta en cuotas", on, OSC, "pg-chk-cu") if on else casilla("Activar venta en cuotas", False, OSC, "pg-chk-cu")}</div>
+      <div style="margin-top:16px;font-size:19px;font-weight:700;color:{OSC if on else "#9C97B3"}">Recargo orientativo por plan (%)</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px 22px;margin-top:12px">{campos}</div>
+      <div style="position:absolute;right:32px;top:22px;width:150px">{guardar}</div>""")
+    cu = cu.replace('<div class="card"', '<div id="pg-card-cu" class="card"', 1)
+
+    sticker_dos = '<div class="sticker" style="left:650px;top:50px;white-space:nowrap"><b>Mercado Pago</b><b>y cuotas</b></div>'
+    return (TRAZO.format(s="left:-100px;top:-120px") + TRAZO.format(s="left:620px;top:940px;transform:rotate(90deg)") + medios + mp + cu + sticker_dos
+            + pill_azul("Cobrá como quieras", "left:70px;top:1050px;font-size:31px"))
+
+
+def escena_estadisticas(base=False):
+    """Panel de Estadísticas (primer ícono del menú, el del tablero, seleccionado) con gráficos de ejemplo en los colores de la marca.
+    Es el cuadro "Accedé a tus estadísticas" de Funcionalidades. Con base=True se dibuja el panel SIN lo que se anima (números, curva,
+    arcos de las tortas y relleno de las barras): esas piezas las dibuja la escena viva (EscenaEstadisticas.jsx) encima, en el mismo lugar.
+    Cada pieza viva lleva un id: `python generar.py estadisticas-medidas` imprime dónde está cada una."""
+    VIO, CLA, MED, OSC = "#6C4FD4", "#CBC0F2", "#A99BF0", "#17122F"
+    oculto = "visibility:hidden;" if base else ""
+    cabecera = ('<div style="display:flex;align-items:center;justify-content:space-between;height:84px;padding:0 30px;background:#fff;border-bottom:1px solid #ECE8F5">'
+                '<div style="display:flex;align-items:center;gap:18px"><span style="width:44px;height:40px;border-radius:12px;box-shadow:inset 0 0 0 1.5px #E6E2F0;display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:800">«</span>'
+                '<span style="font-size:28px;font-weight:800">Estadísticas</span></div>'
+                '<div style="display:flex;align-items:center;gap:12px"><span style="padding:11px 18px;border-radius:12px;box-shadow:inset 0 0 0 1.5px #E6E2F0;font-size:17px;font-weight:600">Ver tienda ↗</span>'
+                '<span style="padding:9px 18px;border-radius:99px;background:#E2D9FF;color:#5B41C4;font-size:16px;font-weight:700">Admin</span></div></div>')
+
+    def tarjeta_g(titulo, interior, estilo=""):
+        return (f'<div style="border-radius:20px;background:#fff;box-shadow:inset 0 0 0 1px #ECE8F5;padding:22px 26px;box-sizing:border-box;{estilo}">'
+                f'<div style="font-size:20px;font-weight:800;color:{OSC};white-space:nowrap">{titulo}</div>{interior}</div>')
+
+    def torta(segmentos, centro, sub, ident, tam=160, centro_vivo=False):
+        """Torta (anillo) con el total al medio. `segmentos`: [(nombre, cantidad, color)]."""
+        total = sum(n for _, n, _ in segmentos)
+        r, desde, arcos = 62, 0.0, ""
+        for _, n, color in segmentos:
+            largo = n / total * 100
+            arcos += (f'<circle cx="90" cy="90" r="{r}" fill="none" stroke="{color}" stroke-width="28" pathLength="100" '
+                      f'stroke-dasharray="{largo:.2f} {100 - largo:.2f}" stroke-dashoffset="{-desde:.2f}" transform="rotate(-90 90 90)"/>')
+            desde += largo
+        arcos_html = "" if base else arcos
+        vivo = oculto if centro_vivo else ""
+        return (f'<div id="{ident}" style="position:relative;width:{tam}px;height:{tam}px;margin:0 auto"><svg viewBox="0 0 180 180" width="{tam}" height="{tam}">'
+                f'<circle cx="90" cy="90" r="{r}" fill="none" stroke="#F1ECFF" stroke-width="28"/>{arcos_html}</svg>'
+                f'<div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center">'
+                f'<b id="{ident}-centro" style="{vivo}font-size:34px;font-weight:800;line-height:1">{centro}</b><span style="font-size:13px;font-weight:700;margin-top:3px">{sub}</span></div></div>')
+
+    def leyenda(segmentos, ident, vivo=False):
+        v = oculto if vivo else ""
+        return "".join(
+            f'<div style="display:flex;align-items:center;gap:12px;height:34px;font-size:19px;font-weight:600">'
+            f'<i style="flex:none;width:14px;height:14px;border-radius:50%;background:{c}"></i><span style="flex:1">{n}</span><b id="{ident}-{i}" style="{v}font-weight:800">{val}</b></div>'
+            for i, (n, val, c) in enumerate(segmentos))
+
+    estados = [("Entregados", 26, VIO), ("En camino", 13, MED), ("Pendientes", 7, OSC), ("Cancelados", 5, CLA)]
+    categorias = [("Remeras", 38, VIO), ("Jeans", 27, MED), ("Camperas", 21, OSC), ("Calzado", 14, CLA)]
+    top = [("Jean Brooklyn", 48, VIO), ("Remera Maia", 36, "#8B76E6"), ("Short Ema", 24, MED), ("Hoodie Black", 15, CLA)]
+
+    curva = "M0 128C26 120 40 92 66 98S118 126 144 92S196 46 226 62S286 104 318 60S384 18 430 28S520 6 560 14"
+    grafico = "" if base else (f'<path d="{curva}V150H0Z" fill="url(#g)"/><path d="{curva}" stroke="{VIO}" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>'
+                               f'<circle cx="560" cy="14" r="8" fill="#fff" stroke="{VIO}" stroke-width="4.500"/>')
+    ingresos = tarjeta_g("Ingresos últimos 30 días", f"""
+      <div style="display:flex;align-items:center;gap:30px;margin-top:6px">
+        <div style="width:260px;flex:none"><div id="ingresos-num" style="{oculto}font-size:46px;font-weight:800;line-height:1.1;color:{OSC};white-space:nowrap">$ 482.300</div>
+          <span id="ingresos-pill" style="{oculto}display:inline-block;margin-top:14px;padding:7px 16px;border-radius:99px;background:#F1ECFF;color:{VIO};font-size:19px;font-weight:800">+ 18 %</span></div>
+        <svg id="ingresos-svg" viewBox="0 0 560 150" width="636" height="150" style="flex:none;overflow:visible" fill="none">
+          <defs><linearGradient id="g" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="{VIO}" stop-opacity=".32"/><stop offset="1" stop-color="{VIO}" stop-opacity="0"/></linearGradient></defs>
+          {"".join(f'<path d="M0 {y}H560" stroke="#EEEBF5" stroke-width="2"/>' for y in (30, 75, 120))}
+          {grafico}</svg></div>""", "height:214px")
+
+    pedidos = tarjeta_g("Pedidos por estado", f'<div style="margin-top:12px">{torta(estados, "51", "pedidos", "estados", centro_vivo=True)}</div><div style="margin-top:16px">{leyenda([(n, v, c) for n, v, c in estados], "estados-n", vivo=True)}</div>', "height:400px")
+    ventas = tarjeta_g("Ventas por categoría", f'<div style="margin-top:12px">{torta(categorias, "4", "categorías", "categorias")}</div><div style="margin-top:16px">{leyenda([(n, f"{v} %", c) for n, v, c in categorias], "categorias-n")}</div>', "height:400px")
+    barras = "".join(
+        f'<div style="margin-top:{22 if i == 0 else 20}px"><div style="display:flex;justify-content:space-between;font-size:19px;font-weight:600"><span>{n}</span><b id="top-n-{i}" style="{oculto}font-weight:800">{v}</b></div>'
+        f'<div style="margin-top:9px;height:15px;border-radius:8px;background:#F1ECFF"><div id="top-barra-{i}" style="{oculto}width:{v / 48 * 100:.1f}%;height:100%;border-radius:8px;background:{c}"></div></div></div>'
+        for i, (n, v, c) in enumerate(top))
+    productos = tarjeta_g("Top productos vendidos", barras, "height:400px")
+
+    principal = (f'<div style="position:absolute;left:84px;right:0;top:0;bottom:0;background:#F4F3F7">{cabecera}'
+                 f'<div style="padding:26px 30px 0"><div>{ingresos}</div>'
+                 f'<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:20px;margin-top:20px">{pedidos}{productos}{ventas}</div></div></div>')
+    ventana = tarjeta("left:50px;top:196px;width:1100px;height:770px;padding:0;overflow:hidden;border-radius:40px", f"{lateral_admin('Estadísticas')}{principal}")
+    sticker_dos = ('<div class="sticker" style="left:704px;top:92px;white-space:nowrap"><b>Tus</b><b>estadísticas</b></div>')
+    return (TRAZO.format(s="left:-100px;top:-120px") + ventana + sticker_dos
+            + ("" if base else pill_azul("Todo en tu panel", "left:70px;top:1050px;font-size:31px")))
+
+
+# Las funciones Premium con imagen, en orden (premium-1 a premium-7; la compra mínima es una escena viva y no tiene imagen). El carrusel y los banners ya no son una función Premium: su imagen
+# ("slides") es la del cuadro "Slides y banners" de Funcionalidades y se guarda aparte, en src/assets/escenas/carrusel-slides.webp.
+ESCENAS = {1: escena_barra, 2: escena_1, 3: lambda: escena_2("base"), 4: lambda: escena_3("base"), 5: escena_carrito, 6: lambda: escena_pagos(on=False), 7: escena_7, "slides": escena_6, "estadisticas": escena_estadisticas, "pagos-on": lambda: escena_pagos(on=True), "estadisticas-base": lambda: escena_estadisticas(base=True)}
 
 # imágenes con ventana animada: número de imagen -> (archivo de la capa, escena de la capa)
 CAPAS = {
@@ -634,7 +778,7 @@ CAPAS = {
 }
 
 if __name__ == "__main__":
-    pedidas = [int(a) for a in sys.argv[1:] if a.isdigit()] or list(ESCENAS)
+    pedidas = [int(a) if a.isdigit() else a for a in sys.argv[1:] if a.isdigit() or a in ("slides", "estadisticas", "estadisticas-base", "pagos-on")] or list(ESCENAS)
     TMP.mkdir(exist_ok=True)
     SALIDA.mkdir(parents=True, exist_ok=True)
     with sync_playwright() as p:
@@ -647,9 +791,9 @@ if __name__ == "__main__":
             pg.wait_for_timeout(500)
             png = TMP / f"premium-{n}.png"
             pg.screenshot(path=str(png))
-            destino = SALIDA / f"premium-{n}.webp"
+            destino = (RAIZ / "src" / "assets" / "escenas" / {"slides": "carrusel-slides.webp", "estadisticas": "estadisticas.webp", "estadisticas-base": "estadisticas-base.webp", "pagos-on": "pagos-on.webp"}[n]) if n in ("slides", "estadisticas", "estadisticas-base", "pagos-on") else SALIDA / f"premium-{n}.webp"
             Image.open(png).convert("RGB").save(destino, "WEBP", quality=88, method=6)
-            print(f"premium-{n}.webp  {destino.stat().st_size // 1024} KB", flush=True)
+            print(f"{destino.name}  {destino.stat().st_size // 1024} KB", flush=True)
             if n in CAPAS:  # capa animada (la ventana), con fondo transparente
                 nombre, hacer = CAPAS[n]
                 html = TMP / f"{nombre}.html"

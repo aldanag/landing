@@ -2,12 +2,13 @@ import foto1 from "../../assets/escenas/galeria-1.webp"
 import foto2 from "../../assets/escenas/galeria-2.webp"
 import foto3 from "../../assets/escenas/galeria-3.webp"
 import foto4 from "../../assets/escenas/galeria-4.webp"
-import { abs, Pegatina, raiz, Toque, u } from "./utiles"
+import { abs, AvisoOscuro, Pegatina, raiz, Toque, u } from "./utiles"
 
 // Escena "Galería de imágenes", redibujada en vivo. Lienzo de 768 px que escala con el ancho del marco (--u = 1 px del lienzo).
-// Historia en bucle (12 s) mientras está a la vista (`activa`): un toque (tap) en la flecha derecha de la foto grande pasa a la foto
-// que sigue (la foto se desplaza de verdad), y la miniatura activa se marca con el borde violeta de abajo, como en el celular.
-// En reposo (o con "reducir movimiento") queda la foto 1 con su miniatura marcada.
+// Historia en bucle (19 s) mientras está a la vista (`activa`): un toque en el corazón lo llena y aparece "Agregado a favoritos";
+// un toque en la lupa hace zoom real sobre la foto 1 (el jean) y vuelve; después, un toque en la flecha derecha pasa de foto en
+// foto (la foto se desplaza de verdad) y la miniatura activa se marca con el borde violeta de abajo.
+// En reposo (o con "reducir movimiento") queda la foto 1 con su miniatura marcada, el corazón lleno y el aviso a la vista.
 //
 // Las fotos son archivos aparte (src/assets/escenas/galeria-1.webp a galeria-4.webp): 1 = modelo sentada, 2 = de pie, 3 = de
 // espalda, 4 = detalle del bolsillo. Para sumar una quinta hay que agregar su archivo y rehacer las animaciones (ver index.css).
@@ -43,26 +44,43 @@ export default function EscenaGaleria({ activa = false }) {
           background: "#C9BFEF",
         }}
       >
-        {FOTOS.map((src, k) => (
-          <img
-            key={k}
-            src={src}
-            alt=""
-            className={`eg-f${k}`}
-            style={{
-              position: "absolute",
-              inset: 0,
-              width: "100%",
-              height: "100%",
-              objectFit: "cover",
-              transform: k === 0 ? "none" : "translateX(100%)",
-            }}
-          />
-        ))}
+        <div className="eg-zfoto" style={{ position: "absolute", inset: 0, transformOrigin: "52% 72%" }}>
+          {FOTOS.map((src, k) => (
+            <img
+              key={k}
+              src={src}
+              alt=""
+              className={`eg-f${k}`}
+              style={{
+                position: "absolute",
+                inset: 0,
+                width: "100%",
+                height: "100%",
+                objectFit: "cover",
+                transform: k === 0 ? "none" : "translateX(100%)",
+              }}
+            />
+          ))}
+        </div>
       </div>
 
-      {/* Corazón y flechas */}
+      {/* Corazón: de contorno; al tocarlo se llena (capa de arriba) y aparece el aviso */}
       <div
+        style={{
+          ...abs(557, 114, { width: u(44), height: u(44) }),
+          borderRadius: "50%",
+          background: "#fff",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        <svg viewBox="0 0 24 24" style={{ width: u(22), height: u(22) }} fill="none">
+          <path d="M12 21s-7.5-4.6-9.6-9.2C.9 8.3 3 4.5 6.6 4.5c2 0 3.5 1 5.4 3 1.9-2 3.4-3 5.4-3 3.6 0 5.7 3.8 4.2 7.3C19.5 16.4 12 21 12 21Z" stroke="#FF9A52" strokeWidth="2.2" strokeLinejoin="round" />
+        </svg>
+      </div>
+      <div
+        className="eg-lleno"
         style={{
           ...abs(557, 114, { width: u(44), height: u(44) }),
           borderRadius: "50%",
@@ -76,6 +94,28 @@ export default function EscenaGaleria({ activa = false }) {
           <path d="M12 21s-7.5-4.6-9.6-9.2C.9 8.3 3 4.5 6.6 4.5c2 0 3.5 1 5.4 3 1.9-2 3.4-3 5.4-3 3.6 0 5.7 3.8 4.2 7.3C19.5 16.4 12 21 12 21Z" />
         </svg>
       </div>
+
+      {/* Lupa: al tocarla, la foto hace zoom */}
+      <div
+        className="eg-lupa"
+        style={{
+          ...abs(144, 114, { width: u(44), height: u(44) }),
+          borderRadius: "50%",
+          background: "#fff",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          boxShadow: `0 ${u(4)} ${u(12)} rgba(23,18,47,0.12)`,
+        }}
+      >
+        <svg viewBox="0 0 24 24" style={{ width: u(24), height: u(24) }} fill="none">
+          <circle cx="10.5" cy="10.5" r="6.5" stroke="#17122F" strokeWidth="2.2" />
+          <path d="M16 16l5 5" stroke="#17122F" strokeWidth="2.4" strokeLinecap="round" />
+          <path d="M10.5 8v5M8 10.5h5" stroke="#17122F" strokeWidth="1.8" strokeLinecap="round" />
+        </svg>
+      </div>
+
+      {/* Flechas */}
       {[
         [146, "M14 6l-6 6 6 6"],
         [554, "M10 6l6 6-6 6"],
@@ -147,14 +187,19 @@ export default function EscenaGaleria({ activa = false }) {
         <span style={{ fontSize: u(14), fontWeight: 500, letterSpacing: "0.06em", opacity: 0.85, marginTop: u(4) }}>PANTALLA COMPLETA</span>
       </Pegatina>
 
-      {/* Toques (tap) sobre la flecha derecha de la foto grande: cada uno pasa a la foto que sigue */}
+      {/* Aviso del favorito */}
+      <AvisoOscuro className="eg-aviso" x={232} y={700} h={56} texto="Agregado a favoritos" />
+
+      {/* Toques (tap): el corazón, la lupa y la flecha derecha de la foto grande (cada toque en la flecha pasa a la foto que sigue) */}
+      <Toque clase="eg-th" x={579} y={136} ini={1.4} dur={19} />
+      <Toque clase="eg-tl" x={166} y={136} ini={5.4} dur={19} />
       {[
-        ["eg-t1", 2.664],
-        ["eg-t2", 5.664],
-        ["eg-t3", 8.664],
-        ["eg-t0", 11.664],
+        ["eg-t1", 10.6],
+        ["eg-t2", 13.1],
+        ["eg-t3", 15.6],
+        ["eg-t0", 18.0],
       ].map(([clase, ini]) => (
-        <Toque key={clase} clase={clase} x={577} y={263} ini={ini} dur={12} />
+        <Toque key={clase} clase={clase} x={577} y={263} ini={ini} dur={19} />
       ))}
     </div>
   )

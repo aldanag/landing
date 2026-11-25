@@ -1,9 +1,9 @@
 import EscenaGaleria from "./escenas/EscenaGaleria"
 import EscenaPedido from "./escenas/EscenaPedido"
-import EscenaBanners from "./escenas/EscenaBanners"
+import EscenaSlider from "./escenas/EscenaSlider"
 import EscenaPreguntas from "./escenas/EscenaPreguntas"
 import EscenaDescuentos from "./escenas/EscenaDescuentos"
-import EscenaMayorista from "./escenas/EscenaMayorista"
+import EscenaEstadisticas from "./escenas/EscenaEstadisticas"
 import Button from "./Button"
 import FuncionesBloque from "./FuncionesBloque"
 
@@ -28,21 +28,21 @@ const features = [
     escena: <EscenaDescuentos />,
   },
   {
-    titulo: "Por mayor o menor",
+    titulo: "Slides y banners para tu tienda",
     cuerpo:
-      "Vendé por mayor o por menor. Definí una compra mínima por monto o por cantidad de productos.",
-    escena: <EscenaMayorista />,
+      "Sumá un carrusel de hasta 6 slides y hasta 8 banners promocionales para destacar tus ofertas y novedades apenas entran.",
+    escena: <EscenaSlider />,
   },
   {
-    titulo: "Banners que venden",
+    titulo: "Accedé a tus estadísticas",
     cuerpo:
-      "Destacá ofertas y promociones con banners diseñados para captar la atención de tus visitas.",
-    escena: <EscenaBanners />,
+      "Mirá cómo viene tu tienda desde el panel: tus ingresos de los últimos 30 días, tus pedidos por estado, tus productos más vendidos y tus ventas por categoría.",
+    escena: <EscenaEstadisticas />,
   },
   {
-    titulo: "En detalle, sin límites",
+    titulo: "Preguntas frecuentes y reseñas",
     cuerpo:
-      "Página de preguntas frecuentes para responder todo sobre pedidos, pagos, envíos, devoluciones y soporte. Y reseñas de clientes, que dan confianza a quien todavía no te compró.",
+      "Respondé una sola vez las dudas sobre pedidos, pagos, envíos y devoluciones. Y sumá reseñas de clientes, que dan confianza a quien todavía no te compró.",
     escena: <EscenaPreguntas />,
   },
 ]

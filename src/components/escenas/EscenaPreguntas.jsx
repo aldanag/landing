@@ -98,7 +98,7 @@ export default function EscenaPreguntas({ activa = false }) {
       {/* Sticker "Preguntas frecuentes" */}
       <Pegatina xd={716} y={36} giro={6}>
         <span style={{ fontSize: u(36), fontWeight: 800, lineHeight: 1.1 }}>Preguntas</span>
-        <span style={{ fontSize: u(14), fontWeight: 500, letterSpacing: "0.06em", opacity: 0.85, marginTop: u(4) }}>FRECUENTES</span>
+        <span style={{ fontSize: u(36), fontWeight: 800, lineHeight: 1.1 }}>frecuentes</span>
       </Pegatina>
 
       {/* Reseñas de clientes (prueba social): tres reseñas que se deslizan suave, como un carrusel */}

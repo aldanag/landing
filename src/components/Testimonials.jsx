@@ -89,6 +89,63 @@ export default function Testimonials() {
     }
   }, [])
 
+  // Autoplay en bucle: cada 5 s pasa a la tarjeta que sigue y, al llegar al final, vuelve al principio. Solo corre mientras la sección
+  // está a la vista, se frena cuando la persona la toca, la señala con el mouse o enfoca algo adentro (y retoma unos segundos
+  // después), y no corre si el sistema pide "reducir movimiento".
+  const pausada = useRef(false)
+  const enVista = useRef(false)
+  const retomar = useRef(null)
+  useEffect(() => {
+    const el = pista.current
+    const seccion = root.current
+    if (!el || !seccion) return undefined
+    const quieto = window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    const forzado = new URLSearchParams(window.location.search).get("motion") === "on"
+    if (quieto && !forzado) return undefined
+
+    let io
+    if ("IntersectionObserver" in window) {
+      io = new IntersectionObserver(([e]) => {
+        enVista.current = e.isIntersecting
+      }, { threshold: 0.35 })
+      io.observe(seccion)
+    } else {
+      enVista.current = true
+    }
+
+    const frenar = (ms = 0) => {
+      pausada.current = true
+      window.clearTimeout(retomar.current)
+      if (ms) retomar.current = window.setTimeout(() => (pausada.current = false), ms)
+    }
+    const soltar = () => {
+      window.clearTimeout(retomar.current)
+      retomar.current = window.setTimeout(() => (pausada.current = false), 2500)
+    }
+    seccion.addEventListener("pointerenter", () => frenar())
+    seccion.addEventListener("pointerleave", soltar)
+    seccion.addEventListener("focusin", () => frenar())
+    seccion.addEventListener("focusout", soltar)
+    el.addEventListener("touchstart", () => frenar(9000), { passive: true })
+    el.addEventListener("wheel", () => frenar(9000), { passive: true })
+
+    const id = window.setInterval(() => {
+      if (pausada.current || !enVista.current || document.hidden) return
+      const llegoAlFin = el.scrollLeft + el.clientWidth >= el.scrollWidth - 4
+      if (llegoAlFin) {
+        el.scrollTo({ left: 0, behavior: "smooth" })
+      } else {
+        const tarjeta = el.querySelector("[data-tarjeta]")
+        el.scrollBy({ left: tarjeta.getBoundingClientRect().width + 20, behavior: "smooth" })
+      }
+    }, 5000)
+    return () => {
+      window.clearInterval(id)
+      window.clearTimeout(retomar.current)
+      io?.disconnect()
+    }
+  }, [])
+
   const mover = (dir) => {
     const el = pista.current
     const tarjeta = el.querySelector("[data-tarjeta]")

@@ -44,7 +44,7 @@ export default function BasicoHero() {
               data-words
               className="mt-4 text-[clamp(30px,8.6vw,38px)] font-bold leading-[1.05] text-ink md:text-[46px] lg:max-w-[8.2em] xl:text-[56px]"
             >
-              Tu tienda online completa, desde $9.000 al mes.
+              Tu tienda online completa, desde $12.490 al mes.
             </h1>
             <p
               data-reveal

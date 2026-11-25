@@ -59,7 +59,7 @@ const pares = [
     },
     solucion: {
       title: "Más barato que tu plataforma de streaming",
-      body: "Un precio claro desde $9.000 por mes, y el primer mes es gratis. Sin tarjeta ni obligaciones, cancelás cuando quieras.",
+      body: "Un precio claro desde $12.490 por mes, y el primer mes es gratis. Sin tarjeta ni obligaciones, cancelás cuando quieras.",
     },
   },
 ]
@@ -87,8 +87,8 @@ export default function ProblemaSolucion() {
   const [conLemora, setConLemora] = useState(false)
   useReveal(root)
 
-  // Al llegar a la sección, pasa sola de "Sin Lemora" a "Con Lemora" (una vez), salvo que la
-  // persona ya haya tocado el interruptor.
+  // Al llegar a la sección, "Sin Lemora" se queda 2,4 s a la vista y después pasa sola a "Con Lemora" (una vez),
+  // salvo que la persona ya haya tocado el interruptor.
   useEffect(() => {
     const el = root.current
     if (!el || !("IntersectionObserver" in window)) return
@@ -99,7 +99,7 @@ export default function ProblemaSolucion() {
         io.disconnect()
         timer = setTimeout(() => {
           if (!tocado.current) setConLemora(true)
-        }, 1400)
+        }, 2400)
       },
       { threshold: 0.4 },
     )

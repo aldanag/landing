@@ -86,8 +86,8 @@ export default function EscenaMayorista({ activa = false }) {
 
       {/* Sticker */}
       <Pegatina className="em-sticker" xd={722} y={56} giro={6}>
-        <span style={{ fontSize: u(36), fontWeight: 800, lineHeight: 1.1 }}>Mayor o menor</span>
-        <span style={{ fontSize: u(14), fontWeight: 500, letterSpacing: "0.06em", opacity: 0.85, marginTop: u(4) }}>COMPRA MÍNIMA</span>
+        <span style={{ fontSize: u(36), fontWeight: 800, lineHeight: 1.1 }}>Mayorista</span>
+        <span style={{ fontSize: u(36), fontWeight: 800, lineHeight: 1.1 }}>o minorista</span>
       </Pegatina>
 
       {/* Aviso */}

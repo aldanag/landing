@@ -1,12 +1,14 @@
 import jean from "../../assets/escenas/carrito-jean.webp"
 import remera from "../../assets/escenas/carrito-remera.webp"
-import { abs, AvisoOscuro, CarritoSolido, raiz, Toque, u, WhatsAppGlifo } from "./utiles"
+import { abs, AvisoOscuro, Caja, CarritoSolido, Cifra, raiz, Toque, u, WhatsAppGlifo } from "./utiles"
 
-// Escena "Pedido directo": el cliente toca "Finalizar Compra" en el carrito y el pedido llega ARMADO, de golpe, al WhatsApp de la
-// tienda (es un mensaje automático: no se escribe). Lienzo de 768 px que escala con el ancho del marco (--u = 1 px del lienzo).
-// Historia en bucle (10 s) mientras está a la vista (`activa`): un toque en el botón, se dibuja la línea punteada, aparece el
-// sticker de WhatsApp, entra el mensaje "NUEVO PEDIDO" con los datos y el total, y aparece "Pedido recibido". En reposo (o con
-// "reducir movimiento") queda todo ya enviado. Los productos y el total son los de la escena del Carrito ($ 52.000 + $ 24.500).
+// Escena "Pedido directo": el cliente arma su carrito con los botones + y − (un toque suma un jean, otro resta una remera, y el total
+// se actualiza al instante), toca "Finalizar Compra" y el pedido llega ARMADO, de golpe, al WhatsApp de la tienda (es un mensaje
+// automático: no se escribe). Lienzo de 768 px que escala con el ancho del marco (--u = 1 px del lienzo).
+// Historia en bucle (9 s) mientras está a la vista (`activa`): toque en el "+" del jean (1 → 2), toque en el "−" de la remera (2 → 1),
+// toque en el botón y, enseguida (medio segundo después), se dibuja la línea punteada, aparece el sticker de WhatsApp, entra el mensaje
+// "NUEVO PEDIDO" con los datos y el total, y aparece "Pedido recibido". En reposo (o con "reducir movimiento") queda todo ya
+// enviado, con el carrito final: 2 jeans y 1 remera ($ 76.500), el mismo de la escena del Carrito.
 const LINEAS = [
   ["NUEVO PEDIDO", "b"],
   ["", "gap"],
@@ -32,13 +34,32 @@ const LINEAS = [
   ["Pago por alias: tutienda.pago", "b"],
 ]
 
-function Fila({ y, foto, nombre, precio, cant }) {
+const Menos = () => (
+  <svg viewBox="0 0 24 24" style={{ width: u(14), height: u(14) }} fill="none">
+    <path d="M6 12h12" stroke="#17122F" strokeWidth="2.6" strokeLinecap="round" />
+  </svg>
+)
+const Mas = () => (
+  <svg viewBox="0 0 24 24" style={{ width: u(14), height: u(14) }} fill="none">
+    <path d="M12 6v12M6 12h12" stroke="#17122F" strokeWidth="2.6" strokeLinecap="round" />
+  </svg>
+)
+
+// `cantidades`: [[texto, clase], ...]; el primero es el de reposo (el final).
+function Fila({ y, foto, nombre, precio, cantidades }) {
   return (
     <>
       <img src={foto} alt="" style={{ ...abs(40, y, { width: u(44), height: u(44) }), borderRadius: u(8), objectFit: "cover" }} />
       <span style={{ ...abs(96, y + 2), fontSize: u(16), fontWeight: 600, color: "#17122F", lineHeight: 1.3 }}>{nombre}</span>
       <span style={{ ...abs(96, y + 22), fontSize: u(14), fontWeight: 600, color: "#6C4FD4", lineHeight: 1.3 }}>{precio}</span>
-      <span style={{ ...abs(250, y + 12, { width: u(58), textAlign: "right" }), fontSize: u(15), fontWeight: 500, color: "#4A4560" }}>× {cant}</span>
+      <Caja x={218} y={y + 8} w={26} h={28}>
+        <Menos />
+      </Caja>
+      <Caja x={248} y={y + 8} w={28} h={28} />
+      <Cifra x={248} y={y + 14} w={28} size={15} weight={600} color="#17122F" align="center" estados={cantidades} />
+      <Caja x={280} y={y + 8} w={26} h={28}>
+        <Mas />
+      </Caja>
     </>
   )
 }
@@ -64,28 +85,27 @@ export default function EscenaPedido({ activa = false }) {
         <CarritoSolido size={17} color="#6C4FD4" />
         Tu Carrito
       </span>
-      <span
-        style={{
-          ...abs(238, 114, { width: u(72), height: u(24) }),
-          background: "#F1ECFF",
-          color: "#6C4FD4",
-          borderRadius: u(12),
-          fontSize: u(11),
-          fontWeight: 600,
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-        }}
-      >
-        3 productos
-      </span>
-      <Fila y={152} foto={jean} nombre="Jean Brooklyn" precio="$ 26.000" cant={2} />
-      <Fila y={208} foto={remera} nombre="Remera Maia" precio="$ 24.500" cant={1} />
+      <span style={{ ...abs(238, 114, { width: u(72), height: u(24) }), background: "#F1ECFF", borderRadius: u(12) }} />
+      <Cifra x={238} y={118} w={72} size={11} weight={600} color="#6C4FD4" align="center" estados={[["3 productos", "ep-cf"], ["4 productos", "ep-cm"]]} />
+      <div className="ep-h1" style={{ ...abs(22, 148, { width: u(310), height: u(54) }), background: "#F3EFFF", opacity: 0 }} />
+      <div className="ep-h2" style={{ ...abs(22, 204, { width: u(310), height: u(54) }), background: "#F3EFFF", opacity: 0 }} />
+      <Fila y={152} foto={jean} nombre="Jean Brooklyn" precio="$ 26.000" cantidades={[["2", "ep-j2"], ["1", "ep-j1"]]} />
+      <Fila y={208} foto={remera} nombre="Remera Maia" precio="$ 24.500" cantidades={[["1", "ep-r1"], ["2", "ep-r2"]]} />
       <div style={{ ...abs(22, 262, { width: u(310), height: u(1.5) }), background: "#EEEBF5" }} />
       <span style={{ ...abs(40, 280), fontSize: u(14), color: "#4A4560" }}>Total:</span>
-      <span style={{ ...abs(150, 270, { width: u(160), textAlign: "right" }), fontSize: u(26), fontWeight: 800, color: "#17122F", lineHeight: 1.2 }}>
-        $ 76.500
-      </span>
+      <Cifra
+        x={150}
+        y={270}
+        w={160}
+        size={26}
+        weight={800}
+        color="#17122F"
+        estados={[
+          ["$ 76.500", "ep-tf"],
+          ["$ 75.000", "ep-t0"],
+          ["$ 101.000", "ep-t1"],
+        ]}
+      />
       <div
         className="ep-boton"
         style={{
@@ -225,8 +245,10 @@ export default function EscenaPedido({ activa = false }) {
       {/* Aviso */}
       <AvisoOscuro className="ep-aviso" x={36} y={634} h={66} texto="Pedido recibido" />
 
-      {/* Toque (tap) sobre el botón del carrito */}
-      <Toque clase="ep-ta" x={177} y={338} ini={1.28} dur={10} />
+      {/* Toques (tap): el "+" del jean, el "−" de la remera y el botón del carrito */}
+      <Toque clase="ep-tp" x={293} y={174} ini={0.9} dur={9} />
+      <Toque clase="ep-tm" x={231} y={230} ini={2.0} dur={9} />
+      <Toque clase="ep-ta" x={177} y={338} ini={3.2} dur={9} />
     </div>
   )
 }
