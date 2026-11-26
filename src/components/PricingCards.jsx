@@ -10,7 +10,7 @@ import { INSIGNIA } from "../lib/pastillas"
 
 const opciones = [
   { id: false, label: "Mensual" },
-  { id: true, label: "Anual", badge: "Ahorrá 11%" },
+  { id: true, label: "Anual", badge: "Ahorrá 17%" },
 ]
 
 // Con el plan anual, el botón principal contrata el año; Básico conserva la prueba gratis.
