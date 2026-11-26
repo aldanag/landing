@@ -41,6 +41,9 @@ export default function BasicoComparar() {
             <p className="mt-2 text-[28px] font-extrabold text-ink">
               {peso(basico.mensual)}<span className="text-base font-bold text-ink-soft">/mes</span>
             </p>
+            <p className="mt-1 text-sm font-semibold text-primary">
+              o {peso(basico.anual / 12)}/mes con el plan anual ({peso(basico.anual)} al año)
+            </p>
             <p className="mt-1 text-sm text-ink-soft">Ideal para empezar a vender online.</p>
             <ul className="mt-4 space-y-2">
               {conBasico.map((t) => (
@@ -58,6 +61,9 @@ export default function BasicoComparar() {
             </p>
             <p className="mt-2 text-[28px] font-extrabold text-ink">
               {peso(premium.mensual)}<span className="text-base font-bold text-ink-soft">/mes</span>
+            </p>
+            <p className="mt-1 text-sm font-semibold text-primary">
+              o {peso(premium.anual / 12)}/mes con el plan anual ({peso(premium.anual)} al año)
             </p>
             <p className="mt-1 text-sm text-ink-soft">
               Contratación mínima: 3 meses.
