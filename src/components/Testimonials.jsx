@@ -2,7 +2,6 @@ import { useEffect, useRef, useState } from "react"
 import testimonioCarolina from "../assets/testimonio-carolina.webp"
 import testimonioAldana from "../assets/testimonio-aldana.jpg"
 import { useReveal } from "../lib/motion"
-import { useDeriva } from "../lib/deriva"
 import { WHATSAPP_TRIAL_LINK } from "../lib/planes"
 import Button from "./Button"
 import IconButton from "./IconButton"
@@ -47,10 +46,13 @@ const Comillas = () => (
 )
 
 // Fondo azul oscuro con tarjetas claras. El título va a la izquierda con dos flechas redondas; a la derecha una fila de
-// tarjetas que se desliza (con las flechas, con el dedo o con el teclado) y deja asomar la siguiente, opaca.
+// tarjetas que se desliza (con las flechas, con el dedo o con el teclado) y deja asomar la siguiente, opaca. Al llegar a la última,
+// la invitación a ser el próximo testimonio se ilumina (un resplandor violeta como el de los banners de Premium, más fuerte y con una respiración suave).
 export default function Testimonials() {
   const root = useRef(null)
   const pista = useRef(null)
+  const luz = useRef(null)
+  const ubicarLuz = useRef(() => {})
   const [tope, setTope] = useState({ inicio: true, fin: false })
   const [vistas, setVistas] = useState({}) // índice -> la tarjeta está entera a la vista
   useReveal(root)
@@ -63,9 +65,31 @@ export default function Testimonials() {
         inicio: el.scrollLeft <= 4,
         fin: el.scrollLeft + el.clientWidth >= el.scrollWidth - 4,
       })
-    actualizar()
-    el.addEventListener("scroll", actualizar, { passive: true })
-    window.addEventListener("resize", actualizar)
+        const ubicar = () => {
+      const ultima = el.querySelector("[data-ultima]")
+      const caja = luz.current
+      if (!ultima || !caja) return
+      const r = ultima.getBoundingClientRect()
+      const m = caja.parentElement.getBoundingClientRect()
+      caja.style.width = `${r.width}px`
+      caja.style.height = `${r.height}px`
+      caja.style.transform = `translate(${r.left - m.left}px, ${r.top - m.top}px)`
+    }
+    ubicarLuz.current = ubicar
+    const alMover = () => {
+      actualizar()
+      ubicar()
+    }
+    alMover()
+    el.addEventListener("scroll", alMover, { passive: true })
+    window.addEventListener("resize", alMover)
+    const ro = "ResizeObserver" in window ? new ResizeObserver(alMover) : null
+    ro?.observe(el)
+    const ultimaTarjeta = el.querySelector("[data-ultima]")
+    if (ultimaTarjeta) ro?.observe(ultimaTarjeta)
+    // por si cambia el tamaño al cargar tipografías o imágenes
+    const t1 = window.setTimeout(ubicar, 300)
+    const t2 = window.setTimeout(ubicar, 1500)
 
     // Las tarjetas que asoman por el borde se ven opacas.
     let io
@@ -84,15 +108,14 @@ export default function Testimonials() {
       el.querySelectorAll("[data-tarjeta]").forEach((c) => io.observe(c))
     }
     return () => {
-      el.removeEventListener("scroll", actualizar)
-      window.removeEventListener("resize", actualizar)
+      el.removeEventListener("scroll", alMover)
+      window.removeEventListener("resize", alMover)
+      ro?.disconnect()
+      window.clearTimeout(t1)
+      window.clearTimeout(t2)
       io?.disconnect()
     }
   }, [])
-
-  // Se desliza sola, de forma continua y suave, mientras la sección está a la vista (ver lib/deriva.js): se frena cuando la persona la
-  // toca, la señala con el mouse o enfoca algo adentro, y retoma unos segundos después.
-  useDeriva(pista, root)
 
   const mover = (dir) => {
     const el = pista.current
@@ -102,8 +125,24 @@ export default function Testimonials() {
     el.scrollBy({ left: dir * paso, behavior: quieto ? "auto" : "smooth" })
   }
 
+  // La última tarjeta se enciende apenas se la ve entera (aunque haya otras al lado).
+  const encendida = vistas[testimonios.length] === true
+  useEffect(() => {
+    ubicarLuz.current()
+    if (!encendida) return undefined
+    // mientras se enciende, se re-ubica un par de segundos por si la tarjeta todavía se está acomodando (entrada de la sección)
+    const t0 = performance.now()
+    let raf = 0
+    const seguir = () => {
+      ubicarLuz.current()
+      if (performance.now() - t0 < 2000) raf = requestAnimationFrame(seguir)
+    }
+    raf = requestAnimationFrame(seguir)
+    return () => cancelAnimationFrame(raf)
+  }, [encendida])
+
   const tarjeta =
-    "flex w-[82%] flex-none snap-start flex-col justify-between gap-8 rounded-3xl p-6 transition-opacity duration-500 sm:w-[22rem] motion-reduce:transition-none"
+    "flex w-[82%] flex-none snap-start flex-col justify-between gap-8 rounded-3xl p-6 transition-[opacity,box-shadow,background-color] duration-700 sm:w-[22rem] motion-reduce:transition-none"
 
   return (
     <section ref={root} className="overflow-hidden bg-ink py-16 md:py-[4.5rem] text-white [container-type:inline-size]">
@@ -132,6 +171,15 @@ export default function Testimonials() {
           </div>
         </div>
 
+        {/* El resplandor de la última tarjeta vive afuera de la fila con scroll (que recorta lo que sobresale) y sigue a la tarjeta. */}
+        <div className="relative isolate min-w-0">
+          <div ref={luz} aria-hidden="true" className="pointer-events-none absolute left-0 top-0 -z-10 will-change-transform" style={{ width: 0, height: 0 }}>
+            <div
+              className={`h-full w-full rounded-3xl shadow-[0_0_14px_3px_rgba(150,120,255,0.85),0_0_30px_4px_rgba(124,92,240,0.5)] transition-opacity duration-1000 ease-out motion-reduce:transition-none ${
+                encendida ? "glow-respira opacity-100" : "opacity-0"
+              }`}
+            />
+          </div>
         <div
           ref={pista}
           data-reveal
@@ -162,25 +210,30 @@ export default function Testimonials() {
             </figure>
           ))}
 
-          <div
-            data-tarjeta
-            data-i={testimonios.length}
-            className={`${tarjeta} bg-lilac text-ink ${vistas[testimonios.length] === false ? "opacity-60" : ""}`}
-          >
-            <div>
-              <Comillas />
-              <p className="mt-2 text-lg font-medium leading-snug">El próximo testimonio puede ser el tuyo.</p>
-              <p className="mt-2 text-[15px] text-ink-soft">
-                Probá Lemora gratis durante 1 mes. No te pedimos la tarjeta.
-              </p>
+          {/* Última tarjeta: al llegar a ella se enciende el mismo resplandor violeta que tienen los banners de la página de Premium (un
+              brillo detrás, un borde lavanda fino y un halo de 2,5 rem). */}
+          <div data-tarjeta data-ultima data-i={testimonios.length} className="relative isolate flex w-[82%] flex-none snap-start sm:w-[22rem]">
+            <div
+              className={`flex w-full flex-col justify-between gap-8 rounded-3xl bg-lilac p-6 text-ink transition-[opacity,box-shadow] duration-700 ease-out motion-reduce:transition-none ${
+                vistas[testimonios.length] === false ? "opacity-60" : ""
+              } ${encendida ? "ring-0" : "ring-0"}`}
+            >
+              <div>
+                <Comillas />
+                <p className="mt-2 text-lg font-medium leading-snug">El próximo testimonio puede ser el tuyo.</p>
+                <p className="mt-2 text-[15px] text-ink-soft">
+                  Probá Lemora gratis durante 1 mes. No te pedimos la tarjeta.
+                </p>
+              </div>
+              <Button href={WHATSAPP_TRIAL_LINK} external variant="primary" block>
+                Probar gratis 1 mes
+              </Button>
             </div>
-            <Button href={WHATSAPP_TRIAL_LINK} external variant="primary" block>
-              Probar gratis 1 mes
-            </Button>
           </div>
 
           {/* Espacio final: deja que cada tarjeta, también la última, se corra hasta quedar entera contra el borde izquierdo. */}
           <div aria-hidden="true" className="w-[calc(18%-1.25rem)] flex-none sm:w-[calc(100%-22rem-1.25rem)]" />
+        </div>
         </div>
       </div>
     </section>
