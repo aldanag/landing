@@ -1,15 +1,19 @@
-import jean from "../../assets/escenas/carrito-jean.webp"
-import remera from "../../assets/escenas/carrito-remera.webp"
-import { abs, AvisoOscuro, BotonTienda, Pegatina, raiz, Toque, u } from "./utiles"
+import banner from "../../assets/escenas/carrusel-lentes-1.webp"
+import lente1 from "../../assets/escenas/respaldo-lente-1.webp"
+import lente2 from "../../assets/escenas/respaldo-lente-2.webp"
+import lente3 from "../../assets/escenas/respaldo-lente-3.webp"
+import { abs, AvisoOscuro, BotonTienda, IconoCarrito, Pegatina, raiz, Toque, u } from "./utiles"
 
-// Escena "Ventana emergente al salir": una tienda con productos en el carrito y, cuando la persona lleva el mouse hacia arriba para irse (hacia la barra
+// Escena "Ventana emergente al salir": una tienda (encabezado, slider y productos, como las demás escenas) con productos en el carrito y, cuando la persona lleva el mouse hacia arriba para irse (hacia la barra
 // del navegador), aparece la ventana emergente que le pide terminar su pedido. Un toque en "Volver al carrito" la cierra y se recupera la
 // venta (aviso). Lienzo de 768 px que escala con el ancho del marco (--u = 1 px del lienzo). Bucle de 9 s mientras está a la vista
 // (`activa`). En reposo (o con "reducir movimiento") queda la ventana abierta. Los textos y los productos son de ejemplo.
-const TIENDA = [
-  [jean, "Jean Brooklyn", "$ 26.000"],
-  [remera, "Remera Aura", "$ 18.500"],
+const PRODUCTOS = [
+  [lente1, "Lentes Marine", "$ 12.500"],
+  [lente2, "Lentes Italy", "$ 14.500"],
+  [lente3, "Lentes Burdeos", "$ 9.900"],
 ]
+const centro = { display: "flex", alignItems: "center", justifyContent: "center" }
 
 export default function EscenaPopup({ activa = false }) {
   return (
@@ -21,31 +25,54 @@ export default function EscenaPopup({ activa = false }) {
       </svg>
 
       {/* Ventana del navegador con la tienda */}
-      <div style={{ ...abs(60, 110, { width: u(648), height: u(560) }), background: "#fff", borderRadius: u(30), boxShadow: `0 ${u(18)} ${u(46)} rgba(94,70,190,0.2)`, overflow: "hidden" }}>
+      <div style={{ ...abs(60, 110, { width: u(648), height: u(520) }), background: "#fff", borderRadius: u(30), boxShadow: `0 ${u(18)} ${u(46)} rgba(94,70,190,0.2)`, overflow: "hidden" }}>
         {/* barra del navegador */}
         <div style={{ ...abs(0, 0, { width: u(648), height: u(46) }), background: "#F3F2F8" }} />
         {[0, 1, 2].map((k) => (
           <span key={k} style={{ ...abs(24 + k * 20, 17, { width: u(12), height: u(12) }), borderRadius: "50%", background: "#D6D2E6" }} />
         ))}
         <span style={{ ...abs(130, 10, { width: u(388), height: u(26) }), borderRadius: u(13), background: "#fff" }} />
-        {/* encabezado de la tienda */}
-        <span style={{ ...abs(34, 70), fontSize: u(28), fontWeight: 800, color: "#6C4FD4", letterSpacing: "-0.02em", lineHeight: 1.2 }}>Velvet</span>
-        <span style={{ ...abs(420, 76, { width: u(172), height: u(30) }), background: "#F3F2F8", borderRadius: u(15) }} />
-        {/* productos */}
-        {TIENDA.map(([src, nombre, precio], k) => (
-          <div key={nombre} style={{ ...abs(34 + k * 300, 128, { width: u(280), height: u(280) }), border: `${u(1.5)} solid #EEEBF5`, borderRadius: u(20), background: "#fff", boxSizing: "border-box" }}>
-            <img src={src} alt="" style={{ ...abs(10, 10, { width: u(260), height: u(190) }), objectFit: "cover", borderRadius: u(12) }} />
-            <span style={{ ...abs(16, 212), fontSize: u(19), fontWeight: 600, color: "#17122F", lineHeight: 1.3, whiteSpace: "nowrap" }}>{nombre}</span>
-            <span style={{ ...abs(16, 240), fontSize: u(18), fontWeight: 700, color: "#6C4FD4", lineHeight: 1.3 }}>{precio}</span>
+        {/* encabezado de la tienda: logo, menú y carrito con 2 productos */}
+        <span style={{ ...abs(28, 62), fontSize: u(26), fontWeight: 800, color: "#6C4FD4", letterSpacing: "-0.02em", lineHeight: 1.2 }}>Velvet</span>
+        {[["Inicio", true, 372], ["Productos", false, 444], ["Preguntas", false, 534]].map(([t, act, x]) => (
+          <span key={t} style={{ ...abs(x, 68), fontSize: u(16), fontWeight: 500, color: act ? "#6C4FD4" : "#17122F", lineHeight: 1.2, whiteSpace: "nowrap" }}>{t}</span>
+        ))}
+        <IconoCarrito x={612} y={64} size={24} color="#17122F" />
+        <span style={{ ...abs(626, 58, { width: u(17), height: u(17) }), borderRadius: "50%", background: "#6C4FD4", color: "#fff", fontSize: u(11), fontWeight: 700, ...centro }}>2</span>
+
+        {/* slider */}
+        <div style={{ ...abs(0, 104, { width: u(648), height: u(186) }), overflow: "hidden", background: "#17122F" }}>
+          <img src={banner} alt="" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }} />
+          <div style={{ position: "absolute", inset: 0, background: "linear-gradient(90deg, rgba(23,18,47,0.6) 0%, rgba(23,18,47,0.28) 45%, rgba(23,18,47,0) 72%)" }} />
+          <span style={{ ...abs(44, 62), fontSize: u(32), fontWeight: 700, color: "#fff", lineHeight: 1.15 }}>Nuevos lanzamientos</span>
+          <span style={{ ...abs(44, 108, { width: u(320) }), fontSize: u(16), color: "#F1EEF8", lineHeight: 1.35 }}>Descubrí lo último que llegó a la tienda.</span>
+        </div>
+        {[0, 1].map((k) => (
+          <span key={k} style={{ ...abs(k ? 606 : 14, 183, { width: u(28), height: u(28) }), borderRadius: "50%", background: "rgba(23,18,47,0.55)", ...centro }}>
+            <svg viewBox="0 0 24 24" style={{ width: u(14), height: u(14), transform: k ? "none" : "rotate(180deg)" }} fill="none">
+              <path d="m9 6 6 6-6 6" stroke="#fff" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          </span>
+        ))}
+        {[300, 314, 342, 356, 370].map((x, k) => (
+          <span key={k} style={{ ...abs(x, 266, { width: u(k === 1 ? 22 : 8), height: u(8) }), borderRadius: u(4), background: k === 1 ? "#6C4FD4" : "rgba(255,255,255,0.6)" }} />
+        ))}
+
+        {/* productos: tarjetas verticales como las de la tienda, cortadas por el borde de abajo */}
+        {PRODUCTOS.map(([src, nombre, precio], k) => (
+          <div key={nombre} style={{ ...abs(22 + k * 208, 308, { width: u(192), height: u(192) }), border: `${u(1.5)} solid #EEEBF5`, borderRadius: u(16), background: "#fff", boxSizing: "border-box" }}>
+            <div style={{ ...abs(8, 8, { width: u(174), height: u(112) }), borderRadius: u(10), background: "#F3F0FF" }}>
+              <img src={src} alt="" style={{ ...abs(12, 14, { width: u(150), height: u(84) }), objectFit: "contain", mixBlendMode: "multiply" }} />
+              <span style={{ ...abs(138, 74, { width: u(30), height: u(30) }), borderRadius: "50%", background: "#6C4FD4", ...centro }}>
+                <svg viewBox="0 0 24 24" style={{ width: u(16), height: u(16) }} fill="none">
+                  <path d="M12 5v14M5 12h14" stroke="#fff" strokeWidth="2.8" strokeLinecap="round" />
+                </svg>
+              </span>
+            </div>
+            <span style={{ ...abs(14, 132), fontSize: u(16), fontWeight: 600, color: "#17122F", lineHeight: 1.2, whiteSpace: "nowrap" }}>{nombre}</span>
+            <span style={{ ...abs(14, 158), fontSize: u(16), fontWeight: 700, color: "#6C4FD4", lineHeight: 1.2 }}>{precio}</span>
           </div>
         ))}
-        {/* carrito con productos */}
-        <div style={{ ...abs(0, 436, { width: u(648), height: u(124) }), borderTop: `${u(1.5)} solid #EEEBF5`, background: "#fff" }} />
-        <span style={{ ...abs(34, 462), fontSize: u(20), fontWeight: 600, color: "#17122F", lineHeight: 1.3 }}>Tu carrito: 2 productos</span>
-        <span style={{ ...abs(34, 494), fontSize: u(18), fontWeight: 500, color: "#4A4560", lineHeight: 1.3 }}>Total: $ 44.500</span>
-        <BotonTienda x={400} y={462} w={214} h={50} size={19}>
-          Finalizar Compra
-        </BotonTienda>
 
         {/* Fondo atenuado y ventana emergente */}
         <div className="pop-vel" style={{ position: "absolute", inset: 0, background: "rgba(23,18,47,0.58)" }} />

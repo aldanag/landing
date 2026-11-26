@@ -2,13 +2,12 @@ import { useRef, useState } from "react"
 import { useReveal } from "../lib/motion"
 import Button from "../components/Button"
 import LinkTexto from "../components/LinkTexto"
-import Segmented from "../components/Segmented"
 import Tick from "../components/Tick"
 import { anualLink, BASICO_CHECKOUT_LINK, peso, plans, WHATSAPP_TRIAL_LINK } from "../lib/planes"
+import { INSIGNIA } from "../lib/pastillas"
 
 const basico = plans.find((p) => p.name === "Básico")
-// Las funciones que más pesan en la decisión van en negrita.
-const destacadas = ["Cargá productos o servicios ilimitados"]
+const destacadas = [] // sin negritas: todas las funciones del plan se leen igual
 
 const opciones = [
   { id: false, label: "Mensual" },
@@ -37,26 +36,41 @@ export default function BasicoPrecio() {
           </p>
         </div>
 
-        <div className="sticky top-[4.5rem] z-30 mt-8 flex justify-center bg-ink/90 py-2 backdrop-blur md:static md:bg-transparent md:py-0 md:backdrop-blur-none">
-          <Segmented
-            label="Período de pago"
-            value={anual}
-            onChange={setAnual}
-            options={opciones}
-          />
-        </div>
-
         <div
           data-reveal
-          className="mx-auto mt-8 grid max-w-6xl gap-6 rounded-3xl bg-white p-5 text-ink shadow-xl shadow-ink/10 sm:p-7 md:grid-cols-[1.15fr_1fr]"
+          className="mx-auto mt-8 grid max-w-6xl gap-6 rounded-3xl bg-white p-5 text-ink shadow-xl shadow-ink/10 sm:p-7 md:grid-cols-[0.8fr_1fr]"
         >
-          <div className="flex flex-col">
-            <h3 className="text-xl font-extrabold">Plan Básico</h3>
+          <div className="flex flex-col items-center text-center">
+            <h3 className="text-lg font-extrabold">Plan Básico</h3>
+
+            <div className="mt-4">
+              <div
+                role="group"
+                aria-label="Período de pago"
+                className="inline-flex flex-none rounded-full bg-primary-tint p-1 ring-1 ring-ink/10"
+              >
+                {opciones.map((op) => (
+                  <button
+                    key={op.label}
+                    type="button"
+                    aria-pressed={anual === op.id}
+                    onClick={() => setAnual(op.id)}
+                    className={`flex items-center gap-2 rounded-full px-3.5 py-1.5 text-[13px] font-semibold transition-colors duration-300 focus-ring motion-reduce:transition-none ${
+                      anual === op.id ? (op.id ? "bg-primary text-white" : "bg-ink text-white") : "text-ink-soft hover:text-ink"
+                    }`}
+                  >
+                    {op.label}
+                    {op.badge && <span className={INSIGNIA}>{op.badge}</span>}
+                  </button>
+                ))}
+              </div>
+            </div>
+
 
             <div className="mt-4 flex flex-wrap items-baseline gap-x-2 gap-y-1">
-              <p className="text-[44px] font-extrabold leading-none">
+              <p className="text-[36px] font-extrabold leading-none">
                 {peso(anual ? basico.anual / 12 : basico.mensual)}
-                <span className="text-lg font-bold text-ink-soft">/mes</span>
+                <span className="text-base font-bold text-ink-soft">/mes</span>
               </p>
               {anual && (
                 <p className="text-sm font-semibold text-ink-muted line-through decoration-2">
@@ -70,7 +84,7 @@ export default function BasicoPrecio() {
                 : "Probá 1 mes gratis"}
             </p>
 
-            <p className="mt-4 text-sm font-semibold text-ink-soft">
+            <p className="mt-4 text-balance text-sm font-semibold text-ink-soft">
               Sin compromiso de adquirir nuestro plan, no te pedimos tarjeta ni ningún tipo de pago.
             </p>
 
@@ -93,7 +107,7 @@ export default function BasicoPrecio() {
               {basico.features.map((f) => (
                 <li
                   key={f}
-                  className={`flex items-center gap-2.5 text-sm ${
+                  className={`flex items-center gap-2.5 text-pretty text-sm ${
                     destacadas.includes(f) ? "font-bold" : ""
                   }`}
                 >
