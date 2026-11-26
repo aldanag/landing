@@ -16,7 +16,7 @@ const TIPOS = {
     cuerpo: "Cargás tu catálogo con fotos y precios, y los pedidos te llegan directo a tu WhatsApp.",
     puntos: [
       "Productos ilimitados, con fotos, stock y características",
-      "Vendé por mayor y por menor (con compra mínima)",
+      "Estadísticas de ingresos, pedidos y más vendidos",
       "Gestión de pedidos desde tu panel",
       "Cupones y descuentos automáticos",
     ],

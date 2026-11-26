@@ -5,8 +5,9 @@ import BarraMensajes from "./BarraMensajes"
 import InventarioAnimado from "./InventarioAnimado"
 import ClienteAnimado from "./ClienteAnimado"
 import MarketingAnimado from "./MarketingAnimado"
-import PagosAnimado from "./PagosAnimado"
+import EscenaPagos from "./escenas/EscenaPagos"
 import EscenaMayorista from "./escenas/EscenaMayorista"
+import EscenaPopup from "./escenas/EscenaPopup"
 import CarritoAnimado from "./CarritoAnimado"
 import { funcionesPremium } from "../lib/funcionesPremium"
 import { PREMIUM_LANDING_LINK } from "../lib/planes"
@@ -23,11 +24,12 @@ const fotoDe = (n) => Object.entries(fotos).find(([ruta]) => ruta.includes(`prem
 const funciones = funcionesPremium.map((f, i) => ({
   ...f,
   // la función 6 (mayorista o minorista) es una escena viva y no una imagen: las imágenes siguen la numeración sin ella
-  imagen: i === 5 ? undefined : fotoDe(i < 5 ? i + 1 : i),
-  escena: i === 5 ? <EscenaMayorista /> : undefined,
+  // (la 7, métodos de pago, y la 9, la ventana emergente al salir, también son escenas vivas)
+  imagen: i === 5 || i === 6 || i === 8 ? undefined : fotoDe(i < 5 ? i + 1 : i),
+  escena: i === 5 ? <EscenaMayorista /> : i === 6 ? <EscenaPagos /> : i === 8 ? <EscenaPopup /> : undefined,
   // el carrito (4) y los badges de Marketing (7) los dibuja la animación: aparecen junto con la imagen
-  superposicionFija: i === 4 || i === 6 || i === 7,
-  superposicion: i === 0 ? <BarraMensajes /> : i === 2 ? <ClienteAnimado /> : i === 3 ? <InventarioAnimado /> : i === 4 ? <CarritoAnimado /> : i === 6 ? <PagosAnimado /> : i === 7 ? <MarketingAnimado /> : undefined,
+  superposicionFija: i === 4 || i === 7,
+  superposicion: i === 0 ? <BarraMensajes /> : i === 2 ? <ClienteAnimado /> : i === 3 ? <InventarioAnimado /> : i === 4 ? <CarritoAnimado /> : i === 7 ? <MarketingAnimado /> : undefined,
 }))
 
 export default function FuncionesPremium() {

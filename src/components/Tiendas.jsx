@@ -1,16 +1,15 @@
 import { useEffect, useRef, useState } from "react"
 import { useReveal } from "../lib/motion"
+import { useDeriva } from "../lib/deriva"
 import { tiendasEjemplo } from "../lib/tiendas"
-import { ETIQUETA } from "../lib/pastillas"
+import { ETIQUETA, ETIQUETA_ICONO } from "../lib/pastillas"
 import IconButton from "./IconButton"
 
 // Carrusel de cuadrados oscuros (efecto portfolio). Cada uno muestra la tienda en escritorio y en celular, con el rubro y
-// «Ver tienda» adentro. Se puede arrastrar (mouse o dedo) y tiene puntitos abajo; sola avanza de a una tienda cada pocos
-// segundos, y se frena al tocarla, pasar el mouse o enfocar un enlace (y con "reducir movimiento" no avanza sola).
+// «Ver tienda» adentro. Se puede arrastrar (mouse o dedo) y tiene puntitos abajo; sola se desliza de a poquito, de forma
+// continua (ver lib/deriva.js), y se frena al tocarla, pasar el mouse o enfocar un enlace (y con "reducir movimiento" no avanza sola).
 // Hay pocas tiendas, así que van todas juntas (sin interruptor por plan); cada tarjeta dice su plan.
 // Las tiendas se suman en src/lib/tiendas.js con plan: "Básico" o "Premium".
-const SEGUNDOS_ENTRE_TIENDAS = 4.5
-const SEGUNDOS_DE_PAUSA_TRAS_TOCAR = 9
 
 // Fondo liso: el azul oscuro de la marca, sin brillos.
 const FONDO = { backgroundColor: "var(--color-night-2)" }
@@ -37,7 +36,7 @@ function Tarjeta({ t }) {
         rel="noreferrer"
         aria-label={`Ver la tienda ${t.nombre}, ${t.rubro.toLowerCase()}`}
         draggable="false"
-        className="group relative block aspect-[100/92] ring-1 ring-white/10 cursor-pointer overflow-hidden rounded-[2rem] focus-ring [container-type:inline-size]"
+        className="group relative block aspect-[100/92] ring-1 ring-white/10 cursor-pointer overflow-hidden rounded-[2rem] transition-[box-shadow,scale] duration-300 hover:ring-white/30 active:scale-[0.99] motion-reduce:transition-none focus-ring [container-type:inline-size]"
         style={FONDO}
       >
         {/* Escritorio, con la barra del navegador y la dirección de la tienda */}
@@ -104,13 +103,14 @@ function Tarjeta({ t }) {
           </div>
         </div>
 
-        <span className="absolute left-[9.5%] top-[7cqw] rounded-full bg-white/10 px-3 py-1 text-[13px] font-semibold text-white ring-1 ring-white/25">
-          {t.rubro}
-        </span>
-
-        <span className={`absolute right-[9.5%] top-[7cqw] ${ETIQUETA}`}>
-          Plan {t.plan}
-        </span>
+        {/* Rubro y plan: una sola fila, de la misma altura y centradas entre sí. En celular el rubro se achica (y se corta con "…" si no entra)
+            para que las dos etiquetas nunca se toquen ni se monten sobre la captura. */}
+        <div className="absolute left-[6%] right-[6%] top-[5.5cqw] flex items-center justify-between gap-2 sm:left-[9.5%] sm:right-[9.5%] sm:top-[7cqw]">
+          <span className="inline-flex h-7 min-w-0 items-center rounded-full bg-white/10 px-2.5 text-[12px] font-semibold text-white ring-1 ring-white/25 sm:h-8 sm:px-3 sm:text-[13px]">
+            <span className="truncate">{t.rubro}</span>
+          </span>
+          <span className={`${ETIQUETA_ICONO} h-7 flex-none justify-center sm:h-8`}>Plan {t.plan}</span>
+        </div>
 
         <span className="absolute bottom-[7cqw] left-[9.5%] inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 text-sm font-semibold text-ink transition-transform duration-300 group-hover:-translate-y-0.5 motion-reduce:transition-none">
           Ver tienda
@@ -133,23 +133,24 @@ export default function Tiendas() {
   const root = useRef(null)
   const pista = useRef(null)
   const arrastre = useRef({ activo: false, x0: 0, scroll0: 0, movido: false })
-  const ultimoToque = useRef(0)
-  const quieto = useRef(false) // el mouse está encima o hay un enlace enfocado
-  const visible = useRef(false)
-  const [pasos, setPasos] = useState({ paginas: tiendasEjemplo.length, paso: 1 })
+  const [pasos, setPasos] = useState({ paginas: tiendasEjemplo.length, paso: 1, vuelta: 0 })
   const [activa, setActiva] = useState(0)
   useReveal(root)
+  useDeriva(pista, root, { velocidad: 40, soloHover: true, bucle: true })
 
   // Cuánto mide un paso (de una tarjeta a la siguiente) y cuántas posiciones hay hasta el final.
   useEffect(() => {
     const el = pista.current
     if (!el) return
     const medir = () => {
+      // La fila trae las tiendas dos veces (la segunda tanda es solo para el bucle): los puntitos y los límites miden la primera.
       const tarjetas = el.querySelectorAll("article")
-      if (tarjetas.length < 2) return setPasos({ paginas: 1, paso: 1 })
+      const n = tarjetas.length / 2
+      if (n < 2) return setPasos({ paginas: 1, paso: 1, vuelta: 0 })
       const paso = tarjetas[1].offsetLeft - tarjetas[0].offsetLeft
-      const maximo = el.scrollWidth - el.clientWidth
-      setPasos({ paginas: Math.max(1, Math.round(maximo / paso) + 1), paso })
+      const ultima = tarjetas[n - 1]
+      const maximo = ultima.offsetLeft + ultima.offsetWidth + parseFloat(getComputedStyle(el).paddingRight) - el.clientWidth
+      setPasos({ paginas: Math.max(1, Math.round(maximo / paso) + 1), paso, vuelta: tarjetas[n].offsetLeft - tarjetas[0].offsetLeft })
     }
     medir()
     const ro = new ResizeObserver(medir)
@@ -159,36 +160,17 @@ export default function Tiendas() {
 
   const alScrollear = () => {
     const el = pista.current
-    setActiva(Math.min(pasos.paginas - 1, Math.max(0, Math.round(el.scrollLeft / pasos.paso))))
+    const x = pasos.vuelta ? el.scrollLeft % pasos.vuelta : el.scrollLeft
+    setActiva(Math.min(pasos.paginas - 1, Math.max(0, Math.round(x / pasos.paso))))
   }
 
   const ir = (i) => pista.current?.scrollTo({ left: i * pasos.paso, behavior: "smooth" })
   const mover = (d) => {
-    ultimoToque.current = Date.now()
     ir(Math.min(pasos.paginas - 1, Math.max(0, activa + d)))
   }
 
-  // Avanza sola, de a una tienda, mientras está a la vista y nadie la toca.
-  useEffect(() => {
-    const el = pista.current
-    if (!el || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return
-    const io = new IntersectionObserver(([e]) => (visible.current = e.isIntersecting), { threshold: 0.4 })
-    io.observe(el)
-    const id = setInterval(() => {
-      if (!visible.current || quieto.current || document.hidden) return
-      if (Date.now() - ultimoToque.current < SEGUNDOS_DE_PAUSA_TRAS_TOCAR * 1000) return
-      const siguiente = Math.round(el.scrollLeft / pasos.paso) + 1
-      el.scrollTo({ left: siguiente >= pasos.paginas ? 0 : siguiente * pasos.paso, behavior: "smooth" })
-    }, SEGUNDOS_ENTRE_TIENDAS * 1000)
-    return () => {
-      io.disconnect()
-      clearInterval(id)
-    }
-  }, [pasos])
-
   // Arrastrar con el mouse (con el dedo ya se desliza solo).
   const alApretar = (e) => {
-    ultimoToque.current = Date.now()
     if (e.pointerType !== "mouse" || e.button !== 0) return
     const el = pista.current
     arrastre.current = { activo: true, x0: e.clientX, scroll0: el.scrollLeft, movido: false }
@@ -259,11 +241,6 @@ export default function Tiendas() {
         onPointerUp={alSoltar}
         onPointerCancel={alSoltar}
         onClickCapture={alHacerClic}
-        onMouseEnter={() => (quieto.current = true)}
-        onMouseLeave={() => (quieto.current = false)}
-        onFocusCapture={() => (quieto.current = true)}
-        onBlurCapture={() => (quieto.current = false)}
-        onWheel={() => (ultimoToque.current = Date.now())}
         className="mt-10 flex cursor-grab snap-x snap-mandatory gap-5 overflow-x-auto pb-1 active:cursor-grabbing [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
         style={{
           paddingInline: "max(1rem, calc((100% - 72rem) / 2 + 1.5rem))",
@@ -273,6 +250,12 @@ export default function Tiendas() {
         {tiendasEjemplo.map((t) => (
           <Tarjeta key={t.url} t={t} />
         ))}
+        {/* Segunda tanda, solo para que la fila pueda dar la vuelta sin cortes: no se lee ni se enfoca. */}
+        {tiendasEjemplo.map((t) => (
+          <div key={`copia-${t.url}`} aria-hidden="true" inert className="contents">
+            <Tarjeta t={t} />
+          </div>
+        ))}
       </div>
 
       {/* Puntitos: uno por posición del carrusel */}
@@ -281,10 +264,7 @@ export default function Tiendas() {
           <button
             key={i}
             type="button"
-            onClick={() => {
-              ultimoToque.current = Date.now()
-              ir(i)
-            }}
+            onClick={() => ir(i)}
             aria-label={`Ir a la posición ${i + 1} de ${pasos.paginas}`}
             aria-current={activa === i}
             className="group flex h-6 w-6 cursor-pointer items-center justify-center rounded-full focus-ring-inverse"

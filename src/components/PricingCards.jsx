@@ -107,7 +107,7 @@ export default function PricingCards() {
                 {plan.crown && <CrownIcon className={`h-5 w-5 ${azul ? "text-lavender" : "text-primary"}`} />}
                 {plan.ejemplo && <VerEjemplo plan={plan.name} href={plan.ejemplo} />}
               </div>
-              <div className="mt-3 flex flex-wrap items-baseline gap-x-2 gap-y-1">
+              <div key={`precio-${anual}`} className="cambio-precio mt-3 flex flex-wrap items-baseline gap-x-2 gap-y-1">
                 <p className="text-[32px] font-extrabold leading-none">
                   {peso(anual ? plan.anual / 12 : plan.mensual)}
                   <span className={`text-base font-bold ${azul ? "text-snow-soft" : "text-ink-soft"}`}>/mes</span>
@@ -118,7 +118,7 @@ export default function PricingCards() {
                   </p>
                 )}
               </div>
-              <p className={`mt-2 text-xs font-semibold ${azul ? "text-snow-muted" : "text-ink-muted"}`}>
+              <p key={`nota-${anual}`} className={`cambio-precio mt-2 text-xs font-semibold ${azul ? "text-snow-muted" : "text-ink-muted"}`}>
                 {anual
                   ? `Pagás ${peso(plan.anual)} una vez al año · ahorrás ${peso(plan.mensual * 12 - plan.anual)}`
                   : plan.commitment}

@@ -4,7 +4,7 @@ export default function IconButton({ label, className = "", children, ...rest })
     <button
       type="button"
       aria-label={label}
-      className={`flex h-12 w-12 cursor-pointer items-center justify-center rounded-full bg-white text-ink transition-colors duration-200 hover:bg-primary-tint focus-ring-inverse disabled:cursor-default disabled:bg-white/10 disabled:text-white/40 motion-reduce:transition-none ${className}`}
+      className={`flex h-12 w-12 cursor-pointer items-center justify-center rounded-full bg-white text-ink transition-[background-color,color,scale] duration-200 hover:bg-primary-tint active:scale-95 focus-ring-inverse disabled:cursor-default disabled:bg-white/10 disabled:text-white/40 motion-reduce:transition-none ${className}`}
       {...rest}
     >
       {children}

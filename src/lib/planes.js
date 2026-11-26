@@ -47,6 +47,8 @@ export const plans = [
     features: [
       "Cargá productos o servicios ilimitados",
       "Gestión de pedidos",
+      "Estadísticas: ingresos, pedidos por estado, más vendidos y ventas por categoría",
+      "Pagos en efectivo y por transferencia",
       "Carrusel de hasta 6 slides",
       "8 banners promocionales",
       "Página de contacto con formulario y mapa",
@@ -83,6 +85,7 @@ export const plans = [
       { text: "Panel de clientes con pedidos confirmados, exportables", isNew: true },
       { text: "Inventario con edición rápida de stock", isNew: true },
       { text: "Gastos de gestión y envío gratis, por cantidad o por monto", isNew: true },
+      { text: "Vendé mayorista o minorista, con compra mínima por monto o por cantidad", isNew: true },
       { text: "Mercado Pago y cuotas, además de efectivo y transferencia", isNew: true },
       { text: "Marketing: notificación de confianza, ofertas por tiempo limitado y promociones", isNew: true },
       { text: "Ventana emergente al salir, para quien deja su pedido sin terminar", isNew: true },

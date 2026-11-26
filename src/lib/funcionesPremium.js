@@ -50,8 +50,13 @@ export const funcionesPremium = [
       "Modo promociones: Black Friday, Hot Sale, CyberMonday o el tuyo.",
       "Ofertas con cuenta regresiva, producto por producto.",
       "Notificación de confianza cuando alguien compra.",
-      "Pop-up de salida: una ventana emergente para quien se va sin terminar su pedido.",
     ],
     etiquetaImagen: "La tienda con su badge de promoción, la oferta con cuenta regresiva y la notificación de confianza",
+  },
+  {
+    titulo: "Ventana emergente al salir",
+    cuerpo:
+      "Una ventana emergente aparece cuando alguien se va de tu tienda sin terminar su pedido, para invitarlo a volver al carrito.",
+    etiquetaImagen: "La tienda con la ventana emergente de salida",
   },
 ]

@@ -1328,27 +1328,163 @@ body {
 :root[data-motion="on"] .est-activa .est-aviso-base { animation: est-aviso-base 12s linear infinite; }
 :root[data-motion="on"] .est-activa .est-graf { animation: est-fin 12s linear infinite; }
 
-/* Imagen de métodos de pago animada (PagosAnimado), bucle de 7 s: Mercado Pago se conecta y la venta en cuotas se activa, una tarjeta después de la otra, en azul oscuro.
-   El cursor no se desliza: aparece pegado al botón o a la casilla. Quieta con "reducir movimiento" (queda todo activo); con ?motion=on se fuerza. */
-.pg-onda { width: 4.2cqw; height: 4.2cqw; margin: -2.1cqw 0 0 -2.1cqw; border: 2px solid #17122f; opacity: 0; }
-.pg-cursor { width: 2.8cqw; height: 2.8cqw; margin: -0.4cqw 0 0 -0.5cqw; opacity: 0; filter: drop-shadow(0 2px 3px rgba(23, 18, 47, 0.4)); }
-@keyframes pg-on-a { 0%, 12.86% { opacity: 0; } 17.86%, 100% { opacity: 1; } }
-@keyframes pg-onda-a { 0%, 11.14% { opacity: 0; transform: scale(0.3); } 11.29% { opacity: 0.7; transform: scale(0.3); } 21.43%, 100% { opacity: 0; transform: scale(1.6); } }
-@keyframes pg-on-b { 0%, 41.43% { opacity: 0; } 46.43%, 100% { opacity: 1; } }
-@keyframes pg-onda-b { 0%, 39.71% { opacity: 0; transform: scale(0.3); } 39.86% { opacity: 0.7; transform: scale(0.3); } 50%, 100% { opacity: 0; transform: scale(1.6); } }
-@keyframes pg-cursor { 0%, 2.86% { opacity: 0; transform: translate(3cqw, -3cqw) scale(1); } 4.57% { opacity: 1; transform: translate(3cqw, -3cqw) scale(1); } 7.86% { opacity: 1; transform: translate(0, 0) scale(1); } 10.29% { opacity: 1; transform: translate(0, 0) scale(0.82); } 13.14% { opacity: 1; transform: translate(0, 0) scale(1); } 15.71%, 29.29% { opacity: 0; transform: translate(0, 0) scale(1); } 30% { opacity: 0; transform: translate(-52.60cqw, 12.33cqw) scale(1); } 32.14% { opacity: 1; transform: translate(-52.60cqw, 12.33cqw) scale(1); } 35.71% { opacity: 1; transform: translate(-55.60cqw, 15.33cqw) scale(1); } 38.86% { opacity: 1; transform: translate(-55.60cqw, 15.33cqw) scale(0.82); } 41.71% { opacity: 1; transform: translate(-55.60cqw, 15.33cqw) scale(1); } 44.29%, 100% { opacity: 0; transform: translate(-55.60cqw, 15.33cqw) scale(1); } }
-@keyframes pg-fin { 0%, 85.71% { opacity: 1; } 94.29%, 100% { opacity: 0; } }
+/* ===== MÉTODOS DE PAGO (pa-): bucle de 13 s. Mercado Pago se conecta (toque, "Conectando…", queda "Conectado"), después se activa la venta en cuotas
+   (toque en la casilla, se habilitan los campos y se completan los recargos) y se guarda (toque + aviso). Cada cambio de estado es un reemplazo corto,
+   sin fundidos largos. Reposo = todo conectado y activo. ===== */
+.pa-spin { transform-origin: 50% 50%; }
+.pa-a1, .pa-a2 { opacity: 0; }
+@keyframes pa-b0 { 0% { opacity: 1 } 22.308% { opacity: 1 } 23.462% { opacity: 0 } 90% { opacity: 0 } 93.846% { opacity: 1 } 100% { opacity: 1 } }
+@keyframes pa-b1 { 0% { opacity: 0; transform: scale(0.7) } 22.308% { opacity: 0; transform: scale(0.7) } 23.231% { opacity: 1; transform: scale(1.12) } 24.615% { opacity: 1; transform: scale(1) } 90% { opacity: 1; transform: scale(1) } 93.846% { opacity: 0; transform: scale(1) } 100% { opacity: 0; transform: scale(1) } }
+@keyframes pa-t0 { 0% { opacity: 1 } 22.308% { opacity: 1 } 23.462% { opacity: 0 } 90% { opacity: 0 } 93.846% { opacity: 1 } 100% { opacity: 1 } }
+@keyframes pa-t1 { 0% { opacity: 0 } 22.308% { opacity: 0 } 23.462% { opacity: 1 } 90% { opacity: 1 } 93.846% { opacity: 0 } 100% { opacity: 0 } }
+@keyframes pa-d0 { 0% { opacity: 1 } 22.308% { opacity: 1 } 23.462% { opacity: 0 } 90% { opacity: 0 } 93.846% { opacity: 1 } 100% { opacity: 1 } }
+@keyframes pa-d1 { 0% { opacity: 0 } 22.308% { opacity: 0 } 23.462% { opacity: 1 } 90% { opacity: 1 } 93.846% { opacity: 0 } 100% { opacity: 0 } }
+@keyframes pa-c1 { 0% { opacity: 0 } 22.308% { opacity: 0 } 23.462% { opacity: 1 } 90% { opacity: 1 } 93.846% { opacity: 0 } 100% { opacity: 0 } }
+@keyframes pa-c0 { 0% { opacity: 1; transform: none } 13.077% { opacity: 1; transform: none } 13.846% { opacity: 1; transform: scale(0.96) } 15% { opacity: 1; transform: scale(0.96) } 15.385% { opacity: 0; transform: scale(0.96) } 90% { opacity: 0; transform: none } 93.846% { opacity: 1; transform: none } 100% { opacity: 1; transform: none } }
+@keyframes pa-cx { 0% { opacity: 0 } 15% { opacity: 0 } 15.769% { opacity: 1 } 21.538% { opacity: 1 } 22.692% { opacity: 0 } 100% { opacity: 0 } }
+@keyframes pa-k0 { 0% { opacity: 1 } 38.462% { opacity: 1 } 39.615% { opacity: 0 } 90% { opacity: 0 } 93.846% { opacity: 1 } 100% { opacity: 1 } }
+@keyframes pa-k1 { 0% { opacity: 0; transform: scale(0.7) } 38.462% { opacity: 0; transform: scale(0.7) } 39.385% { opacity: 1; transform: scale(1.12) } 40.769% { opacity: 1; transform: scale(1) } 90% { opacity: 1; transform: scale(1) } 93.846% { opacity: 0; transform: scale(1) } 100% { opacity: 0; transform: scale(1) } }
+@keyframes pa-caja { 0% { background-color: #F7F6FA; box-shadow: inset 0 0 0 calc(var(--u) * 1.3) #E6E2F0 } 38.462% { background-color: #F7F6FA; box-shadow: inset 0 0 0 calc(var(--u) * 1.3) #E6E2F0 } 40% { background-color: #fff; box-shadow: inset 0 0 0 calc(var(--u) * 1.3) #CFC3F7 } 90% { background-color: #fff; box-shadow: inset 0 0 0 calc(var(--u) * 1.3) #CFC3F7 } 93.846% { background-color: #F7F6FA; box-shadow: inset 0 0 0 calc(var(--u) * 1.3) #E6E2F0 } 100% { background-color: #F7F6FA; box-shadow: inset 0 0 0 calc(var(--u) * 1.3) #E6E2F0 } }
+@keyframes pa-etq { 0% { color: #9C97B3 } 38.462% { color: #9C97B3 } 40% { color: #17122F } 90% { color: #17122F } 93.846% { color: #9C97B3 } 100% { color: #9C97B3 } }
+@keyframes pa-z1 { 0% { opacity: 1 } 40.769% { opacity: 1 } 41.538% { opacity: 0 } 90% { opacity: 0 } 93.846% { opacity: 1 } 100% { opacity: 1 } }
+@keyframes pa-v1 { 0% { opacity: 0; transform: translateY(calc(var(--u) * 4)) } 40.769% { opacity: 0; transform: translateY(calc(var(--u) * 4)) } 42.154% { opacity: 1; transform: none } 90% { opacity: 1; transform: none } 93.846% { opacity: 0; transform: none } 100% { opacity: 0; transform: none } }
+@keyframes pa-r1 { 0% { opacity: 0 } 40.769% { opacity: 0 } 41.231% { opacity: 1 } 45% { opacity: 0 } 100% { opacity: 0 } }
+@keyframes pa-z2 { 0% { opacity: 1 } 43.846% { opacity: 1 } 44.615% { opacity: 0 } 90% { opacity: 0 } 93.846% { opacity: 1 } 100% { opacity: 1 } }
+@keyframes pa-v2 { 0% { opacity: 0; transform: translateY(calc(var(--u) * 4)) } 43.846% { opacity: 0; transform: translateY(calc(var(--u) * 4)) } 45.231% { opacity: 1; transform: none } 90% { opacity: 1; transform: none } 93.846% { opacity: 0; transform: none } 100% { opacity: 0; transform: none } }
+@keyframes pa-r2 { 0% { opacity: 0 } 43.846% { opacity: 0 } 44.308% { opacity: 1 } 48.077% { opacity: 0 } 100% { opacity: 0 } }
+@keyframes pa-z3 { 0% { opacity: 1 } 46.154% { opacity: 1 } 46.923% { opacity: 0 } 90% { opacity: 0 } 93.846% { opacity: 1 } 100% { opacity: 1 } }
+@keyframes pa-v3 { 0% { opacity: 0; transform: translateY(calc(var(--u) * 4)) } 46.154% { opacity: 0; transform: translateY(calc(var(--u) * 4)) } 47.538% { opacity: 1; transform: none } 90% { opacity: 1; transform: none } 93.846% { opacity: 0; transform: none } 100% { opacity: 0; transform: none } }
+@keyframes pa-r3 { 0% { opacity: 0 } 46.154% { opacity: 0 } 46.615% { opacity: 1 } 50.385% { opacity: 0 } 100% { opacity: 0 } }
+@keyframes pa-z4 { 0% { opacity: 1 } 48.462% { opacity: 1 } 49.231% { opacity: 0 } 90% { opacity: 0 } 93.846% { opacity: 1 } 100% { opacity: 1 } }
+@keyframes pa-v4 { 0% { opacity: 0; transform: translateY(calc(var(--u) * 4)) } 48.462% { opacity: 0; transform: translateY(calc(var(--u) * 4)) } 49.846% { opacity: 1; transform: none } 90% { opacity: 1; transform: none } 93.846% { opacity: 0; transform: none } 100% { opacity: 0; transform: none } }
+@keyframes pa-r4 { 0% { opacity: 0 } 48.462% { opacity: 0 } 48.923% { opacity: 1 } 52.692% { opacity: 0 } 100% { opacity: 0 } }
+@keyframes pa-z5 { 0% { opacity: 1 } 50.769% { opacity: 1 } 51.538% { opacity: 0 } 90% { opacity: 0 } 93.846% { opacity: 1 } 100% { opacity: 1 } }
+@keyframes pa-v5 { 0% { opacity: 0; transform: translateY(calc(var(--u) * 4)) } 50.769% { opacity: 0; transform: translateY(calc(var(--u) * 4)) } 52.154% { opacity: 1; transform: none } 90% { opacity: 1; transform: none } 93.846% { opacity: 0; transform: none } 100% { opacity: 0; transform: none } }
+@keyframes pa-r5 { 0% { opacity: 0 } 50.769% { opacity: 0 } 51.231% { opacity: 1 } 55% { opacity: 0 } 100% { opacity: 0 } }
+@keyframes pa-z6 { 0% { opacity: 1 } 53.077% { opacity: 1 } 53.846% { opacity: 0 } 90% { opacity: 0 } 93.846% { opacity: 1 } 100% { opacity: 1 } }
+@keyframes pa-v6 { 0% { opacity: 0; transform: translateY(calc(var(--u) * 4)) } 53.077% { opacity: 0; transform: translateY(calc(var(--u) * 4)) } 54.462% { opacity: 1; transform: none } 90% { opacity: 1; transform: none } 93.846% { opacity: 0; transform: none } 100% { opacity: 0; transform: none } }
+@keyframes pa-r6 { 0% { opacity: 0 } 53.077% { opacity: 0 } 53.538% { opacity: 1 } 57.308% { opacity: 0 } 100% { opacity: 0 } }
+@keyframes pa-g0 { 0% { opacity: 1 } 39.231% { opacity: 1 } 40.385% { opacity: 0 } 90% { opacity: 0 } 93.846% { opacity: 1 } 100% { opacity: 1 } }
+@keyframes pa-g1 { 0% { opacity: 0; transform: none } 39.231% { opacity: 0; transform: none } 40.385% { opacity: 1; transform: none } 59.231% { opacity: 1; transform: none } 60% { opacity: 1; transform: scale(0.94) } 61.154% { opacity: 1; transform: none } 90% { opacity: 1; transform: none } 93.846% { opacity: 0; transform: none } 100% { opacity: 0; transform: none } }
+@keyframes pa-a0 { 0% { opacity: 1; transform: none } 13.077% { opacity: 1; transform: none } 15% { opacity: 0; transform: translateY(calc(var(--u) * 14)) scale(0.95) } 79.231% { opacity: 0; transform: translateY(calc(var(--u) * 14)) scale(0.95) } 82.308% { opacity: 1; transform: none } 100% { opacity: 1; transform: none } }
+@keyframes pa-a1 { 0% { opacity: 0; transform: translateY(calc(var(--u) * 14)) scale(0.95) } 23.846% { opacity: 0; transform: translateY(calc(var(--u) * 14)) scale(0.95) } 26.538% { opacity: 1; transform: none } 34.615% { opacity: 1; transform: none } 36.923% { opacity: 0; transform: translateY(calc(var(--u) * 14)) scale(0.95) } 100% { opacity: 0; transform: translateY(calc(var(--u) * 14)) scale(0.95) } }
+@keyframes pa-a2 { 0% { opacity: 0; transform: translateY(calc(var(--u) * 14)) scale(0.95) } 62.308% { opacity: 0; transform: translateY(calc(var(--u) * 14)) scale(0.95) } 65% { opacity: 1; transform: none } 76.154% { opacity: 1; transform: none } 78.462% { opacity: 0; transform: translateY(calc(var(--u) * 14)) scale(0.95) } 100% { opacity: 0; transform: translateY(calc(var(--u) * 14)) scale(0.95) } }
+@keyframes pa-ta { 0% { opacity: 0; transform: translate(-50%, -50%) scale(0.5) } 13.846% { opacity: 0; transform: translate(-50%, -50%) scale(0.5) } 14.769% { opacity: 0.85; transform: translate(-50%, -50%) scale(0.8) } 15.538% { opacity: 0.6; transform: translate(-50%, -50%) scale(0.95) } 17.308% { opacity: 0; transform: translate(-50%, -50%) scale(1.5) } 100% { opacity: 0; transform: translate(-50%, -50%) scale(1.5) } }
+@keyframes pa-tb { 0% { opacity: 0; transform: translate(-50%, -50%) scale(0.5) } 38.462% { opacity: 0; transform: translate(-50%, -50%) scale(0.5) } 39.385% { opacity: 0.85; transform: translate(-50%, -50%) scale(0.8) } 40.154% { opacity: 0.6; transform: translate(-50%, -50%) scale(0.95) } 41.923% { opacity: 0; transform: translate(-50%, -50%) scale(1.5) } 100% { opacity: 0; transform: translate(-50%, -50%) scale(1.5) } }
+@keyframes pa-tc { 0% { opacity: 0; transform: translate(-50%, -50%) scale(0.5) } 60% { opacity: 0; transform: translate(-50%, -50%) scale(0.5) } 60.923% { opacity: 0.85; transform: translate(-50%, -50%) scale(0.8) } 61.692% { opacity: 0.6; transform: translate(-50%, -50%) scale(0.95) } 63.462% { opacity: 0; transform: translate(-50%, -50%) scale(1.5) } 100% { opacity: 0; transform: translate(-50%, -50%) scale(1.5) } }
+@keyframes pa-giro { to { transform: rotate(360deg); } }
 @media (prefers-reduced-motion: no-preference) {
-  .pg-activa .pg-on-a { animation: pg-on-a 7s ease-out infinite; }
-  .pg-activa .pg-onda-a { animation: pg-onda-a 7s ease-out infinite; }
-  .pg-activa .pg-on-b { animation: pg-on-b 7s ease-out infinite; }
-  .pg-activa .pg-onda-b { animation: pg-onda-b 7s ease-out infinite; }
-  .pg-activa .pg-cursor { animation: pg-cursor 7s ease-out infinite; }
-  .pg-activa .pg-graf { animation: pg-fin 7s linear infinite; }
+  .pa-activa .pa-b0 { animation: pa-b0 13s linear infinite; }
+  .pa-activa .pa-t0 { animation: pa-t0 13s linear infinite; }
+  .pa-activa .pa-d0 { animation: pa-d0 13s linear infinite; }
+  .pa-activa .pa-d1 { animation: pa-d1 13s linear infinite; }
+  .pa-activa .pa-c1 { animation: pa-c1 13s linear infinite; }
+  .pa-activa .pa-t1 { animation: pa-t1 13s linear infinite; }
+  .pa-activa .pa-cx { animation: pa-cx 13s linear infinite; }
+  .pa-activa .pa-k0 { animation: pa-k0 13s linear infinite; }
+  .pa-activa .pa-z1 { animation: pa-z1 13s linear infinite; }
+  .pa-activa .pa-z2 { animation: pa-z2 13s linear infinite; }
+  .pa-activa .pa-z3 { animation: pa-z3 13s linear infinite; }
+  .pa-activa .pa-z4 { animation: pa-z4 13s linear infinite; }
+  .pa-activa .pa-z5 { animation: pa-z5 13s linear infinite; }
+  .pa-activa .pa-z6 { animation: pa-z6 13s linear infinite; }
+  .pa-activa .pa-g0 { animation: pa-g0 13s linear infinite; }
+  .pa-activa .pa-r1 { animation: pa-r1 13s linear infinite; }
+  .pa-activa .pa-r2 { animation: pa-r2 13s linear infinite; }
+  .pa-activa .pa-r3 { animation: pa-r3 13s linear infinite; }
+  .pa-activa .pa-r4 { animation: pa-r4 13s linear infinite; }
+  .pa-activa .pa-r5 { animation: pa-r5 13s linear infinite; }
+  .pa-activa .pa-r6 { animation: pa-r6 13s linear infinite; }
+  .pa-activa .pa-b1 { animation: pa-b1 13s linear infinite; }
+  .pa-activa .pa-c0 { animation: pa-c0 13s linear infinite; }
+  .pa-activa .pa-k1 { animation: pa-k1 13s linear infinite; }
+  .pa-activa .pa-g1 { animation: pa-g1 13s linear infinite; }
+  .pa-activa .pa-caja { animation: pa-caja 13s linear infinite; }
+  .pa-activa .pa-etq { animation: pa-etq 13s linear infinite; }
+  .pa-activa .pa-v1 { animation: pa-v1 13s cubic-bezier(0.22, 1, 0.36, 1) infinite; }
+  .pa-activa .pa-v2 { animation: pa-v2 13s cubic-bezier(0.22, 1, 0.36, 1) infinite; }
+  .pa-activa .pa-v3 { animation: pa-v3 13s cubic-bezier(0.22, 1, 0.36, 1) infinite; }
+  .pa-activa .pa-v4 { animation: pa-v4 13s cubic-bezier(0.22, 1, 0.36, 1) infinite; }
+  .pa-activa .pa-v5 { animation: pa-v5 13s cubic-bezier(0.22, 1, 0.36, 1) infinite; }
+  .pa-activa .pa-v6 { animation: pa-v6 13s cubic-bezier(0.22, 1, 0.36, 1) infinite; }
+  .pa-activa .pa-a0 { animation: pa-a0 13s cubic-bezier(0.22, 1, 0.36, 1) infinite; }
+  .pa-activa .pa-a1 { animation: pa-a1 13s cubic-bezier(0.22, 1, 0.36, 1) infinite; }
+  .pa-activa .pa-a2 { animation: pa-a2 13s cubic-bezier(0.22, 1, 0.36, 1) infinite; }
+  .pa-activa .pa-ta { animation: pa-ta 13s ease-out infinite; }
+  .pa-activa .pa-tb { animation: pa-tb 13s ease-out infinite; }
+  .pa-activa .pa-tc { animation: pa-tc 13s ease-out infinite; }
+  .pa-activa .pa-spin { animation: pa-giro 0.8s linear infinite; }
+  .pa-activa .eg-anillo::before { animation: eg-anillo var(--dur) ease-out var(--ini) infinite; }
+  .pa-activa .eg-anillo::after { animation: eg-anillo var(--dur) ease-out calc(var(--ini) + 0.16s) infinite; }
 }
-:root[data-motion="on"] .pg-activa .pg-on-a { animation: pg-on-a 7s ease-out infinite; }
-:root[data-motion="on"] .pg-activa .pg-onda-a { animation: pg-onda-a 7s ease-out infinite; }
-:root[data-motion="on"] .pg-activa .pg-on-b { animation: pg-on-b 7s ease-out infinite; }
-:root[data-motion="on"] .pg-activa .pg-onda-b { animation: pg-onda-b 7s ease-out infinite; }
-:root[data-motion="on"] .pg-activa .pg-cursor { animation: pg-cursor 7s ease-out infinite; }
-:root[data-motion="on"] .pg-activa .pg-graf { animation: pg-fin 7s linear infinite; }
+:root[data-motion="on"] .pa-activa .pa-b0 { animation: pa-b0 13s linear infinite; }
+:root[data-motion="on"] .pa-activa .pa-t0 { animation: pa-t0 13s linear infinite; }
+:root[data-motion="on"] .pa-activa .pa-d0 { animation: pa-d0 13s linear infinite; }
+:root[data-motion="on"] .pa-activa .pa-d1 { animation: pa-d1 13s linear infinite; }
+:root[data-motion="on"] .pa-activa .pa-c1 { animation: pa-c1 13s linear infinite; }
+:root[data-motion="on"] .pa-activa .pa-t1 { animation: pa-t1 13s linear infinite; }
+:root[data-motion="on"] .pa-activa .pa-cx { animation: pa-cx 13s linear infinite; }
+:root[data-motion="on"] .pa-activa .pa-k0 { animation: pa-k0 13s linear infinite; }
+:root[data-motion="on"] .pa-activa .pa-z1 { animation: pa-z1 13s linear infinite; }
+:root[data-motion="on"] .pa-activa .pa-z2 { animation: pa-z2 13s linear infinite; }
+:root[data-motion="on"] .pa-activa .pa-z3 { animation: pa-z3 13s linear infinite; }
+:root[data-motion="on"] .pa-activa .pa-z4 { animation: pa-z4 13s linear infinite; }
+:root[data-motion="on"] .pa-activa .pa-z5 { animation: pa-z5 13s linear infinite; }
+:root[data-motion="on"] .pa-activa .pa-z6 { animation: pa-z6 13s linear infinite; }
+:root[data-motion="on"] .pa-activa .pa-g0 { animation: pa-g0 13s linear infinite; }
+:root[data-motion="on"] .pa-activa .pa-r1 { animation: pa-r1 13s linear infinite; }
+:root[data-motion="on"] .pa-activa .pa-r2 { animation: pa-r2 13s linear infinite; }
+:root[data-motion="on"] .pa-activa .pa-r3 { animation: pa-r3 13s linear infinite; }
+:root[data-motion="on"] .pa-activa .pa-r4 { animation: pa-r4 13s linear infinite; }
+:root[data-motion="on"] .pa-activa .pa-r5 { animation: pa-r5 13s linear infinite; }
+:root[data-motion="on"] .pa-activa .pa-r6 { animation: pa-r6 13s linear infinite; }
+:root[data-motion="on"] .pa-activa .pa-b1 { animation: pa-b1 13s linear infinite; }
+:root[data-motion="on"] .pa-activa .pa-c0 { animation: pa-c0 13s linear infinite; }
+:root[data-motion="on"] .pa-activa .pa-k1 { animation: pa-k1 13s linear infinite; }
+:root[data-motion="on"] .pa-activa .pa-g1 { animation: pa-g1 13s linear infinite; }
+:root[data-motion="on"] .pa-activa .pa-caja { animation: pa-caja 13s linear infinite; }
+:root[data-motion="on"] .pa-activa .pa-etq { animation: pa-etq 13s linear infinite; }
+:root[data-motion="on"] .pa-activa .pa-v1 { animation: pa-v1 13s cubic-bezier(0.22, 1, 0.36, 1) infinite; }
+:root[data-motion="on"] .pa-activa .pa-v2 { animation: pa-v2 13s cubic-bezier(0.22, 1, 0.36, 1) infinite; }
+:root[data-motion="on"] .pa-activa .pa-v3 { animation: pa-v3 13s cubic-bezier(0.22, 1, 0.36, 1) infinite; }
+:root[data-motion="on"] .pa-activa .pa-v4 { animation: pa-v4 13s cubic-bezier(0.22, 1, 0.36, 1) infinite; }
+:root[data-motion="on"] .pa-activa .pa-v5 { animation: pa-v5 13s cubic-bezier(0.22, 1, 0.36, 1) infinite; }
+:root[data-motion="on"] .pa-activa .pa-v6 { animation: pa-v6 13s cubic-bezier(0.22, 1, 0.36, 1) infinite; }
+:root[data-motion="on"] .pa-activa .pa-a0 { animation: pa-a0 13s cubic-bezier(0.22, 1, 0.36, 1) infinite; }
+:root[data-motion="on"] .pa-activa .pa-a1 { animation: pa-a1 13s cubic-bezier(0.22, 1, 0.36, 1) infinite; }
+:root[data-motion="on"] .pa-activa .pa-a2 { animation: pa-a2 13s cubic-bezier(0.22, 1, 0.36, 1) infinite; }
+:root[data-motion="on"] .pa-activa .pa-ta { animation: pa-ta 13s ease-out infinite; }
+:root[data-motion="on"] .pa-activa .pa-tb { animation: pa-tb 13s ease-out infinite; }
+:root[data-motion="on"] .pa-activa .pa-tc { animation: pa-tc 13s ease-out infinite; }
+:root[data-motion="on"] .pa-activa .pa-spin { animation: pa-giro 0.8s linear infinite; }
+:root[data-motion="on"] .pa-activa .eg-anillo::before { animation: eg-anillo var(--dur) ease-out var(--ini) infinite; }
+:root[data-motion="on"] .pa-activa .eg-anillo::after { animation: eg-anillo var(--dur) ease-out calc(var(--ini) + 0.16s) infinite; }
+
+/* ===== POP-UP DE SALIDA (pop-): bucle de 9 s. El mouse sube hacia la barra del navegador, aparece la ventana, un toque en "Volver al carrito" la cierra y se recupera la venta. Reposo = ventana abierta. ===== */
+@keyframes pop-vel { 0%, 26.67% { opacity: 0; } 33.33%, 71.11% { opacity: 1; } 77.78%, 100% { opacity: 0; } }
+@keyframes pop-ven { 0%, 26.67% { opacity: 0; transform: translateY(calc(var(--u) * 16)) scale(0.94); } 34.44%, 71.11% { opacity: 1; transform: none; } 77.78%, 100% { opacity: 0; transform: translateY(calc(var(--u) * 10)) scale(0.97); } }
+@keyframes pop-cursor { 0%, 8.89% { opacity: 0; transform: translateY(0); } 12.22% { opacity: 1; transform: translateY(0); } 26.67% { opacity: 1; transform: translateY(calc(var(--u) * -340)); } 30%, 100% { opacity: 0; transform: translateY(calc(var(--u) * -340)); } }
+@keyframes pop-aviso { 0%, 77.78% { opacity: 0; transform: translateY(14px) scale(0.95); } 84.44%, 94.44% { opacity: 1; transform: none; } 98.89%, 100% { opacity: 0; transform: none; } }
+@keyframes pop-t { 0%, 66.67% { opacity: 0; transform: translate(-50%, -50%) scale(0.5); } 67.78% { opacity: 0.85; transform: translate(-50%, -50%) scale(0.8); } 68.89% { opacity: 0.6; transform: translate(-50%, -50%) scale(0.95); } 71.11%, 100% { opacity: 0; transform: translate(-50%, -50%) scale(1.5); } }
+@media (prefers-reduced-motion: no-preference) {
+  .pop-activa .pop-vel { animation: pop-vel 9s linear infinite; }
+  .pop-activa .pop-ven { animation: pop-ven 9s cubic-bezier(0.22, 1, 0.36, 1) infinite; }
+  .pop-activa .pop-cursor { animation: pop-cursor 9s cubic-bezier(0.4, 0, 0.2, 1) infinite; }
+  .pop-activa .pop-aviso { animation: pop-aviso 9s cubic-bezier(0.22, 1, 0.36, 1) infinite; }
+  .pop-activa .pop-t { animation: pop-t 9s ease-out infinite; }
+  .pop-activa .eg-anillo::before { animation: eg-anillo var(--dur) ease-out var(--ini) infinite; }
+  .pop-activa .eg-anillo::after { animation: eg-anillo var(--dur) ease-out calc(var(--ini) + 0.16s) infinite; }
+}
+:root[data-motion="on"] .pop-activa .pop-vel { animation: pop-vel 9s linear infinite; }
+:root[data-motion="on"] .pop-activa .pop-ven { animation: pop-ven 9s cubic-bezier(0.22, 1, 0.36, 1) infinite; }
+:root[data-motion="on"] .pop-activa .pop-cursor { animation: pop-cursor 9s cubic-bezier(0.4, 0, 0.2, 1) infinite; }
+:root[data-motion="on"] .pop-activa .pop-aviso { animation: pop-aviso 9s cubic-bezier(0.22, 1, 0.36, 1) infinite; }
+:root[data-motion="on"] .pop-activa .pop-t { animation: pop-t 9s ease-out infinite; }
+:root[data-motion="on"] .pop-activa .eg-anillo::before { animation: eg-anillo var(--dur) ease-out var(--ini) infinite; }
+:root[data-motion="on"] .pop-activa .eg-anillo::after { animation: eg-anillo var(--dur) ease-out calc(var(--ini) + 0.16s) infinite; }
+
+/* Cambio de precio (mensual/anual): el número y la línea de abajo aparecen con un fundido corto cuando se cambia el período. */
+@keyframes cambio-precio { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: no-preference) {
+  .cambio-precio { animation: cambio-precio 0.35s cubic-bezier(0.22, 1, 0.36, 1) both; }
+}
