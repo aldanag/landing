@@ -40,6 +40,7 @@ FOTOS = {
     "badge-bf": _p("badge-bf.svg"),
     "badge-hs": _p("badge-hs.svg"),
     "badge-cm": _p("badge-cm.svg"),
+    "pixel-meta": _p("pixel-meta.png"),
     "carrito-gris": _p("remera-gris.jpg"),
     "carrito-crema": _p("remera-crema.jpg"),
 }
@@ -599,37 +600,48 @@ def escena_7():
     flag = lambda txt, on, idn="": (f'<div id="{idn}" style="display:flex;align-items:center;gap:14px;height:56px;padding:0 16px;border-radius:14px;font-size:20px;font-weight:700;white-space:nowrap;{activa}">{chk(on)}{txt}</div>')
     producto = tarjeta("left:620px;top:628px;width:530px;padding:26px 32px 26px;border-radius:26px", f"""
       <div style="font-size:24px;font-weight:800">Remera Aura</div>
-      <div style="display:flex;flex-direction:column;gap:10px;margin-top:16px">{flag("En promoción", True, "ck-promo")}{flag("Oferta por tiempo limitado", True, "ck-oferta")}</div>""")
+      <div style="display:flex;flex-direction:column;gap:10px;margin-top:16px">{flag("En promoción", True, "ck-promo")}{flag("Oferta por tiempo limitado", True, "ck-oferta")}{flag("Bundle por cantidad", True, "ck-bundle")}</div>""")
     # ---------------- la tienda en el celular
-    reloj_ico = '<svg viewBox="0 0 24 24" width="20" height="20" fill="#17122F"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm1 5v5.200l3.600 2.100-1 1.700L11 13V7z"/></svg>'
-    caja = lambda idn, num, etq: (f'<div id="cd-{idn}" style="flex:1;height:66px;border-radius:12px;box-shadow:inset 0 0 0 1.5px #E6E2F0;background:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center">'
-                                  f'<b style="font-size:27px;line-height:1">{num}</b><span style="font-size:12px;color:#17122F;margin-top:3px;letter-spacing:.04em">{etq}</span></div>')
-    dos = '<span style="font-size:18px;font-weight:700;color:#17122F">:</span>'
-    reloj = ('<div id="cd-card" style="margin-top:14px;border-radius:16px;box-shadow:inset 0 0 0 1.5px #E6E2F0;padding:12px 14px 14px;background:#fff">'
-             f'<div style="display:flex;align-items:center;gap:8px;font-size:15px;font-weight:800;letter-spacing:.02em;color:#17122F">{reloj_ico}OFERTA POR TIEMPO LIMITADO</div>'
-             f'<div style="display:flex;align-items:center;gap:6px;margin-top:10px">{caja("dias", "1", "DÍAS")}{dos}{caja("horas", "19", "HORAS")}{dos}{caja("min", "59", "MIN")}{dos}{caja("seg", "39", "SEG")}</div></div>')
+    reloj_ico = '<svg viewBox="0 0 24 24" width="18" height="18" fill="#17122F"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm1 5v5.200l3.600 2.100-1 1.700L11 13V7z"/></svg>'
+    caja = lambda idn, num, etq: (f'<div id="cd-{idn}" style="width:48px;height:54px;flex:none;border-radius:10px;box-shadow:inset 0 0 0 1.5px #E6E2F0;background:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center">'
+                                  f'<b style="font-size:20px;line-height:1">{num}</b><span style="font-size:10px;color:#17122F;margin-top:2px;letter-spacing:.04em">{etq}</span></div>')
+    dos = '<span style="font-size:14px;font-weight:700;color:#17122F;width:6px;text-align:center">:</span>'
+    reloj = ('<div id="cd-card" style="margin-top:14px;border-radius:16px;box-shadow:inset 0 0 0 1.5px #E6E2F0;padding:10px 12px;background:#fff;display:flex;align-items:center;justify-content:space-between;gap:8px">'
+             f'<div style="display:flex;align-items:center;gap:7px;font-size:14px;font-weight:800;letter-spacing:.02em;color:#17122F;line-height:1.25">{reloj_ico}<span>OFERTA POR<br>TIEMPO LIMITADO</span></div>'
+             f'<div style="display:flex;align-items:center;gap:3px">{caja("dias", "1", "DÍAS")}{dos}{caja("horas", "19", "HORAS")}{dos}{caja("min", "59", "MIN")}{dos}{caja("seg", "39", "SEG")}</div></div>')
     precio = '<span style="text-decoration:line-through;color:#17122F;font-size:21px;margin-right:10px;opacity:.7">$14.900</span><b style="color:#6C4FD4;font-size:27px">$11.900</b>'
-    cta = '<div style="margin-top:16px;height:60px;border-radius:14px;background:#6C4FD4;color:#fff;font-size:21px;font-weight:700;display:flex;align-items:center;justify-content:center">Agregar al carrito</div>'
+    tag_ico = '<svg viewBox="0 0 24 24" width="20" height="20" fill="#17122F"><path d="M3 4a1 1 0 0 1 1-1h6.200a1 1 0 0 1 .7.3l9.800 9.800a1 1 0 0 1 0 1.400l-6.200 6.200a1 1 0 0 1-1.400 0L3.300 10.900A1 1 0 0 1 3 10.200V4zm4.500 2a1.500 1.500 0 1 0 0 3 1.500 1.500 0 0 0 0-3z"/></svg>'
+
+    def fila(cant, etq, precio, idn):
+        return (f'<div id="{idn}" style="display:flex;align-items:center;height:30px;padding:0 12px;border-radius:10px;box-shadow:inset 0 0 0 1.5px #E6E2F0;background:#fff;white-space:nowrap">'
+                f'<b style="width:96px;font-size:14px">{cant}</b><b style="color:#EF4444;font-size:13px">{etq}</b>'
+                f'<span style="margin-left:auto;color:#64748B;font-size:13px">{precio} c/u</span></div>')
+    bundle = ('<div id="bnd-card" style="margin-top:12px;border-radius:16px;box-shadow:inset 0 0 0 1.5px #E6E2F0;padding:10px 14px 12px;background:#fff">'
+              f'<div style="display:flex;align-items:center;gap:8px;font-size:15px;font-weight:800;letter-spacing:.01em;color:#17122F">{tag_ico}Comprá más y ahorrá</div>'
+              f'<div style="display:flex;flex-direction:column;gap:5px;margin-top:8px">{fila("1 unidad", "Precio base", "$11.900", "bn-1")}{fila("2 unidades", "20% OFF", "$9.520", "bn-2")}{fila("5 unidades", "30% OFF", "$8.330", "bn-3")}</div></div>')
+    cta = '<div id="cta-btn" style="margin-top:14px;height:60px;border-radius:14px;background:#6C4FD4;color:#fff;font-size:21px;font-weight:700;display:flex;align-items:center;justify-content:center">Agregar al carrito</div>'
     def mini(clave, nombre):
         uri = foto_uri(clave)
         fondo = f"#E2D9FF url({uri}) center/cover no-repeat" if uri else "#E2D9FF"
-        return (f'<div style="flex:1"><div style="position:relative;height:150px;border-radius:18px;background:{fondo}">'
+        return (f'<div style="flex:1"><div id="mn-{clave}" style="position:relative;height:150px;border-radius:18px;background:{fondo}">'
                 f'</div>'
                 f'<b style="font-size:19px;display:block;margin-top:10px">{nombre}</b><span style="color:#6C4FD4;font-weight:800;font-size:19px">$14.900</span></div>')
     mas = (f'<div style="margin-top:24px;font-size:21px;font-weight:800">Más en promoción</div>'
            f'<div style="display:flex;gap:16px;margin-top:12px">{mini("carrito-gris", "Remera gris")}{mini("mkt-aviso", "Remera oliva")}</div>')
     tel = celular("left:50px;top:258px;width:520px", 1100, f"""
       {cabecera_tienda()}
-      <div style="padding:6px 24px 0;position:relative"><div id="ft-prod">{foto("mkt-prod", "producto en promoción", "height:220px;border-radius:26px")}</div>
-      <b style="font-size:26px;display:block;margin-top:14px">Remera Aura</b><div style="margin-top:4px">{precio}</div>{reloj}{cta}{mas}</div>""")
+      <div style="padding:6px 24px 0;position:relative"><div id="ft-prod">{foto("mkt-prod", "producto en promoción", "height:222px;border-radius:26px")}</div>
+      <div style="display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin-top:14px"><b style="font-size:26px">Remera Aura</b><div style="white-space:nowrap">{precio}</div></div>{reloj}{bundle}{cta}{mas}</div>""")
     # líneas punteadas (posiciones medidas del dibujo): "En promoción" -> badge de la foto, "Oferta por tiempo limitado" -> contador
     lineas = ('<svg class="conexion" width="1200" height="1200" viewBox="0 0 1200 1200" fill="none">'
               '<path d="M620 731 H600 V502 H529" stroke="#7C6AE0" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="1 13"/>'
-              '<path d="M620 797 H574 V825 H529" stroke="#7C6AE0" stroke-width="6" stroke-linecap="round" stroke-dasharray="1 13"/>'
-              '<circle cx="529" cy="502" r="9" fill="#fff" stroke="#7C6AE0" stroke-width="4"/><circle cx="529" cy="825" r="9" fill="#fff" stroke="#7C6AE0" stroke-width="4"/></svg>')
-    return (TRAZO.format(s="left:560px;top:330px;transform-origin:0 0;transform:rotate(-90deg) scale(1.05)") + TRAZO.format(s="left:-110px;top:960px") + tel + lineas + producto + promo
+              '<path d="M620 797 H574 V767 H529" stroke="#7C6AE0" stroke-width="6" stroke-linecap="round" stroke-dasharray="1 13"/>'
+              '<circle cx="529" cy="502" r="9" fill="#fff" stroke="#7C6AE0" stroke-width="4"/><path d="M620 863 H586 V891 H529" stroke="#7C6AE0" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="1 13"/>'
+              '<circle cx="529" cy="767" r="9" fill="#fff" stroke="#7C6AE0" stroke-width="4"/><circle cx="529" cy="891" r="9" fill="#fff" stroke="#7C6AE0" stroke-width="4"/></svg>')
+    return (TRAZO.format(s="left:560px;top:330px;transform-origin:0 0;transform:rotate(-90deg) scale(1.05)") + TRAZO.format(s="left:-110px;top:960px") + '<style>#ft-prod img{object-position:50% 38%}</style>' + tel + lineas + producto + promo
             + sticker("Marketing", "Promos, ofertas y confianza", "left:70px;top:84px;white-space:nowrap")
-            + pill("Sumá tu propio badge", "left:620px;top:940px;font-size:29px"))
+            + pill('<span style="display:inline-grid"><span style="grid-area:1/1;visibility:hidden">Sumá tu propio badge</span>'
+                 '<span style="grid-area:1/1;visibility:hidden">Medí con tu Pixel de Meta</span></span>', "left:620px;top:940px;font-size:29px"))
 
 
 def escena_pagos(on=False):

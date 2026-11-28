@@ -655,6 +655,43 @@ body {
 :root[data-motion="on"] .push-activa .bd-pop-cm { animation: bd-pop-cm 9s ease-out infinite; }
 :root[data-motion="on"] .push-activa .bd-onda-cm { animation: bd-onda-cm 9s ease-out infinite; }
 
+/* Bloque "Comprá más y ahorrá" de la imagen Marketing (MarketingAnimado), bucle de 9 s: el borde negro de la cantidad elegida
+   salta de 1 unidad a 2 y a 5, y vuelve. Quieto con "reducir movimiento" (queda 1 unidad); con ?motion=on se fuerza. */
+.bnd-sel {
+  border-radius: 0.83cqw;
+  box-shadow: inset 0 0 0 0.25cqw #17122f;
+}
+@keyframes bnd-sel {
+  0%, 26% { transform: translateY(0); }
+  33%, 59% { transform: translateY(116.667%); }
+  66%, 92% { transform: translateY(233.333%); }
+  100% { transform: translateY(0); }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .push-activa .bnd-sel { animation: bnd-sel 9s ease-in-out infinite; }
+}
+:root[data-motion="on"] .push-activa .bnd-sel { animation: bnd-sel 9s ease-in-out infinite; }
+
+/* Cartel azul de la imagen Marketing (MarketingAnimado), bucle de 9 s (el de los badges): "Sumá tu propio badge" mientras se
+   eligen, y al final "Medí con tu Pixel de Meta" con el ícono del Pixel que aparece con un pequeño rebote. Quieto con "reducir
+   movimiento" (queda "Sumá tu propio badge" y el ícono a la vista); con ?motion=on se fuerza. */
+@keyframes px-a { 0%, 62% { opacity: 1; } 67%, 96% { opacity: 0; } 100% { opacity: 1; } }
+@keyframes px-b { 0%, 62% { opacity: 0; } 68%, 95% { opacity: 1; } 99%, 100% { opacity: 0; } }
+@keyframes px-ico {
+  0%, 64% { opacity: 0; transform: rotate(7deg) scale(0.5); }
+  69% { opacity: 1; transform: rotate(7deg) scale(1.12); }
+  73%, 95% { opacity: 1; transform: rotate(7deg) scale(1); }
+  99%, 100% { opacity: 0; transform: rotate(7deg) scale(0.8); }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .push-activa .px-a { animation: px-a 9s linear infinite; }
+  .push-activa .px-b { animation: px-b 9s linear infinite; }
+  .push-activa .px-ico { animation: px-ico 9s ease-out infinite; }
+}
+:root[data-motion="on"] .push-activa .px-a { animation: px-a 9s linear infinite; }
+:root[data-motion="on"] .push-activa .px-b { animation: px-b 9s linear infinite; }
+:root[data-motion="on"] .push-activa .px-ico { animation: px-ico 9s ease-out infinite; }
+
 /* Carrusel de la imagen "Más espacio para tus promociones" (CarruselAnimado), bucle de 10 s: las láminas se deslizan de
    costado (la primera se repite al final, así vuelve sin saltos) y el punto de la lámina activa se estira.
    Quieto con "reducir movimiento" (queda la primera lámina); con ?motion=on se fuerza. */

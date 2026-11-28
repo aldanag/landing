@@ -87,7 +87,7 @@ export const plans = [
       { text: "Gastos de gestión y envío gratis, por cantidad o por monto", isNew: true },
       { text: "Vendé mayorista o minorista, con compra mínima por monto o por cantidad", isNew: true },
       { text: "Mercado Pago y cuotas, además de efectivo y transferencia", isNew: true },
-      { text: "Marketing: notificación de confianza, ofertas por tiempo limitado y promociones", isNew: true },
+      { text: "Marketing: notificación de confianza, ofertas por tiempo limitado, promociones, descuentos por cantidad y Pixel de Meta", isNew: true },
       { text: "Ventana emergente al salir, para quien deja su pedido sin terminar", isNew: true },
       { text: "Barra promocional con tus mensajes y tu color, sin Lemora Ads", isNew: true },
     ],

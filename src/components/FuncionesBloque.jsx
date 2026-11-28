@@ -194,7 +194,7 @@ export default function FuncionesBloque({
             <div
               ref={frame}
               data-reveal
-              className={`@container relative aspect-square overflow-hidden rounded-[2rem] bg-lavender shadow-xl shadow-primary/15 ring-1 ring-primary/20 ${
+              className={`@container relative aspect-square w-full overflow-hidden rounded-[2rem] bg-lavender shadow-xl shadow-primary/15 ring-1 ring-primary/20 md:self-start ${
                 invertido ? "md:order-2" : ""
               }`}
             >
@@ -269,11 +269,13 @@ export default function FuncionesBloque({
                     }`}
                   >
                     <div className="overflow-hidden">
-                      <p className={`text-sm leading-relaxed text-ink-soft ${funcion.puntos ? "" : "pb-3"}`}>
-                        {funcion.cuerpo}
-                      </p>
+                      {funcion.cuerpo && (
+                        <p className={`text-sm leading-relaxed text-ink-soft ${funcion.puntos ? "" : "pb-3"}`}>
+                          {funcion.cuerpo}
+                        </p>
+                      )}
                       {funcion.puntos && (
-                        <ul className="mt-2 space-y-1.5 pb-3 text-sm leading-relaxed text-ink-soft">
+                        <ul className={`${funcion.cuerpo ? "mt-2 " : ""}space-y-1.5 pb-3 text-sm leading-relaxed text-ink-soft`}>
                           {funcion.puntos.map((punto) => (
                             <li key={punto} className="flex gap-2">
                               <span
